@@ -625,7 +625,74 @@
 			return false;
 		};
 		
-		this.each(function() {
+		//lets do one of these for audio and video
+		//audio
+		if (playlist == 'Audio') {
+			this.each(function() {
+				var $itemList = $('<ul class="fileList"></ul>').appendTo($(this));
+				var runtime = 0;
+				if (playlistResult.limits.total > 0) {
+					$.each(playlistResult.items, function(i, item)  {
+						var artist = (item.artist? item.artist : mkf.lang.get('label_not_available'));
+						var title = (item.title? item.title : mkf.lang.get('label_not_available'));
+						var label = (item.label? item.label : mkf.lang.get('label_not_available'));
+						var duration  = (item.duration? item.duration : mkf.lang.get('label_not_available'));
+						runtime += duration;
+						//if (i == xbmc.periodicUpdater.curPlaylistNum) {
+							
+						$item = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper playlistItem' + i + '">' + 
+							'<a class="button remove" href="" title="' + mkf.lang.get('btn_remove') +  '"><span class="miniIcon remove" /></a>' +
+							'<a class="playlistItem play" href="">' + (i+1) + '. ' +
+							(playlist=='Audio'? artist + ' - ' + title : label) + '&nbsp;&nbsp;&nbsp;&nbsp;' + xbmc.formatTime(duration) +
+							//(i==xbmc.periodicUpdater.curPlaylistNum? ' <---' : '') +
+							'</a></div></li>').appendTo($itemList);
+
+						$item.find('a.play').bind('click', {itemNum: i}, onItemPlayClick);
+						$item.find('a.remove').bind('click', {itemNum: i}, onItemRemoveClick);
+					});
+				}
+				if (runtime) {
+						$itemList = $('<p>' + mkf.lang.get('label_total_runtime') + xbmc.formatTime(runtime) + '</p>').appendTo($(this));
+				}
+			});
+		}
+		
+		//video
+		if (playlist == 'Video') {
+			this.each(function() {
+				var $itemList = $('<ul class="fileList"></ul>').appendTo($(this));
+				var runtime = 0;
+				if (playlistResult.limits.total > 0) {
+					$.each(playlistResult.items, function(i, item)  {
+						var showtitle = (item.showtitle? item.showtitle : mkf.lang.get('label_not_available'));
+						var title = (item.title? item.title : mkf.lang.get('label_not_available'));
+						var season = (item.season? item.season : mkf.lang.get('label_not_available'));
+						var duration  = (item.runtime? item.runtime : mkf.lang.get('label_not_available'));
+						duration = duration * 60;
+						runtime += duration;
+						
+						console.log(item);
+						
+						//if (i == xbmc.periodicUpdater.curPlaylistNum) {
+							
+						$item = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper playlistItem' + i + '">' + 
+							'<a class="button remove" href="" title="' + mkf.lang.get('btn_remove') +  '"><span class="miniIcon remove" /></a>' +
+							'<a class="playlistItem play" href="">' + (i+1) + '. ' +
+							(item.type=='episode'? showtitle + ' - Season ' + season + ' - ' + title : title) + '&nbsp;&nbsp;&nbsp;&nbsp;' + xbmc.formatTime(duration) +
+							//(i==xbmc.periodicUpdater.curPlaylistNum? ' <---' : '') +
+							'</a></div></li>').appendTo($itemList);
+
+						$item.find('a.play').bind('click', {itemNum: i}, onItemPlayClick);
+						$item.find('a.remove').bind('click', {itemNum: i}, onItemRemoveClick);
+					});
+				}
+				if (runtime) {
+					$itemList = $('<p>' + mkf.lang.get('label_total_runtime') + xbmc.formatTime(runtime) + '</p>').appendTo($(this));
+				}
+			});
+		}
+		//original
+		/*this.each(function() {
 			var $itemList = $('<ul class="fileList"></ul>').appendTo($(this));
 			var runtime = 0;
 			if (playlistResult.limits.total > 0) {
@@ -640,6 +707,7 @@
 					duration = duration * 60;
 					}
 					runtime += duration;
+						
 					$item = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper playlistItem' + i + '">' + 
 						'<a class="button remove" href="" title="' + mkf.lang.get('btn_remove') +  '"><span class="miniIcon remove" /></a>' +
 						'<a class="playlistItem play" href="">' + (i+1) + '. ' +
@@ -651,10 +719,10 @@
 					$item.find('a.remove').bind('click', {itemNum: i}, onItemRemoveClick);
 				});
 			}
-		if (runtime) {
-		$itemList = $('<p>' + mkf.lang.get('label_total_runtime') + xbmc.formatTime(runtime) + '</p>').appendTo($(this));
-		}
-		});
+			if (runtime) {
+				$itemList = $('<p>' + mkf.lang.get('label_total_runtime') + xbmc.formatTime(runtime) + '</p>').appendTo($(this));
+			}
+		});*/
 	}; // END defaultPlaylistViewer
 
 

@@ -1215,7 +1215,7 @@ var xbmc = {};
 			$.extend(settings, options);
 
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "Playlist.GetItems", "params": { "properties": [ "runtime" ], "playlistid": 1}, "id": 1}',
+				'{"jsonrpc": "2.0", "method": "Playlist.GetItems", "params": { "properties": [ "runtime", "showtitle", "season", "title" ], "playlistid": 1}, "id": 1}',
 
 				function(response) {
 					settings.onSuccess(response.result);
@@ -1404,7 +1404,7 @@ var xbmc = {};
 					);
 
 					// has volume changed?
-					if (activePlayer != 'none') {
+					if (activePlayer != 'none' || xbmc.periodicUpdater.lastVolume == -1) {
 						xbmc.sendCommand(
 							'{"jsonrpc": "2.0", "method": "Application.GetProperties", "params": { "properties": [ "volume", "muted" ] }, "id": 1}',
 
