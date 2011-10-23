@@ -639,11 +639,12 @@
 					var duration  = (item.runtime? item.runtime : mkf.lang.get('label_not_available'));
 					duration = duration * 60;
 					}
-					runtime = runtime + duration;
+					runtime += duration;
 					$item = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper playlistItem' + i + '">' + 
 						'<a class="button remove" href="" title="' + mkf.lang.get('btn_remove') +  '"><span class="miniIcon remove" /></a>' +
 						'<a class="playlistItem play" href="">' + (i+1) + '. ' +
 						(playlist=='Audio'? artist + ' - ' + title : label) + '&nbsp;&nbsp;&nbsp;&nbsp;' + xbmc.formatTime(duration) +
+						//(i==xbmc.periodicUpdater.curPlaylistNum? ' <---' : '') +
 						'</a></div></li>').appendTo($itemList);
 
 					$item.find('a.play').bind('click', {itemNum: i}, onItemPlayClick);

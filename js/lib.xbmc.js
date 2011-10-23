@@ -1286,15 +1286,6 @@ var xbmc = {};
 			currentlyPlayingChangedListener: [],
 			playerStatusChangedListener: [],
 			progressChangedListener: [],
-			/*currentlyPlayingFile: null,
-			progress: '',
-			playerStatus: 'stopped',
-			//shuffleStatus: false,
-			//if (typeof lastVolume === 'undefined')
-				//lastVolume: -1,
-			/*if (typeof lastVolume == 'undefined') {
-				lastVolume: -1;
-			},*/
 			
 			addVolumeChangedListener: function(fn) {
 				this.volumeChangedListener.push(fn);
@@ -1336,11 +1327,10 @@ var xbmc = {};
 
 			periodicStep: function() {
 
-				//var curPlayData = {};
-				var shuffle = false;
-				var time = '';
-				var file = '';
-				var volume = 0;
+				//var shuffle = false;
+				//var time = '';
+				//var file = '';
+				//var volume = 0;
 				
 				//Stop changed status firering by only setting vars once!
 				if (typeof xbmc.periodicUpdater.lastVolume === 'undefined') {
@@ -1366,6 +1356,12 @@ var xbmc = {};
 				if (typeof xbmc.periodicUpdater.playerStatus === 'undefined') {
 					$.extend(xbmc.periodicUpdater, {
 						playerStatus: 'stopped',
+					});
+				}
+				//For highlighting current item in playlist
+				if (typeof xbmc.periodicUpdater.curPlaylistNum === 'undefined') {
+					$.extend(xbmc.periodicUpdater, {
+						curPlaylistNum: 0,
 					});
 				}
 				
@@ -1433,7 +1429,14 @@ var xbmc = {};
 					}
 
 					// playing state
-					if (activePlayer != 'none') {
+					
+					// We reached the end my friend... (of the playlist)
+					if ( xbmc.periodicUpdater.playerStatus != 'stopped' && activePlayer == 'none') {
+						xbmc.periodicUpdater.playerStatus = 'stopped';
+						xbmc.periodicUpdater.firePlayerStatusChanged('stopped');
+					}
+
+					if (activePlayer != 'none') { //|| ( xbmc.playerStatus != 'stopped' || xbmc.playerStatus != 'paused') {
 						var request = '';
 
 						if (activePlayer == 'audio') {
@@ -1511,11 +1514,18 @@ var xbmc = {};
 						);
 						
 						xbmc.sendCommand(
-							'{"jsonrpc": "2.0", "method": "Player.GetProperties", "params": { "properties": ["time", "totaltime"], "playerid": ' + activePlayerid + ' }, "id": 1}',
+							'{"jsonrpc": "2.0", "method": "Player.GetProperties", "params": { "properties": ["time", "totaltime", "position"], "playerid": ' + activePlayerid + ' }, "id": 1}',
 							function (response) {
 								var currentTimes = response.result;
 								var curtime;
 								var curruntime;
+								var curPlayItemNum = currentTimes.position;
+								
+								//console.log(curPlayItemNum); //Get the number of the currently playing item in the playlist
+								if (xbmc.periodicUpdater.curPlaylistNum != curPlayItemNum) {
+									xbmc.periodicUpdater.curPlaylistNum = curPlayItemNum;
+								}
+								
 								curtime = (currentTimes.time.hours * 3600) + (currentTimes.time.minutes * 60) + currentTimes.time.seconds;
 								curruntime = (currentTimes.totaltime.hours * 3600) + (currentTimes.totaltime.minutes * 60) + currentTimes.totaltime.seconds;
 								curtimeFormat = xbmc.formatTime(curtime);
