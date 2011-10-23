@@ -169,6 +169,7 @@
 			var timeout = mkf.cookieSettings.get('timeout', 10);
 			var ui = mkf.cookieSettings.get('ui');
 			var lang = mkf.cookieSettings.get('lang', 'en');
+			var watched = mkf.cookieSettings.get('watched', 'no');
 
 			var languages = '';
 			$.each(mkf.lang.getLanguages(), function(key, val) {
@@ -199,6 +200,10 @@
 				'<a href="" class="formButton expertHelp" title="' + mkf.lang.get('btn_title_help') + '">' + mkf.lang.get('btn_text_help') + '</a>' + 
 				'<input type="checkbox" id="lazyload" name="lazyload" ' + (lazyload=='yes'? 'checked="checked"' : '') + '><label for="lazyload">' + mkf.lang.get('label_use_lazyload') + '</label><br />' +
 				'<label for="timeout">' + mkf.lang.get('label_timeout') + '</label><input type="text" id="timeout" name="timeout" value="' + timeout + '" maxlength="3" style="width: 30px; margin-top: 10px;"> ' + mkf.lang.get('label_seconds') +
+				'</fieldset>' +
+				'<fieldset>' +
+				'<legend>' + mkf.lang.get('group_watched') + '</legend>' +
+				'<input type="checkbox" id="watched" name="watched" ' + (watched=='yes'? 'checked="checked"' : '') + '><label for="watched">' + mkf.lang.get('label_filter_watched') + '</label><br />' +
 				'</fieldset>' +
 				'<a href="" class="formButton save">' + mkf.lang.get('btn_save') + '</a>' + 
 				'<div class="formHint">' + mkf.lang.get('label_settings_hint') + '</div>' +
@@ -246,6 +251,11 @@
 					document.settingsForm.lazyload.checked? 'yes' : 'no'
 				);
 
+				mkf.cookieSettings.add(
+					'watched',
+					document.settingsForm.watched.checked? 'yes' : 'no'
+				);
+				
 				mkf.cookieSettings.add(
 					'lang',
 					document.settingsForm.lang.options[document.settingsForm.lang.selectedIndex].value
@@ -614,8 +624,7 @@
 
 			return false;
 		};
-
-
+		
 		this.each(function() {
 			var $itemList = $('<ul class="fileList"></ul>').appendTo($(this));
 			var runtime = 0;
@@ -624,7 +633,6 @@
 					var artist = (item.artist? item.artist : mkf.lang.get('label_not_available'));
 					var title = (item.title? item.title : mkf.lang.get('label_not_available'));
 					var label = (item.label? item.label : mkf.lang.get('label_not_available'));
-					//console.log(item);
 					if (playlist == 'Audio') {
 					var duration  = (item.duration? item.duration : mkf.lang.get('label_not_available'));
 					} else if (playlist == 'Video') {
@@ -721,6 +729,7 @@
 
 
 		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
+		var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
 
 
 		this.each(function() {
@@ -738,6 +747,10 @@
 					
 					if (movie.playcount > 0) {
 						watched = true;
+					}
+					
+					if (filterWatched && watched) {
+						return;
 					}
 					
 					var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
@@ -859,6 +872,7 @@
 		}; // END onTVShowInformationClick
 
 		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
+		var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
 
 
 		this.each(function() {
@@ -871,6 +885,10 @@
 					
 					if (tvshow.playcount > 0) {
 						watched = true;
+					}
+					
+					if (filterWatched && watched) {
+						return;
 					}
 					
 					var thumb = (tvshow.thumbnail? xbmc.getThumbUrl(tvshow.thumbnail) : 'images/thumb' + xbmc.getTvShowThumbType() + '.png');
@@ -962,9 +980,14 @@
 			if (seasonsResult.limits.total > 0) {
 				$.each(seasonsResult.seasons, function(i, season)  {
 					var watched = false;
+					var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
 					
 					if (season.playcount > 0) {
 						watched = true;
+					}
+					
+					if (filterWatched && watched) {
+						return;
 					}
 					
 					var $season = $('<li' + (i%2==0? ' class="even"': '') + '><table><td width="500"><div class="linkWrapper"> <a href="" class="season' + i + '">' + season.label + '</a> </div></td><td>' + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</td></tr></table></li>')
@@ -1030,9 +1053,14 @@
 			if (episodesResult.limits.total > 0) {	
 				$.each(episodesResult.episodes, function(i, episode)  {
 					var watched = false;
+					var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
 					
 					if (episode.playcount > 0) {
 						watched = true;
+					}
+					
+					if (filterWatched && watched) {
+						return;
 					}
 					
 					var $episode = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper episode' + episode.episodeid + '"> <a href="" class="button playlist" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a><a href="" class="episode play"><table><tr><td width="500">' + episode.episode + '. ' + episode.label + '</td><td>' + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</td></tr></table></a></div></li>').appendTo($episodeList);
