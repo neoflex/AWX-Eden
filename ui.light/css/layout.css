@@ -483,6 +483,9 @@ ul.fileList li {
 ul.fileList li.even {
 	background-color: #eaffc9;
 }
+ul.fileList li.current {
+	background-color: #ff0000;
+}
 ul.fileList a {
 	display: block;
 	text-decoration: none;
@@ -505,6 +508,11 @@ div.folderLinkWrapper a.playlistItem,
 div.folderLinkWrapper a.episode { padding-left: 35px; }
 div.folderLinkWrapper a.folder,
 div.folderLinkWrapper a.file { padding-left: 60px; }
+
+div.folderLinkWrapper a.playlistItemCur {
+	font-weight:bold;
+	padding: 10px 35px;
+}
 
 span.miniIcon {
 	display: block; height: 16px; width: 16px;

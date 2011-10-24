@@ -637,21 +637,32 @@
 						var title = (item.title? item.title : mkf.lang.get('label_not_available'));
 						var label = (item.label? item.label : mkf.lang.get('label_not_available'));
 						var duration  = (item.duration? item.duration : mkf.lang.get('label_not_available'));
+						var playlistItemClass = '';
+						if (i%2==0) {
+							playlistItemClass = 'even';
+						}
 						runtime += duration;
-						//if (i == xbmc.periodicUpdater.curPlaylistNum) {
-							
-						$item = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper playlistItem' + i + '">' + 
+						//Change background colour of currently playing item.
+						/*if (i == xbmc.periodicUpdater.curPlaylistNum && xbmc.periodicUpdater.playerStatus != 'stopped') {
+							playlistItemClass = 'current';
+						}*/
+						if (i == xbmc.periodicUpdater.curPlaylistNum && xbmc.periodicUpdater.playerStatus != 'stopped') {
+							playlistItemCur = 'playlistItemCur';
+						} else {
+							playlistItemCur = 'playlistItem';
+						}
+						
+						$item = $('<li class="' + playlistItemClass + '"><div class="folderLinkWrapper playlistItem' + i + '">' + 
 							'<a class="button remove" href="" title="' + mkf.lang.get('btn_remove') +  '"><span class="miniIcon remove" /></a>' +
-							'<a class="playlistItem play" href="">' + (i+1) + '. ' +
+							'<a class="' + playlistItemCur + ' play" href="">' + (i+1) + '. ' +
 							(playlist=='Audio'? artist + ' - ' + title : label) + '&nbsp;&nbsp;&nbsp;&nbsp;' + xbmc.formatTime(duration) +
-							//(i==xbmc.periodicUpdater.curPlaylistNum? ' <---' : '') +
 							'</a></div></li>').appendTo($itemList);
 
 						$item.find('a.play').bind('click', {itemNum: i}, onItemPlayClick);
 						$item.find('a.remove').bind('click', {itemNum: i}, onItemRemoveClick);
 					});
 				}
-				if (runtime) {
+				if (runtime > 0) {
 						$itemList = $('<p>' + mkf.lang.get('label_total_runtime') + xbmc.formatTime(runtime) + '</p>').appendTo($(this));
 				}
 			});
@@ -665,28 +676,38 @@
 				if (playlistResult.limits.total > 0) {
 					$.each(playlistResult.items, function(i, item)  {
 						var showtitle = (item.showtitle? item.showtitle : mkf.lang.get('label_not_available'));
-						var title = (item.title? item.title : mkf.lang.get('label_not_available'));
+						var title = (item.label? item.label : mkf.lang.get('label_not_available'));
 						var season = (item.season? item.season : mkf.lang.get('label_not_available'));
-						var duration  = (item.runtime? item.runtime : mkf.lang.get('label_not_available'));
-						duration = duration * 60;
+						var duration  = (item.runtime? item.runtime : 0);
+						if (duration != 0) {
+							duration = duration * 60;
+							runtime += duration;
+						}
+						var playlistItemClass = '';
+						if (i%2==0) {
+							playlistItemClass = 'even';
+						}
 						runtime += duration;
-						
-						console.log(item);
-						
-						//if (i == xbmc.periodicUpdater.curPlaylistNum) {
-							
-						$item = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper playlistItem' + i + '">' + 
+						//Change background colour of currently playing item.
+						/*if (i == xbmc.periodicUpdater.curPlaylistNum && xbmc.periodicUpdater.playerStatus != 'stopped') {
+							playlistItemClass = 'current';
+						}*/
+						if (i == xbmc.periodicUpdater.curPlaylistNum && xbmc.periodicUpdater.playerStatus != 'stopped') {
+							playlistItemCur = 'playlistItemCur';
+						} else {
+							playlistItemCur = 'playlistItem';
+						}							
+						$item = $('<li class="' + playlistItemClass + '"><div class="folderLinkWrapper playlistItem' + i + '">' + 
 							'<a class="button remove" href="" title="' + mkf.lang.get('btn_remove') +  '"><span class="miniIcon remove" /></a>' +
-							'<a class="playlistItem play" href="">' + (i+1) + '. ' +
+							'<a class="' + playlistItemCur + ' play" href="">' + (i+1) + '. ' +
 							(item.type=='episode'? showtitle + ' - Season ' + season + ' - ' + title : title) + '&nbsp;&nbsp;&nbsp;&nbsp;' + xbmc.formatTime(duration) +
-							//(i==xbmc.periodicUpdater.curPlaylistNum? ' <---' : '') +
 							'</a></div></li>').appendTo($itemList);
 
 						$item.find('a.play').bind('click', {itemNum: i}, onItemPlayClick);
 						$item.find('a.remove').bind('click', {itemNum: i}, onItemRemoveClick);
 					});
 				}
-				if (runtime) {
+				if (runtime > 0) {
 					$itemList = $('<p>' + mkf.lang.get('label_total_runtime') + xbmc.formatTime(runtime) + '</p>').appendTo($(this));
 				}
 			});
@@ -1474,7 +1495,6 @@
 					tvshowDataElement.hide();
 					if (currentFile.artist) { artistElement.text(currentFile.artist); } else { artistElement.text(mkf.lang.get('label_not_available')); }
 					if (currentFile.album) { albumElement.text(currentFile.album); } else { albumElement.text(mkf.lang.get('label_not_available')); }
-
 				} else {
 					// VIDEO
 					musicDataElement.hide();

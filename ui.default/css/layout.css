@@ -223,6 +223,9 @@ ul.fileList li {
 	display: block;
 	background: url('../images/splitter_h.png') no-repeat bottom left;
 }
+ul.fileList li.current {
+	background-color: #707070;
+}
 ul.fileList a {
 	display: block;
 	color: #fff;
@@ -250,6 +253,11 @@ div.folderLinkWrapper a.playlistItem,
 div.folderLinkWrapper a.episode { padding-left: 47px; }
 div.folderLinkWrapper a.folder,
 div.folderLinkWrapper a.file { padding-left: 84px; }
+
+div.folderLinkWrapper a.playlistItemCur {
+	font-weight:bold;
+	padding: 10px 47px;
+}
 
 span.miniIcon {
 	display: block; height: 16px; width: 16px;

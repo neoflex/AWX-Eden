@@ -1041,42 +1041,7 @@ var xbmc = {};
 			});
 		},
 
-
-
-		/*getMovieInfo: function(options) {
-			var settings = {
-				movieid: 0,
-				onSuccess: null,
-				onError: null,
-			};
-			$.extend(settings, options);
-
-			// TODO better: do not get all movies
-			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": { "properties" : ["genre", "director", "plot", "title", "originaltitle", "runtime", "year", "rating"] }, "id": 1}',
-
-				function (response) {
-					var movies = response.result.movies;
-					var result = null;
-
-					if (response.result.total > 0) {
-						$.each(movies, function(i, movie)  {
-							if (movie.movieid == settings.movieid) {
-								result = movie;
-								return false;
-							}
-						});
-					}
-
-					settings.onSuccess(result);
-				},
-
-				settings.onError
-			);
-		},*/
-
-
-
+		
 		getMovies: function(options) {
 			var settings = {
 				onSuccess: null,
@@ -1326,11 +1291,6 @@ var xbmc = {};
 			},
 
 			periodicStep: function() {
-
-				//var shuffle = false;
-				//var time = '';
-				//var file = '';
-				//var volume = 0;
 				
 				//Stop changed status firering by only setting vars once!
 				if (typeof xbmc.periodicUpdater.lastVolume === 'undefined') {
@@ -1362,6 +1322,11 @@ var xbmc = {};
 				if (typeof xbmc.periodicUpdater.curPlaylistNum === 'undefined') {
 					$.extend(xbmc.periodicUpdater, {
 						curPlaylistNum: 0,
+					});
+				}
+				if (typeof xbmc.periodicUpdater.repeatStatus === 'undefined') {
+					$.extend(xbmc.periodicUpdater, {
+						repeatStatus: 'none',
 					});
 				}
 				
@@ -1403,7 +1368,7 @@ var xbmc = {};
 						null, false // not async
 					);
 
-					// has volume changed?
+					// has volume changed? Or first start?
 					if (activePlayer != 'none' || xbmc.periodicUpdater.lastVolume == -1) {
 						xbmc.sendCommand(
 							'{"jsonrpc": "2.0", "method": "Application.GetProperties", "params": { "properties": [ "volume", "muted" ] }, "id": 1}',
@@ -1420,31 +1385,24 @@ var xbmc = {};
 
 							null, false // not async
 						);
-					
-						/*if (volume != xbmc.periodicUpdater.lastVolume) {
-							$.each(xbmc.periodicUpdater.volumeChangedListener, function(i, listener)  {
-								listener(volume);
-							});
-						}*/
 					}
 
-					// playing state
-					
+					// playing state					
 					// We reached the end my friend... (of the playlist)
 					if ( xbmc.periodicUpdater.playerStatus != 'stopped' && activePlayer == 'none') {
 						xbmc.periodicUpdater.playerStatus = 'stopped';
 						xbmc.periodicUpdater.firePlayerStatusChanged('stopped');
 					}
 
-					if (activePlayer != 'none') { //|| ( xbmc.playerStatus != 'stopped' || xbmc.playerStatus != 'paused') {
+					if (activePlayer != 'none') {
 						var request = '';
 
-						if (activePlayer == 'audio') {
-							request = '{"jsonrpc":"2.0","id":2,"method":"Player.GetProperties","params":{ "playerid":0,"properties":["speed", "shuffled", "repeat"] } }'
+						if (activePlayer == 'audio' || activePlayer == 'video' ) {
+							request = '{"jsonrpc":"2.0","id":2,"method":"Player.GetProperties","params":{ "playerid":' + activePlayerid + ',"properties":["speed", "shuffled", "repeat"] } }'
 
-						} else if (activePlayer == 'video') {
+						}/* else if (activePlayer == 'video') {
 							request = '{"jsonrpc":"2.0","id":4,"method":"Player.GetProperties","params":{ "playerid":1,"properties":["speed", "shuffled", "repeat"] } }'
-						}
+						}*/
 
 						xbmc.sendCommand(
 							request,
@@ -1521,9 +1479,16 @@ var xbmc = {};
 								var curruntime;
 								var curPlayItemNum = currentTimes.position;
 								
-								//console.log(curPlayItemNum); //Get the number of the currently playing item in the playlist
+								//Get the number of the currently playing item in the playlist
 								if (xbmc.periodicUpdater.curPlaylistNum != curPlayItemNum) {
 									xbmc.periodicUpdater.curPlaylistNum = curPlayItemNum;
+									//Is there not a better way to do this?
+									if (activePlayer == 'audio') {
+										awxUI.onMusicPlaylistShow();
+									} else if (activePlayer == 'video') {
+										awxUI.onVideoPlaylistShow();
+									}
+										
 								}
 								
 								curtime = (currentTimes.time.hours * 3600) + (currentTimes.time.minutes * 60) + currentTimes.time.seconds;
