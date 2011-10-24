@@ -1,3 +1,9 @@
+0.4.1:
+ - Added: Display watched status in UI
+ - Changed: Augio/Video playlist layouts
+ - fixed: Now playing box
+ - fixed: Image links
+ - fixed: shuffle
 0.4.0:
  - Move to Eden support
  - Added: Tag watched
