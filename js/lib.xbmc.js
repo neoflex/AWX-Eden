@@ -1214,8 +1214,61 @@ var xbmc = {};
 			);
 		},
 
+		
+		getRecentlyAddedEpisodes: function(options) {
+			var settings = {
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
 
+			xbmc.sendCommand(
+				'{"jsonrpc": "2.0", "method": "Playlist.GetItems", "params": { "properties": [ "runtime", "showtitle", "season", "title" ], "playlistid": 1}, "id": 1}',
 
+				function(response) {
+					settings.onSuccess(response.result);
+				},
+
+				settings.onError
+			);
+		},
+
+		getRecentlyAddedMovies: function(options) {
+			var settings = {
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
+
+			xbmc.sendCommand(
+				'{"jsonrpc": "2.0", "method": "Playlist.GetItems", "params": { "properties": [ "runtime", "showtitle", "season", "title" ], "playlistid": 1}, "id": 1}',
+
+				function(response) {
+					settings.onSuccess(response.result);
+				},
+
+				settings.onError
+			);
+		},
+		
+		getRecentlyAddedAlbums: function(options) {
+			var settings = {
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
+
+			xbmc.sendCommand(
+				'{"jsonrpc": "2.0", "method": "Playlist.GetItems", "params": { "properties": [ "runtime", "showtitle", "season", "title" ], "playlistid": 1}, "id": 1}',
+
+				function(response) {
+					settings.onSuccess(response.result);
+				},
+
+				settings.onError
+			);
+		},
+		
 		getDirectory: function(options) {
 			var settings = {
 				media: 'Audio',

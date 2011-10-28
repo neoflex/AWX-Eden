@@ -185,6 +185,7 @@
 				'<legend>' + mkf.lang.get('group_ui') + '</legend>' +
 				'<input type="radio" id="defaultUI" name="userinterface" value="default" ' + (ui!='light'? 'checked="checked"' : '') + '><label for="defaultUI">' + mkf.lang.get('label_default_ui') +'</label>' +
 				'<input type="radio" id="lightUI" name="userinterface" value="light" ' + (ui=='light'? 'checked="checked"' : '') + '><label for="lightUI">Light UI</label>' +
+				'<input type="radio" id="lightDarkUI" name="userinterface" value="lightDark" ' + (ui=='lightDark'? 'checked="checked"' : '') + '><label for="lightDarkUI">LightDark UI</label>' +
 				'</fieldset>' +
 				'<fieldset>' +
 				'<legend>' + mkf.lang.get('group_language') + '</legend>' +
@@ -236,10 +237,14 @@
 				}
 
 				// set new settings
-				mkf.cookieSettings.add(
-					'ui',
-					document.settingsForm.userinterface[1].checked? 'light' : 'default'
-				);
+					if (document.settingsForm.userinterface[1].checked == true) {
+						ui = 'light';
+					} else if ( document.settingsForm.userinterface[2].checked == true) {
+						ui = 'lightDark';
+					} else {
+						ui = 'default';
+					}
+				mkf.cookieSettings.add('ui', ui);
 
 				mkf.cookieSettings.add(
 					'albumOrder',

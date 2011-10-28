@@ -1,0 +1,789 @@
+html, body {
+    background-color: #000000;
+    color: #FFFFFF;
+    font-family: sans-serif;
+    font-size: 12px;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+#header {
+    background: url("../images/logo.png") no-repeat scroll 20px 10px #333333;
+    height: 110px;
+    padding-left: 170px;
+}
+#navigation {
+    background: url("../images/menu_bg.png") repeat-x scroll 0 5px #343434;
+    height: 32px;
+    left: 0;
+    position: absolute;
+    top: 110px;
+    width: 100%;
+    z-index: 100;
+}
+#navigation ul.mkfMenu, ul.systemMenu, ul.mkfLocationBar, ul.mkfPageContextMenu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+#navigation ul.mkfMenu > li, ul.systemMenu > li {
+    float: left;
+    height: 25px;
+    line-height: 25px;
+    margin: 6px 0 0 10px;
+    position: relative;
+}
+ul.systemMenu > li {
+    float: right;
+    margin: 6px 10px 0 0;
+}
+#navigation ul.mkfMenu > li > a, ul.systemMenu > li > a {
+    color: #4B4B4B;
+    display: block;
+    height: 100%;
+    padding: 0 10px;
+    text-decoration: none;
+}
+#navigation ul.mkfMenu > li.mouseover, #navigation ul.mkfMenu > li.mouseover > a, ul.systemMenu > li.mouseover, ul.systemMenu > li.mouseover > a {
+    background: url("../images/menu_btn_corners.png") no-repeat scroll 0 0 transparent;
+    height: 32px;
+}
+#navigation ul.mkfMenu > li.mouseover, ul.systemMenu > li.mouseover {
+    background-color: #4B4B4B;
+    background-position: 0 -32px;
+    line-height: 38px;
+    margin-top: 0;
+}
+#navigation ul.mkfMenu > li.mouseover > a, ul.systemMenu > li.mouseover > a {
+    background-position: right 0;
+    color: #FFFFFF;
+}
+#navigation ul.mkfMenu ul {
+    background: url("../images/menu_sub_bottom.png") no-repeat scroll left bottom transparent;
+    left: 0;
+    list-style-type: none;
+    margin: 0;
+    padding: 0 0 5px;
+    position: absolute;
+    top: 32px;
+    width: 150px;
+}
+#navigation ul.mkfMenu ul > li {
+    margin: 0;
+    padding: 0;
+}
+#navigation ul.mkfMenu ul > li > a {
+    background-color: #4B4B4B;
+    color: #FFFFFF;
+    display: block;
+    height: 25px;
+    line-height: 25px;
+    padding-left: 10px;
+    text-decoration: none;
+}
+#navigation ul.mkfMenu ul > li > a:hover {
+    background-color: #A0E312;
+    color: #000000;
+}
+#navigation ul.mkfMenu > li > a span.icon, ul.systemMenu > li > a span.icon {
+    background: url("../images/menu_icons.png") no-repeat scroll 0 0 transparent;
+    float: left;
+    height: 16px;
+    margin: 4px 5px 0 0;
+    width: 16px;
+}
+#navigation ul.mkfMenu > li.mouseover > a span.icon, ul.systemMenu > li.mouseover > a span.icon {
+    margin: 10px 5px 0 0;
+}
+#navigation ul.mkfMenu > li > a span.music {
+    background-position: 0 0;
+}
+#navigation ul.mkfMenu > li.mouseover > a .music, #navigation ul.mkfMenu > li.activeMenuItem > a .music {
+    background-position: 0 -16px;
+}
+#navigation ul.mkfMenu > li > a span.videos {
+    background-position: -16px 0;
+}
+#navigation ul.mkfMenu > li.mouseover > a .videos, #navigation ul.mkfMenu > li.activeMenuItem > a .videos {
+    background-position: -16px -16px;
+}
+ul.systemMenu > li > a span.settings {
+    background-position: -32px 0;
+}
+ul.systemMenu > li.mouseover > a .settings, ul.systemMenu > li.activeMenuItem > a .settings {
+    background-position: -32px -16px;
+}
+ul.systemMenu > li > a span.exit {
+    background-position: -48px 0;
+}
+ul.systemMenu > li.mouseover > a .exit, ul.systemMenu > li.activeMenuItem > a .exit {
+    background-position: -48px -16px;
+}
+#statusLine {
+    background-color: #444;
+    border-bottom: 1px solid #444444;
+    height: 25px;
+    left: 0;
+    position: absolute;
+    top: 142px;
+    width: 100%;
+    background: url("../images/button_bg2.png") repeat-x scroll 0 0px #444;
+}
+ul.mkfLocationBar li, ul.mkfPageContextMenu li {
+    float: left;
+    height: 25px;
+    line-height: 25px;
+    margin-left: 10px;
+}
+#location a {
+    color: #000;
+    text-decoration: none;
+}
+#location a:hover {
+    color: #fff;
+}
+ul.mkfPageContextMenu li {
+    float: right;
+    margin: 0 10px 0 0;
+}
+#content {
+    bottom: 0;
+    left: 0;
+    overflow: auto;
+    padding: 10px;
+    position: absolute;
+    right: 0;
+    top: 168px;
+    z-index: 50;
+}
+#content .mkfPage .pageContent div.pageContentWrapper {
+    min-height: 32px;
+}
+.loading {
+    background: url("../images/loading.gif") no-repeat scroll left top transparent;
+}
+img.thumb {
+    border: 1px solid #575757;
+    height: 125px;
+    width: 125px;
+}
+img.thumbPoster {
+    height: 185px;
+    width: 125px;
+}
+img.thumbBanner {
+    height: 70px;
+    width: 379px;
+}
+div.thumbWrapper {
+    background-color: #EAECE6;
+    border: 1px solid #D8D8D8;
+    float: left;
+    height: 178px;
+    margin: 5px;
+    overflow: hidden;
+    padding: 5px;
+    position: relative;
+    text-align: center;
+    width: 129px;
+}
+div.thumbPosterWrapper {
+    height: 238px;
+    width: 129px;
+}
+div.thumbBannerWrapper {
+    height: 95px;
+    width: 383px;
+}
+div.thumbWrapper:hover {
+    background-color: #EAFFC9;
+    border: 1px solid #7AC800;
+}
+div.thumbWrapper div.linkWrapper {
+    display: none;
+    left: 5%;
+    position: absolute;
+    top: 10px;
+    width: 90%;
+}
+div.thumbWrapper:hover div.linkWrapper {
+    display: block;
+}
+div.thumbWrapper a {
+    background-color: #343434;
+    border: 1px solid #A4A4A4;
+    border-radius: 5px 5px 5px 5px;
+    color: #FFFFFF;
+    display: block;
+    font-size: 14px;
+    margin-bottom: 1px;
+    opacity: 0.9;
+    padding: 2px 7px;
+    text-decoration: none;
+}
+div.thumbWrapper a:hover {
+    color: #7AC800;
+}
+div.thumbWrapper div.albumName, div.thumbWrapper div.movieName, div.thumbWrapper div.tvshowName {
+    color: #4B4B4B;
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+}
+div.thumbWrapper div.albumArtist {
+    color: #4B4B4B;
+    font-size: 11px;
+    text-align: center;
+}
+div.findKeywords {
+    display: none;
+}
+#contextMenu ul a {
+    background: url("../images/context_buttons.png") no-repeat scroll 0 0 transparent;
+    display: block;
+    height: 22px;
+    margin-top: 2px;
+    width: 22px;
+}
+#contextMenu ul a.close {
+    background-position: left top;
+}
+#contextMenu ul a.back {
+    background-position: -22px 0;
+}
+#contextMenu ul a.clear {
+    background-position: -44px 0;
+}
+#contextMenu ul a.find {
+    background-position: -66px 0;
+}
+#contextMenu ul a.close:hover {
+    background-position: left bottom;
+}
+#contextMenu ul a.back:hover {
+    background-position: -22px -22px;
+}
+#contextMenu ul a.clear:hover {
+    background-position: -44px -22px;
+}
+#contextMenu ul a.find:hover {
+    background-position: -66px -22px;
+}
+div.mkfOverlay div.dialog a.close {
+    background: url("../images/context_buttons.png") no-repeat scroll left top transparent;
+    float: right;
+    height: 22px;
+    width: 22px;
+}
+div.mkfOverlay div.dialog a.close:hover {
+    background-position: left bottom;
+}
+div.mkfOverlay div.loading {
+    background-image: url("../../images/dialog_loading.gif");
+    background-repeat: no-repeat;
+}
+div.mkfOverlay div.dialog span.label {
+    float: left;
+    font-weight: bold;
+    margin-right: 10px;
+    text-align: right;
+    width: 100px;
+}
+div.mkfOverlay div.dialog span.value, div.mkfOverlay div.dialog span.valuePoster, div.mkfOverlay div.dialog span.valueBanner {
+    float: right;
+    overflow: hidden;
+    width: 250px;
+}
+div.mkfOverlay div.dialog span.valueBanner {
+    width: 370px;
+}
+div.mkfOverlay div.dialog h1.underline {
+    text-decoration: underline;
+}
+div.mkfOverlay div.dialog div.test {
+    clear: right;
+    display: block;
+}
+div.mkfOverlay div.dialog p.plot {
+    clear: both;
+    padding-top: 10px;
+}
+div.mkfOverlay div.dialog img.dialogThumb, div.mkfOverlay div.dialog img.dialogThumbPoster {
+    float: left;
+    margin: 0 10px 10px 0;
+}
+div.mkfOverlay div.dialog img.dialogThumbBanner {
+    display: block;
+    margin: 0 auto;
+}
+fieldset {
+    background-color: #808080;
+    border-radius: 5px 5px 5px 5px;
+    border-width: 0;
+    margin-bottom: 10px;
+}
+fieldset.ui_settings {
+    float: left;
+    margin-right: 10px;
+}
+legend {
+    background-color: #606060;
+    border-radius: 5px 5px 5px 5px;
+    border-width: 0;
+    padding: 5px 10px;
+}
+div.formHint {
+    clear: both;
+    color: #606060;
+    margin-top: 10px;
+}
+a.formButton {
+    background: url("../images/button_bg.png") repeat-x scroll 0 0 transparent;
+    border: 1px solid #BBBBBB;
+    border-radius: 5px 5px 5px 5px;
+    color: #FFFFFF;
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    padding: 0 10px;
+    text-decoration: none;
+}
+a.formButton:hover {
+    background-position: 0 -25px;
+}
+.expertHelp, .save {
+    float: right;
+}
+#messageLog {
+    padding-right: 20px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 900;
+}
+#messageLog div.mkfMessage {
+    background: none repeat scroll 0 0 rgba(41, 41, 41, 0.9);
+    border-radius: 5px 5px 5px 5px;
+    margin-top: 10px;
+    min-height: 32px;
+    padding: 10px;
+    width: 200px;
+}
+#messageLog div.text {
+    color: #FFFFFF;
+    font-size: 13px;
+    padding-left: 42px;
+}
+#messageLog div.icon {
+    float: left;
+    height: 32px;
+    width: 32px;
+}
+#messageLog div.loading {
+    background-image: url("../../images/dialog_loading.gif");
+}
+#messageLog div.success, #messageLog div.error {
+    background-image: url("../images/messagelog.png");
+}
+#messageLog div.error {
+    background-position: -32px 0;
+}
+div.findBox {
+    background: none repeat scroll 0 0 #EAECE6;
+    border: 1px solid #7C7C7C;
+    border-radius: 5px 5px 5px 5px;
+    position: absolute;
+    width: auto;
+    z-index: 80;
+}
+div.findBox input {
+    margin: 5px;
+    width: 140px;
+}
+div.movieRating0, div.movieRating1, div.movieRating2, div.movieRating3, div.movieRating4, div.movieRating5, div.movieRating6, div.movieRating7, div.movieRating8, div.movieRating9, div.movieRating10 {
+    background: url("../images/ratings_big.png") no-repeat scroll 0 0 transparent;
+    margin-top: 15px;
+    opacity: 0.9;
+    width: 115px;
+}
+div.movieRating0 {
+    background-position: 0 0;
+    height: 71px;
+}
+div.movieRating1 {
+    background-position: 0 -71px;
+    height: 69px;
+}
+div.movieRating2 {
+    background-position: 0 -140px;
+    height: 70px;
+}
+div.movieRating3 {
+    background-position: 0 -210px;
+    height: 71px;
+}
+div.movieRating4 {
+    background-position: 0 -281px;
+    height: 69px;
+}
+div.movieRating5 {
+    background-position: 0 -350px;
+    height: 70px;
+}
+div.movieRating6 {
+    background-position: 0 -420px;
+    height: 71px;
+}
+div.movieRating7 {
+    background-position: 0 -491px;
+    height: 69px;
+}
+div.movieRating8 {
+    background-position: 0 -560px;
+    height: 71px;
+}
+div.movieRating9 {
+    background-position: 0 -631px;
+    height: 71px;
+}
+div.movieRating10 {
+    background-position: 0 -702px;
+    height: 71px;
+}
+div.smallRating0, div.smallRating1, div.smallRating2, div.smallRating3, div.smallRating4, div.smallRating5, div.smallRating6, div.smallRating7, div.smallRating8, div.smallRating9, div.smallRating10 {
+    background: url("../images/ratings_small.png") no-repeat scroll 0 0 transparent;
+    height: 16px;
+    width: 160px;
+}
+div.smallRating0 {
+    background-position: 0 0;
+}
+div.smallRating1 {
+    background-position: 0 -16px;
+}
+div.smallRating2 {
+    background-position: 0 -32px;
+}
+div.smallRating3 {
+    background-position: 0 -48px;
+}
+div.smallRating4 {
+    background-position: 0 -64px;
+}
+div.smallRating5 {
+    background-position: 0 -80px;
+}
+div.smallRating6 {
+    background-position: 0 -96px;
+}
+div.smallRating7 {
+    background-position: 0 -112px;
+}
+div.smallRating8 {
+    background-position: 0 -128px;
+}
+div.smallRating9 {
+    background-position: 0 -144px;
+}
+div.smallRating10 {
+    background-position: 0 -160px;
+}
+ul.fileList {
+    border-top: 1px solid #ABABAB;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+ul.fileList li {
+    border-bottom: 1px solid #ABABAB;
+    display: block;
+}
+ul.fileList li.even {
+    background-color: #555555;
+}
+ul.fileList li.current {
+    background-color: #FF0000;
+}
+ul.fileList a {
+    color: #FFFFFF;
+    display: block;
+    padding: 10px 5px;
+    text-decoration: none;
+}
+ul.fileList li a:hover {
+    background-color: #888888;
+}
+div.folderLinkWrapper a.button {
+    float: left;
+}
+div.folderLinkWrapper a.button:hover {
+    background-color: transparent;
+}
+div.folderLinkWrapper a.song, div.folderLinkWrapper a.playlistItem, div.folderLinkWrapper a.episode {
+    padding-left: 35px;
+}
+div.folderLinkWrapper a.folder, div.folderLinkWrapper a.file {
+    padding-left: 60px;
+}
+div.folderLinkWrapper a.playlistItemCur {
+    font-weight: bold;
+    padding: 10px 35px;
+}
+span.miniIcon {
+    background: url("../images/mini_buttons.png") no-repeat scroll 0 0 transparent;
+    display: block;
+    height: 16px;
+    width: 16px;
+}
+span.enqueue {
+    background-position: left top;
+}
+span.play {
+    background-position: right top;
+}
+span.remove {
+    background-position: -16px 0;
+}
+div.folderLinkWrapper a.button:hover span.enqueue {
+    background-position: left bottom;
+}
+div.folderLinkWrapper a.button:hover span.play {
+    background-position: right bottom;
+}
+div.folderLinkWrapper a.button:hover span.remove {
+    background-position: -16px -16px;
+}
+div.mkfOverlay div.dialogSystemControl {
+    width: 245px;
+}
+div.systemControls {
+    height: 50px;
+}
+a.exitXBMC, a.shutdown, a.suspend, a.reboot {
+    background: url("../images/system_buttons.png") no-repeat scroll 0 0 transparent;
+    float: left;
+    height: 42px;
+    margin-right: 15px;
+    width: 42px;
+}
+a.shutdown {
+    background-position: 0 -42px;
+}
+a.exitXBMC {
+    background-position: -42px -42px;
+    margin-left: 15px;
+}
+a.suspend {
+    background-position: -84px -42px;
+}
+a.reboot {
+    background-position: -126px -42px;
+}
+a.shutdown:hover {
+    background-position: 0 0;
+}
+a.exitXBMC:hover {
+    background-position: -42px 0;
+}
+a.suspend:hover {
+    background-position: -84px 0;
+}
+a.reboot:hover {
+    background-position: -126px 0;
+}
+br.clear {
+    clear: both;
+}
+#content .mkfMenu {
+    list-style-type: none;
+    margin: 0 auto;
+    padding: 0;
+    width: 552px;
+}
+#content .mkfMenu li a {
+    background: url("../images/big_buttons.png") no-repeat scroll 0 0 #9B9B9B;
+    border-radius: 5px 5px 5px 5px;
+    color: #FFFFFF;
+    float: left;
+    margin-right: 10px;
+    padding: 128px 0 5px;
+    text-align: center;
+    text-decoration: none;
+    width: 128px;
+}
+#content .mkfMenu li a:hover {
+    background-color: #A0E312;
+}
+#content .mkfMenu li.artists a {
+    background-position: -512px 0;
+}
+#content .mkfMenu li.playlist a {
+    background-position: -128px 0;
+}
+#content .mkfMenu li.audiofiles a {
+    background-position: -256px 0;
+}
+#content .mkfMenu li.movies a {
+    background-position: -384px 0;
+}
+#content .mkfMenu li.albums a {
+    background-position: -640px 0;
+}
+#controls {
+    background: url("../images/volume.png") no-repeat scroll 20px 10px #EAECE6;
+    border: 1px solid #7C7C7C;
+    border-radius: 5px 5px 5px 5px;
+    float: left;
+    height: 70px;
+    margin-right: 10px;
+    margin-top: 20px;
+    padding: 0 10px;
+    width: 180px;
+}
+#controls a.button {
+    background: url("../images/buttons.png") no-repeat scroll 0 0 transparent;
+    float: left;
+    height: 30px;
+    margin-right: 6px;
+    width: 30px;
+}
+#controls a.play {
+    background-position: -90px 0;
+}
+#controls a.stop {
+    background-position: 0 0;
+}
+#controls a.prev {
+    background-position: -60px 0;
+}
+#controls a.next {
+    background-position: -30px 0;
+}
+#controls a.shuffle {
+    background-position: -120px 0;
+}
+#controls a.unshuffle {
+    background-position: -150px 0;
+}
+#controls a.play:hover {
+    background-position: -90px -30px;
+}
+#controls a.stop:hover {
+    background-position: 0 -30px;
+}
+#controls a.prev:hover {
+    background-position: -60px -30px;
+}
+#controls a.next:hover {
+    background-position: -30px -30px;
+}
+#controls a.shuffle:hover {
+    background-position: -120px -30px;
+}
+#controls a.unshuffle:hover {
+    background-position: -150px -30px;
+}
+div.ui-slider {
+    background-color: #4B4B4B;
+    border: 1px solid #4B4B4B;
+    border-radius: 5px 5px 5px 5px;
+    position: relative;
+}
+div.ui-slider-horizontal {
+    height: 10px;
+}
+div.ui-slider-vertical {
+    height: 140px;
+    width: 10px;
+}
+div.ui-slider-range {
+    background-color: #A0E312;
+    border-radius: 3px 3px 3px 3px;
+    position: absolute;
+}
+div.ui-slider-horizontal div.ui-slider-range {
+    height: 10px;
+}
+div.ui-slider-vertical div.ui-slider-range {
+    bottom: 0;
+    width: 10px;
+}
+a.ui-slider-handle {
+    display: block;
+    position: absolute;
+}
+div.ui-slider-horizontal a.ui-slider-handle {
+    height: 10px;
+    margin-left: -3px;
+    top: 0;
+    width: 6px;
+}
+div.ui-slider-vertical a.ui-slider-handle {
+    bottom: 0;
+    height: 6px;
+    margin-bottom: -3px;
+    width: 10px;
+}
+#volumeSlider {
+    margin: 10px 0 10px 40px;
+}
+#currentlyPlaying {
+    background-color: #000000;
+    border: 1px solid #7C7C7C;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+    height: 100px;
+    left: 400px;
+    position: absolute;
+    right: 6px;
+    top: 6px;
+}
+.currentlyPlayingThumbWrapper {
+    background-color: #4B4B4B;
+    border-right: 1px solid #7C7C7C;
+    float: left;
+    height: 100px;
+    overflow: hidden;
+}
+span.currentlyPlaying {
+    color: #A0E312;
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+}
+.currentlyPlayingInfo {
+    padding: 10px 10px 10px 110px;
+}
+.time {
+    float: left;
+}
+.duration {
+    float: right;
+}
+.title {
+    display: block;
+}
+.statusPaused, .statusShuffle {
+    background: url("../images/status.png") no-repeat scroll 0 0 transparent;
+    display: block;
+    height: 35px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    width: 35px;
+}
+.statusShuffle {
+    background-position: right top;
+    right: 55px;
+}
+.playingSliderWrapper {
+    margin: 5px 0 0;
+}
+#preload {
+    display: none;
+}
+h1.findBoxTitle {
+    color: #4B4B4B;
+    font-size: 14px;
+    margin: 10px;
+}
