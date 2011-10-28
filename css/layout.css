@@ -71,7 +71,7 @@ h1.loading { line-height: 32px; background: url('../images/dialog_loading.gif') 
 	width: 30px;
 	height: 30px;
 	position: absolute;
-        right: 30px;
+    right: 30px;
 }
 
 #input a.left { right: 60px; top: 60px; background-position: -60px 0px; }
