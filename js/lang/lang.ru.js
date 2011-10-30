@@ -28,7 +28,10 @@ mkf.lang.add({language: 'Russian', short: 'ru', author: 'Scaramush', values: {
 	'page_title_tvshows': 				'Сериалы',
 	'page_title_video_files':			'Файлы',
 	'page_title_video_playlist':		'Список воспроизведения',
-
+	'page_title_tv_recentlyadded':		'Recent TV',
+	'page_title_movies_recentlyadded':	'Recent Movies',
+	'page_title_album_recent':			'Recent Albums',
+	
 	'page_buttontext_music':			'Музыка',
 	'page_buttontext_artist':			'Исполнители',
 	'page_buttontext_albums':			'Альбомы',
@@ -39,7 +42,10 @@ mkf.lang.add({language: 'Russian', short: 'ru', author: 'Scaramush', values: {
 	'page_buttontext_tvshows': 			'Сериалы',
 	'page_buttontext_video_files':		'Файлы',
 	'page_buttontext_video_playlist':	'Список воспроизведения',
-
+	'page_buttontext_tv_recentlyadded': 'Recent TV',
+	'page_buttontext_movies_recentlyadded': 'Recent Movies',
+	'page_buttontext_album_recent':		'Recent Albums',
+	
 	'ctxt_btn_back_to_music':			'Вернуться в Музыку (Ctrl+1)',
 	'ctxt_btn_find':					'Поиск (Ctrl+2)',
 	'ctxt_btn_clear playlist':			'Очистить список произведеения (Ctrl+2)',

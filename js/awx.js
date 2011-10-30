@@ -47,7 +47,6 @@ var awx = {};
 					$('#loadingAWXHint').text(mkf.lang.get('message_setup_ui'));
 
 					var ui = mkf.cookieSettings.get('ui');
-					console.log(ui);
 					var uiScript = '';
 
 					if (ui == 'light') {

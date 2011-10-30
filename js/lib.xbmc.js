@@ -1223,7 +1223,7 @@ var xbmc = {};
 			$.extend(settings, options);
 
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "Playlist.GetItems", "params": { "properties": [ "runtime", "showtitle", "season", "title" ], "playlistid": 1}, "id": 1}',
+				'{"jsonrpc":"2.0","id":2,"method":"VideoLibrary.GetRecentlyAddedEpisodes","params":{ "limits": {"end": 10},"properties":["title","runtime","season","episode","showtitle","thumbnail","file","plot","playcount"]}} ',
 
 				function(response) {
 					settings.onSuccess(response.result);
@@ -1241,7 +1241,7 @@ var xbmc = {};
 			$.extend(settings, options);
 
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "Playlist.GetItems", "params": { "properties": [ "runtime", "showtitle", "season", "title" ], "playlistid": 1}, "id": 1}',
+				'{"jsonrpc":"2.0","id":2,"method":"VideoLibrary.GetRecentlyAddedMovies","params":{ "limits": {"end": 10},"properties":["title","runtime","thumbnail","file", "plot","tagline","playcount","rating"]}}',
 
 				function(response) {
 					settings.onSuccess(response.result);
@@ -1259,7 +1259,7 @@ var xbmc = {};
 			$.extend(settings, options);
 
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "Playlist.GetItems", "params": { "properties": [ "runtime", "showtitle", "season", "title" ], "playlistid": 1}, "id": 1}',
+				'{"jsonrpc":"2.0","id":2,"method":"AudioLibrary.GetRecentlyAddedAlbums","params":{ "limits": {"end": 10},"properties":["thumbnail","genre", "artist"]}}',
 
 				function(response) {
 					settings.onSuccess(response.result);
@@ -1268,6 +1268,7 @@ var xbmc = {};
 				settings.onError
 			);
 		},
+
 		
 		getDirectory: function(options) {
 			var settings = {

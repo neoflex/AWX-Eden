@@ -216,7 +216,32 @@ var awxUI = {};
 				contextMenu: videoTvShowsContextMenu,
 				onShow: $.proxy(this, "onTvShowsShow")
 			});
-
+			
+			
+			//For recently added eps
+			this.$tvShowsRecentlyAddedContent = $('<div class="pageContentWrapper"></div>');
+			var videoTvShowsRecentlyAddedContextMenu = $.extend(true, [], standardVideosContextMenu);
+			/*videoTvShowsRecentlyAddedContextMenu.push({
+				'id':'findTVShowButton', 'icon':'find', 'title':mkf.lang.get('ctxt_btn_find'), 'shortcut':'Ctrl+2', 'onClick':
+					function(){
+						var pos = $('#findTVShowButton').offset();
+						awxUI.$tvShowsRecentlyAddedContent
+							.defaultFindBox({id:'tvShowFindBox', searchItems:'.thumbWrapper', top: pos.top, left: pos.left});
+						return false;
+					}
+			});*/
+			
+			this.tvShowsRecentlyAddedPage = videosPage.addPage({
+				title: mkf.lang.get('page_title_tv_recentlyadded'),
+				content: this.$tvShowsRecentlyAddedContent,
+				menuButtonText: mkf.lang.get('page_buttontext_tv_recentlyadded'),
+				contextMenu: videoTvShowsRecentlyAddedContextMenu,
+				onShow: $.proxy(this, "onTvShowsRecentlyAddedShow"),
+				className: 'recentEps'
+			});
+			// end recently added eps
+			
+			
 			this.$videoFilesContent = $('<div class="pageContentWrapper"></div>');
 			this.videoFilesPage = videosPage.addPage({
 				title: mkf.lang.get('page_title_video_files'),
@@ -463,7 +488,28 @@ var awxUI = {};
 			}
 		},
 
+		/***************************************
+		 * Called when Tv-RecentlyAdded-Page is shown. *
+		 ***************************************/
+		onTvShowsRecentlyAddedShow: function() {
+			if (this.$tvShowsRecentlyAddedContent.html() == '') {
+				var tvShowsRecentlyAddedPage = this.tvShowsRecentlyAddedPage;
+				var $contentBox = this.$tvShowsRecentlyAddedContent;
+				$contentBox.addClass('loading');
 
+				xbmc.getRecentlyAddedEpisodes({
+					onError: function() {
+						mkf.messageLog.show(mkf.lang.get('message_failed_tvshow_list'), mkf.messageLog.status.error, 5000);
+						$contentBox.removeClass('loading');
+					},
+
+					onSuccess: function(result) {
+						$contentBox.defaultRecentlyAddedEpisodesViewer(result, tvShowsRecentlyAddedPage);
+						$contentBox.removeClass('loading');
+					}
+				});
+			}
+		},
 
 		/*********************************************
 		 * Called when Video-Files-Page is shown.    *

@@ -175,6 +175,20 @@ img.thumbBanner {
     height: 70px;
     width: 379px;
 }
+img.thumbFanart {
+	border: 1px solid #575757;
+    height: 113px;
+    width: 200px;
+}
+img.thumbFanart:hover{
+	border: 1px solid #A0E312;
+}
+img.epWatched {
+	position:relative; 
+	top:0px; 
+	left:0px; 
+	z-index:4
+}
 div.thumbWrapper {
     background-color: #EAECE6;
     border: 1px solid #D8D8D8;
@@ -488,6 +502,16 @@ div.smallRating9 {
 div.smallRating10 {
     background-position: 0 -160px;
 }
+ul.RecentfileList {
+    border-top: 1px solid #ABABAB;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+ul.RecentfileList li {
+    border-bottom: 1px solid #ABABAB;
+    display: block;
+}
 ul.fileList {
     border-top: 1px solid #ABABAB;
     list-style-type: none;
@@ -505,7 +529,7 @@ ul.fileList li.current {
     background-color: #FF0000;
 }
 ul.fileList a {
-    color: #FFFFFF;
+    color: #ddd;
     display: block;
     padding: 10px 5px;
     text-decoration: none;
@@ -526,6 +550,7 @@ div.folderLinkWrapper a.folder, div.folderLinkWrapper a.file {
     padding-left: 60px;
 }
 div.folderLinkWrapper a.playlistItemCur {
+	color: #fff;
     font-weight: bold;
     padding: 10px 35px;
 }
@@ -544,6 +569,9 @@ span.play {
 span.remove {
     background-position: -16px 0;
 }
+div.recentTVenq a.button:hover span.enqueue {
+    background-position: left bottom;
+}
 div.folderLinkWrapper a.button:hover span.enqueue {
     background-position: left bottom;
 }
@@ -558,6 +586,29 @@ div.mkfOverlay div.dialogSystemControl {
 }
 div.systemControls {
     height: 50px;
+}
+div.recentTVthumb {
+	position:relative; 
+	z-index:3;
+}
+div.recentTVshow {
+	font-size: 150%; 
+	font-weight: bold;
+}
+div.recentTVtitle {
+	font-size: 120%;  
+	margin-bottom: 3px; 
+	color: #A0E312;
+}
+td.recentTVshow {
+	position: relative; 
+	vertical-align:text-top;
+}
+a.recentTVplay  {
+	position:relative; 
+	top:43px; 
+	left:25px; 
+	z-index:5
 }
 a.exitXBMC, a.shutdown, a.suspend, a.reboot {
     background: url("../images/system_buttons.png") no-repeat scroll 0 0 transparent;

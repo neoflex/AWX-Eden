@@ -692,7 +692,7 @@
 						if (i%2==0) {
 							playlistItemClass = 'even';
 						}
-						runtime += duration;
+						//runtime += duration;
 						//Change background colour of currently playing item.
 						/*if (i == xbmc.periodicUpdater.curPlaylistNum && xbmc.periodicUpdater.playerStatus != 'stopped') {
 							playlistItemClass = 'current';
@@ -1168,7 +1168,75 @@
 	}; // END defaultEpisodesViewer
 
 
+	/* ########################### *\
+	 |  Show Recently Added episodes.
+	 |
+	 |  @param episodesResult
+	\* ########################### */
+	$.fn.defaultRecentlyAddedEpisodesViewer = function(episodesResult) {
+		var onEpisodePlayClick = function(event) {
+			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_episode'));
 
+			xbmc.playEpisode({
+				episodeid: event.data.idEpisode,
+				onSuccess: function() {
+					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+				},
+				onError: function(errorText) {
+					mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+				}
+			});
+
+			return false;
+		};
+
+		var onAddEpisodeToPlaylistClick = function(event) {
+			var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_episode_to_playlist'));
+
+			xbmc.addEpisodeToPlaylist({
+				episodeid: event.data.idEpisode,
+				onSuccess: function() {
+					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+				},
+				onError: function() {
+					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_failed'), 8000, mkf.messageLog.status.error);
+				}
+			});
+
+			return false;
+		};
+
+
+		this.each(function() {
+			var $episodeList = $('<ul class="RecentfileList"></ul>').appendTo($(this));
+			if (episodesResult.limits.total > 0) {	
+				$.each(episodesResult.episodes, function(i, episode)  {
+					var watched = false;
+					//var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
+					
+					if (episode.playcount > 0) {
+						watched = true;
+					}
+					
+					var thumb = (episode.thumbnail? xbmc.getThumbUrl(episode.thumbnail) : 'images/thumb.png');
+					/*if (filterWatched && watched) {
+						return;
+					}*/
+					
+					//var $episode = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper episode' + episode.episodeid + '"> <a href="" class="button playlist" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a><a href="" class="episode play"><table><tr><td width="500">' + episode.episode + '. ' + episode.label + '</td><td>' + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</td></tr></table></a></div></li>').appendTo($episodeList);
+					var $episode = $('<li' + '><table><tr><td>' + 
+					'<div class="recentTVenq episode' + episode.episodeid + '"> <a href="" class="button playlist recentTVplay" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a></div>' + 
+					'</td><td><div class="recentTVthumb"><img src="' + thumb + '" alt="' + episode.label + '" class="thumbFanart episode play" /></div>' + 
+					'</td><td class="recentTVshow"><div class="recentTVshow">' + episode.showtitle + (watched? '<img src="images/OverlayWatched_Small.png" class="epWatched" />' : '') + '</div><div style="font-size: 120%;">Season: ' + episode.season + ' - Episode: ' +episode.episode + '</div><div class="recentTVtitle">' + episode.label + '</div><div>' + episode.plot + '</div></td></tr></table></li>').appendTo($episodeList);
+					
+					$episode.find('.play').bind('click', {idEpisode: episode.episodeid}, onEpisodePlayClick);
+					$episode.find('.playlist').bind('click', {idEpisode: episode.episodeid}, onAddEpisodeToPlaylistClick);
+				});
+			}
+		});
+	}; // END defaultRecentlyAddedEpisodesViewer
+	
+	
 	/* ########################### *\
 	 |  Show filesystem.
 	 |

@@ -28,6 +28,9 @@ mkf.lang.add({language: 'English', short: 'en', author: 'MKay', values: {
 	'page_title_tvshows': 				'TV Shows',
 	'page_title_video_files':			'Files',
 	'page_title_video_playlist':		'Playlist',
+	'page_title_tv_recentlyadded':		'Recent TV',
+	'page_title_movies_recentlyadded':	'Recent Movies',
+	'page_title_album_recent':			'Recent Albums',
 
 	'page_buttontext_music':			'Music',
 	'page_buttontext_artist':			'Artists',
@@ -39,6 +42,9 @@ mkf.lang.add({language: 'English', short: 'en', author: 'MKay', values: {
 	'page_buttontext_tvshows': 			'TV Shows',
 	'page_buttontext_video_files':		'Files',
 	'page_buttontext_video_playlist':	'Playlist',
+	'page_buttontext_tv_recentlyadded': 'Recent TV',
+	'page_buttontext_movies_recentlyadded': 'Recent Movies',
+	'page_buttontext_album_recent':		'Recent Albums',
 
 	'ctxt_btn_back_to_music':			'Back to Music (Ctrl+1)',
 	'ctxt_btn_find':					'Find (Ctrl+2)',
