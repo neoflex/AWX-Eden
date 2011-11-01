@@ -514,7 +514,129 @@
 	}; // END defaultAlbumViewer
 
 
+	/* ########################### *\
+	 |  Show the Recent albums.
+	 |
+	 |  @param albumResult		Result of AudioLibrary.GetAlbums.
+	 |  @param parentPage		Page which is used as parent for new sub pages.
+	\* ########################### */
+	$.fn.defaultAlbumRecentViewer = function(albumResult, parentPage) {
+		var onAlbumPlayClick = function(event) {
+			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_album'));
+			xbmc.playAlbum({
+				albumid: event.data.idAlbum,
+				onSuccess: function() {
+					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+				},
+				onError: function(errorText) {
+					mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+				}
+			});
+			return false;
+		};
 
+		var onAddAlbumToPlaylistClick = function(event) {
+			var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_album_to_playlist'));
+			xbmc.addAlbumToPlaylist({
+				albumid: event.data.idAlbum,
+				onSuccess: function() {
+					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+				},
+				onError: function(errorText) {
+					mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+				}
+			});
+			return false;
+		};
+
+		var onSonglistClick = function(e) {
+			// open new page to show album's songs
+			var $songlistContent = $('<div class="pageContentWrapper"></div>');
+			var songlistPage = mkf.pages.createTempPage(parentPage, {
+				title: e.data.strAlbum,
+				content: $songlistContent
+			});
+			songlistPage.setContextMenu(
+				[
+					{
+						'icon':'close', 'title':mkf.lang.get('ctxt_btn_close_song_list'), 'shortcut':'Ctrl+1', 'onClick':
+						function() {
+							mkf.pages.closeTempPage(songlistPage);
+							return false;
+						}
+					}
+				]
+			);
+			mkf.pages.showTempPage(songlistPage);
+
+			// show album's songs
+			$songlistContent.addClass('loading');
+			xbmc.getAlbumsSongs({
+				albumid: e.data.idAlbum,
+
+				onError: function() {
+					mkf.messageLog.show(mkf.lang.get('message_failed_albums_songs'), mkf.messageLog.status.error, 5000);
+					$songlistContent.removeClass('loading');
+				},
+
+				onSuccess: function(result) {
+					$songlistContent.defaultSonglistViewer(result);
+					$songlistContent.removeClass('loading');
+				}
+			});
+
+			return false;
+		}; // END onSonglistClick
+
+
+		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
+
+
+		this.each (function() {
+			var $albumViewerElement = $(this);
+
+			if (albumResult.limits.total > 0) {
+				var albums = albumResult.albums;
+
+				$.each(albums, function(i, album) {
+					var thumb = (album.thumbnail? xbmc.getThumbUrl(album.thumbnail) : 'images/thumb.png');
+					var $album = $('<div class="album'+album.albumid+' thumbWrapper">' +
+							'<div class="linkWrapper">' + 
+								'<a href="" class="play">' + mkf.lang.get('btn_play') + '</a><a href="" class="songs">' + mkf.lang.get('btn_songs') + '</a><a href="" class="playlist">' + mkf.lang.get('btn_enqueue') + '</a>' +
+							'</div>' +
+							(useLazyLoad?
+								'<img src="images/loading_thumb.gif" alt="' + album.label + '" class="thumb" original="' + thumb + '" />':
+								'<img src="' + thumb + '" alt="' + album.label + '" class="thumb" />'
+							) +
+							'<div class="albumName">' + album.label + '</div>' +
+							'<div class="albumArtist">' + album.artist + '</div>' +
+							'<div class="findKeywords">' + album.label.toLowerCase() + ' ' + album.artist.toLowerCase() + '</div>' +
+						'</div>');
+
+					$albumViewerElement.append($album);
+					$album.find('.play').bind('click', {idAlbum: album.albumid, strAlbum: album.label}, onAlbumPlayClick);
+					$album.find('.songs').bind('click', {idAlbum: album.albumid, strAlbum: album.label }, onSonglistClick);
+					$album.find('.playlist').bind('click', {idAlbum: album.albumid}, onAddAlbumToPlaylistClick);
+				});
+
+				if (useLazyLoad) {
+					function loadThumbs(i) {
+						$albumViewerElement.find('img.thumb').lazyload(
+							{
+								queuedLoad: true,
+								container: ($('#main').length? $('#main'): $('#content')),	// TODO remove fixed #main
+								errorImage: 'images/thumb.png'
+							}
+						);
+					};
+					setTimeout(loadThumbs, 100);
+				}
+			}
+
+		});
+	}; // END defaultRecentAlbumViewer
+	
+	
 	/* ########################### *\
 	 |  Show the songlist.
 	 |
@@ -885,7 +1007,138 @@
 		});
 	}; // END defaultMovieViewer
 
+	/* ########################### *\
+	 |  Show Recent movies.
+	 |
+	 |  @param movieRecentResult	Result of VideoLibrary.GetMovies.
+	\* ########################### */
+	$.fn.defaultMovieRecentViewer = function(movieResult) {
+		var onMoviePlayClick = function(event) {
+			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_movie'));
 
+			xbmc.playMovie({
+				movieid: event.data.idMovie,
+				onSuccess: function() {
+					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+				},
+				onError: function(errorText) {
+					mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+				}
+			});
+
+			return false;
+		};
+
+		var onAddMovieToPlaylistClick = function(event) {
+			var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_movie_to_playlist'));
+
+			xbmc.addMovieToPlaylist({
+				movieid: event.data.idMovie,
+				onSuccess: function() {
+					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+				},
+				onError: function() {
+					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_failed'), 8000, mkf.messageLog.status.error);
+				}
+			});
+
+			return false;
+		};
+
+		var onMovieInformationClick = function(event) {
+			var dialogHandle = mkf.dialog.show();
+
+			/*xbmc.getMovieInfo({
+				movieid: event.data.idMovie,
+				onSuccess: function(movie) {
+				},
+				onError: function() {
+					mkf.messageLog.show('Failed to load movie information!', mkf.messageLog.status.error, 5000);
+					mkf.dialog.close(dialogHandle);
+				}
+			});*/
+
+			var movie = event.data.movie;
+			var dialogContent = '';
+			var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
+			dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getMovieThumbType() + ' dialogThumb" />' +
+				'<h1 class="underline">' + movie.title + '</h1>' +
+				'<div class="test"><span class="label">' + mkf.lang.get('label_original_title') + '</span><span class="value">' + movie.originaltitle + '</span></div>' +
+				'<div class="test"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="value">' + movie.runtime + '</span></div>' +
+				'<div class="test"><span class="label">' + mkf.lang.get('label_genre') + '</span><span class="value">' + movie.genre + '</span></div>' +
+				'<div class="test"><span class="label">' + mkf.lang.get('label_rating') + '</span><span class="value"><div class="smallRating' + Math.round(movie.rating) + '"></div></span></div>' +
+				'<div class="test"><span class="label">' + mkf.lang.get('label_year') + '</span><span class="value">' + movie.year + '</span></div>' +
+				'<div class="test"><span class="label">' + mkf.lang.get('label_director') + '</span><span class="value">' + movie.director + '</span></div>' +
+				'<div class="test"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + movie.file + '</span></div>' +
+				'<p class="plot">' + movie.plot + '</p>';
+			mkf.dialog.setContent(dialogHandle, dialogContent);
+
+			return false;
+		};
+
+
+		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
+		var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
+
+
+		this.each(function() {
+			var $movieContainer = $(this);
+
+			if (movieResult.limits.total > 0) {
+				$.each(movieResult.movies, function(i, movie) {
+					
+					var watched = false;
+			
+					// if movie has no id (e.g. movie sets), ignore it
+					if (typeof movie.movieid === 'undefined') {
+						return;
+					}
+					
+					if (movie.playcount > 0) {
+						watched = true;
+					}
+					
+					/*if (filterWatched && watched) {
+						return;
+					}*/
+					
+					var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
+					var $movie = $(
+						'<div class="movie'+movie.movieid+' thumbWrapper thumb' + xbmc.getMovieThumbType() + 'Wrapper">' +
+							'<div class="linkWrapper">' + 
+								'<a href="" class="play">' + mkf.lang.get('btn_play') + '</a><a href="" class="playlist">' + mkf.lang.get('btn_enqueue') + '</a><a href="" class="info">' + mkf.lang.get('btn_information') + '</a>' +
+								'<div class="movieRating' + Math.round(movie.rating) + '"></div>' +
+							'</div>' +
+							(useLazyLoad?
+								'<img src="images/loading_thumb' + xbmc.getMovieThumbType() + '.gif" alt="' + movie.label + '" class="thumb thumb' + xbmc.getMovieThumbType() + '" original="' + thumb + '" />':
+								'<img src="' + thumb + '" alt="' + movie.label + '" class="thumb thumb' + xbmc.getMovieThumbType() + '" />'
+							) +
+							'<div class="movieName">' + movie.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</div>' +
+							'<div class="findKeywords">' + movie.label.toLowerCase() + '</div>' +
+						'</div>').appendTo($movieContainer);
+					$movie.find('.play').bind('click', {idMovie: movie.movieid, strMovie: movie.label}, onMoviePlayClick);
+					$movie.find('.playlist').bind('click', {idMovie: movie.movieid}, onAddMovieToPlaylistClick);
+					$movie.find('.info').bind('click', {'movie': movie}, onMovieInformationClick);
+				});
+
+				if (useLazyLoad) {
+					function loadThumbs(i) {
+						$movieContainer.find('img.thumb').lazyload(
+							{
+								queuedLoad: true,
+								container: ($('#main').length? $('#main'): $('#content')),	// TODO remove fixed #main
+								errorImage: 'images/thumb' + xbmc.getMovieThumbType() + '.png'
+								//errorImage: 'images/thumbBanner.png'
+							}
+						);
+					};
+					setTimeout(loadThumbs, 100);
+				}
+			}
+
+		});
+	}; // END defaultMovieRecentViewer
+	
 
 	/* ########################### *\
 	 |  Show TV Shows.

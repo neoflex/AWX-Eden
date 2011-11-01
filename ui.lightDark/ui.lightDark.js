@@ -123,6 +123,29 @@ var awxUI = {};
 				className: 'albums'
 			});
 
+			//recent albums
+			this.$albumsRecentContent = $('<div class="pageContentWrapper"></div>');
+			var musicAlbumsRecentContextMenu = $.extend(true, [], standardMusicContextMenu);
+			/*musicAlbumsrecentContextMenu.push({
+				'id':'findAlbumButton', 'icon':'find', 'title':mkf.lang.get('ctxt_btn_find'), 'shortcut':'Ctrl+2', 'onClick':
+					function(){
+						var pos = $('#findAlbumButton').offset();
+						awxUI.$albumsContent
+							.defaultFindBox({id:'albumsFindBox', searchItems:'.thumbWrapper', top: pos.top, left: pos.left});
+						return false;
+					}
+			});*/
+
+			this.albumsRecentPage = musicPage.addPage({
+				title: mkf.lang.get('page_title_album_recent'),
+				menuButtonText: '&raquo; ' + mkf.lang.get('page_buttontext_album_recent'),
+				content: this.$albumsRecentContent,
+				contextMenu: musicAlbumsRecentContextMenu,
+				onShow: $.proxy(this, "onAlbumsRecentShow"),
+				className: 'recentalbums'
+			});
+			//end recent albums
+			
 			this.$musicFilesContent = $('<div class="pageContentWrapper"></div>');
 			this.musicFilesPage = musicPage.addPage({
 				title: mkf.lang.get('page_title_music_files'),
@@ -203,7 +226,30 @@ var awxUI = {};
 				onShow: $.proxy(this, "onMoviesShow"),
 				className: 'movies'
 			});
+			
+			//Recent movies
+			this.$moviesRecentContent = $('<div class="pageContentWrapper"></div>');
+			var videoMoviesRecentContextMenu = $.extend(true, [], standardVideosContextMenu);
+			/*videoMoviesContextMenu.push({
+				'id':'findMovieButton', 'icon':'find', 'title':mkf.lang.get('ctxt_btn_find'), 'shortcut':'Ctrl+2', 'onClick':
+					function(){
+						var pos = $('#findMovieButton').offset();
+						awxUI.$moviesContent
+							.defaultFindBox({id:'moviesFindBox', searchItems:'.thumbWrapper', top: pos.top, left: pos.left});
+						return false;
+					}
+			});*/
 
+			this.moviesRecentPage = videosPage.addPage({
+				title: mkf.lang.get('page_title_movies_recentlyadded'),
+				content: this.$moviesRecentContent,
+				menuButtonText: '&raquo; ' + mkf.lang.get('page_buttontext_movies_recentlyadded'),
+				contextMenu: videoMoviesRecentContextMenu,
+				onShow: $.proxy(this, "onMoviesRecentShow"),
+				className: 'Recentmovies'
+			});
+			//end recent movies
+			
 			this.$tvShowsContent = $('<div class="pageContentWrapper"></div>');
 			var videoTvShowsContextMenu = $.extend(true, [], standardVideosContextMenu);
 			videoTvShowsContextMenu.push({
@@ -421,7 +467,29 @@ var awxUI = {};
 			}
 		},
 
+		/**************************************
+		 * Called when Albums Recent -Page is shown. *
+		 **************************************/
+		onAlbumsRecentShow: function() {
+			if (this.$albumsRecentContent.html() == '') {
+				var albumsPage = this.albumsRecentPage;
+				var $contentBox = this.$albumsRecentContent;
+				$contentBox.addClass('loading');
 
+				xbmc.getRecentlyAddedAlbums({
+					onError: function() {
+						mkf.messageLog.show(mkf.lang.get('message_failed_album_list'), mkf.messageLog.status.error, 5000);
+						$contentBox.removeClass('loading');
+					},
+
+					onSuccess: function(result) {
+						$contentBox.defaultAlbumRecentViewer(result, albumsPage);
+						$contentBox.removeClass('loading');
+					}
+				});
+			}
+		},
+		
 
 		/*********************************************
 		 * Called when Music-Files-Page is shown. *
@@ -479,7 +547,28 @@ var awxUI = {};
 			}
 		},
 
+		/*********************************************
+		 * Called when Recent Movie-Page is shown.          *
+		 *********************************************/
+		onMoviesRecentShow: function() {
+			if (this.$moviesRecentContent.html() == '') {
+				var $contentBox = this.$moviesRecentContent;
+				$contentBox.addClass('loading');
 
+				xbmc.getRecentlyAddedMovies({
+					onError: function() {
+						mkf.messageLog.show(mkf.lang.get('message_failed_movie_list'), mkf.messageLog.status.error, 5000);
+						$contentBox.removeClass('loading');
+					},
+
+					onSuccess: function(result) {
+						$contentBox.defaultMovieRecentViewer(result);
+						$contentBox.removeClass('loading');
+					}
+				});
+			}
+		},
+		
 
 		/***************************************
 		 * Called when Tv-Shows-Page is shown. *
