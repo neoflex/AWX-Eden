@@ -227,8 +227,6 @@ var xbmc = {};
 			return './vfs/' + encodeURI(url);
 		},
 
-
-
 		detectThumbTypes: function(initContainer, callback) {
 			xbmc.sendCommand(
 				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"properties" : ["thumbnail"]}, "id": 1}',
@@ -269,8 +267,34 @@ var xbmc = {};
 			);
 		},
 
+		scanVideoLibrary: function(options) {
+			var settings = {
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
 
+			xbmc.sendCommand(
+				'{"jsonrpc":"2.0","id":2,"method":"VideoLibrary.Scan"}',
+				settings.onSuccess,
+				settings.onError
+			);
+		},
+		
+		scanAudioLibrary: function(options) {
+			var settings = {
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
 
+			xbmc.sendCommand(
+				'{"jsonrpc":"2.0","id":2,"method":"AudioLibrary.Scan"}',
+				settings.onSuccess,
+				settings.onError
+			);
+		},
+		
 		setVolume: function(options) {
 			var settings = {
 				volume: 50,
@@ -1223,7 +1247,7 @@ var xbmc = {};
 			$.extend(settings, options);
 
 			xbmc.sendCommand(
-				'{"jsonrpc":"2.0","id":2,"method":"VideoLibrary.GetRecentlyAddedEpisodes","params":{ "limits": {"end": 10},"properties":["title","runtime","season","episode","showtitle","thumbnail","file","plot","playcount"]}} ',
+				'{"jsonrpc":"2.0","id":2,"method":"VideoLibrary.GetRecentlyAddedEpisodes","params":{ "limits": {"end": 25},"properties":["title","runtime","season","episode","showtitle","thumbnail","file","plot","playcount"]}} ',
 
 				function(response) {
 					settings.onSuccess(response.result);
@@ -1535,12 +1559,17 @@ var xbmc = {};
 								
 								//Get the number of the currently playing item in the playlist
 								if (xbmc.periodicUpdater.curPlaylistNum != curPlayItemNum) {
-									xbmc.periodicUpdater.curPlaylistNum = curPlayItemNum;
-									//Is there not a better way to do this?
+									//Change highlights rather than reload playlist
 									if (activePlayer == 'audio') {
-										awxUI.onMusicPlaylistShow();
+										$("#apli"+xbmc.periodicUpdater.curPlaylistNum).attr("class","playlistItem");
+										$("#apli"+curPlayItemNum).attr("class","playlistItemCur");
+										xbmc.periodicUpdater.curPlaylistNum = curPlayItemNum;
+										//awxUI.onMusicPlaylistShow();
 									} else if (activePlayer == 'video') {
-										awxUI.onVideoPlaylistShow();
+										$("#vpli"+xbmc.periodicUpdater.curPlaylistNum).attr("class","playlistItem");
+										$("#vpli"+curPlayItemNum).attr("class","playlistItemCur");
+										xbmc.periodicUpdater.curPlaylistNum = curPlayItemNum;
+										//awxUI.onVideoPlaylistShow();
 									}
 										
 								}

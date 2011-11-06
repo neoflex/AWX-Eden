@@ -74,7 +74,7 @@ var awxUI = {};
 		 *     - Files            *
 		 *     - Playlist         *
 		 **************************/
-		setupPages: function() {
+		setupPages: function() {			
 			// --- MUSIC ---
 			this.$musicContent = $('<div class="pageContentWrapper"></div>');
 			var musicPage = mkf.pages.addPage({
@@ -93,11 +93,31 @@ var awxUI = {};
 					}];
 
 			this.$artistsContent = $('<div class="pageContentWrapper"></div>');
+			var artistsContextMenu = $.extend(true, [], standardMusicContextMenu);
+			artistsContextMenu.push({
+				'id':'findArtistsButton', 'icon':'find', 'title':mkf.lang.get('ctxt_btn_find'), 'shortcut':'Ctrl+2', 'onClick':
+					function(){
+						var pos = $('#findArtistsButton').offset();
+						awxUI.$artistsContent
+							.defaultFindBox({id:'artistsFindBox', searchItems:'a', top: pos.top, left: pos.left});
+						return false;
+					}
+			});
+			artistsContextMenu.push({
+				'icon':'refresh', 'title':mkf.lang.get('ctxt_btn_refresh_list'), 'onClick':
+					function(){
+						awxUI.$artistsContent.empty();
+						awxUI.onArtistsShow();
+
+						return false;
+					}
+			});
+			
 			this.artistsPage = musicPage.addPage({
 				title: mkf.lang.get('page_title_artist'),
 				menuButtonText: '&raquo; ' + mkf.lang.get('page_buttontext_artist'),
 				content: this.$artistsContent,
-				contextMenu: standardMusicContextMenu,
+				contextMenu: artistsContextMenu,
 				onShow: $.proxy(this, "onArtistsShow"),
 				className: 'artists'
 			});
@@ -113,7 +133,16 @@ var awxUI = {};
 						return false;
 					}
 			});
+			musicAlbumsContextMenu.push({
+				'icon':'refresh', 'title':mkf.lang.get('ctxt_btn_refresh_list'), 'onClick':
+					function(){
+						awxUI.$albumsContent.empty();
+						awxUI.onAlbumsShow();
 
+						return false;
+					}
+			});
+			
 			this.albumsPage = musicPage.addPage({
 				title: mkf.lang.get('page_title_albums'),
 				menuButtonText: '&raquo; ' + mkf.lang.get('page_buttontext_albums'),
@@ -122,19 +151,19 @@ var awxUI = {};
 				onShow: $.proxy(this, "onAlbumsShow"),
 				className: 'albums'
 			});
-			
+
 			//recent albums
 			this.$albumsRecentContent = $('<div class="pageContentWrapper"></div>');
 			var musicAlbumsRecentContextMenu = $.extend(true, [], standardMusicContextMenu);
-			/*musicAlbumsrecentContextMenu.push({
-				'id':'findAlbumButton', 'icon':'find', 'title':mkf.lang.get('ctxt_btn_find'), 'shortcut':'Ctrl+2', 'onClick':
+			musicAlbumsRecentContextMenu.push({
+				'icon':'refresh', 'title':mkf.lang.get('ctxt_btn_refresh_list'), 'onClick':
 					function(){
-						var pos = $('#findAlbumButton').offset();
-						awxUI.$albumsContent
-							.defaultFindBox({id:'albumsFindBox', searchItems:'.thumbWrapper', top: pos.top, left: pos.left});
+						awxUI.$albumsRecentContent.empty();
+						awxUI.onAlbumsRecentShow();
+
 						return false;
 					}
-			});*/
+			});
 
 			this.albumsRecentPage = musicPage.addPage({
 				title: mkf.lang.get('page_title_album_recent'),
@@ -144,18 +173,41 @@ var awxUI = {};
 				onShow: $.proxy(this, "onAlbumsRecentShow"),
 				className: 'recentalbums'
 			});
-			
 			//end recent albums
+			
 			this.$musicFilesContent = $('<div class="pageContentWrapper"></div>');
+			var musicFilesContextMenu = $.extend(true, [], standardMusicContextMenu);
+			musicFilesContextMenu.push({
+				'id':'findFilesButton', 'icon':'find', 'title':mkf.lang.get('ctxt_btn_find'), 'shortcut':'Ctrl+2', 'onClick':
+					function(){
+						var pos = $('#findFilesButton').offset();
+						awxUI.$musicFilesContent
+							.defaultFindBox({id:'filesFindBox', searchItems:'.folderLinkWrapper', top: pos.top, left: pos.left});
+						return false;
+					}
+			});
+			/*musicFilesContextMenu.push({
+				// Doesn't work because of subPages.
+				'icon':'refresh', 'title':mkf.lang.get('ctxt_btn_refresh_list'), 'onClick':
+					function(){
+						console.log(awxUI.$musicFilesContent);
+						awxUI.$musicFilesContent.empty();
+						console.log(awxUI.$musicFilesContent);
+						awxUI.onMusicFilesShow();
+
+						return false;
+					}
+			});*/
+			
 			this.musicFilesPage = musicPage.addPage({
 				title: mkf.lang.get('page_title_music_files'),
 				menuButtonText: '&raquo; ' + mkf.lang.get('page_buttontext_music_files'),
 				content: this.$musicFilesContent,
-				contextMenu: standardMusicContextMenu,
+				contextMenu: musicFilesContextMenu,
 				onShow: $.proxy(this, "onMusicFilesShow"),
 				className: 'audiofiles'
 			});
-
+			
 			this.$musicPlaylistContent = $('<div class="pageContentWrapper"></div>');
 			var musicPlaylistContextMenu = $.extend(true, [], standardMusicContextMenu);
 			musicPlaylistContextMenu.push({
@@ -188,7 +240,18 @@ var awxUI = {};
 				className: 'playlist'
 			});
 
-
+			this.$musicScanContent = $('<div class="pageContentWrapper"></div>');
+			var musicScanContextMenu = $.extend(true, [], standardMusicContextMenu);
+			
+			this.musicScanPage = musicPage.addPage({
+				title: mkf.lang.get('page_title_music_scan'),
+				content: this.$musicScanContent,
+				menuButtonText: '&raquo; ' + mkf.lang.get('page_buttontext_music_scan'),
+				contextMenu: musicScanContextMenu,
+				onShow: $.proxy(this, "onMusicScanShow"),
+				className: 'musicscan'
+			});
+			
 			// --- VIDEOS ---
 			this.$videosContent = $('<div class="pageContentWrapper"></div>');
 			var videosPage = mkf.pages.addPage({
@@ -217,7 +280,16 @@ var awxUI = {};
 						return false;
 					}
 			});
+			videoMoviesContextMenu.push({
+				'icon':'refresh', 'title':mkf.lang.get('ctxt_btn_refresh_list'), 'onClick':
+					function(){
+						awxUI.$moviesContent.empty();
+						awxUI.onMoviesShow();
 
+						return false;
+					}
+			});
+			
 			this.moviesPage = videosPage.addPage({
 				title: mkf.lang.get('page_title_movies'),
 				content: this.$moviesContent,
@@ -230,15 +302,15 @@ var awxUI = {};
 			//Recent movies
 			this.$moviesRecentContent = $('<div class="pageContentWrapper"></div>');
 			var videoMoviesRecentContextMenu = $.extend(true, [], standardVideosContextMenu);
-			/*videoMoviesContextMenu.push({
-				'id':'findMovieButton', 'icon':'find', 'title':mkf.lang.get('ctxt_btn_find'), 'shortcut':'Ctrl+2', 'onClick':
+			videoMoviesRecentContextMenu.push({
+				'icon':'refresh', 'title':mkf.lang.get('ctxt_btn_refresh_list'), 'onClick':
 					function(){
-						var pos = $('#findMovieButton').offset();
-						awxUI.$moviesContent
-							.defaultFindBox({id:'moviesFindBox', searchItems:'.thumbWrapper', top: pos.top, left: pos.left});
+						awxUI.$moviesRecentContent.empty();
+						awxUI.onMoviesRecentShow();
+
 						return false;
 					}
-			});*/
+			});
 
 			this.moviesRecentPage = videosPage.addPage({
 				title: mkf.lang.get('page_title_movies_recentlyadded'),
@@ -261,20 +333,37 @@ var awxUI = {};
 						return false;
 					}
 			});
+			videoTvShowsContextMenu.push({
+				'icon':'refresh', 'title':mkf.lang.get('ctxt_btn_refresh_list'), 'onClick':
+					function(){
+						awxUI.$tvShowsContent.empty();
+						awxUI.onTvShowsShow();
 
+						return false;
+					}
+			});
+			
 			this.tvShowsPage = videosPage.addPage({
 				title: mkf.lang.get('page_title_tvshows'),
 				content: this.$tvShowsContent,
 				menuButtonText: '&raquo; ' + mkf.lang.get('page_buttontext_tvshows'),
 				contextMenu: videoTvShowsContextMenu,
 				onShow: $.proxy(this, "onTvShowsShow"),
-				className: 'movies'
+				className: 'tv'
 			});
-			
-			
+
 			//For recently added eps
 			this.$tvShowsRecentlyAddedContent = $('<div class="pageContentWrapper"></div>');
 			var videoTvShowsRecentlyAddedContextMenu = $.extend(true, [], standardVideosContextMenu);
+			videoTvShowsRecentlyAddedContextMenu.push({
+				'icon':'refresh', 'title':mkf.lang.get('ctxt_btn_refresh_list'), 'onClick':
+					function(){
+						awxUI.$tvShowsRecentlyAddedContent.empty();
+						awxUI.onTvShowsRecentlyAddedShow();
+
+						return false;
+					}
+			});
 			/*videoTvShowsRecentlyAddedContextMenu.push({
 				'id':'findTVShowButton', 'icon':'find', 'title':mkf.lang.get('ctxt_btn_find'), 'shortcut':'Ctrl+2', 'onClick':
 					function(){
@@ -294,7 +383,6 @@ var awxUI = {};
 				className: 'recentEps'
 			});
 			// end recently added eps
-			
 			
 			this.$videoFilesContent = $('<div class="pageContentWrapper"></div>');
 			this.videoFilesPage = videosPage.addPage({
@@ -337,7 +425,19 @@ var awxUI = {};
 				onShow: $.proxy(this, "onVideoPlaylistShow"),
 				className: 'playlist'
 			});
-
+			
+			this.$videoScanContent = $('<div class="pageContentWrapper"></div>');
+			var videoScanContextMenu = $.extend(true, [], standardVideosContextMenu);
+			
+			this.videoScanPage = videosPage.addPage({
+				title: mkf.lang.get('page_title_video_scan'),
+				content: this.$videoScanContent,
+				menuButtonText: '&raquo; ' + mkf.lang.get('page_buttontext_video_scan'),
+				contextMenu: videoScanContextMenu,
+				onShow: $.proxy(this, "onVideoScanShow"),
+				className: 'videoscan'
+			});
+			
 			/*
 			 * Page Content
 			 */
@@ -649,6 +749,52 @@ var awxUI = {};
 				onSuccess: function(result) {
 					$contentBox.defaultPlaylistViewer(result, 'Video');
 					$contentBox.removeClass('loading');
+				}
+			});
+		},
+		
+		/*********************************************
+		 * Called when Video-Scan-Page is shown. *
+		 *********************************************/
+		onVideoScanShow: function() {
+			var $contentBox = this.$videoScanContent;
+			$contentBox.empty();
+			//$contentBox.addClass('loading');
+
+			xbmc.scanVideoLibrary({
+				onError: function() {
+					mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
+					//$contentBox.removeClass('loading');
+				},
+
+				onSuccess: function() {
+					mkf.messageLog.show(mkf.lang.get('page_title_video_scan'), mkf.messageLog.status.success, 5000);
+					//console.log($contentBox);
+					$contentBox.defaultVideoScanViewer('Video');
+					//$contentBox.removeClass('loading');
+				}
+			});
+		},
+		
+		/*********************************************
+		 * Called when Music-Scan-Page is shown. *
+		 *********************************************/
+		onMusicScanShow: function() {
+			var $contentBox = this.$musicScanContent;
+			$contentBox.empty();
+			//$contentBox.addClass('loading');
+			
+
+			xbmc.scanAudioLibrary({
+				onError: function() {
+					mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
+					//$contentBox.removeClass('loading');
+				},
+
+				onSuccess: function() {
+					mkf.messageLog.show(mkf.lang.get('page_title_music_scan'), mkf.messageLog.status.success, 5000);
+					$contentBox.defaultMusicScanViewer('Music');
+					//$contentBox.removeClass('loading');
 				}
 			});
 		}

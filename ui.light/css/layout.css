@@ -298,10 +298,12 @@ div.findKeywords {
 #contextMenu ul a.back { background-position: -22px 0; }
 #contextMenu ul a.clear { background-position: -44px 0; }
 #contextMenu ul a.find { background-position: -66px 0; }
+#contextMenu ul a.refresh { background-position: -88px 0; }
 #contextMenu ul a.close:hover { background-position: bottom left; }
 #contextMenu ul a.back:hover { background-position: -22px -22px; }
 #contextMenu ul a.clear:hover { background-position: -44px -22px; }
 #contextMenu ul a.find:hover { background-position: -66px -22px; }
+#contextMenu ul a.refresh:hover { background-position: -88px -22px; }
 
 div.mkfOverlay div.dialog a.close {
 	float: right;

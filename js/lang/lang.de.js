@@ -31,6 +31,8 @@ mkf.lang.add({language: 'Deutsch', short: 'de', author: 'MKay', values: {
 	'page_title_tv_recentlyadded':		'Recent TV',
 	'page_title_movies_recentlyadded':	'Recent Movies',
 	'page_title_album_recent':			'Recent Albums',
+	'page_title_video_scan':			'Scanning Video Library Activated',
+	'page_title_music_scan':			'Scanning Music Library Activated',
 	
 	'page_buttontext_music':			'Musik',
 	'page_buttontext_artist':			'Interpreten',
@@ -45,6 +47,8 @@ mkf.lang.add({language: 'Deutsch', short: 'de', author: 'MKay', values: {
 	'page_buttontext_tv_recentlyadded': 'Recent TV',
 	'page_buttontext_movies_recentlyadded': 'Recent Movies',
 	'page_buttontext_album_recent':		'Recent Albums',
+	'page_buttontext_video_scan':		'Scan Video Library',
+	'page_buttontext_music_scan':		'Scan Music Library',
 	
 	'ctxt_btn_back_to_music':			'Zur%FCck zu Musik (Strg+1)',
 	'ctxt_btn_find':					'Suchen (Strg+2)',
@@ -54,6 +58,7 @@ mkf.lang.add({language: 'Deutsch', short: 'de', author: 'MKay', values: {
 	'ctxt_btn_close_song_list':			'Schlie%DFe Song-Liste (Strg+1)',
 	'ctxt_btn_close_season_list': 		'Schlie%DFe Staffel-Liste (Strg+1)',
 	'ctxt_btn_close_episode_list':		'Schlie%DFe Episoden-Liste (Strg+1)',
+	'ctxt_btn_refresh_list':			'Refresh this page',
 
 	'message_clear_audio_playlist':		'Leere Audio-Playlist ... ',
 	'message_clear_video_playlist':		'Leere Video-Playlist ... ',

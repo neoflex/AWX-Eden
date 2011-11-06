@@ -313,8 +313,8 @@
 			});
 		});
 	}; // END defaultVolumeControl
-
-
+	
+	
 
 	/* ########################### *\
 	 |  Show artists.
@@ -375,7 +375,7 @@
 				$.each(artistResult.artists, function(i, artist)  {
 					artistList.append('<li' + (i%2==0? ' class="even"': '') + '><a href="" class="artist' +
 										artist.artistid + '">' +
-										(i+1) + '. ' + artist.label +
+										(i+1) + '. ' + artist.label + '<div class="findKeywords">' + artist.label.toLowerCase() + '</div>' +
 										'</a></li>');
 					artistList.find('.artist' + artist.artistid)
 						.bind('click',
@@ -769,10 +769,12 @@
 							playlistItemClass = 'even';
 						}
 						runtime += duration;
+						playlistItemCur = 'playlistItem';
 						//Change background colour of currently playing item.
 						/*if (i == xbmc.periodicUpdater.curPlaylistNum && xbmc.periodicUpdater.playerStatus != 'stopped') {
 							playlistItemClass = 'current';
 						}*/
+						
 						if (i == xbmc.periodicUpdater.curPlaylistNum && xbmc.periodicUpdater.playerStatus != 'stopped') {
 							playlistItemCur = 'playlistItemCur';
 						} else {
@@ -781,7 +783,7 @@
 						
 						$item = $('<li class="' + playlistItemClass + '"><div class="folderLinkWrapper playlistItem' + i + '">' + 
 							'<a class="button remove" href="" title="' + mkf.lang.get('btn_remove') +  '"><span class="miniIcon remove" /></a>' +
-							'<a class="' + playlistItemCur + ' play" href="">' + (i+1) + '. ' +
+							'<a class="' + playlistItemCur + ' play" id="apli' + i + '" href="">' + (i+1) + '. ' +
 							(playlist=='Audio'? artist + ' - ' + title : label) + '&nbsp;&nbsp;&nbsp;&nbsp;' + xbmc.formatTime(duration) +
 							'</a></div></li>').appendTo($itemList);
 
@@ -792,6 +794,7 @@
 				if (runtime > 0) {
 						$itemList = $('<p>' + mkf.lang.get('label_total_runtime') + xbmc.formatTime(runtime) + '</p>').appendTo($(this));
 				}
+				//$("#apli"+xbmc.periodicUpdater.curPlaylistNum).css("border","1px solid red");
 			});
 		}
 		
@@ -826,7 +829,7 @@
 						}							
 						$item = $('<li class="' + playlistItemClass + '"><div class="folderLinkWrapper playlistItem' + i + '">' + 
 							'<a class="button remove" href="" title="' + mkf.lang.get('btn_remove') +  '"><span class="miniIcon remove" /></a>' +
-							'<a class="' + playlistItemCur + ' play" href="">' + (i+1) + '. ' +
+							'<a class="' + playlistItemCur + ' play" id="vpli' + i + '" href="">' + (i+1) + '. ' +
 							(item.type=='episode'? showtitle + ' - Season ' + season + ' - ' + title : title) + '&nbsp;&nbsp;&nbsp;&nbsp;' + xbmc.formatTime(duration) +
 							'</a></div></li>').appendTo($itemList);
 
@@ -839,38 +842,6 @@
 				}
 			});
 		}
-		//original
-		/*this.each(function() {
-			var $itemList = $('<ul class="fileList"></ul>').appendTo($(this));
-			var runtime = 0;
-			if (playlistResult.limits.total > 0) {
-				$.each(playlistResult.items, function(i, item)  {
-					var artist = (item.artist? item.artist : mkf.lang.get('label_not_available'));
-					var title = (item.title? item.title : mkf.lang.get('label_not_available'));
-					var label = (item.label? item.label : mkf.lang.get('label_not_available'));
-					if (playlist == 'Audio') {
-					var duration  = (item.duration? item.duration : mkf.lang.get('label_not_available'));
-					} else if (playlist == 'Video') {
-					var duration  = (item.runtime? item.runtime : mkf.lang.get('label_not_available'));
-					duration = duration * 60;
-					}
-					runtime += duration;
-						
-					$item = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper playlistItem' + i + '">' + 
-						'<a class="button remove" href="" title="' + mkf.lang.get('btn_remove') +  '"><span class="miniIcon remove" /></a>' +
-						'<a class="playlistItem play" href="">' + (i+1) + '. ' +
-						(playlist=='Audio'? artist + ' - ' + title : label) + '&nbsp;&nbsp;&nbsp;&nbsp;' + xbmc.formatTime(duration) +
-						//(i==xbmc.periodicUpdater.curPlaylistNum? ' <---' : '') +
-						'</a></div></li>').appendTo($itemList);
-
-					$item.find('a.play').bind('click', {itemNum: i}, onItemPlayClick);
-					$item.find('a.remove').bind('click', {itemNum: i}, onItemRemoveClick);
-				});
-			}
-			if (runtime) {
-				$itemList = $('<p>' + mkf.lang.get('label_total_runtime') + xbmc.formatTime(runtime) + '</p>').appendTo($(this));
-			}
-		});*/
 	}; // END defaultPlaylistViewer
 
 
@@ -1355,7 +1326,35 @@
 	}; // END defaultSeasonsViewer
 
 
+	/* ########################### *\
+	 |  Video Scan
+	 |
+	 |  @param episodesResult
+	\* ########################### */
+	$.fn.defaultVideoScanViewer = function() {
 
+		var $scanList = $('<div>Scanning Library....</div><br /><ul class="menuItem"></ul>').appendTo($(this));
+		/*var scanMenu = $('<li class="menuItem ' + sp.id +
+									(sp.className? ' ' + sp.className: '') +
+									'">' +
+									'<a href="" class="menuItemLink">' +
+									sp.menuButtonText +
+									'</a>' +
+									'</li>').appendTo($scanList);*/
+		
+	}; // END defaultScanViewer
+	
+	/* ########################### *\
+	 |  Music Scan
+	 |
+	 |  @param episodesResult
+	\* ########################### */
+	$.fn.defaultMusicScanViewer = function() {
+
+		var $scanMusicList = $('<div>Scanning Library....</div><br /><ul class="menuItem"></ul>').appendTo($(this));
+		
+	}; // END defaultScanViewer
+	
 	/* ########################### *\
 	 |  Show Seasons's episodes.
 	 |
@@ -1644,7 +1643,7 @@
 										'<div class="folderLinkWrapper folder' + i + '">' + 
 										'<a href="" class="button playlist" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a>' + 
 										'<a href="" class="button play" title="' + mkf.lang.get('btn_play') + '"><span class="miniIcon play" /></a>' + 
-										'<a href="" class="folder cd">' + folder.label + '/</a>' + 
+										'<a href="" class="folder cd">' + folder.label + '/</a>' + '<div class="findKeywords">' + folder.label.toLowerCase() + '</div>' +
 										'</div></li>').appendTo($filelist);
 									$folder.find('.cd').bind('click', {folder: {name:folder.label, path:folder.file}}, onFolderClick);
 									$folder.find('.play').bind('click', {file: folder.file, isFolder: true}, onFilePlayClick);
@@ -1874,9 +1873,8 @@
 
 		var self = this;
 		//var timeout;
-		var $searchItems = $(self).find(settings.searchItems);
+		var $searchItems = $(self).find(settings.searchItems);	
 		var $box = $('#' + settings.id);
-
 		if ($box.length) {
 			// Box was already created
 			$box.show();
@@ -1898,8 +1896,11 @@
 				if (input.val()) {
 					$(self).prepend('<h1 class="findBoxTitle">' + mkf.lang.get('label_search_results', [input.val()]) + '</h1>');
 				}
-				$searchItems.show();
+				$searchItems.removeAttr("style");
+				//$searchItems.show();
+				//console.log($searchItems.show());
 				$searchItems.not(":contains('" + input.val().toLowerCase() + "')").hide();
+				console.log($searchItems(":contains('" + input.val().toLowerCase() + "')"));
 				$(window).trigger('resize'); // ugly but best performance: trigger 'resize' because lazy-load-images may be visible now and should be loaded.
 			};
 

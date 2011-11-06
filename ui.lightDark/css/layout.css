@@ -268,6 +268,9 @@ div.findKeywords {
 #contextMenu ul a.clear {
     background-position: -44px 0;
 }
+#contextMenu ul a.refresh {
+    background-position: -88px 0;
+}
 #contextMenu ul a.find {
     background-position: -66px 0;
 }
@@ -282,6 +285,9 @@ div.findKeywords {
 }
 #contextMenu ul a.find:hover {
     background-position: -66px -22px;
+}
+#contextMenu ul a.refresh:hover {
+    background-position: -88px -22px;
 }
 div.mkfOverlay div.dialog a.close {
     background: url("../images/context_buttons.png") no-repeat scroll left top transparent;
