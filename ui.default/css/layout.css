@@ -264,10 +264,13 @@ span.miniIcon {
 	background: url('../images/mini_buttons.png') no-repeat;
 }
 span.enqueue { background-position: left top; }
-span.play { background-position: right top; }
+span.play { background-position: -32px 0px; }
 span.remove { background-position: -16px 0; }
+span.information {
+    background-position: -48px 0;
+}
 div.folderLinkWrapper a.button:hover span.enqueue { background-position:left bottom; }
-div.folderLinkWrapper a.button:hover span.play { background-position: right bottom; }
+div.folderLinkWrapper a.button:hover span.play { background-position: -32px -16px; }
 div.folderLinkWrapper a.button:hover span.remove { background-position: -16px -16px; }
 
 div.thumbWrapper {
@@ -315,6 +318,9 @@ div.thumbWrapper a, div.folderLinkWrapper a.button, a.formButton {
 
 div.thumbWrapper a:hover, a.formButton:hover { color: #FFBB00; }
 div.folderLinkWrapper:hover a.button:hover { background-image: none; background-color: #343434; color: #FFBB00; }	
+div.folderLinkWrapper a.button:hover span.information {
+    background-position: -48px -16px;
+}
 
 img.epWatched {
 	position:relative; 
@@ -335,6 +341,10 @@ img.thumb {
 	border: 2px solid #575757;
 	height: 125px;
 	width: 125px;
+}
+img.thumbPosterLarge {
+    height: 280px;
+    width: 200px;
 }
 img.thumbPoster { height: 185px; width: 125px; }
 img.thumbBanner { width: 379px; height: 70px; }

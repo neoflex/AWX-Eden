@@ -1074,7 +1074,7 @@ var xbmc = {};
 			$.extend(settings, options);
 
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "director", "plot", "title", "originaltitle", "runtime", "year", "rating", "thumbnail", "playcount", "file"], "sort": { "order": "ascending", "method": "label" } }, "id": 1}',
+				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "director", "plot", "title", "originaltitle", "runtime", "year", "rating", "thumbnail", "playcount", "file", "tagline", "set"], "sort": { "order": "ascending", "method": "label" } }, "id": 1}',
 				function(response) {
 					settings.onSuccess(response.result);
 				},

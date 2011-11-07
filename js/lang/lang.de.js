@@ -131,7 +131,7 @@ mkf.lang.add({language: 'Deutsch', short: 'de', author: 'MKay', values: {
 	'group_language':					'Sprache',
 	'group_albums': 					'Alben',
 	'group_expert': 					'Experten',
-	'group_watched':					'Watched filter',
+	'group_view':						'View Options',
 
 	'label_default_ui': 				'Standard UI',
 	'label_order_by_title':				'Sortieren nach Titel',
@@ -146,6 +146,8 @@ mkf.lang.add({language: 'Deutsch', short: 'de', author: 'MKay', values: {
 	'label_rating': 					'Bewertung:',
 	'label_year': 						'Jahr:',
 	'label_director': 					'Regisseur:',
+	'label_tagline': 					'Tagline:',
+	'label_set': 						'Set:',
 	'label_file': 						'Datei:',
 	'label_currently_playing':			'Derzeit wird gespielt',
 	'label_paused':						'Pausiert',
@@ -154,6 +156,7 @@ mkf.lang.add({language: 'Deutsch', short: 'de', author: 'MKay', values: {
 	'label_search_results':				'Suchergebnisse f%FCr &quot;{0}&quot;:',
 	'label_total_runtime':				'Total play time: ',
 	'label_filter_watched':				'Hide watched (Movies and TV)',
+	'label_filter_listview':			'List view (no thumbnails)',
 
 	'settings_help':					'LazyLoad:\nSofern Sie LazyLoad aktivieren, werden Thumbnails erst geladen, wenn sie sichtbar werden. Dies sch%FCtzt den Server vor zu vielen Bild-Anfragen.\nWenn Sie jedoch sehr viele Eintr%E4ge (Filme, Alben, ...) haben, kann das Webinterface beim Scrollen langsam reagieren, sofern viele Thumbnails noch nicht geladen wurden.\nWenn Sie LazyLoad deaktivieren, werden alle Thumbnails geladen, sobald die entsprechende Seite (Film-Seite, Alben-Seite, ...) angezeigt wird. Es kann dann jedoch einen Moment dauern, bis alle Thumbnails geladen wurden.\n\nTimeOut:\nWenn Sie viele Filme (oder Alben etc.) haben, kann es einige Zeit in Anspruch nehmen, bis die komplette Film-Liste geladen wird. Sie k%F6nnen den TimeOut-Wert erh%F6hen, um Fehler beim Laden der Film-Liste zu vermeiden.',
 	'settings_select_album_order': 		'Bitte legen Sie die Alben-Sortierung fest!',

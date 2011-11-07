@@ -133,7 +133,7 @@ mkf.lang.add({language: 'Russian', short: 'ru', author: 'Scaramush', values: {
 	'group_language':					'Язык',
 	'group_albums': 					'Альбомы',
 	'group_expert': 					'Эксперт',
-	'group_watched':					'ФИльтр просмотренного',
+	'group_view':						'View Options',
 
 	'label_default_ui': 				'Интерфейс по-умолчанию',
 	'label_order_by_title':				'Сортировать по названию',
@@ -148,6 +148,8 @@ mkf.lang.add({language: 'Russian', short: 'ru', author: 'Scaramush', values: {
 	'label_rating': 					'Рейтинг:',
 	'label_year': 						'Год:',
 	'label_director': 					'Режисёр:',
+	'label_tagline': 					'Tagline:',
+	'label_set': 						'Set:',
 	'label_file': 						'Файл:',
 	'label_currently_playing':			'Сейчас воспроизводится',
 	'label_paused':						'Приостановлено',
@@ -156,6 +158,7 @@ mkf.lang.add({language: 'Russian', short: 'ru', author: 'Scaramush', values: {
 	'label_search_results':				'Результаты поиска для &quot;{0}&quot;:',
 	'label_total_runtime':				'Общее время воспроизведения: ',
 	'label_filter_watched':				'Скрыть просмотренные (Фильмы и сериалы)',
+	'label_filter_listview':			'List view (no thumbnails)',
 
 	'settings_help':					'LazyLoad:\nЕсли вы включите LazyLoad, постеры не рагрузятся до тех пор пока они не понадобятся. Это уменьшает нагрузку на сервер.\nНо если у вас много элементов (фильмов, альбомов, ...) вебинтерфейс может тормозить при прокрутке если много постеров не подгружено.\nЕсли вы выключите LazyLoad, все постеры загрузятся как только страница будет показана (страница фильмов, страница альбомов, ...). Это может занять некоторое время.\n\nTimeOut:\nЕсли у вас много фильмов (или альбомов ...) загрузка постеров может занять некоторое время. Вы можете увеличить значение параметра TimeOut, чтобы избежать ошибок по таймауту, когда пытаетесь просмотреть весь список фильмов.',
 	'settings_select_album_order': 		'Пожалуйста сначала выберите порядок альбомов!',

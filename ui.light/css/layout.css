@@ -211,6 +211,10 @@ img.thumb {
 	height: 125px;
 	width: 125px;
 }
+img.thumbPosterLarge {
+    height: 280px;
+    width: 200px;
+}
 img.thumbPoster { height: 185px; width: 125px; }
 img.thumbBanner { width: 379px; height: 70px; }
 
@@ -542,16 +546,22 @@ div.folderLinkWrapper a.playlistItemCur {
 	font-weight:bold;
 	padding: 10px 35px;
 }
+div.folderLinkWrapper a.button:hover span.information {
+    background-position: -48px -16px;
+}
 
 span.miniIcon {
 	display: block; height: 16px; width: 16px;
 	background: url('../images/mini_buttons.png') no-repeat;
 }
 span.enqueue { background-position: left top; }
-span.play { background-position: right top; }
+span.play { background-position: -32px 0px; }
 span.remove { background-position: -16px 0; }
+span.information {
+    background-position: -48px 0;
+}
 div.folderLinkWrapper a.button:hover span.enqueue { background-position:left bottom; }
-div.folderLinkWrapper a.button:hover span.play { background-position: right bottom; }
+div.folderLinkWrapper a.button:hover span.play { background-position: -32px -16px; }
 div.folderLinkWrapper a.button:hover span.remove { background-position: -16px -16px; }
 
 div.mkfOverlay div.dialogSystemControl {

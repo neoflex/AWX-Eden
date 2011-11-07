@@ -167,6 +167,10 @@ img.thumb {
     height: 125px;
     width: 125px;
 }
+img.thumbPosterLarge {
+    height: 280px;
+    width: 200px;
+}
 img.thumbPoster {
     height: 185px;
     width: 125px;
@@ -570,10 +574,13 @@ span.enqueue {
     background-position: left top;
 }
 span.play {
-    background-position: right top;
+    background-position: -32px 0px;
 }
 span.remove {
     background-position: -16px 0;
+}
+span.information {
+    background-position: -48px 0;
 }
 div.recentTVenq a.button:hover span.enqueue {
     background-position: left bottom;
@@ -582,10 +589,13 @@ div.folderLinkWrapper a.button:hover span.enqueue {
     background-position: left bottom;
 }
 div.folderLinkWrapper a.button:hover span.play {
-    background-position: right bottom;
+    background-position: -32px -16px;
 }
 div.folderLinkWrapper a.button:hover span.remove {
     background-position: -16px -16px;
+}
+div.folderLinkWrapper a.button:hover span.information {
+    background-position: -48px -16px;
 }
 div.mkfOverlay div.dialogSystemControl {
     width: 245px;

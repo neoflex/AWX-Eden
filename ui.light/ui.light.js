@@ -177,7 +177,7 @@ var awxUI = {};
 			
 			this.$musicFilesContent = $('<div class="pageContentWrapper"></div>');
 			var musicFilesContextMenu = $.extend(true, [], standardMusicContextMenu);
-			musicFilesContextMenu.push({
+			/*musicFilesContextMenu.push({
 				'id':'findFilesButton', 'icon':'find', 'title':mkf.lang.get('ctxt_btn_find'), 'shortcut':'Ctrl+2', 'onClick':
 					function(){
 						var pos = $('#findFilesButton').offset();
@@ -186,7 +186,7 @@ var awxUI = {};
 						return false;
 					}
 			});
-			/*musicFilesContextMenu.push({
+			musicFilesContextMenu.push({
 				// Doesn't work because of subPages.
 				'icon':'refresh', 'title':mkf.lang.get('ctxt_btn_refresh_list'), 'onClick':
 					function(){
@@ -474,10 +474,12 @@ var awxUI = {};
 							);
 
 
+
 			var $stylesheet = $('<link rel="stylesheet" type="text/css" />').appendTo('head');
 			$stylesheet.attr('href', 'ui.light/css/layout.css');
 			// does not work in IE 8
 			// $('<link rel="stylesheet" type="text/css" href="ui.light/css/layout.css" />').appendTo('head');
+
 
 			$('#messageLog').mkfMessageLog();
 			$('#location').mkfLocationBar({clickable: true, autoKill: true, prepend: '&raquo; '});

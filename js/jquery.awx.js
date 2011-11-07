@@ -170,6 +170,7 @@
 			var ui = mkf.cookieSettings.get('ui');
 			var lang = mkf.cookieSettings.get('lang', 'en');
 			var watched = mkf.cookieSettings.get('watched', 'no');
+			var listview = mkf.cookieSettings.get('listview', 'no');
 
 			var languages = '';
 			$.each(mkf.lang.getLanguages(), function(key, val) {
@@ -203,8 +204,9 @@
 				'<label for="timeout">' + mkf.lang.get('label_timeout') + '</label><input type="text" id="timeout" name="timeout" value="' + timeout + '" maxlength="3" style="width: 30px; margin-top: 10px;"> ' + mkf.lang.get('label_seconds') +
 				'</fieldset>' +
 				'<fieldset>' +
-				'<legend>' + mkf.lang.get('group_watched') + '</legend>' +
-				'<input type="checkbox" id="watched" name="watched" ' + (watched=='yes'? 'checked="checked"' : '') + '><label for="watched">' + mkf.lang.get('label_filter_watched') + '</label><br />' +
+				'<legend>' + mkf.lang.get('group_view') + '</legend>' +
+				'<input type="checkbox" id="watched" name="watched" ' + (watched=='yes'? 'checked="checked"' : '') + '><label for="watched">' + mkf.lang.get('label_filter_watched') + '</label>' +
+				'<input type="checkbox" id="listview" name="listview" ' + (listview=='yes'? 'checked="checked"' : '') + '><label for="listview">' + mkf.lang.get('label_filter_listview') + '</label><br />' +
 				'</fieldset>' +
 				'<a href="" class="formButton save">' + mkf.lang.get('btn_save') + '</a>' + 
 				'<div class="formHint">' + mkf.lang.get('label_settings_hint') + '</div>' +
@@ -259,6 +261,11 @@
 				mkf.cookieSettings.add(
 					'watched',
 					document.settingsForm.watched.checked? 'yes' : 'no'
+				);
+				
+				mkf.cookieSettings.add(
+					'listview',
+					document.settingsForm.listview.checked? 'yes' : 'no'
 				);
 				
 				mkf.cookieSettings.add(
@@ -467,14 +474,34 @@
 
 
 		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
+		var listview = mkf.cookieSettings.get('listview', 'no')=='yes'? true : false;
 
 
 		this.each (function() {
 			var $albumViewerElement = $(this);
-
-			if (albumResult.limits.total > 0) {
+			
+			if (albumResult.limits.total > 0 && listview == true) {
 				var albums = albumResult.albums;
 
+				//list view
+				var $albumList = $('<ul class="fileList"></ul>').appendTo($(this));
+					$.each(albums, function(i, album)  {
+						$album = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper">' + 
+							'<a href="" class="button playlist" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a>' +
+							'<a href="" class="button play" title="' + mkf.lang.get('btn_play') + '"><span class="miniIcon play" /></a>' +
+							'<a href="" class="album' + album.albumid + '">' + (i+1) + '. ' + album.label + ' - ' + album.artist + '<div class="findKeywords">' + album.label.toLowerCase() + '</div>' +
+							'</a></div></li>').appendTo($albumList);
+
+						$album.find('.album'+ album.albumid).bind('click', {idAlbum: album.albumid, strAlbum: album.label}, onSonglistClick);
+						$album.find('.playlist').bind('click', {idAlbum: album.albumid}, onAddAlbumToPlaylistClick);
+						$album.find('.play').bind('click', {idAlbum: album.albumid, strAlbum: album.label}, onAlbumPlayClick);
+					});
+			}
+			
+			if (albumResult.limits.total > 0 && listview == false) {
+				var albums = albumResult.albums;
+				
+				//Thumbnail view
 				$.each(albums, function(i, album) {
 					var thumb = (album.thumbnail? xbmc.getThumbUrl(album.thumbnail) : 'images/thumb.png');
 					var $album = $('<div class="album'+album.albumid+' thumbWrapper">' +
@@ -900,14 +927,17 @@
 			var movie = event.data.movie;
 			var dialogContent = '';
 			var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
-			dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getMovieThumbType() + ' dialogThumb" />' +
+			//dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getMovieThumbType() + ' dialogThumb" />' + //Won't this always be poster?!
+			dialogContent += '<img src="' + thumb + '" class="thumb thumbPosterLarge dialogThumb" />' +
 				'<h1 class="underline">' + movie.title + '</h1>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_original_title') + '</span><span class="value">' + movie.originaltitle + '</span></div>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="value">' + movie.runtime + '</span></div>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_genre') + '</span><span class="value">' + movie.genre + '</span></div>' +
+				'<div class="test"><span class="label">' + mkf.lang.get('label_original_title') + '</span><span class="value">' + (movie.originaltitle? movie.originaltitle : mkf.lang.get('label_not_available')) + '</span></div>' +
+				'<div class="test"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="value">' + (movie.runtime? movie.runtime : mkf.lang.get('label_not_available')) + '</span></div>' +
+				'<div class="test"><span class="label">' + mkf.lang.get('label_genre') + '</span><span class="value">' + (movie.genre? movie.genre : mkf.lang.get('label_not_available')) + '</span></div>' +
 				'<div class="test"><span class="label">' + mkf.lang.get('label_rating') + '</span><span class="value"><div class="smallRating' + Math.round(movie.rating) + '"></div></span></div>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_year') + '</span><span class="value">' + movie.year + '</span></div>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_director') + '</span><span class="value">' + movie.director + '</span></div>' +
+				'<div class="test"><span class="label">' + mkf.lang.get('label_year') + '</span><span class="value">' + (movie.year? movie.year : mkf.lang.get('label_not_available')) + '</span></div>' +
+				'<div class="test"><span class="label">' + mkf.lang.get('label_director') + '</span><span class="value">' + (movie.director? movie.director : mkf.lang.get('label_not_available')) + '</span></div>' +
+				'<div class="test"><span class="label">' + mkf.lang.get('label_tagline') + '</span><span class="value">' + (movie.tagline? movie.tagline : mkf.lang.get('label_not_available')) + '</span></div>' +
+				'<div class="test"><span class="label">' + mkf.lang.get('label_set') + '</span><span class="value">' + (movie.set[0]? movie.set : mkf.lang.get('label_not_available')) + '</span></div>' +
 				'<div class="test"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + movie.file + '</span></div>' +
 				'<p class="plot">' + movie.plot + '</p>';
 			mkf.dialog.setContent(dialogHandle, dialogContent);
@@ -918,12 +948,46 @@
 
 		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
 		var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
-
-
+		var listview = mkf.cookieSettings.get('listview', 'no')=='yes'? true : false;
+		
+		
+		
 		this.each(function() {
-			var $movieContainer = $(this);
+			//var $movieContainer = $(this);
 
-			if (movieResult.limits.total > 0) {
+			if (movieResult.limits.total > 0 && listview == true) {
+			var $movieList = $('<ul class="fileList"></ul>').appendTo($(this));
+			var classEven = -1;
+				$.each(movieResult.movies, function(i, movie) {
+					//var movies = movieResult.movies;
+					var watched = false;
+						if (typeof movie.movieid === 'undefined') {
+							return;
+						}
+						if (movie.playcount > 0) {
+							watched = true;
+						}
+						
+						if (filterWatched && watched) {
+							return;
+						}
+					classEven += 1
+					//list view
+						$movie = $('<li' + (classEven%2==0? ' class="even"': '') + '><div class="folderLinkWrapper">' + 
+							'<a href="" class="button playlist" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a>' +
+							'<a href="" class="button play" title="' + mkf.lang.get('btn_play') + '"><span class="miniIcon play" /></a>' +
+							'<a href="" class="movieName' + movie.movieid + '">' + (i+1) + '. ' + movie.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '<div class="findKeywords">' + movie.label.toLowerCase() + '</div>' +
+							'</a></div></li>').appendTo($movieList);
+
+						$movie.find('.play').bind('click', {idMovie: movie.movieid, strMovie: movie.label}, onMoviePlayClick);
+						$movie.find('.playlist').bind('click', {idMovie: movie.movieid}, onAddMovieToPlaylistClick);
+						$movie.find('.movieName' + movie.movieid).bind('click', {'movie': movie}, onMovieInformationClick);
+				});
+			}			
+			
+			
+			if (movieResult.limits.total > 0 && listview == false) {
+			var $movieContainer = $(this);
 				$.each(movieResult.movies, function(i, movie) {
 					
 					var watched = false;
@@ -1177,13 +1241,13 @@
 			var valueClass = 'value' + xbmc.getTvShowThumbType();
 			dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getTvShowThumbType() + ' dialogThumb' + xbmc.getTvShowThumbType() + '" />' +
 				'<h1 class="underline">' + tvshow.title + '</h1>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_original_title') + '</span><span class="'+valueClass+'">' + tvshow.originaltitle + '</span></div>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="'+valueClass+'">' + tvshow.runtime + '</span></div>' +
+				//'<div class="test"><span class="label">' + mkf.lang.get('label_original_title') + '</span><span class="'+valueClass+'">' + tvshow.originaltitle + '</span></div>' +
+				//'<div class="test"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="'+valueClass+'">' + tvshow.runtime + '</span></div>' +
 				'<div class="test"><span class="label">' + mkf.lang.get('label_genre') + '</span><span class="'+valueClass+'">' + tvshow.genre + '</span></div>' +
 				'<div class="test"><span class="label">' + mkf.lang.get('label_rating') + '</span><span class="'+valueClass+'"><div class="smallRating' + Math.round(tvshow.rating) + '"></div></span></div>' +
 				'<div class="test"><span class="label">' + mkf.lang.get('label_year') + '</span><span class="'+valueClass+'">' + tvshow.year + '</span></div>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_director') + '</span><span class="'+valueClass+'">' + tvshow.director + '</span></div>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="'+valueClass+'">' + tvshow.file + '</span></div>' +
+				//'<div class="test"><span class="label">' + mkf.lang.get('label_director') + '</span><span class="'+valueClass+'">' + tvshow.director + '</span></div>' +
+				//'<div class="test"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="'+valueClass+'">' + tvshow.file + '</span></div>' +
 				'<p class="plot">' + tvshow.plot + '</p>';
 			mkf.dialog.setContent(dialogHandle, dialogContent);
 
@@ -1192,11 +1256,12 @@
 
 		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
 		var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
-
+		var listview = mkf.cookieSettings.get('listview', 'no')=='yes'? true : false;
 
 		this.each(function() {
 			var $tvshowContainer = $(this);
-
+			var $tvShowList = $('<ul class="fileList"></ul>').appendTo($(this));
+			var classEven = -1;
 
 			if (tvShowResult.limits.total > 0) {
 				$.each(tvShowResult.tvshows, function(i, tvshow) {
@@ -1210,22 +1275,42 @@
 						return;
 					}
 					
-					var thumb = (tvshow.thumbnail? xbmc.getThumbUrl(tvshow.thumbnail) : 'images/thumb' + xbmc.getTvShowThumbType() + '.png');
-					var $tvshow = $('<div class="tvshow'+tvshow.tvshowid+' thumbWrapper thumb' + xbmc.getTvShowThumbType() + 'Wrapper">' +
-							'<div class="linkWrapper">' + 
-								'<a href="" class="season">' + mkf.lang.get('btn_seasons') + '</a>' +
-								'<a href="" class="info">' + mkf.lang.get('btn_information') + '</a>' +
-							'</div>' +
-							(useLazyLoad?
-								'<img src="images/loading_thumb' + xbmc.getTvShowThumbType() + '.gif" alt="' + tvshow.label + '" class="thumb thumb' + xbmc.getTvShowThumbType() + '" original="' + thumb + '" />':
-								'<img src="' + thumb + '" alt="' + tvshow.label + '" class="thumb thumb' + xbmc.getTvShowThumbType() + '" />'
-							) +
-							'<div class="tvshowName">' + tvshow.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</div>' +
-							'<div class="findKeywords">' + tvshow.label.toLowerCase() + '</div>' +
-						'</div>')
-						.appendTo($tvshowContainer);
-					$tvshow.find('.season').bind('click', {idTvShow: tvshow.tvshowid, strTvShow: tvshow.label}, onSeasonsClick);
-					$tvshow.find('.info').bind('click', {'tvshow': tvshow}, onTVShowInformationClick);
+					//list view
+					if (listview == true) {
+						
+								classEven += 1
+								//list view
+									$tvshow = $('<li' + (classEven%2==0? ' class="even"': '') + '><div class="folderLinkWrapper">' + 
+										//'<a href="" class="season">' + mkf.lang.get('btn_seasons') + '</a>' +
+										//'<a href="" class="info">' + mkf.lang.get('btn_information') + '</a>' +
+										'<a href="" class="button info" title="' + mkf.lang.get('btn_information') + '"><span class="miniIcon information" /></a>' +
+										'<a href="" class="tvshowName season">' + tvshow.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '<div class="findKeywords">' + tvshow.label.toLowerCase() + '</div>' +
+										'</a></div></li>').appendTo($tvShowList);
+							//console.log($tvShowList);
+							$tvshow.find('.season').bind('click', {idTvShow: tvshow.tvshowid, strTvShow: tvshow.label}, onSeasonsClick);
+							$tvshow.find('.info').bind('click', {'tvshow': tvshow}, onTVShowInformationClick);
+					}	
+			
+			// end list view
+					//banner view
+					if (listview == false) {
+						var thumb = (tvshow.thumbnail? xbmc.getThumbUrl(tvshow.thumbnail) : 'images/thumb' + xbmc.getTvShowThumbType() + '.png');
+						var $tvshow = $('<div class="tvshow'+tvshow.tvshowid+' thumbWrapper thumb' + xbmc.getTvShowThumbType() + 'Wrapper">' +
+								'<div class="linkWrapper">' + 
+									'<a href="" class="season">' + mkf.lang.get('btn_seasons') + '</a>' +
+									'<a href="" class="info">' + mkf.lang.get('btn_information') + '</a>' +
+								'</div>' +
+								(useLazyLoad?
+									'<img src="images/loading_thumb' + xbmc.getTvShowThumbType() + '.gif" alt="' + tvshow.label + '" class="thumb thumb' + xbmc.getTvShowThumbType() + '" original="' + thumb + '" />':
+									'<img src="' + thumb + '" alt="' + tvshow.label + '" class="thumb thumb' + xbmc.getTvShowThumbType() + '" />'
+								) +
+								'<div class="tvshowName">' + tvshow.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</div>' +
+								'<div class="findKeywords">' + tvshow.label.toLowerCase() + '</div>' +
+							'</div>')
+							.appendTo($tvshowContainer);
+						$tvshow.find('.season').bind('click', {idTvShow: tvshow.tvshowid, strTvShow: tvshow.label}, onSeasonsClick);
+						$tvshow.find('.info').bind('click', {'tvshow': tvshow}, onTVShowInformationClick);
+					}
 				});
 
 				if (useLazyLoad) {
