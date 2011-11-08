@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <addon
   id="webinterface.awx-eden"
-  version="0.4.1"
+  version="0.4.2"
   name="AWX"
   provider-name="MKay">
   <requires>

@@ -1,3 +1,10 @@
+0.4.2:
+ - Added Russian Translation
+ - Added Dark theme to Light UI
+ - Added Recently added view for Movies, TV, and Albums
+ - Added Refresh, Scan Library features
+ - Added find box to some pages
+ - Added list view
 0.4.1:
  - Added: Display watched status in UI
  - Changed: Augio/Video playlist layouts
