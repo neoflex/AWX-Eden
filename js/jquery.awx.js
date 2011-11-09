@@ -783,7 +783,7 @@
 		//audio
 		if (playlist == 'Audio') {
 			this.each(function() {
-				var $itemList = $('<ul class="fileList"></ul>').appendTo($(this));
+				var $itemList = $('<ul class="fileList" id="sortable"></ul>').appendTo($(this));
 				var runtime = 0;
 				if (playlistResult.limits.total > 0) {
 					$.each(playlistResult.items, function(i, item)  {
@@ -914,34 +914,32 @@
 		var onMovieInformationClick = function(event) {
 			var dialogHandle = mkf.dialog.show();
 
-			/*xbmc.getMovieInfo({
+			xbmc.getMovieInfo({
 				movieid: event.data.idMovie,
-				onSuccess: function(movie) {
+				onSuccess: function(movieinfo) {
+					var dialogContent = '';
+					var thumb = (movieinfo.thumbnail? xbmc.getThumbUrl(movieinfo.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
+					//dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getMovieThumbType() + ' dialogThumb" />' + //Won't this always be poster?!
+					dialogContent += '<img src="' + thumb + '" class="thumb thumbPosterLarge dialogThumb" />' +
+						'<h1 class="underline">' + movieinfo.title + '</h1>' +
+						'<div class="test"><span class="label">' + mkf.lang.get('label_original_title') + '</span><span class="value">' + (movieinfo.originaltitle? movieinfo.originaltitle : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="test"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="value">' + (movieinfo.runtime? movieinfo.runtime : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="test"><span class="label">' + mkf.lang.get('label_genre') + '</span><span class="value">' + (movieinfo.genre? movieinfo.genre : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="test"><span class="label">' + mkf.lang.get('label_rating') + '</span><span class="value"><div class="smallRating' + Math.round(movieinfo.rating) + '"></div></span></div>' +
+						'<div class="test"><span class="label">' + mkf.lang.get('label_year') + '</span><span class="value">' + (movieinfo.year? movieinfo.year : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="test"><span class="label">' + mkf.lang.get('label_director') + '</span><span class="value">' + (movieinfo.director? movieinfo.director : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="test"><span class="label">' + mkf.lang.get('label_tagline') + '</span><span class="value">' + (movieinfo.tagline? movieinfo.tagline : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="test"><span class="label">' + mkf.lang.get('label_set') + '</span><span class="value">' + (movieinfo.set[0]? movieinfo.set : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="test"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + movieinfo.file + '</span></div>' +
+						'<p class="plot">' + movieinfo.plot + '</p>';
+					mkf.dialog.setContent(dialogHandle, dialogContent);
+					return false;
 				},
 				onError: function() {
 					mkf.messageLog.show('Failed to load movie information!', mkf.messageLog.status.error, 5000);
 					mkf.dialog.close(dialogHandle);
 				}
-			});*/
-
-			var movie = event.data.movie;
-			var dialogContent = '';
-			var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
-			//dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getMovieThumbType() + ' dialogThumb" />' + //Won't this always be poster?!
-			dialogContent += '<img src="' + thumb + '" class="thumb thumbPosterLarge dialogThumb" />' +
-				'<h1 class="underline">' + movie.title + '</h1>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_original_title') + '</span><span class="value">' + (movie.originaltitle? movie.originaltitle : mkf.lang.get('label_not_available')) + '</span></div>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="value">' + (movie.runtime? movie.runtime : mkf.lang.get('label_not_available')) + '</span></div>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_genre') + '</span><span class="value">' + (movie.genre? movie.genre : mkf.lang.get('label_not_available')) + '</span></div>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_rating') + '</span><span class="value"><div class="smallRating' + Math.round(movie.rating) + '"></div></span></div>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_year') + '</span><span class="value">' + (movie.year? movie.year : mkf.lang.get('label_not_available')) + '</span></div>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_director') + '</span><span class="value">' + (movie.director? movie.director : mkf.lang.get('label_not_available')) + '</span></div>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_tagline') + '</span><span class="value">' + (movie.tagline? movie.tagline : mkf.lang.get('label_not_available')) + '</span></div>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_set') + '</span><span class="value">' + (movie.set[0]? movie.set : mkf.lang.get('label_not_available')) + '</span></div>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + movie.file + '</span></div>' +
-				'<p class="plot">' + movie.plot + '</p>';
-			mkf.dialog.setContent(dialogHandle, dialogContent);
-
+			});
 			return false;
 		};
 
@@ -981,7 +979,7 @@
 
 						$movie.find('.play').bind('click', {idMovie: movie.movieid, strMovie: movie.label}, onMoviePlayClick);
 						$movie.find('.playlist').bind('click', {idMovie: movie.movieid}, onAddMovieToPlaylistClick);
-						$movie.find('.movieName' + movie.movieid).bind('click', {'movie': movie}, onMovieInformationClick);
+						$movie.find('.movieName' + movie.movieid).bind('click', {idMovie: movie.movieid}, onMovieInformationClick);
 				});
 			}			
 			
@@ -1021,7 +1019,7 @@
 						'</div>').appendTo($movieContainer);
 					$movie.find('.play').bind('click', {idMovie: movie.movieid, strMovie: movie.label}, onMoviePlayClick);
 					$movie.find('.playlist').bind('click', {idMovie: movie.movieid}, onAddMovieToPlaylistClick);
-					$movie.find('.info').bind('click', {'movie': movie}, onMovieInformationClick);
+					$movie.find('.info').bind('click', {idMovie: movie.movieid}, onMovieInformationClick);
 				});
 
 				if (useLazyLoad) {
@@ -1289,9 +1287,10 @@
 							//console.log($tvShowList);
 							$tvshow.find('.season').bind('click', {idTvShow: tvshow.tvshowid, strTvShow: tvshow.label}, onSeasonsClick);
 							$tvshow.find('.info').bind('click', {'tvshow': tvshow}, onTVShowInformationClick);
+							
 					}	
 			
-			// end list view
+					// end list view
 					//banner view
 					if (listview == false) {
 						var thumb = (tvshow.thumbnail? xbmc.getThumbUrl(tvshow.thumbnail) : 'images/thumb' + xbmc.getTvShowThumbType() + '.png');
@@ -1325,6 +1324,8 @@
 					};
 					setTimeout(loadThumbs, 100);
 				}
+
+			//console.log(tvShowResult.tvshows.sort(function(a, b) {return b.year - a.year}));
 			}
 		});
 	}; // END defaultTvShowViewer
@@ -1417,8 +1418,8 @@
 	 |  @param episodesResult
 	\* ########################### */
 	$.fn.defaultVideoScanViewer = function() {
-
-		var $scanList = $('<div>Scanning Library....</div><br /><ul class="menuItem"></ul>').appendTo($(this));
+		$("#sortable").sortable();
+		var $scanList = $('<div>Scanning Library....</div><br /><ul id="sortable"><li>1</li><li>2</li><li>3</li></ul>').appendTo($(this));
 		/*var scanMenu = $('<li class="menuItem ' + sp.id +
 									(sp.className? ' ' + sp.className: '') +
 									'">' +
