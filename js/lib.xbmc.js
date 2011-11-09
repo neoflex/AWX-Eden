@@ -53,68 +53,19 @@ var xbmc = {};
 
 		input: function(options) {
 			var settings = {
-				type: 'select',
+				type: 'Select',
 				onSuccess: null,
 				onError: null
 			};
 			
-			$.extend(settings, options);		
-			var commands = {left: 1, right: 2, up: 3, down: 4, select: 7, back: 9, home: 10 };
-
-			xbmc.httpapi(
-				'action', commands[ settings.type] ,
+			xbmc.sendCommand(
+				'{"jsonrpc": "2.0", "method": "Input.' + options.type + '", "id": 1}',
 				settings.onSuccess,
-				settings.Error
+				settings.onError
 			);
 
 			return true;
-		},
-		httpapi: function(command, parameter, onError, onComplete, asyncRequest) {
-			if (typeof asyncRequest === 'undefined')
-				asyncRequest = true;
-
-			if (!this.xbmcHasQuit) {
-				$.ajax({
-					async: asyncRequest,
-					type: 'GET',
-					url: './xbmcCmds/xbmcHttp',		
-					data: {
-						"command": command,
-						"parameter": parameter
-					},
-					dataType: 'text',
-					cache: false,
-					timeout: this.timeout,
-					success: function(result, textStatus, XMLHttpRequest) {	
-					
-						// its possible to get here on timeouts. --> error
-						if (XMLHttpRequest.readyState==4 && XMLHttpRequest.status==0) {
-							if (onError) {
-								onError({"error" : { "ajaxFailed" : true, "xhr" : XMLHttpRequest, "status" : textStatus }});
-							}
-							return;
-						}
-						
-						// Example Error-Response: { "error" : { "code" : -32601, "message" : "Method not found." } }
-						if (result.error) {
-							if (onError) { onError(result); }
-							return;
-						}
-							
-						if (onSuccess) { onSuccess(result); }
-					},
-					error: function(XMLHttpRequest, textStatus, errorThrown) {
-						if (onError) {
-							onError({"error" : { "ajaxFailed" : true, "xhr" : XMLHttpRequest, "status" : textStatus, "errorThrown" : errorThrown }});
-						}
-					},
-					complete: function(XMLHttpRequest, textStatus) {
-						if (onComplete) { onComplete(); }
-					}
-				});
-			}
-		},		
-
+			
 
 		init: function(initContainer, callback) {
 			xbmc.periodicUpdater.start();

@@ -33,31 +33,31 @@
 		$controls = $('<a class="button up" href=""></a><a class="button down" href=""></a><a class="button left" href=""></a><a class="button right" href=""></a><a class="button select" href=""></a><a class="button home" href=""></a><a class="button back" href=""></a>');
 		
 		$controls.filter('.up').click(function() {
-			xbmc.input({type: 'up'}); return false;
+			xbmc.input({type: 'Up'}); return false;
 		});
 		
 		$controls.filter('.down').click(function() {
-			xbmc.input({type: 'down'}); return false;
+			xbmc.input({type: 'Down'}); return false;
 		});
 		
 		$controls.filter('.left').click(function() {
-			xbmc.input({type: 'left'}); return false;
+			xbmc.input({type: 'Left'}); return false;
 		});
 		
 		$controls.filter('.right').click(function() {
-			xbmc.input({type: 'right'}); return false;
+			xbmc.input({type: 'Right'}); return false;
 		});
 		
 		$controls.filter('.select').click(function() {
-			xbmc.input({type: 'select'}); return false;
+			xbmc.input({type: 'Select'}); return false;
 		});
 		
 		$controls.filter('.home').click(function() {
-			xbmc.input({type: 'home'}); return false;
+			xbmc.input({type: 'Home'}); return false;
 		});
 		
 		$controls.filter('.back').click(function() {
-			xbmc.input({type: 'back'}); return false;
+			xbmc.input({type: 'Back'}); return false;
 		});
 
 		this.each (function() {
