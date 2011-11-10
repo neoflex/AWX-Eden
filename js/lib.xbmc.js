@@ -65,7 +65,7 @@ var xbmc = {};
 			);
 
 			return true;
-			
+		},
 
 		init: function(initContainer, callback) {
 			xbmc.periodicUpdater.start();
