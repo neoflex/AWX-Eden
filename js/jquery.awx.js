@@ -69,7 +69,7 @@
 	 |  XBMC-Controls
 	\* ########################### */
 	$.fn.defaultControls = function() {
-		$controls = $('<a class="button play" href=""></a><a class="button stop" href=""></a><a class="button next" href=""></a><a class="button prev" href=""></a><a class="button shuffle" href=""></a>');
+		$controls = $('<a class="button play" href=""></a><a class="button stop" href=""></a><a class="button next" href=""></a><a class="button prev" href=""></a><a class="button shuffle" href=""></a><a class="button repeat" href=""></a>');
 		$controls.filter('.play').click(function() {
 			xbmc.control({type: 'play'}); return false;
 		});
@@ -89,6 +89,20 @@
 
 		$controls.filter('.shuffle').bind('click', {"shuffle": true}, shuffle);
 
+		var repeat = function(event) {
+			if (event.data.repeat == 'all' && xbmc.periodicUpdater.repeatStatus == 'off') {
+				type = 'all';
+			} else if (event.data.repeat == 'one' && xbmc.periodicUpdater.repeatStatus == 'all') {
+				type = 'one';
+			} else if (event.data.repeat == 'off' && xbmc.periodicUpdater.repeatStatus == 'one') {
+				type = 'off'; 
+			};
+			xbmc.controlRepeat(type);
+			return false;
+		};
+		
+		$controls.filter('.repeat').bind('click', {"repeat": 'all' }, repeat);
+		
 		xbmc.periodicUpdater.addPlayerStatusChangedListener(function(status) {
 			var $shuffleBtn = $('.button.shuffle');
 			if (status == 'shuffleOn') {
@@ -108,6 +122,28 @@
 			awxUI.onVideoPlaylistShow();
 		});
 
+		xbmc.periodicUpdater.addPlayerStatusChangedListener(function(status) {
+			var $repeatBtn = $('.button.repeat');
+			if (status == 'off') {
+				$repeatBtn.unbind('click');
+				$repeatBtn.bind('click', {"repeat": 'all'}, repeat);
+				$repeatBtn.removeClass('repeatOff');
+				$repeatBtn.addClass('repeat');
+				$repeatBtn.attr('title', 'Repeat all');
+			} else if (status == 'all') {
+				$repeatBtn.unbind('click');
+				$repeatBtn.bind('click', {"repeat": 'one'}, repeat);
+				$repeatBtn.addClass('repeat1');
+				$repeatBtn.attr('title', 'Repeat one');
+			} else if (status == 'one') {
+				$repeatBtn.unbind('click');
+				$repeatBtn.removeClass('repeat1');
+				$repeatBtn.bind('click', {"repeat": 'off'}, repeat);			
+				$repeatBtn.addClass('repeatOff');
+				$repeatBtn.attr('title', 'Repeat off');
+			}
+		});
+		
 		this.each (function() {
 			$(this).append($controls.clone(true));
 		});
@@ -1094,7 +1130,7 @@
 			var movie = event.data.movie;
 			var dialogContent = '';
 			var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
-			dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getMovieThumbType() + ' dialogThumb" />' +
+			dialogContent += '<img src="' + thumb + '" class="thumb thumbPosterLarge dialogThumb" />' +
 				'<h1 class="underline">' + movie.title + '</h1>' +
 				'<div class="test"><span class="label">' + mkf.lang.get('label_original_title') + '</span><span class="value">' + movie.originaltitle + '</span></div>' +
 				'<div class="test"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="value">' + movie.runtime + '</span></div>' +
@@ -1892,6 +1928,17 @@
 
 				} else if (status == 'shuffleOff') {
 					$currentlyPlayingBox.find('.statusShuffle').remove();
+					
+				} else if (status == 'off') {
+					$currentlyPlayingBox.find('.statusRepeat1').remove();
+					$currentlyPlayingBox.find('.statusRepeat').remove();
+					
+				} else if (status == 'all') {
+					$currentlyPlayingBox.append('<span title="' + mkf.lang.get('label_repeat') + '" class="statusRepeat"></span>');
+					
+				} else if (status == 'one') {
+					$currentlyPlayingBox.append('<span title="' + mkf.lang.get('label_repeat1') + '" class="statusRepeat1"></span>');
+					$currentlyPlayingBox.find('.statusRepeat').remove();
 				}
 			});
 

@@ -56,7 +56,7 @@ h1.loading { line-height: 32px; background: url('../images/dialog_loading.gif') 
 
 #input {
 	position: absolute;
-	bottom: 240px;
+	bottom: 340px;
 	left: 15px;
 	height: 65px;
 	width: 60px;

@@ -152,6 +152,8 @@ mkf.lang.add({language: 'Deutsch', short: 'de', author: 'MKay', values: {
 	'label_currently_playing':			'Derzeit wird gespielt',
 	'label_paused':						'Pausiert',
 	'label_shuffle':					'Zufallsmodus',
+	'label_repeat':						'Repeat All',
+	'label_repeat1':					'Repeat One',
 	'label_seconds':					'Sekunden',
 	'label_search_results':				'Suchergebnisse f%FCr &quot;{0}&quot;:',
 	'label_total_runtime':				'Total play time: ',

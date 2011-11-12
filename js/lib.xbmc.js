@@ -322,7 +322,38 @@ var xbmc = {};
 		},
 
 
+		controlRepeat: function(options) {
+			var settings = {
+				type: options,
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
 
+			//var commands = {repeat: 'all', repeat1: 'one', unrepeat: 'off'};
+
+			if (settings.type) {
+				xbmc.sendCommand(
+					'{"jsonrpc": "2.0", "method": "Player.GetActivePlayers", "id": 1}',
+
+					function (response) {
+
+						if (response.result[0]) {
+							xbmc.sendCommand(
+								'{"jsonrpc": "2.0", "method": "Player.Repeat", "params": { "playerid": ' + response.result[0].playerid + ', "state": "' + settings.type + '" }, "id": 1}',
+								settings.onSuccess,
+								settings.onError
+							);
+						}
+					},
+					settings.onError
+				);
+				return true;
+			}
+			return false;
+		},
+		
+		
 		seekPercentage: function(options) {
 			var settings = {
 				percentage: 0,
@@ -1374,7 +1405,7 @@ var xbmc = {};
 				}
 				if (typeof xbmc.periodicUpdater.repeatStatus === 'undefined') {
 					$.extend(xbmc.periodicUpdater, {
-						repeatStatus: 'none',
+						repeatStatus: 'off',
 					});
 				}
 				
@@ -1482,7 +1513,12 @@ var xbmc = {};
 								}
 								
 								//TO DO repeat
-
+								repeat = currentPlayer.repeat;
+								if (xbmc.periodicUpdater.repeatStatus != repeat) {
+								xbmc.periodicUpdater.repeatStatus = repeat;
+								xbmc.periodicUpdater.firePlayerStatusChanged(repeat);
+								//xbmc.periodicUpdater.firePlayerStatusChanged(shuffle? 'shuffleOn': 'shuffleOff');
+								}
 							},
 
 							null, null, false // not async

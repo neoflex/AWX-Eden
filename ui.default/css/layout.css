@@ -61,7 +61,7 @@ a.settings:hover { background-position: top right; }
 #navigation ul {
 	list-style-type: none;
 	margin: 0;
-	padding: 150px 0 0 0;
+	padding: 115px 0 0 0;
 }
 #navigation a {
 	display: block;
@@ -130,7 +130,7 @@ div.ui-slider-horizontal {
 	height: 10px;
 }
 div.ui-slider-vertical {
-	height: 140px;
+	height: 170px;
 	width: 10px;
 }
 div.ui-slider-range {
@@ -164,12 +164,12 @@ div.ui-slider-vertical a.ui-slider-handle {
 
 #controls {
 	position: absolute;
-	bottom: 30px;
+	bottom: 90px;
 	left: 15px;
-	height: 140px;
+	height: 170px;
 	width: 60px;
 	padding: 15px 15px 40px 15px;
-	background: #343434 url('../images/volume.png') no-repeat 14px 165px;
+	background: #343434 url('../images/volume.png') no-repeat 14px 195px;
 	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
 	border: 1px solid #7c7c7c;
 }
@@ -365,7 +365,7 @@ div.thumbWrapper div.albumArtist {
 	text-align: center;
 }
 
-.statusPaused, .statusShuffle {
+.statusPaused, .statusShuffle, .statusRepeat, .statusRepeat1 {
 	display: block;
 	position: absolute;
 	right: 10px;
@@ -377,9 +377,16 @@ div.thumbWrapper div.albumArtist {
 
 .statusShuffle {
 	right: 55px;
-	background-position: top right;
+	background-position: -35px 0px;
 }
-
+.statusRepeat {
+    background-position: -70px 0px;
+    right: 105px;
+}
+.statusRepeat1 {
+    background-position: -105px 0px;
+    right: 105px;
+}
 #controls a.button {
 	background: url('../images/buttons.png') no-repeat;
 	width: 30px;
@@ -394,6 +401,18 @@ div.thumbWrapper div.albumArtist {
 #controls a.next { top: 115px; background-position: -30px 0px; }
 #controls a.shuffle { top: 150px; background-position: -120px 0px; }
 #controls a.unshuffle { top: 150px; background-position: -150px 0px; }
+#controls a.repeat {
+    background-position: -240px 0;
+	margin-right: 0px;
+}
+#controls a.repeat1 {
+    background-position: -210px 0;
+	margin-right: 0px;
+}
+#controls a.repeatOff {
+    background-position: -180px 0;
+	margin-right: 0px;
+}
 
 #controls a.play:hover { background-position: -90px -30px; }
 #controls a.stop:hover { background-position: 0px -30px; }
@@ -401,6 +420,18 @@ div.thumbWrapper div.albumArtist {
 #controls a.next:hover { background-position: -30px -30px; }
 #controls a.shuffle:hover { background-position: -120px -30px; }
 #controls a.unshuffle:hover { background-position: -150px -30px; }
+#controls a.repeat:hover {
+    background-position: -240px -30px;
+	margin-right: 0px;
+}
+#controls a.repeat1:hover {
+    background-position: -210px -30px;
+	margin-right: 0px;
+}
+#controls a.repeatOff:hover {
+    background-position: -180px -30px;
+	margin-right: 0px;
+}
 
 div.loading { background-image: url('../images/loading.gif'); }
 

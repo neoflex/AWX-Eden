@@ -10,7 +10,7 @@ html, body {
 #header {
     background: url("../images/logo.png") no-repeat scroll 20px 10px #333333;
     height: 110px;
-    padding-left: 170px;
+    padding-left: 145px;
 }
 #navigation {
     background: url("../images/menu_bg.png") repeat-x scroll 0 5px #343434;
@@ -705,7 +705,7 @@ br.clear {
     margin-right: 10px;
     margin-top: 20px;
     padding: 0 10px;
-    width: 180px;
+    width: 210px;
 }
 #controls a.button {
     background: url("../images/buttons.png") no-repeat scroll 0 0 transparent;
@@ -732,6 +732,18 @@ br.clear {
 #controls a.unshuffle {
     background-position: -150px 0;
 }
+#controls a.repeat {
+    background-position: -240px 0;
+	margin-right: 0px;
+}
+#controls a.repeat1 {
+    background-position: -210px 0;
+	margin-right: 0px;
+}
+#controls a.repeatOff {
+    background-position: -180px 0;
+	margin-right: 0px;
+}
 #controls a.play:hover {
     background-position: -90px -30px;
 }
@@ -749,6 +761,18 @@ br.clear {
 }
 #controls a.unshuffle:hover {
     background-position: -150px -30px;
+}
+#controls a.repeat:hover {
+    background-position: -240px -30px;
+	margin-right: 0px;
+}
+#controls a.repeat1:hover {
+    background-position: -210px -30px;
+	margin-right: 0px;
+}
+#controls a.repeatOff:hover {
+    background-position: -180px -30px;
+	margin-right: 0px;
 }
 div.ui-slider {
     background-color: #4B4B4B;
@@ -830,7 +854,7 @@ span.currentlyPlaying {
 .title {
     display: block;
 }
-.statusPaused, .statusShuffle {
+.statusPaused, .statusShuffle, .statusRepeat, .statusRepeat1 {
     background: url("../images/status.png") no-repeat scroll 0 0 transparent;
     display: block;
     height: 35px;
@@ -840,8 +864,16 @@ span.currentlyPlaying {
     width: 35px;
 }
 .statusShuffle {
-    background-position: right top;
+    background-position: -35px 0px;
     right: 55px;
+}
+.statusRepeat {
+    background-position: -70px 0px;
+    right: 105px;
+}
+.statusRepeat1 {
+    background-position: -105px 0px;
+    right: 105px;
 }
 .playingSliderWrapper {
     margin: 5px 0 0;
