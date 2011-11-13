@@ -45,7 +45,7 @@ mkf.lang.add({language: 'English', short: 'en', author: 'MKay', values: {
 	'page_buttontext_video_files':		'Files',
 	'page_buttontext_video_playlist':	'Playlist',
 	'page_buttontext_tv_recentlyadded': 'Recent TV',
-	'page_buttontext_movies_recentlyadded': 'Recently Added Movies to make this really long!',
+	'page_buttontext_movies_recentlyadded': 'Recent Movies',
 	'page_buttontext_album_recent':		'Recent Albums',
 	'page_buttontext_video_scan':		'Scan Video Library',
 	'page_buttontext_music_scan':		'Scan Music Library',
