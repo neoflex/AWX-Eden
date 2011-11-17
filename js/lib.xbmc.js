@@ -581,7 +581,21 @@ var xbmc = {};
 		},
 
 
+		swapAudioPlaylist: function(options) {
+			var settings = {
+				onSuccess: null,
+				onError: null,
+			};
+			$.extend(settings, options);
 
+			xbmc.sendCommand(
+				'{"jsonrpc": "2.0", "method": "Playlist.Swap", "params": { "playlistid": 0, "position1": 3, "position2": 1 }, "id": 1}',
+				settings.onSuccess,
+				settings.onError
+			);
+		},
+		
+		
 		playAudio: function(options) {
 			var settings = {
 				item: 0,

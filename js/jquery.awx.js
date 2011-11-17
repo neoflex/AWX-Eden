@@ -161,6 +161,13 @@
 				{
 				content :
 				'<h1 id="systemControlTitle" class="title">' + mkf.lang.get('title_system_control') + '</h1>' +
+				'<div class="input_big"><div><a href="" class="bigHome" title="' + mkf.lang.get('btn_home') + '"></a>' +
+				'<a href="" class="bigUp" title="' + mkf.lang.get('btn_up') + '"></a>' +
+				'<a href="" class="bigBack" title="' + mkf.lang.get('btn_back') + '"></a></div>' +
+				'<div><a href="" class="bigLeft" title="' + mkf.lang.get('btn_left') + '"></a>' +
+				'<a href="" class="bigSelect" title="' + mkf.lang.get('btn_select') + '"></a>' +
+				'<a href="" class="bigRight" title="' + mkf.lang.get('btn_right') + '"></a></div>' +
+				'<div><a href="" class="bigDown" title="' + mkf.lang.get('btn_Down') + '"></a></div>' +
 				'<div class="systemControls">' +
 				'<a href="" class="exitXBMC" title="' + mkf.lang.get('btn_exit') + '"></a>' +
 				'<a href="" class="shutdown" title="' + mkf.lang.get('btn_shutdown') + '"></a>' +
@@ -192,7 +199,27 @@
 			$('.reboot').click(function() {
 				xbmc.shutdown({type: 'reboot', onSuccess: showQuitMessage, onError: failed}); return false;
 			});
-
+			$('.bigLeft').click(function() {
+				xbmc.input({type: 'Left', onError: failed}); return false;
+			});
+			$('.bigRight').click(function() {
+				xbmc.input({type: 'Right', onError: failed}); return false;
+			});
+			$('.bigUp').click(function() {
+				xbmc.input({type: 'Up', onError: failed}); return false;
+			});
+			$('.bigDown').click(function() {
+				xbmc.input({type: 'Down', onError: failed}); return false;
+			});
+			$('.bigBack').click(function() {
+				xbmc.input({type: 'Back', onError: failed}); return false;
+			});
+			$('.bigHome').click(function() {
+				xbmc.input({type: 'Home', onError: failed}); return false;
+			});
+			$('.bigSelect').click(function() {
+				xbmc.input({type: 'Select', onError: failed}); return false;
+			});
 			return false;
 		});
 
@@ -1454,15 +1481,11 @@
 	 |  @param episodesResult
 	\* ########################### */
 	$.fn.defaultVideoScanViewer = function() {
-		$("#sortable").sortable();
-		var $scanList = $('<div>Scanning Library....</div><br /><ul id="sortable"><li>1</li><li>2</li><li>3</li></ul>').appendTo($(this));
-		/*var scanMenu = $('<li class="menuItem ' + sp.id +
-									(sp.className? ' ' + sp.className: '') +
-									'">' +
-									'<a href="" class="menuItemLink">' +
-									sp.menuButtonText +
-									'</a>' +
-									'</li>').appendTo($scanList);*/
+	
+		var $scanList = $('<div>Scanning Library....</div><br />').appendTo($(this));
+
+		/*var $scanList = $('<ul id="sortable"><li>1</li><li>2</li><li>3</li></ul>').appendTo($(this));
+		$( "#sortable" ).sortable({ helper: 'clone', update: function(event, ui) { console.log(event); console.log(ui);}});*/
 		
 	}; // END defaultScanViewer
 	
@@ -1473,7 +1496,7 @@
 	\* ########################### */
 	$.fn.defaultMusicScanViewer = function() {
 
-		var $scanMusicList = $('<div>Scanning Library....</div><br /><ul class="menuItem"></ul>').appendTo($(this));
+		var $scanMusicList = $('<div>Scanning Library....</div><br />').appendTo($(this));
 		
 	}; // END defaultScanViewer
 	

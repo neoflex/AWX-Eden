@@ -768,6 +768,7 @@ var awxUI = {};
 				onSuccess: function() {
 					mkf.messageLog.show(mkf.lang.get('page_title_video_scan'), mkf.messageLog.status.success, 5000);
 					//console.log($contentBox);
+
 					$contentBox.defaultVideoScanViewer('Video');
 					//$contentBox.removeClass('loading');
 				}

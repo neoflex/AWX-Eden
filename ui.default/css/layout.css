@@ -164,7 +164,7 @@ div.ui-slider-vertical a.ui-slider-handle {
 
 #controls {
 	position: absolute;
-	bottom: 90px;
+	bottom: 10px;
 	left: 15px;
 	height: 170px;
 	width: 60px;
@@ -644,11 +644,49 @@ ul.RecentfileList li {
 }
 
 div.mkfOverlay div.dialogSystemControl {
-	width: 245px;
+    width: 350px;
+	height: 375px;
 }
-
 div.systemControls {
-	height: 50px;
+    height: 50px;
+}
+div.input_big {
+	position: absolute;
+	margin: 20px;
+}
+div.input_big  a {
+	margin: 0px 50px 20px 0px;
+}
+div.input_big a.bigDown {
+	margin: 0px 120px 25px 120px;
+}
+a.bigLeft, a.bigRight, a.bigUp, a.bigDown, a.bigSelect, a.bigBack, a.bigHome {
+    background: url("../images/controls_big.png") no-repeat scroll 0 0 transparent;
+    float: left;
+    height: 70px;
+    margin-right: 15px;
+    width: 70px;
+}
+a.bigDown {
+    background-position: 0 0;
+}
+a.bigRight {
+    background-position: -70px 0;
+}
+a.bigLeft {
+    background-position: -140px 0;
+}
+a.bigUp {
+    background-position: -210px 0;
+}
+a.bigBack {
+    background-position: -280px 0;
+}
+a.bigHome {
+    background-position: -350px 0;
+}
+a.bigSelect {
+    background-position: -420px 0;
 }
 
 a.exitXBMC, a.shutdown, a.suspend, a.reboot {
