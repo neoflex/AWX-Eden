@@ -606,6 +606,9 @@ div.folderLinkWrapper span.playlistmove:hover {
 	float: left;
     background-position: -64px -16px;
 }
+div.movieinfo {
+	display: table-row;
+}
 div.mkfOverlay div.dialogSystemControl {
     width: 350px;
 	height: 375px;

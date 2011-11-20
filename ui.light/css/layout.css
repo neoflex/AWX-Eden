@@ -329,6 +329,9 @@ div.mkfOverlay div.dialog span.label {
 	font-weight: bold;
 	margin-right: 10px;
 }
+div.movieinfo {
+	display: table-row;
+}
 
 div.mkfOverlay div.dialog span.value,
 div.mkfOverlay div.dialog span.valuePoster,

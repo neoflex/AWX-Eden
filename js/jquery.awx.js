@@ -1016,22 +1016,22 @@
 
 			xbmc.getMovieInfo({
 				movieid: event.data.idMovie,
-				onSuccess: function(movieinfo) {
+				onSuccess: function(movie) {
 					var dialogContent = '';
-					var thumb = (movieinfo.thumbnail? xbmc.getThumbUrl(movieinfo.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
+					var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
 					//dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getMovieThumbType() + ' dialogThumb" />' + //Won't this always be poster?!
-					dialogContent += '<img src="' + thumb + '" class="thumb thumbPosterLarge dialogThumb" />' +
-						'<table><tr><td colspan=2><h1 class="underline">' + movieinfo.title + '</h1></td></tr>' +
-						'<tr><td><div class="test"><span class="label">' + mkf.lang.get('label_original_title') + '</span></td><td><span class="value">' + (movieinfo.originaltitle? movieinfo.originaltitle : mkf.lang.get('label_not_available')) + '</span></div></td></tr>' +
-						'<tr><td><div class="test"><span class="label">' + mkf.lang.get('label_runtime') + '</span></td><td><span class="value">' + (movieinfo.runtime? movieinfo.runtime : mkf.lang.get('label_not_available')) + '</span></div></td></tr>' +
-						'<tr><td><div class="test"><span class="label">' + mkf.lang.get('label_genre') + '</span></td><td><span class="value">' + (movieinfo.genre? movieinfo.genre : mkf.lang.get('label_not_available')) + '</span></div></td></tr>' +
-						'<tr><td><div class="test"><span class="label">' + mkf.lang.get('label_rating') + '</span></td><td><span class="value"><div class="smallRating' + Math.round(movieinfo.rating) + '"></div></span></div></td></tr>' +
-						'<tr><td><div class="test"><span class="label">' + mkf.lang.get('label_year') + '</span></td><td><span class="value">' + (movieinfo.year? movieinfo.year : mkf.lang.get('label_not_available')) + '</span></div></td></tr>' +
-						'<tr><td><div class="test"><span class="label">' + mkf.lang.get('label_director') + '</span></td><td><span class="value">' + (movieinfo.director? movieinfo.director : mkf.lang.get('label_not_available')) + '</span></div></td></tr>' +
-						'<tr><td><div class="test"><span class="label">' + mkf.lang.get('label_tagline') + '</span></td><td><span class="value">' + (movieinfo.tagline? movieinfo.tagline : mkf.lang.get('label_not_available')) + '</span></div></td></tr>' +
-						'<tr><td><div class="test"><span class="label">' + mkf.lang.get('label_set') + '</span></td><td><span class="value">' + (movieinfo.set[0]? movieinfo.set : mkf.lang.get('label_not_available')) + '</span></div></td></tr>' +
-						'<tr><td valign="top"><div class="test"><span class="label">' + mkf.lang.get('label_file') + '</span></td><td><span class="value">' + movieinfo.file + '</span></div></td></tr></table>' +
-						'<p class="plot">' + movieinfo.plot + '</p>';
+					dialogContent += '<div><img src="' + thumb + '" class="thumb thumbPosterLarge dialogThumb" /></div>' +
+						'<div><h1 class="underline">' + movie.title + '</h1></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_original_title') + '</span><span class="value">' + (movie.originaltitle? movie.originaltitle : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="value">' + (movie.runtime? movie.runtime : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_genre') + '</span><span class="value">' + (movie.genre? movie.genre : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_rating') + '</span><span class="value"><div class="smallRating' + Math.round(movie.rating) + '"></div></span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_year') + '</span><span class="value">' + (movie.year? movie.year : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_director') + '</span><span class="value">' + (movie.director? movie.director : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_tagline') + '</span><span class="value">' + (movie.tagline? movie.tagline : mkf.lang.get('label_not_available')) + '</span></div>' +
+						//'<tr><td><div class="test"><span class="label">' + mkf.lang.get('label_set') + '</span></td><td><span class="value">' + (movie.set[0]? movie.set : mkf.lang.get('label_not_available')) + '</span></div></td></tr>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + movie.file + '</span></div></div>' +
+						'<p class="plot">' + movie.plot + '</p>';
 					mkf.dialog.setContent(dialogHandle, dialogContent);
 					return false;
 				},
@@ -1194,16 +1194,18 @@
 			var movie = event.data.movie;
 			var dialogContent = '';
 			var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
-			dialogContent += '<img src="' + thumb + '" class="thumb thumbPosterLarge dialogThumb" />' +
-				'<h1 class="underline">' + movie.title + '</h1>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_original_title') + '</span><span class="value">' + movie.originaltitle + '</span></div>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="value">' + movie.runtime + '</span></div>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_genre') + '</span><span class="value">' + movie.genre + '</span></div>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_rating') + '</span><span class="value"><div class="smallRating' + Math.round(movie.rating) + '"></div></span></div>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_year') + '</span><span class="value">' + movie.year + '</span></div>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_director') + '</span><span class="value">' + movie.director + '</span></div>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + movie.file + '</span></div>' +
-				'<p class="plot">' + movie.plot + '</p>';
+					dialogContent += '<div><img src="' + thumb + '" class="thumb thumbPosterLarge dialogThumb" /></div>' +
+						'<div><h1 class="underline">' + movie.title + '</h1></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_original_title') + '</span><span class="value">' + (movie.originaltitle? movie.originaltitle : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="value">' + (movie.runtime? movie.runtime : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_genre') + '</span><span class="value">' + (movie.genre? movie.genre : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_rating') + '</span><span class="value"><div class="smallRating' + Math.round(movie.rating) + '"></div></span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_year') + '</span><span class="value">' + (movie.year? movie.year : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_director') + '</span><span class="value">' + (movie.director? movie.director : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_tagline') + '</span><span class="value">' + (movie.tagline? movie.tagline : mkf.lang.get('label_not_available')) + '</span></div>' +
+						//'<tr><td><div class="test"><span class="label">' + mkf.lang.get('label_set') + '</span></td><td><span class="value">' + (movie.set[0]? movie.set : mkf.lang.get('label_not_available')) + '</span></div></td></tr>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + movie.file + '</span></div></div>' +
+						'<p class="plot">' + movie.plot + '</p>';
 			mkf.dialog.setContent(dialogHandle, dialogContent);
 
 			return false;

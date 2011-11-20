@@ -373,7 +373,9 @@ div.thumbWrapper div.albumArtist {
 	font-size: 11px;
 	text-align: center;
 }
-
+div.movieinfo {
+	display: table-row;
+}
 .statusPaused, .statusShuffle, .statusRepeat, .statusRepeat1 {
 	display: block;
 	position: absolute;
