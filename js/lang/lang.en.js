@@ -62,6 +62,7 @@ mkf.lang.add({language: 'English', short: 'en', author: 'MKay', values: {
 
 	'message_clear_audio_playlist':		'Clear Audio Playlist ... ',
 	'message_clear_video_playlist':		'Clear Video Playlist ... ',
+	'message_swap_playlist':			'Swap Playlist Item...',
 	'message_ok':						'OK',
 	'message_failed':					'Failed',
 	'message_failed_artist_list': 		'Failed to retrieve artist list!',
@@ -129,6 +130,7 @@ mkf.lang.add({language: 'English', short: 'en', author: 'MKay', values: {
 	'btn_save': 						'Save',
 	'btn_play': 						'Play',
 	'btn_enqueue': 						'Enqueue',
+	'btn_swap':							'Swap',
 	'btn_songs': 						'Songs',
 	'btn_remove': 						'Remove',
 	'btn_information':					'Information',

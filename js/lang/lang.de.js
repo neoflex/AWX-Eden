@@ -62,6 +62,7 @@ mkf.lang.add({language: 'Deutsch', short: 'de', author: 'MKay', values: {
 
 	'message_clear_audio_playlist':		'Leere Audio-Playlist ... ',
 	'message_clear_video_playlist':		'Leere Video-Playlist ... ',
+	'message_swap_playlist':			'Swap Playlist Item...',
 	'message_ok':						'OK',
 	'message_failed':					'Fehlgeschlagen',
 	'message_failed_artist_list': 		'Laden der Interpreten-Liste fehlgeschlagen!',
@@ -127,6 +128,7 @@ mkf.lang.add({language: 'Deutsch', short: 'de', author: 'MKay', values: {
 	'btn_save': 						'Speichern',
 	'btn_play': 						'Abspielen',
 	'btn_enqueue': 						'Einreihen',
+	'btn_swap':							'Swap',
 	'btn_songs': 						'Songs',
 	'btn_remove': 						'Entfernen',
 	'btn_information':					'Information',

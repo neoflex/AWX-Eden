@@ -871,9 +871,9 @@
 							playlistItemCur = 'playlistItem';
 						}
 						
-						$item = $('<li class="' + playlistItemClass + '"><div class="folderLinkWrapper playlistItem' + i + '">' + 
-							'<a class="button remove" href="" title="' + mkf.lang.get('btn_remove') +  '"><span class="miniIcon remove" /></a>' +
-							'<a class="' + playlistItemCur + ' play" id="apli' + i + '" href="">' + (i+1) + '. ' +
+						$item = $('<li class="' + playlistItemClass + '" id="apli' + i + '"><div class="folderLinkWrapper playlistItem' + i + '">' + 
+							'<a class="button remove" href="" title="' + mkf.lang.get('btn_remove') +  '"><span class="miniIcon remove" /></a><span class="miniIcon playlistmove" title="' + mkf.lang.get('btn_swap') +  '" />' +
+							'<a class="' + playlistItemCur + ' play" href="">' + (i+1) + '. ' +
 							(playlist=='Audio'? artist + ' - ' + title : label) + '&nbsp;&nbsp;&nbsp;&nbsp;' + xbmc.formatTime(duration) +
 							'</a></div></li>').appendTo($itemList);
 
@@ -884,14 +884,32 @@
 				if (runtime > 0) {
 						$itemList = $('<p>' + mkf.lang.get('label_total_runtime') + xbmc.formatTime(runtime) + '</p>').appendTo($(this));
 				}
-				//$("#apli"+xbmc.periodicUpdater.curPlaylistNum).css("border","1px solid red");
+				$( "#sortable" ).sortable({
+					helper: 'clone',
+					handle : '.playlistmove',
+					update: function(event, ui) {
+						var messageHandle = mkf.messageLog.show(mkf.lang.get('message_swap_playlist'));
+						xbmc.swapAudioPlaylist({
+							plFrom: ui.item.attr("id").replace(/[^\d]+/g, ''),
+							plTo: ui.item.prevAll().length,
+							onSuccess: function() {
+								mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+								// update playlist - $each classRemove classAdd new IDs?
+								awxUI.onMusicPlaylistShow();
+							},
+							onError: function(errorText) {
+								mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_failed'), 8000, mkf.messageLog.status.error);
+							}
+						});
+					}
+				});
 			});
 		}
 		
 		//video
 		if (playlist == 'Video') {
 			this.each(function() {
-				var $itemList = $('<ul class="fileList"></ul>').appendTo($(this));
+				var $itemList = $('<ul class="fileList" id="sortable"></ul>').appendTo($(this));
 				var runtime = 0;
 				if (playlistResult.limits.total > 0) {
 					$.each(playlistResult.items, function(i, item)  {
@@ -917,9 +935,9 @@
 						} else {
 							playlistItemCur = 'playlistItem';
 						}							
-						$item = $('<li class="' + playlistItemClass + '"><div class="folderLinkWrapper playlistItem' + i + '">' + 
-							'<a class="button remove" href="" title="' + mkf.lang.get('btn_remove') +  '"><span class="miniIcon remove" /></a>' +
-							'<a class="' + playlistItemCur + ' play" id="vpli' + i + '" href="">' + (i+1) + '. ' +
+						$item = $('<li class="' + playlistItemClass + '" id="vpli' + i + '"><div class="folderLinkWrapper playlistItem' + i + '">' + 
+							'<a class="button remove" href="" title="' + mkf.lang.get('btn_remove') +  '"><span class="miniIcon remove" /></a><span class="miniIcon playlistmove" title="' + mkf.lang.get('btn_swap') +  '"/>' +
+							'<a class="' + playlistItemCur + ' play" href="">' + (i+1) + '. ' +
 							(item.type=='episode'? showtitle + ' - Season ' + season + ' - ' + title : title) + '&nbsp;&nbsp;&nbsp;&nbsp;' + xbmc.formatTime(duration) +
 							'</a></div></li>').appendTo($itemList);
 
@@ -930,6 +948,25 @@
 				if (runtime > 0) {
 					$itemList = $('<p>' + mkf.lang.get('label_total_runtime') + xbmc.formatTime(runtime) + '</p>').appendTo($(this));
 				}
+				$( "#sortable" ).sortable({
+					helper: 'clone',
+					handle : '.playlistmove',
+					update: function(event, ui) {
+						var messageHandle = mkf.messageLog.show(mkf.lang.get('message_swap_playlist'));
+						xbmc.swapVideoPlaylist({
+							plFrom: ui.item.attr("id").replace(/[^\d]+/g, ''),
+							plTo: ui.item.prevAll().length,
+							onSuccess: function() {
+								mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+								// update playlist - $each classRemove classAdd new IDs?
+								awxUI.onVideoPlaylistShow();
+							},
+							onError: function(errorText) {
+								mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_failed'), 8000, mkf.messageLog.status.error);
+							}
+						});
+					}
+				});
 			});
 		}
 	}; // END defaultPlaylistViewer
@@ -1484,8 +1521,11 @@
 	
 		var $scanList = $('<div>Scanning Library....</div><br />').appendTo($(this));
 
-		/*var $scanList = $('<ul id="sortable"><li>1</li><li>2</li><li>3</li></ul>').appendTo($(this));
-		$( "#sortable" ).sortable({ helper: 'clone', update: function(event, ui) { console.log(event); console.log(ui);}});*/
+		/*var $scanList = $('<ul id="sortable"><li id="playlist001">1</li><li id="playlist002">2</li><li id="playlist003">3</li></ul>').appendTo($(this));
+		$( "#sortable" ).sortable({ 
+			helper: 'clone',
+			update: function(event, ui) { console.log(event); console.log(ui.item);}
+		});*/
 		
 	}; // END defaultScanViewer
 	

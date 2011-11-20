@@ -62,6 +62,7 @@ mkf.lang.add({language: 'Français', short: 'fr', author: 'DanoneKiD', values: {
 
 	'message_clear_audio_playlist':		'Vider la liste de lecture Musicale... ',
 	'message_clear_video_playlist':		'Vider la liste de lecture Vidéos... ',
+	'message_swap_playlist':			'Swap Playlist Item...',
 	'message_ok':						'OK',
 	'message_failed':					'Erreur',
 	'message_failed_artist_list': 		'Impossible de récupérer la liste des Artistes !',
@@ -129,6 +130,7 @@ mkf.lang.add({language: 'Français', short: 'fr', author: 'DanoneKiD', values: {
 	'btn_save': 						'Sauvegarder',
 	'btn_play': 						'Lire',
 	'btn_enqueue': 						'Ajouter',
+	'btn_swap':							'Swap',
 	'btn_songs': 						'Titres',
 	'btn_remove': 						'Retirer',
 	'btn_information':					'Informations',

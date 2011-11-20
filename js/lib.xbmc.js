@@ -569,7 +569,7 @@ var xbmc = {};
 		clearAudioPlaylist: function(options) {
 			var settings = {
 				onSuccess: null,
-				onError: null,
+				onError: null
 			};
 			$.extend(settings, options);
 
@@ -583,24 +583,43 @@ var xbmc = {};
 
 		swapAudioPlaylist: function(options) {
 			var settings = {
+				plFrom: '0',
+				plTo: '0',
 				onSuccess: null,
-				onError: null,
+				onError: null
 			};
 			$.extend(settings, options);
 
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "Playlist.Swap", "params": { "playlistid": 0, "position1": 3, "position2": 1 }, "id": 1}',
+				'{"jsonrpc": "2.0", "method": "Playlist.Swap", "params": { "playlistid": 0, "position1": ' + settings.plFrom + ', "position2": '+ settings.plTo +' }, "id": 1}',
 				settings.onSuccess,
 				settings.onError
 			);
 		},
 		
 		
+		swapVideoPlaylist: function(options) {
+			var settings = {
+				plFrom: '0',
+				plTo: '0',
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
+
+			xbmc.sendCommand(
+				'{"jsonrpc": "2.0", "method": "Playlist.Swap", "params": { "playlistid": 1, "position1": ' + settings.plFrom + ', "position2": '+ settings.plTo +' }, "id": 1}',
+				settings.onSuccess,
+				settings.onError
+			);
+		},
+
+		
 		playAudio: function(options) {
 			var settings = {
 				item: 0,
 				onSuccess: null,
-				onError: null,
+				onError: null
 			};
 			$.extend(settings, options);
 
@@ -1388,38 +1407,38 @@ var xbmc = {};
 				//Stop changed status firering by only setting vars once!
 				if (typeof xbmc.periodicUpdater.lastVolume === 'undefined') {
 					$.extend(xbmc.periodicUpdater, {
-						lastVolume: -1,
+						lastVolume: -1
 					});
 				}
 				if (typeof xbmc.periodicUpdater.shuffleStatus === 'undefined') {
 					$.extend(xbmc.periodicUpdater, {
-						shuffleStatus: false,
+						shuffleStatus: false
 					});
 				}
 				if (typeof xbmc.periodicUpdater.currentlyPlayingFile === 'undefined') {
 					$.extend(xbmc.periodicUpdater, {
-						currentlyPlayingFile: null,
+						currentlyPlayingFile: null
 					});
 				}				
 				if (typeof xbmc.periodicUpdater.progress === 'undefined') {
 					$.extend(xbmc.periodicUpdater, {
-						progress: '',
+						progress: ''
 					});
 				}
 				if (typeof xbmc.periodicUpdater.playerStatus === 'undefined') {
 					$.extend(xbmc.periodicUpdater, {
-						playerStatus: 'stopped',
+						playerStatus: 'stopped'
 					});
 				}
 				//For highlighting current item in playlist
 				if (typeof xbmc.periodicUpdater.curPlaylistNum === 'undefined') {
 					$.extend(xbmc.periodicUpdater, {
-						curPlaylistNum: 0,
+						curPlaylistNum: 0
 					});
 				}
 				if (typeof xbmc.periodicUpdater.repeatStatus === 'undefined') {
 					$.extend(xbmc.periodicUpdater, {
-						repeatStatus: 'off',
+						repeatStatus: 'off'
 					});
 				}
 				

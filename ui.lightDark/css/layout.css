@@ -570,6 +570,11 @@ span.miniIcon {
     height: 16px;
     width: 16px;
 }
+span.playlistmove {
+	float: left;
+	margin: 10px 5px;
+    background-position: -64px top;
+}
 span.enqueue {
     background-position: left top;
 }
@@ -596,6 +601,10 @@ div.folderLinkWrapper a.button:hover span.remove {
 }
 div.folderLinkWrapper a.button:hover span.information {
     background-position: -48px -16px;
+}
+div.folderLinkWrapper span.playlistmove:hover {
+	float: left;
+    background-position: -64px -16px;
 }
 div.mkfOverlay div.dialogSystemControl {
     width: 350px;

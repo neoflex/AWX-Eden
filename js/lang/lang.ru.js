@@ -62,6 +62,7 @@ mkf.lang.add({language: 'Russian', short: 'ru', author: 'Scaramush', values: {
 
 	'message_clear_audio_playlist':		'Очистить аудио плейлист ... ',
 	'message_clear_video_playlist':		'Очистить видео плейлист ... ',
+	'message_swap_playlist':			'Swap Playlist Item...',
 	'message_ok':						'OK',
 	'message_failed':					'Сбой',
 	'message_failed_artist_list': 		'Не удалось получить список исполнителей!',
@@ -129,6 +130,7 @@ mkf.lang.add({language: 'Russian', short: 'ru', author: 'Scaramush', values: {
 	'btn_save': 						'Сохранить',
 	'btn_play': 						'Воспроизвести',
 	'btn_enqueue': 						'Добавить в плейлист',
+	'btn_swap':							'Swap',
 	'btn_songs': 						'Песни',
 	'btn_remove': 						'Удалить',
 	'btn_information':					'Информация',
