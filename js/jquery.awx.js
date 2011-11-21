@@ -1497,7 +1497,7 @@
 						return;
 					}
 					
-					var $season = $('<li' + (i%2==0? ' class="even"': '') + '><table><td width="500"><div class="linkWrapper"> <a href="" class="season' + i + '">' + season.label + '</a> </div></td><td>' + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</td></tr></table></li>')
+					var $season = $('<li' + (i%2==0? ' class="even"': '') + '><div class="linkWrapper"> <a href="" class="season' + i + '">' + season.label + '</a> </div>' + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</li>')
 						.appendTo($seasonsList);
 					$season.find('a').bind(
 						'click',
@@ -1580,7 +1580,39 @@
 			return false;
 		};
 
+		var onEpisodeInfoClick = function(event) {
+			var dialogHandle = mkf.dialog.show();
 
+			xbmc.getEpisodeDetails({
+				episodeid: event.data.idEpisode,
+				onSuccess: function(ep) {
+					var dialogContent = '';
+					var thumb = (ep.thumbnail? xbmc.getThumbUrl(ep.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
+					//dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getMovieThumbType() + ' dialogThumb" />' + //Won't this always be poster?!
+					dialogContent += '<div><img src="' + thumb + '" class="thumb thumbFanart dialogThumb" /></div>' +
+						'<div><h1 class="underline">' + ep.title + '</h1></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_episode') + '</span><span class="value">' + (ep.episode? ep.episode : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_season') + '</span><span class="value">' + (ep.season? ep.season : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="value">' + (ep.runtime? ep.runtime : mkf.lang.get('label_not_available')) + '</span></div>' +						
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_rating') + '</span><span class="value"><div class="smallRating' + Math.round(ep.rating) + '"></div></span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_firstaired') + '</span><span class="value">' + (ep.firstaired? ep.firstaired : mkf.lang.get('label_not_available')) + '</span></div>' +
+						//'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_director') + '</span><span class="value">' + (ep.director? ep.director : mkf.lang.get('label_not_available')) + '</span></div>' +
+						//'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_tagline') + '</span><span class="value">' + (ep.tagline? ep.tagline : mkf.lang.get('label_not_available')) + '</span></div>' +
+						//'<tr><td><div class="test"><span class="label">' + mkf.lang.get('label_set') + '</span></td><td><span class="value">' + (ep.set[0]? ep.set : mkf.lang.get('label_not_available')) + '</span></div></td></tr>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + ep.file + '</span></div></div>' +
+						'<p class="plot">' + ep.plot + '</p>';
+					mkf.dialog.setContent(dialogHandle, dialogContent);
+					return false;
+				},
+				onError: function() {
+					mkf.messageLog.show('Failed to load episode information!', mkf.messageLog.status.error, 5000);
+					mkf.dialog.close(dialogHandle);
+				}
+			});
+			return false;
+		};
+		
+		
 		this.each(function() {
 			var $episodeList = $('<ul class="fileList"></ul>').appendTo($(this));
 
@@ -1597,10 +1629,12 @@
 						return;
 					}
 					
-					var $episode = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper episode' + episode.episodeid + '"> <a href="" class="button playlist" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a><a href="" class="episode play"><table><tr><td width="500">' + episode.episode + '. ' + episode.label + '</td><td>' + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</td></tr></table></a></div></li>').appendTo($episodeList);
+					
+					var $episode = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper episode' + episode.episodeid + '"> <a href="" class="button playlist" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a><a href="" class="button info" title="' + mkf.lang.get('btn_information') + '"><span class="miniIcon information" /></a><a href="" class="episode play">' + episode.episode + '. ' + episode.label + '' + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</a></div></li>').appendTo($episodeList);
 
 					$episode.find('.play').bind('click', {idEpisode: episode.episodeid}, onEpisodePlayClick);
 					$episode.find('.playlist').bind('click', {idEpisode: episode.episodeid}, onAddEpisodeToPlaylistClick);
+					$episode.find('.information').bind('click', {idEpisode: episode.episodeid}, onEpisodeInfoClick);
 				});
 			}
 		});

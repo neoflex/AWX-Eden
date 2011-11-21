@@ -170,6 +170,9 @@ mkf.lang.add({language: 'English', short: 'en', author: 'MKay', values: {
 	'label_total_runtime':				'Total play time: ',
 	'label_filter_watched':				'Hide watched (Movies and TV)',
 	'label_filter_listview':			'List view (no thumbnails)',
+	'label_season':						'Season:',
+	'label_episode':					'Episode:',
+	'label_firstaired':					'First Aired:',
 
 	'settings_help':					'LazyLoad:\nIf you activate LazyLoad, thumbnails will not be loaded until they become visible. This will save the server from many image-requests.\nBut if you have many items (movies, albums, ...) the webinterface can be laggy on scrolling if many thumbs are not loaded.\nIf you deactivate LazyLoad, all thumbs will be loaded when the page is shown (movies page, albums page, ...). It can take a short time until all thumbs are loaded.\n\nTimeOut:\nIf you have lots of movies (or albums ...) it can take some time to get the complete movie list. You can increase the TimeOut-value to prevent errors when trying to show the movie list.',
 	'settings_select_album_order': 		'Please select an album-order first!',

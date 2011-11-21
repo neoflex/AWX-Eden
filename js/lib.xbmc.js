@@ -1229,7 +1229,24 @@ var xbmc = {};
 		},
 
 
+		getEpisodeDetails: function(options) {
+			var settings = {
+				episodeid: 0,
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
 
+			xbmc.sendCommand(
+				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodeDetails", "params": { "episodeid": ' + settings.episodeid + ', "properties": ["season", "episode", "firstaired", "plot", "title", "runtime", "rating", "thumbnail", "playcount", "file"] }, "id": 2}',
+				function(response) {
+					settings.onSuccess(response.result.episodedetails);
+				},
+				settings.onError
+			);
+		},
+		
+		
 		getVideoPlaylist: function(options) {
 			var settings = {
 				onSuccess: null,
@@ -1495,7 +1512,7 @@ var xbmc = {};
 								}
 							},
 
-							null, false // not async
+							null, true // IS async // not async
 						);
 					}
 
@@ -1554,7 +1571,7 @@ var xbmc = {};
 								}
 							},
 
-							null, null, false // not async
+							null, null, true // IS async // not async
 						);
 					}
 						// Get current item
@@ -1585,7 +1602,7 @@ var xbmc = {};
 								}
 							},
 
-							null, null, false // not async
+							null, null, true // IS async // not async
 						);
 						
 						xbmc.sendCommand(
@@ -1624,7 +1641,7 @@ var xbmc = {};
 								}
 							},
 
-							null, null, false // not async
+							null, null, true // IS async // not async
 						);
 					}
 
