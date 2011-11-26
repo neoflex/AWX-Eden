@@ -167,7 +167,7 @@
 				'<div><a href="" class="bigLeft" title="' + mkf.lang.get('btn_left') + '"></a>' +
 				'<a href="" class="bigSelect" title="' + mkf.lang.get('btn_select') + '"></a>' +
 				'<a href="" class="bigRight" title="' + mkf.lang.get('btn_right') + '"></a></div>' +
-				'<div><a href="" class="bigDown" title="' + mkf.lang.get('btn_Down') + '"></a></div>' +
+				'<div><a href="" class="bigDown" title="' + mkf.lang.get('btn_down') + '"></a></div>' +
 				'<div class="systemControls">' +
 				'<a href="" class="exitXBMC" title="' + mkf.lang.get('btn_exit') + '"></a>' +
 				'<a href="" class="shutdown" title="' + mkf.lang.get('btn_shutdown') + '"></a>' +
@@ -552,7 +552,7 @@
 						$album = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper">' + 
 							'<a href="" class="button playlist" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a>' +
 							'<a href="" class="button play" title="' + mkf.lang.get('btn_play') + '"><span class="miniIcon play" /></a>' +
-							'<a href="" class="album' + album.albumid + '">' + (i+1) + '. ' + album.label + ' - ' + album.artist + '<div class="findKeywords">' + album.label.toLowerCase() + '</div>' +
+							'<a href="" class="album' + album.albumid + '">' + (i+1) + '. ' + album.label + ' - ' + album.artist + '<div class="findKeywords">' + album.label.toLowerCase() + ' ' + album.artist.toLowerCase() + '</div>' +
 							'</a></div></li>').appendTo($albumList);
 
 						$album.find('.album'+ album.albumid).bind('click', {idAlbum: album.albumid, strAlbum: album.label}, onSonglistClick);
@@ -1343,9 +1343,9 @@
 				'<h1 class="underline">' + tvshow.title + '</h1>' +
 				//'<div class="test"><span class="label">' + mkf.lang.get('label_original_title') + '</span><span class="'+valueClass+'">' + tvshow.originaltitle + '</span></div>' +
 				//'<div class="test"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="'+valueClass+'">' + tvshow.runtime + '</span></div>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_genre') + '</span><span class="'+valueClass+'">' + tvshow.genre + '</span></div>' +
+				'<div class="test"><span class="label">' + mkf.lang.get('label_genre') + '</span><span class="'+valueClass+'">' + (tvshow.genre? tvshow.genre : mkf.lang.get('label_not_available')) + '</span></div>' +
 				'<div class="test"><span class="label">' + mkf.lang.get('label_rating') + '</span><span class="'+valueClass+'"><div class="smallRating' + Math.round(tvshow.rating) + '"></div></span></div>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_year') + '</span><span class="'+valueClass+'">' + tvshow.year + '</span></div>' +
+				'<div class="test"><span class="label">' + mkf.lang.get('label_year') + '</span><span class="'+valueClass+'">' + (tvshow.year? tvshow.year : mkf.lang.get('label_not_available')) + '</span></div>' +
 				//'<div class="test"><span class="label">' + mkf.lang.get('label_director') + '</span><span class="'+valueClass+'">' + tvshow.director + '</span></div>' +
 				//'<div class="test"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="'+valueClass+'">' + tvshow.file + '</span></div>' +
 				'<p class="plot">' + tvshow.plot + '</p>';
@@ -1386,7 +1386,7 @@
 										'<a href="" class="button info" title="' + mkf.lang.get('btn_information') + '"><span class="miniIcon information" /></a>' +
 										'<a href="" class="tvshowName season">' + tvshow.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '<div class="findKeywords">' + tvshow.label.toLowerCase() + '</div>' +
 										'</a></div></li>').appendTo($tvShowList);
-							//console.log($tvShowList);
+
 							$tvshow.find('.season').bind('click', {idTvShow: tvshow.tvshowid, strTvShow: tvshow.label}, onSeasonsClick);
 							$tvshow.find('.info').bind('click', {'tvshow': tvshow}, onTVShowInformationClick);
 							
@@ -1589,7 +1589,7 @@
 					var dialogContent = '';
 					var thumb = (ep.thumbnail? xbmc.getThumbUrl(ep.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
 					//dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getMovieThumbType() + ' dialogThumb" />' + //Won't this always be poster?!
-					dialogContent += '<div><img src="' + thumb + '" class="thumb thumbFanart dialogThumb" /></div>' +
+					dialogContent += '<div><img src="' + thumb + '" class="thumbFanart dialogThumb" /></div>' +
 						'<div><h1 class="underline">' + ep.title + '</h1></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_episode') + '</span><span class="value">' + (ep.episode? ep.episode : mkf.lang.get('label_not_available')) + '</span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_season') + '</span><span class="value">' + (ep.season? ep.season : mkf.lang.get('label_not_available')) + '</span></div>' +
@@ -2105,14 +2105,15 @@
 
 		var self = this;
 		//var timeout;
-		var $searchItems = $(self).find(settings.searchItems);	
+		
+		var $searchItems = $(self).find(settings.searchItems);
 		var $box = $('#' + settings.id);
-		if ($box.length) {
+		/*if ($box.length) {
 			// Box was already created
 			$box.show();
 			$box.find('input').focus();
 
-		} else {
+		} else {*/
 			// Box not yet created
 			var $div = $('<div id="' + settings.id + '" class="findBox"><input type="text" /></div>')
 				.appendTo($('body'))
@@ -2128,11 +2129,16 @@
 				if (input.val()) {
 					$(self).prepend('<h1 class="findBoxTitle">' + mkf.lang.get('label_search_results', [input.val()]) + '</h1>');
 				}
+				if (settings.searchItems == '.folderLinkWrapper' || settings.searchItems == 'a' ){
+				$searchItems.parent().removeAttr("style");
+				} else {
 				$searchItems.removeAttr("style");
-				//$searchItems.show();
-				//console.log($searchItems.show());
+				}
+				if (settings.searchItems == '.folderLinkWrapper' || settings.searchItems == 'a' ){
+				$searchItems.not(":contains('" + input.val().toLowerCase() + "')").parent().hide();
+				} else {
 				$searchItems.not(":contains('" + input.val().toLowerCase() + "')").hide();
-				console.log($searchItems(":contains('" + input.val().toLowerCase() + "')"));
+				}
 				$(window).trigger('resize'); // ugly but best performance: trigger 'resize' because lazy-load-images may be visible now and should be loaded.
 			};
 
@@ -2158,7 +2164,7 @@
 					this.select();
 				})
 				.focus();
-		}
+		//}
 
 		return false;
 	}; // END defaultFindBox

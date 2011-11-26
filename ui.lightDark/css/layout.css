@@ -193,6 +193,12 @@ img.epWatched {
 	left:0px; 
 	z-index:4
 }
+/*div.inputcontrols {
+    background-color: #808080;
+    border-radius: 5px 5px 5px 5px;
+    border-width: 0;
+	height: 280px;
+}*/
 div.thumbWrapper {
     background-color: #EAECE6;
     border: 1px solid #D8D8D8;
@@ -617,14 +623,17 @@ div.systemControls {
     height: 50px;
 }
 div.input_big {
+    background-color: #808080;
+    border-radius: 5px 5px 5px 5px;
+    border-width: 0;
+	height: 280px;
+	width: 340px;
 	position: absolute;
-	margin: 20px;
+	margin: 5px;
 }
 div.input_big  a {
-	margin: 0px 50px 20px 0px;
-}
-div.input_big a.bigDown {
-	margin: 0px 120px 25px 120px;
+	background-color: #555;
+	border-radius: 5px 5px 5px 5px;
 }
 div.recentTVthumb {
 	position: relative; 
@@ -653,35 +662,41 @@ a.bigLeft, a.bigRight, a.bigUp, a.bigDown, a.bigSelect, a.bigBack, a.bigHome {
     background: url("../images/controls_big.png") no-repeat scroll 0 0 transparent;
     float: left;
     height: 70px;
-    margin-right: 15px;
     width: 70px;
 }
 a.bigDown {
     background-position: 0 0;
+    margin: 25px 135px 22px 135px;
 }
 a.bigRight {
     background-position: -70px 0;
+    margin: 25px 10px 0px 0px;
 }
 a.bigLeft {
     background-position: -140px 0;
+    margin: 25px 0px 0 10px;
 }
 a.bigUp {
     background-position: -210px 0;
+    margin: 10px 55px 0px;
 }
 a.bigBack {
     background-position: -280px 0;
+    margin: 10px 10px 0 0px;
 }
 a.bigHome {
     background-position: -350px 0;
+    margin: 10px 0px 0px 10px;
 }
 a.bigSelect {
     background-position: -420px 0;
+    margin: 25px 55px 0px;
 }
 a.exitXBMC, a.shutdown, a.suspend, a.reboot {
     background: url("../images/system_buttons.png") no-repeat scroll 0 0 transparent;
     float: left;
     height: 42px;
-    margin-right: 15px;
+    margin-right: 47px;
     width: 42px;
 }
 a.shutdown {
@@ -696,6 +711,7 @@ a.suspend {
 }
 a.reboot {
     background-position: -126px -42px;
+	margin-right: 15px;
 }
 a.shutdown:hover {
     background-position: 0 0;

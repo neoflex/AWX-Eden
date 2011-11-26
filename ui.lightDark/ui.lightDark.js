@@ -74,7 +74,8 @@ var awxUI = {};
 		 *     - Files            *
 		 *     - Playlist         *
 		 **************************/
-		setupPages: function() {			
+		setupPages: function() {
+			var listview = mkf.cookieSettings.get('listview', 'no')=='yes'? true : false;
 			// --- MUSIC ---
 			this.$musicContent = $('<div class="pageContentWrapper"></div>');
 			var musicPage = mkf.pages.addPage({
@@ -129,7 +130,7 @@ var awxUI = {};
 					function(){
 						var pos = $('#findAlbumButton').offset();
 						awxUI.$albumsContent
-							.defaultFindBox({id:'albumsFindBox', searchItems:'.thumbWrapper', top: pos.top, left: pos.left});
+							.defaultFindBox({id:'albumsFindBox', searchItems:(listview?'.folderLinkWrapper' : '.thumbWrapper'), top: pos.top, left: pos.left});
 						return false;
 					}
 			});
@@ -276,7 +277,7 @@ var awxUI = {};
 					function(){
 						var pos = $('#findMovieButton').offset();
 						awxUI.$moviesContent
-							.defaultFindBox({id:'moviesFindBox', searchItems:'.thumbWrapper', top: pos.top, left: pos.left});
+							.defaultFindBox({id:'moviesFindBox', searchItems:(listview?'.folderLinkWrapper' : '.thumbWrapper'), top: pos.top, left: pos.left});
 						return false;
 					}
 			});
@@ -329,7 +330,7 @@ var awxUI = {};
 					function(){
 						var pos = $('#findTVShowButton').offset();
 						awxUI.$tvShowsContent
-							.defaultFindBox({id:'tvShowFindBox', searchItems:'.thumbWrapper', top: pos.top, left: pos.left});
+							.defaultFindBox({id:'tvShowFindBox', searchItems:(listview?'.folderLinkWrapper' : '.thumbWrapper'), top: pos.top, left: pos.left});
 						return false;
 					}
 			});

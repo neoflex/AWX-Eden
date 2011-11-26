@@ -517,7 +517,7 @@ div.loading { background-image: url('../images/loading.gif'); }
 .contextMenu ul a.back { background-position: -22px 0; }
 .contextMenu ul a.clear { background-position: -44px 0; margin-top: 10px; }
 .contextMenu ul a.find { background-position: -66px 0; margin-top: 10px; }
-.contextMenu ul a.refresh { background-position: -88px 0; }
+.contextMenu ul a.refresh { background-position: -88px 0; margin-top: 10px; }
 .contextMenu ul a.close:hover { background-position: bottom left; }
 .contextMenu ul a.back:hover { background-position: -22px -22px; }
 .contextMenu ul a.clear:hover { background-position: -44px -22px; }
@@ -662,56 +662,74 @@ div.systemControls {
     height: 50px;
 }
 div.input_big {
+    background-color: #808080;
+    border-radius: 5px 5px 5px 5px;
+    border-width: 0;
+	height: 280px;
+	width: 340px;
 	position: absolute;
-	margin: 20px;
+	margin: 5px;
 }
 div.input_big  a {
-	margin: 0px 50px 20px 0px;
-}
-div.input_big a.bigDown {
-	margin: 0px 120px 25px 120px;
+	background-color: #555;
+	border-radius: 5px 5px 5px 5px;
 }
 a.bigLeft, a.bigRight, a.bigUp, a.bigDown, a.bigSelect, a.bigBack, a.bigHome {
     background: url("../images/controls_big.png") no-repeat scroll 0 0 transparent;
     float: left;
     height: 70px;
-    margin-right: 15px;
     width: 70px;
 }
 a.bigDown {
     background-position: 0 0;
+    margin: 25px 135px 22px 135px;
 }
 a.bigRight {
     background-position: -70px 0;
+    margin: 25px 10px 0px 0px;
 }
 a.bigLeft {
     background-position: -140px 0;
+    margin: 25px 0px 0 10px;
 }
 a.bigUp {
     background-position: -210px 0;
+    margin: 10px 55px 0px;
 }
 a.bigBack {
     background-position: -280px 0;
+    margin: 10px 10px 0 0px;
 }
 a.bigHome {
     background-position: -350px 0;
+    margin: 10px 0px 0px 10px;
 }
 a.bigSelect {
     background-position: -420px 0;
+    margin: 25px 55px 0px;
 }
 
 a.exitXBMC, a.shutdown, a.suspend, a.reboot {
-	float: left;
-	margin-right: 15px;
-	height: 42px;
-	width: 42px;
-	background: url('../images/system_buttons.png') no-repeat;
+    background: url("../images/system_buttons.png") no-repeat scroll 0 0 transparent;
+    float: left;
+    height: 42px;
+    margin-right: 47px;
+    width: 42px;
 }
-
-a.shutdown { background-position: 0 -42px; }
-a.exitXBMC { background-position: -42px -42px; margin-left: 15px; }
-a.suspend { background-position: -84px -42px; }
-a.reboot { background-position: -126px -42px; }
+a.shutdown {
+    background-position: 0 -42px;
+}
+a.exitXBMC {
+    background-position: -42px -42px;
+    margin-left: 15px;
+}
+a.suspend {
+    background-position: -84px -42px;
+}
+a.reboot {
+    background-position: -126px -42px;
+	margin-right: 15px;
+}
 
 a.shutdown:hover { background-position: 0 0; }
 a.exitXBMC:hover { background-position: -42px 0; }
