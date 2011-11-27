@@ -1617,8 +1617,8 @@ var xbmc = {};
 								if (xbmc.periodicUpdater.curPlaylistNum != curPlayItemNum) {
 									//Change highlights rather than reload playlist
 									if (activePlayer == 'audio') {
-										$("#apli"+xbmc.periodicUpdater.curPlaylistNum).attr("class","playlistItem");
-										$("#apli"+curPlayItemNum).attr("class","playlistItemCur");
+										$("div.folderLinkWrapper a.playlistItemCur").removeClass("playlistItemCur");
+										$(".apli"+curPlayItemNum).addClass("playlistItemCur");
 										xbmc.periodicUpdater.curPlaylistNum = curPlayItemNum;
 										//awxUI.onMusicPlaylistShow();
 									} else if (activePlayer == 'video') {
