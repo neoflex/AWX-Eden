@@ -172,7 +172,7 @@ var awxUI = {};
 				content: this.$albumsRecentContent,
 				contextMenu: musicAlbumsRecentContextMenu,
 				onShow: $.proxy(this, "onAlbumsRecentShow"),
-				className: 'recentalbums'
+				className: 'recentAlbums'
 			});
 			//end recent albums
 			
@@ -250,7 +250,7 @@ var awxUI = {};
 				menuButtonText: '&raquo; ' + mkf.lang.get('page_buttontext_music_scan'),
 				contextMenu: musicScanContextMenu,
 				onShow: $.proxy(this, "onMusicScanShow"),
-				className: 'musicscan'
+				className: 'scanMusic'
 			});
 			
 			// --- VIDEOS ---
@@ -319,7 +319,7 @@ var awxUI = {};
 				menuButtonText: '&raquo; ' + mkf.lang.get('page_buttontext_movies_recentlyadded'),
 				contextMenu: videoMoviesRecentContextMenu,
 				onShow: $.proxy(this, "onMoviesRecentShow"),
-				className: 'Recentmovies'
+				className: 'recentMovies'
 			});
 			//end recent movies
 			
@@ -381,7 +381,7 @@ var awxUI = {};
 				menuButtonText: '&raquo; ' + mkf.lang.get('page_buttontext_tv_recentlyadded'),
 				contextMenu: videoTvShowsRecentlyAddedContextMenu,
 				onShow: $.proxy(this, "onTvShowsRecentlyAddedShow"),
-				className: 'recentEps'
+				className: 'recentTV'
 			});
 			// end recently added eps
 			
@@ -436,7 +436,7 @@ var awxUI = {};
 				menuButtonText: '&raquo; ' + mkf.lang.get('page_buttontext_video_scan'),
 				contextMenu: videoScanContextMenu,
 				onShow: $.proxy(this, "onVideoScanShow"),
-				className: 'videoscan'
+				className: 'scanVideo'
 			});
 			
 			/*
@@ -520,6 +520,8 @@ var awxUI = {};
 						$(this).parent().removeClass('mouseover');
 					});
 			});
+			
+			$('#navigation ul.mkfMenu > li > a, ul.systemMenu > li > a').click(function(){ $('#navigation ul.mkfMenu ul, ul.systemMenu ul').hide(); });
 		},
 
 

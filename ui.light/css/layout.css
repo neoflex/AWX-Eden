@@ -698,6 +698,7 @@ br.clear { clear:both; }
 	width: 128px;
 	padding: 128px 0 5px 0;
 	margin-right: 10px;
+	margin-bottom: 10px;
 	color: #fff;
 	text-align: center;
 	text-decoration: none;
@@ -712,6 +713,12 @@ br.clear { clear:both; }
 #content .mkfMenu li.audiofiles a { background-position: -256px 0; }
 #content .mkfMenu li.movies a { background-position: -384px 0; }
 #content .mkfMenu li.albums a { background-position: -640px 0; }
+#content .mkfMenu li.videofiles a { background-position: -1280px 0; }
+#content .mkfMenu li.recentTV a { background-position: -768px 0; }
+#content .mkfMenu li.recentMovies a { background-position: -1152px 0; }
+#content .mkfMenu li.recentAlbums a { background-position: -1408px 0; }
+#content .mkfMenu li.scanVideo a { background-position: -896px 0; }
+#content .mkfMenu li.scanMusic a { background-position: -1024px 0; }
 
 #controls {
 	background: #EAECE6 url('../images/volume.png') no-repeat 20px 10px;

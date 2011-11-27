@@ -195,7 +195,7 @@ var mkf = {};
 					li.find('a')
 						.addClass(menuItem.icon)
 						.attr('title', menuItem.title)
-						.click(menuItem.onClick);
+						.click(menuItem.onClick)
 
 					if (menuItem.id) {
 						li.attr('id', menuItem.id)

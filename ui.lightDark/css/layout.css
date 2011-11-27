@@ -740,6 +740,7 @@ br.clear {
     color: #FFFFFF;
     float: left;
     margin-right: 10px;
+	margin-bottom: 10px;
     padding: 128px 0 5px;
     text-align: center;
     text-decoration: none;
@@ -748,21 +749,18 @@ br.clear {
 #content .mkfMenu li a:hover {
     background-color: #A0E312;
 }
-#content .mkfMenu li.artists a {
-    background-position: -512px 0;
-}
-#content .mkfMenu li.playlist a {
-    background-position: -128px 0;
-}
-#content .mkfMenu li.audiofiles a {
-    background-position: -256px 0;
-}
-#content .mkfMenu li.movies a {
-    background-position: -384px 0;
-}
-#content .mkfMenu li.albums a {
-    background-position: -640px 0;
-}
+#content .mkfMenu li.artists a { background-position: -512px 0; }
+#content .mkfMenu li.playlist a { background-position: -128px 0; }
+#content .mkfMenu li.audiofiles a { background-position: -256px 0; }
+#content .mkfMenu li.movies a { background-position: -384px 0; }
+#content .mkfMenu li.albums a { background-position: -640px 0; }
+#content .mkfMenu li.videofiles a { background-position: -1280px 0; }
+#content .mkfMenu li.recentTV a { background-position: -768px 0; }
+#content .mkfMenu li.recentMovies a { background-position: -1152px 0; }
+#content .mkfMenu li.recentAlbums a { background-position: -1408px 0; }
+#content .mkfMenu li.scanVideo a { background-position: -896px 0; }
+#content .mkfMenu li.scanMusic a { background-position: -1024px 0; }
+
 #controls {
     background: url("../images/volume.png") no-repeat scroll 20px 10px #EAECE6;
     border: 1px solid #7C7C7C;
