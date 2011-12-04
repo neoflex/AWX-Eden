@@ -617,31 +617,39 @@ div.smallRating9 { background-position: 0 -144px; }
 div.smallRating10 { background-position: 0 -160px; }
 
 div.recentTVthumb {
-	position:relative; 
+	margin: 5px 5px 0 0;
+	float: left;
+	position: relative; 
 	z-index:3;
 }
-div.recentTVshow {
+div.recentTVshowName {
+	margin-top: 3px;
 	font-size: 150%; 
 	font-weight: bold;
+	min-width: 400px;
 }
 div.recentTVtitle {
 	font-size: 120%;  
 	margin-bottom: 3px; 
 	color: #A0E312;
 }
+div.recentTVenq {
+	position: relative;
+}
 div.recentTVenq a.button:hover span.enqueue {
     background-position: left bottom;
 }
-td.recentTVshow {
+div.recentTVshow {
+	display: table-row;
 	position: relative; 
 	vertical-align:text-top;
 }
 a.recentTVplay  {
-	position:relative;
-	visibility: show;
-	top:0px; 
-	left:0px; 
-	z-index:5
+	position: relative; 
+	float: left;
+	top: 98px; 
+	left: 21px; 
+	z-index: 5
 }
 ul.RecentfileList {
     border-top: 1px solid #ABABAB;

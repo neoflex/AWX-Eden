@@ -1298,7 +1298,7 @@ var xbmc = {};
 			$.extend(settings, options);
 
 			xbmc.sendCommand(
-				'{"jsonrpc":"2.0","id":2,"method":"VideoLibrary.GetRecentlyAddedEpisodes","params":{ "limits": {"end": 25},"properties":["title","runtime","season","episode","showtitle","thumbnail","file","plot","playcount"]}} ',
+				'{"jsonrpc":"2.0","id":2,"method":"VideoLibrary.GetRecentlyAddedEpisodes","params":{ "limits": {"end": 25},"properties":["title","runtime","season","episode","showtitle","thumbnail","file","plot","playcount","tvshowid"]}} ',
 
 				function(response) {
 					settings.onSuccess(response.result);
@@ -1308,6 +1308,25 @@ var xbmc = {};
 			);
 		},
 
+		getunwatchedEps: function(options) {
+			var settings = {
+				tvshowid: 0,
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
+
+			xbmc.sendCommand(
+				'{"jsonrpc":"2.0","id":2,"method":"VideoLibrary.GetEpisodes","params":{ "tvshowid": ' + settings.tvshowid + ', "properties":["season","playcount","episode"]}} ',
+
+				function(response) {
+					settings.onSuccess(response.result);
+				},
+
+				settings.onError
+			);
+		},
+		
 		getRecentlyAddedMovies: function(options) {
 			var settings = {
 				onSuccess: null,

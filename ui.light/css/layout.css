@@ -599,27 +599,36 @@ div.input_big  a {
 
 
 div.recentTVthumb {
-	position:relative; 
+	margin: 5px 5px 0 0;
+	float: left;
+	position: relative; 
 	z-index:3;
 }
-div.recentTVshow {
+div.recentTVshowName {
+	margin-top: 3px;
 	font-size: 150%; 
 	font-weight: bold;
+	min-width: 400px;
 }
 div.recentTVtitle {
 	font-size: 120%;  
 	margin-bottom: 3px; 
 	color: #A0E312;
 }
-td.recentTVshow {
+div.recentTVshow {
+	display: table-row;
 	position: relative; 
 	vertical-align:text-top;
 }
+div.recentTVenq {
+	position: absolute;
+}
 a.recentTVplay  {
-	position:relative; 
-	top:43px; 
-	left:25px; 
-	z-index:5
+	position: relative; 
+	float: left;
+	top: 98px; 
+	left: 5px; 
+	z-index: 5
 }
 
 a.bigLeft, a.bigRight, a.bigUp, a.bigDown, a.bigSelect, a.bigBack, a.bigHome {

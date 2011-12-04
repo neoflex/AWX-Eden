@@ -1497,7 +1497,7 @@
 						return;
 					}
 					
-					var $season = $('<li' + (i%2==0? ' class="even"': '') + '><div class="linkWrapper"> <a href="" class="season' + i + '">' + season.label + '</a> </div>' + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</li>')
+					var $season = $('<li' + (i%2==0? ' class="even"': '') + '><div class="linkWrapper"> <a href="" class="season' + i + '">' + season.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</a></div></li>')
 						.appendTo($seasonsList);
 					$season.find('a').bind(
 						'click',
@@ -1640,13 +1640,12 @@
 		});
 	}; // END defaultEpisodesViewer
 
-
 	/* ########################### *\
-	 |  Show Recently Added episodes.
+	 |  Show unwatched episodes.
 	 |
 	 |  @param episodesResult
 	\* ########################### */
-	$.fn.defaultRecentlyAddedEpisodesViewer = function(episodesResult) {
+	$.fn.defaultunwatchedEpsViewer = function(episodesResult) {
 		var onEpisodePlayClick = function(event) {
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_episode'));
 
@@ -1679,7 +1678,140 @@
 			return false;
 		};
 
+		var onEpisodeInfoClick = function(event) {
+			var dialogHandle = mkf.dialog.show();
 
+			xbmc.getEpisodeDetails({
+				episodeid: event.data.idEpisode,
+				onSuccess: function(ep) {
+					var dialogContent = '';
+					var thumb = (ep.thumbnail? xbmc.getThumbUrl(ep.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
+					//dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getMovieThumbType() + ' dialogThumb" />' + //Won't this always be poster?!
+					dialogContent += '<div><img src="' + thumb + '" class="thumbFanart dialogThumb" /></div>' +
+						'<div><h1 class="underline">' + ep.title + '</h1></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_episode') + '</span><span class="value">' + (ep.episode? ep.episode : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_season') + '</span><span class="value">' + (ep.season? ep.season : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="value">' + (ep.runtime? ep.runtime : mkf.lang.get('label_not_available')) + '</span></div>' +						
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_rating') + '</span><span class="value"><div class="smallRating' + Math.round(ep.rating) + '"></div></span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_firstaired') + '</span><span class="value">' + (ep.firstaired? ep.firstaired : mkf.lang.get('label_not_available')) + '</span></div>' +
+						//'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_director') + '</span><span class="value">' + (ep.director? ep.director : mkf.lang.get('label_not_available')) + '</span></div>' +
+						//'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_tagline') + '</span><span class="value">' + (ep.tagline? ep.tagline : mkf.lang.get('label_not_available')) + '</span></div>' +
+						//'<tr><td><div class="test"><span class="label">' + mkf.lang.get('label_set') + '</span></td><td><span class="value">' + (ep.set[0]? ep.set : mkf.lang.get('label_not_available')) + '</span></div></td></tr>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + ep.file + '</span></div></div>' +
+						'<p class="plot">' + ep.plot + '</p>';
+					mkf.dialog.setContent(dialogHandle, dialogContent);
+					return false;
+				},
+				onError: function() {
+					mkf.messageLog.show('Failed to load episode information!', mkf.messageLog.status.error, 5000);
+					mkf.dialog.close(dialogHandle);
+				}
+			});
+			return false;
+		};
+		
+		
+		this.each(function() {
+			var $episodeList = $('<ul class="fileList"></ul>').appendTo($(this));
+
+			if (episodesResult.limits.total > 0) {	
+				$.each(episodesResult.episodes, function(i, episode)  {
+					var watched = false;
+					var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
+					
+					if (episode.playcount > 0) {
+						return;
+					}
+					
+					
+					var $episode = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper episode' + episode.episodeid + '"> <a href="" class="button playlist" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a><a href="" class="button info" title="' + mkf.lang.get('btn_information') + '"><span class="miniIcon information" /></a><a href="" class="episode play">' + 'S' + episode.season + 'E' + episode.episode + '. ' + episode.label + '</a></div></li>').appendTo($episodeList);
+
+					$episode.find('.play').bind('click', {idEpisode: episode.episodeid}, onEpisodePlayClick);
+					$episode.find('.playlist').bind('click', {idEpisode: episode.episodeid}, onAddEpisodeToPlaylistClick);
+					$episode.find('.information').bind('click', {idEpisode: episode.episodeid}, onEpisodeInfoClick);
+				});
+			}
+		});
+	}; // END defaultunwatchedEpsViewer
+	
+	
+	/* ########################### *\
+	 |  Show Recently Added episodes.
+	 |
+	 |  @param episodesResult
+	\* ########################### */
+	$.fn.defaultRecentlyAddedEpisodesViewer = function(episodesResult, parentPage) {
+		var onEpisodePlayClick = function(event) {
+			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_episode'));
+
+			xbmc.playEpisode({
+				episodeid: event.data.idEpisode,
+				onSuccess: function() {
+					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+				},
+				onError: function(errorText) {
+					mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+				}
+			});
+
+			return false;
+		};
+
+		var onAddEpisodeToPlaylistClick = function(event) {
+			var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_episode_to_playlist'));
+
+			xbmc.addEpisodeToPlaylist({
+				episodeid: event.data.idEpisode,
+				onSuccess: function() {
+					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+				},
+				onError: function() {
+					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_failed'), 8000, mkf.messageLog.status.error);
+				}
+			});
+
+			return false;
+		};
+
+		var onShowClick = function(e) {
+			// open new page to show tv show's seasons
+			var $unwatchedEpsContent = $('<div class="pageContentWrapper"></div>');
+			var unwatchedEpsPage = mkf.pages.createTempPage(parentPage, {
+				title: e.data.strTvShow,
+				content: $unwatchedEpsContent
+			});
+			unwatchedEpsPage.setContextMenu(
+				[
+					{
+						'icon':'close', 'title':mkf.lang.get('ctxt_btn_close_season_list'), 'shortcut':'Ctrl+1', 'onClick':
+						function() {
+							mkf.pages.closeTempPage(unwatchedEpsPage);
+							return false;
+						}
+					}
+				]
+			);
+			mkf.pages.showTempPage(unwatchedEpsPage);
+
+			// show tv show's seasons
+			$unwatchedEpsContent.addClass('loading');
+			xbmc.getunwatchedEps({
+				tvshowid: e.data.idTvShow,
+
+				onError: function() {
+					mkf.messageLog.show(mkf.lang.get('message_failed_tvshows_seasons'), mkf.messageLog.status.error, 5000);
+					$unwatchedEpsContent.removeClass('loading');
+				},
+
+				onSuccess: function(result) {
+					$unwatchedEpsContent.defaultunwatchedEpsViewer(result, e.data.idTvShow, unwatchedEpsPage);
+					$unwatchedEpsContent.removeClass('loading');
+				}
+			});
+
+			return false;
+		}; // END onSeasonsClick
+		
 		this.each(function() {
 			var $episodeList = $('<ul class="RecentfileList"></ul>').appendTo($(this));
 			if (episodesResult.limits.total > 0) {	
@@ -1697,13 +1829,21 @@
 					}*/
 					
 					//var $episode = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper episode' + episode.episodeid + '"> <a href="" class="button playlist" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a><a href="" class="episode play"><table><tr><td width="500">' + episode.episode + '. ' + episode.label + '</td><td>' + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</td></tr></table></a></div></li>').appendTo($episodeList);
-					var $episode = $('<li' + '><table><tr><td>' + 
+					/*var $episode = $('<li' + '><table><tr><td>' + 
 					'<div class="recentTVenq episode' + episode.episodeid + '"> <a href="" class="button playlist recentTVplay" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a></div>' + 
 					'</td><td><div class="recentTVthumb"><img src="' + thumb + '" alt="' + episode.label + '" class="thumbFanart episode play" /></div>' + 
 					'</td><td class="recentTVshow"><div class="recentTVshow">' + episode.showtitle + (watched? '<img src="images/OverlayWatched_Small.png" class="epWatched" />' : '') + '</div><div style="font-size: 120%;">Season: ' + episode.season + ' - Episode: ' +episode.episode + '</div><div class="recentTVtitle">' + episode.label + '</div><div>' + episode.plot + '</div></td></tr></table></li>').appendTo($episodeList);
+*/
+					var $episode = $('<li><div class="recentTVshow">' + 
+					'<div class="recentTVenq episode' + episode.episodeid + '"> <a href="" class="button playlist recentTVplay" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a></div>' + 
+					'<div class="recentTVthumb"><img src="' + thumb + '" alt="' + episode.label + '" class="thumbFanart episode play" /></div>' + 
+					'<div class="recentTVshowName unwatchedEps">' + episode.showtitle + (watched? '<img src="images/OverlayWatched_Small.png" class="epWatched" />' : '') + 
+					'</div><div class="recentTVshow" style="font-size: 120%;">Season: ' + episode.season + ' - Episode: ' +episode.episode + 
+					'</div><div class="recentTVtitle">' + episode.label + '</div><div class="recentTVshow">' + episode.plot + '</div></div></li>').appendTo($episodeList);
 					
 					$episode.find('.play').bind('click', {idEpisode: episode.episodeid}, onEpisodePlayClick);
 					$episode.find('.playlist').bind('click', {idEpisode: episode.episodeid}, onAddEpisodeToPlaylistClick);
+					$episode.find('.unwatchedEps').bind('click', {idTvShow: episode.tvshowid, strTvShow: episode.showtitle}, onShowClick);
 				});
 			}
 		});
