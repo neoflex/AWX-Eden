@@ -274,6 +274,9 @@ span.playlistmove {
 	margin: 10px 5px;
     background-position: -64px top;
 }
+span.unwatched {
+    background-position: -80px 0;
+}
 div.folderLinkWrapper a.button:hover span.enqueue { background-position:left bottom; }
 div.folderLinkWrapper a.button:hover span.play { background-position: -32px -16px; }
 div.folderLinkWrapper a.button:hover span.remove { background-position: -16px -16px; }
@@ -281,7 +284,9 @@ div.folderLinkWrapper span.playlistmove:hover {
 	float: left;
     background-position: -64px -16px;
 }
-
+div.folderLinkWrapper a.button:hover span.unwatched {
+    background-position: -80px -16px;
+}
 div.thumbWrapper {
 	float: left;
 	height: 178px;
@@ -306,6 +311,16 @@ div.thumbWrapper div.linkWrapper {
 	left: 5%;
 	width: 90%;
 	display: none;
+}
+div.linkTVWrapper {
+    display: none;
+    left: 5%;
+	top: 2px;
+    position: absolute;
+    width: 90%;
+}
+div.thumbWrapper:hover div.linkTVWrapper {
+    display: block;
 }
 div.thumbWrapper:hover div.linkWrapper {
 	display: block;

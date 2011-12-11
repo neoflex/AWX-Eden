@@ -1354,13 +1354,62 @@
 			return false;
 		}; // END onTVShowInformationClick
 
+		
+		var onUnwatchedClick = function(e) {
+			// open new page to show tv show's Unwatched
+			var $unwatchedEpsContent = $('<div class="pageContentWrapper"></div>');
+			var unwatchedEpsPage = mkf.pages.createTempPage(parentPage, {
+				title: e.data.strTvShow,
+				content: $unwatchedEpsContent
+			});
+			unwatchedEpsPage.setContextMenu(
+				[
+					{
+						'icon':'close', 'title':mkf.lang.get('ctxt_btn_close_season_list'), 'shortcut':'Ctrl+1', 'onClick':
+						function() {
+							mkf.pages.closeTempPage(unwatchedEpsPage);
+							return false;
+						}
+					}
+				]
+			);
+			mkf.pages.showTempPage(unwatchedEpsPage);
+
+			// show tv show's Unwatched
+			$unwatchedEpsContent.addClass('loading');
+			//var isEmpty = true;
+			xbmc.getunwatchedEps({
+				tvshowid: e.data.idTvShow,
+
+				onError: function() {
+					mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
+					$unwatchedEpsContent.removeClass('loading');
+				},
+
+				onSuccess: function(result) {
+					//console.log(result.length);
+					if (result.length == 0) {
+					mkf.messageLog.show(mkf.lang.get('message_nounwatched'), mkf.messageLog.status.error, 5000);
+					mkf.pages.closeTempPage(unwatchedEpsPage);
+					return false;
+					};
+					$unwatchedEpsContent.defaultunwatchedEpsViewer(result, e.data.idTvShow, unwatchedEpsPage);
+					$unwatchedEpsContent.removeClass('loading');
+
+				}
+			});
+
+			return false;
+		}; // END onUnwatchedClick
+		
+		
 		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
 		var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
 		var listview = mkf.cookieSettings.get('listview', 'no')=='yes'? true : false;
 
 		this.each(function() {
 			var $tvshowContainer = $(this);
-			var $tvShowList = $('<ul class="fileList"></ul>').appendTo($(this));
+			if (listview) { var $tvShowList = $('<ul class="fileList"></ul>').appendTo($(this)); };
 			var classEven = -1;
 
 			if (tvShowResult.limits.total > 0) {
@@ -1384,12 +1433,13 @@
 										//'<a href="" class="season">' + mkf.lang.get('btn_seasons') + '</a>' +
 										//'<a href="" class="info">' + mkf.lang.get('btn_information') + '</a>' +
 										'<a href="" class="button info" title="' + mkf.lang.get('btn_information') + '"><span class="miniIcon information" /></a>' +
+										'<a href="" class="button unwatched" title="' + mkf.lang.get('btn_unwatched') + '"><span class="miniIcon unwatched" /></a>' +
 										'<a href="" class="tvshowName season">' + tvshow.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '<div class="findKeywords">' + tvshow.label.toLowerCase() + '</div>' +
 										'</a></div></li>').appendTo($tvShowList);
 
 							$tvshow.find('.season').bind('click', {idTvShow: tvshow.tvshowid, strTvShow: tvshow.label}, onSeasonsClick);
 							$tvshow.find('.info').bind('click', {'tvshow': tvshow}, onTVShowInformationClick);
-							
+							$tvshow.find('.unwatched').bind('click', {idTvShow: tvshow.tvshowid, strTvShow: tvshow.label}, onUnwatchedClick);
 					}	
 			
 					// end list view
@@ -1397,9 +1447,10 @@
 					if (listview == false) {
 						var thumb = (tvshow.thumbnail? xbmc.getThumbUrl(tvshow.thumbnail) : 'images/thumb' + xbmc.getTvShowThumbType() + '.png');
 						var $tvshow = $('<div class="tvshow'+tvshow.tvshowid+' thumbWrapper thumb' + xbmc.getTvShowThumbType() + 'Wrapper">' +
-								'<div class="linkWrapper">' + 
+								'<div class="linkTVWrapper">' + 
 									'<a href="" class="season">' + mkf.lang.get('btn_seasons') + '</a>' +
 									'<a href="" class="info">' + mkf.lang.get('btn_information') + '</a>' +
+									'<a href="" class="unwatched">' + mkf.lang.get('btn_unwatched') + '</a>' +
 								'</div>' +
 								(useLazyLoad?
 									'<img src="images/loading_thumb' + xbmc.getTvShowThumbType() + '.gif" alt="' + tvshow.label + '" class="thumb thumb' + xbmc.getTvShowThumbType() + '" original="' + thumb + '" />':
@@ -1411,6 +1462,7 @@
 							.appendTo($tvshowContainer);
 						$tvshow.find('.season').bind('click', {idTvShow: tvshow.tvshowid, strTvShow: tvshow.label}, onSeasonsClick);
 						$tvshow.find('.info').bind('click', {'tvshow': tvshow}, onTVShowInformationClick);
+						$tvshow.find('.unwatched').bind('click', {idTvShow: tvshow.tvshowid, strTvShow: tvshow.label}, onUnwatchedClick);
 					}
 				});
 
@@ -1646,6 +1698,7 @@
 	 |  @param episodesResult
 	\* ########################### */
 	$.fn.defaultunwatchedEpsViewer = function(episodesResult) {
+		//console.log(episodesResult);
 		var onEpisodePlayClick = function(event) {
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_episode'));
 
@@ -1710,19 +1763,21 @@
 			return false;
 		};
 		
+		//isEmpty = true;
 		
 		this.each(function() {
 			var $episodeList = $('<ul class="fileList"></ul>').appendTo($(this));
+			
 
-			if (episodesResult.limits.total > 0) {	
-				$.each(episodesResult.episodes, function(i, episode)  {
-					var watched = false;
-					var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
+			//if (episodesResult.limits.total > 0) {	
+				$.each(episodesResult, function(i, episode)  {
+					//var watched = false;
+					//var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
 					
-					if (episode.playcount > 0) {
+					/*if (episode.playcount > 0) {
 						return;
 					}
-					
+					isEmpty = false;*/
 					
 					var $episode = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper episode' + episode.episodeid + '"> <a href="" class="button playlist" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a><a href="" class="button info" title="' + mkf.lang.get('btn_information') + '"><span class="miniIcon information" /></a><a href="" class="episode play">' + 'S' + episode.season + 'E' + episode.episode + '. ' + episode.label + '</a></div></li>').appendTo($episodeList);
 
@@ -1730,8 +1785,15 @@
 					$episode.find('.playlist').bind('click', {idEpisode: episode.episodeid}, onAddEpisodeToPlaylistClick);
 					$episode.find('.information').bind('click', {idEpisode: episode.episodeid}, onEpisodeInfoClick);
 				});
-			}
+			//}
+
 		});
+		/*if (isEmpty) {
+			//close sub-page show error
+			console.log('close page');
+			
+			//callback(isEmpty);
+		}*/
 	}; // END defaultunwatchedEpsViewer
 	
 	
@@ -1799,11 +1861,17 @@
 				tvshowid: e.data.idTvShow,
 
 				onError: function() {
-					mkf.messageLog.show(mkf.lang.get('message_failed_tvshows_seasons'), mkf.messageLog.status.error, 5000);
+					mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
 					$unwatchedEpsContent.removeClass('loading');
 				},
 
 				onSuccess: function(result) {
+					if (result.length == 0) {
+					//console.log('no unwatched!');
+					mkf.messageLog.show(mkf.lang.get('message_nounwatched'), mkf.messageLog.status.error, 5000);
+					mkf.pages.closeTempPage(unwatchedEpsPage);
+					return false;
+					};
 					$unwatchedEpsContent.defaultunwatchedEpsViewer(result, e.data.idTvShow, unwatchedEpsPage);
 					$unwatchedEpsContent.removeClass('loading');
 				}

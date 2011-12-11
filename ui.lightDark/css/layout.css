@@ -230,6 +230,15 @@ div.thumbWrapper div.linkWrapper {
     top: 10px;
     width: 90%;
 }
+div.linkTVWrapper {
+    display: none;
+    left: 5%;
+    position: absolute;
+    width: 90%;
+}
+div.thumbWrapper:hover div.linkTVWrapper {
+    display: block;
+}
 div.thumbWrapper:hover div.linkWrapper {
     display: block;
 }
@@ -593,6 +602,9 @@ span.remove {
 span.information {
     background-position: -48px 0;
 }
+span.unwatched {
+    background-position: -80px 0;
+}
 div.recentTVenq a.button:hover span.enqueue {
     background-position: left bottom;
 }
@@ -607,6 +619,9 @@ div.folderLinkWrapper a.button:hover span.remove {
 }
 div.folderLinkWrapper a.button:hover span.information {
     background-position: -48px -16px;
+}
+div.folderLinkWrapper a.button:hover span.unwatched {
+    background-position: -80px -16px;
 }
 div.folderLinkWrapper span.playlistmove:hover {
 	float: left;

@@ -1316,11 +1316,39 @@ var xbmc = {};
 			};
 			$.extend(settings, options);
 
+			var eps = []; /*{
+				"episode": 0,
+				"episodeid": 0,
+				"label": null,
+				"playcount": 0,
+				"season": 0
+			};*/
+			
 			xbmc.sendCommand(
-				'{"jsonrpc":"2.0","id":2,"method":"VideoLibrary.GetEpisodes","params":{ "tvshowid": ' + settings.tvshowid + ', "properties":["season","playcount","episode"]}} ',
+				'{"jsonrpc":"2.0","id":2,"method":"VideoLibrary.GetEpisodes","params":{ "tvshowid": ' + settings.tvshowid + ', "properties":["season","playcount","episode"]}}',
 
 				function(response) {
-					settings.onSuccess(response.result);
+					//$.extend(eps, response.result);
+					var n = 0;
+					$.each(response.result.episodes, function (i, episode) {
+						//console.log(episode);
+						
+						if (episode.playcount == 0) {
+							//eps.push({"episode": episode.episode, "episodeid": episodeid, "label": episode.label, "playcount": episode.playcount, "season": episode.season});
+							//console.log(response.result.episodes[i]);
+							//$.extend(eps,response.result.episodes[i]);
+							eps.splice(n,0,response.result.episodes[i]);
+							n += 1;
+							//delete eps.episodes[i];
+							//console.log('n ' + n);
+							//console.log(eps.episodes[i]);
+						}
+					});
+					//eps.episodes.splice(0,1);
+					//console.log(typeof(eps));
+					//console.log(eps);
+					//settings.onSuccess(response.result);
+					settings.onSuccess(eps);
 				},
 
 				settings.onError
