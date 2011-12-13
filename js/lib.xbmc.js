@@ -84,7 +84,7 @@ var xbmc = {};
 				$.ajax({
 					async: asyncRequest,
 					type: 'POST',
-					url: './jsonrpc?awx',
+					url: '/jsonrpc?awx',
 					data: command,
 					dataType: 'json',
 					cache: false,
@@ -113,6 +113,7 @@ var xbmc = {};
 						}
 					},
 					complete: function(XMLHttpRequest, textStatus) {
+						//console.log(onComplete);
 						if (onComplete) { onComplete(); }
 					}
 				});
@@ -175,7 +176,7 @@ var xbmc = {};
 
 
 		getThumbUrl: function(url) {
-			return './vfs/' + encodeURI(url);
+			return '/vfs/' + encodeURI(url);
 		},
 
 		detectThumbTypes: function(initContainer, callback) {
