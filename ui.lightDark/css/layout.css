@@ -660,15 +660,24 @@ div.recentTVshowName {
 	margin-top: 3px;
 	font-size: 150%; 
 	font-weight: bold;
-	min-width: 400px;
+	display: block;
 }
 div.recentTVtitle {
-	font-size: 120%;  
+	font-size: 120%;
+	display: block;
 	margin-bottom: 3px; 
 	color: #A0E312;
 }
+div.recentTVSE {
+	font-size: 120%;  
+	display: block;
+}
+div.recentTVplot {
+	display: table;
+}
 div.recentTVshow {
-	display: table-row;
+	display: table;
+	width: 100%;
 	position: relative; 
 	vertical-align:text-top;
 }

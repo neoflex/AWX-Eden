@@ -1905,9 +1905,9 @@
 					var $episode = $('<li><div class="recentTVshow">' + 
 					'<div class="recentTVenq episode' + episode.episodeid + '"> <a href="" class="button playlist recentTVplay" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a></div>' + 
 					'<div class="recentTVthumb"><img src="' + thumb + '" alt="' + episode.label + '" class="thumbFanart episode play" /></div>' + 
-					'<div class="recentTVshowName unwatchedEps">' + episode.showtitle + (watched? '<img src="images/OverlayWatched_Small.png" class="epWatched" />' : '') + 
-					'</div><div class="recentTVshow" style="font-size: 120%;">Season: ' + episode.season + ' - Episode: ' +episode.episode + 
-					'</div><div class="recentTVtitle">' + episode.label + '</div><div class="recentTVshow">' + episode.plot + '</div></div></li>').appendTo($episodeList);
+					'<div class="recentTVshowName unwatchedEps" title="' + mkf.lang.get('btn_unwatched') + '">' + episode.showtitle + (watched? '<img src="images/OverlayWatched_Small.png" class="epWatched" />' : '') + 
+					'</div><div class="recentTVshowSE">Season: ' + episode.season + ' - Episode: ' +episode.episode + 
+					'</div><div class="recentTVtitle">' + episode.label + '</div><div class="recentTVplot">' + episode.plot + '</div></div></li>').appendTo($episodeList);
 					
 					$episode.find('.play').bind('click', {idEpisode: episode.episodeid}, onEpisodePlayClick);
 					$episode.find('.playlist').bind('click', {idEpisode: episode.episodeid}, onAddEpisodeToPlaylistClick);
