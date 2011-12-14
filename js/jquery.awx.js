@@ -460,7 +460,80 @@
 	}; // END defaultArtistsViewer
 
 
+	/* ########################### *\
+	 |  Show artists genres.
+	 |
+	 |  @param genreResult		Result of AudioLibrary.GetGenres.
+	 |  @param parentPage		Page which is used as parent for new sub pages.
+	\* ########################### */
+	$.fn.defaultArtistsGenresViewer = function(artistGenresResult, parentPage) {
+		var onArtistGenresClick = function(e) {
+			// open new page to show artist's albums
+			var $artistContent = $('<div class="pageContentWrapper"></div>');
+			var artistPage = mkf.pages.createTempPage(parentPage, {
+				title: e.data.strGenre,
+				content: $artistContent
+			});
+			artistPage.setContextMenu(
+				[
+					{
+						'icon':'close', 'title':mkf.lang.get('ctxt_btn_close_album_list'), 'shortcut':'Ctrl+1', 'onClick':
+						function() {
+							mkf.pages.closeTempPage(artistPage);
+							return false;
+						}
+					}
+				]
+			);
+			mkf.pages.showTempPage(artistPage);
 
+			// show artist's
+			$artistContent.addClass('loading');
+			xbmc.getArtistsGenres({
+				genreid: e.data.idGenre,
+
+				onError: function() {
+					mkf.messageLog.show(mkf.lang.get('message_failed_artists_list'), mkf.messageLog.status.error, 5000);
+					$artistGenresContent.removeClass('loading');
+				},
+
+				onSuccess: function(result) {
+					$artistContent.defaultArtistsViewer(result, artistPage);
+					$artistContent.removeClass('loading');
+				}
+			});
+
+			return false;
+		}; // END onArtistGenresClick
+
+
+		// no genres?
+		if (!artistGenresResult || !artistGenresResult.genres) {
+			return;
+		}
+		
+		this.each (function() {
+			var artistGenresList = $('<ul class="fileList"></ul>').appendTo($(this));
+
+			if (artistGenresResult.limits.total > 0) {
+				$.each(artistGenresResult.genres, function(i, artistGenres)  {
+					artistGenresList.append('<li' + (i%2==0? ' class="even"': '') + '><a href="" class="genre' +
+										artistGenres.genreid + '">' +
+										(i+1) + '. ' + artistGenres.label + '<div class="findKeywords">' + artistGenres.label.toLowerCase() + '</div>' +
+										'</a></li>');
+					artistGenresList.find('.genre' + artistGenres.genreid)
+						.bind('click',
+							{
+								idGenre: artistGenres.genreid,
+								strGenre: artistGenres.label
+							},
+							onArtistGenresClick);
+				});
+			}
+		});
+	}; // END defaultArtistsGenresViewer
+	
+	
 	/* ########################### *\
 	 |  Show the albums.
 	 |
@@ -1387,7 +1460,6 @@
 				},
 
 				onSuccess: function(result) {
-					//console.log(result.length);
 					if (result.length == 0) {
 					mkf.messageLog.show(mkf.lang.get('message_nounwatched'), mkf.messageLog.status.error, 5000);
 					mkf.pages.closeTempPage(unwatchedEpsPage);
@@ -1574,12 +1646,6 @@
 	$.fn.defaultVideoScanViewer = function() {
 	
 		var $scanList = $('<div>Scanning Library....</div><br />').appendTo($(this));
-
-		/*var $scanList = $('<ul id="sortable"><li id="playlist001">1</li><li id="playlist002">2</li><li id="playlist003">3</li></ul>').appendTo($(this));
-		$( "#sortable" ).sortable({ 
-			helper: 'clone',
-			update: function(event, ui) { console.log(event); console.log(ui.item);}
-		});*/
 		
 	}; // END defaultScanViewer
 	
@@ -1698,7 +1764,6 @@
 	 |  @param episodesResult
 	\* ########################### */
 	$.fn.defaultunwatchedEpsViewer = function(episodesResult) {
-		//console.log(episodesResult);
 		var onEpisodePlayClick = function(event) {
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_episode'));
 
@@ -1767,33 +1832,16 @@
 		
 		this.each(function() {
 			var $episodeList = $('<ul class="fileList"></ul>').appendTo($(this));
-			
-
-			//if (episodesResult.limits.total > 0) {	
 				$.each(episodesResult, function(i, episode)  {
-					//var watched = false;
-					//var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
-					
-					/*if (episode.playcount > 0) {
-						return;
-					}
-					isEmpty = false;*/
-					
 					var $episode = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper episode' + episode.episodeid + '"> <a href="" class="button playlist" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a><a href="" class="button info" title="' + mkf.lang.get('btn_information') + '"><span class="miniIcon information" /></a><a href="" class="episode play">' + 'S' + episode.season + 'E' + episode.episode + '. ' + episode.label + '</a></div></li>').appendTo($episodeList);
 
 					$episode.find('.play').bind('click', {idEpisode: episode.episodeid}, onEpisodePlayClick);
 					$episode.find('.playlist').bind('click', {idEpisode: episode.episodeid}, onAddEpisodeToPlaylistClick);
 					$episode.find('.information').bind('click', {idEpisode: episode.episodeid}, onEpisodeInfoClick);
 				});
-			//}
 
 		});
-		/*if (isEmpty) {
-			//close sub-page show error
-			console.log('close page');
-			
-			//callback(isEmpty);
-		}*/
+
 	}; // END defaultunwatchedEpsViewer
 	
 	
@@ -1867,7 +1915,6 @@
 
 				onSuccess: function(result) {
 					if (result.length == 0) {
-					//console.log('no unwatched!');
 					mkf.messageLog.show(mkf.lang.get('message_nounwatched'), mkf.messageLog.status.error, 5000);
 					mkf.pages.closeTempPage(unwatchedEpsPage);
 					return false;

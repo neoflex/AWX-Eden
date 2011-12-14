@@ -395,8 +395,7 @@ var xbmc = {};
 		},
 
 
-
-		getArtists: function(options) {
+		getAudioGenres: function(options) {
 			var settings = {
 				onSuccess: null,
 				onError: null
@@ -404,7 +403,46 @@ var xbmc = {};
 			$.extend(settings, options);
 
 			xbmc.sendCommand(
+				'{"jsonrpc": "2.0", "method": "AudioLibrary.GetGenres", "id": 1}',
+
+				function(response) {
+					settings.onSuccess(response.result);
+				},
+
+				settings.onError
+			);
+		},
+		
+		getArtists: function(options) {
+			var settings = {
+				genreid: -1,
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
+
+			xbmc.sendCommand(
 				'{"jsonrpc": "2.0", "method": "AudioLibrary.GetArtists", "params": {"sort": { "order": "ascending", "method": "artist" } }, "id": 1}',
+
+				function(response) {
+					settings.onSuccess(response.result);
+				},
+
+				settings.onError
+			);
+		},
+
+		
+		getArtistsGenres: function(options) {
+			var settings = {
+				genreid: -1,
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
+
+			xbmc.sendCommand(
+				'{"jsonrpc": "2.0", "method": "AudioLibrary.GetArtists", "params": {"genreid": ' + settings.genreid + ', "sort": { "order": "ascending", "method": "artist" } }, "id": 1}',
 
 				function(response) {
 					settings.onSuccess(response.result);

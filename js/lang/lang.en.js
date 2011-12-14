@@ -20,6 +20,7 @@ mkf.lang.add({language: 'English', short: 'en', author: 'MKay', values: {
 	// since v0.3.1
 	'page_title_music':					'Music',
 	'page_title_artist':				'Artists',
+	'page_title_genres':				'Genres',
 	'page_title_albums':				'Albums',
 	'page_title_music_files':			'Files',
 	'page_title_music_playlist':		'Playlist',
@@ -36,6 +37,7 @@ mkf.lang.add({language: 'English', short: 'en', author: 'MKay', values: {
 
 	'page_buttontext_music':			'Music',
 	'page_buttontext_artist':			'Artists',
+	'page_buttontext_genre':			'Genres',
 	'page_buttontext_albums':			'Albums',
 	'page_buttontext_music_files':		'Files',
 	'page_buttontext_music_playlist':	'Playlist',
