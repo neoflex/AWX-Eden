@@ -122,7 +122,39 @@ var awxUI = {};
 				onShow: $.proxy(this, "onArtistsShow"),
 				className: 'artists'
 			});
+			
+			
+			this.$artistsGenresContent = $('<div class="pageContentWrapper"></div>');
+			var artistsGenresContextMenu = $.extend(true, [], standardMusicContextMenu);
+			artistsGenresContextMenu.push({
+				'id':'findArtistsButton', 'icon':'find', 'title':mkf.lang.get('ctxt_btn_find'), 'shortcut':'Ctrl+2', 'onClick':
+					function(){
+						var pos = $('#findArtistsButton').offset();
+						awxUI.$artistsGenresContent
+							.defaultFindBox({id:'artistsFindBox', searchItems:'a', top: pos.top, left: pos.left});
+						return false;
+					}
+			});
+			artistsGenresContextMenu.push({
+				'icon':'refresh', 'title':mkf.lang.get('ctxt_btn_refresh_list'), 'onClick':
+					function(){
+						awxUI.$artistsGenresContent.empty();
+						awxUI.onArtistsGenresShow();
 
+						return false;
+					}
+			});	
+			
+			this.artistsGenresPage = musicPage.addPage({
+				title: mkf.lang.get('page_title_genres'),
+				menuButtonText: '&raquo; ' + mkf.lang.get('page_buttontext_genre'),
+				content: this.$artistsGenresContent,
+				contextMenu: artistsGenresContextMenu,
+				onShow: $.proxy(this, "onArtistsGenresShow"),
+				className: 'artistsGenres'
+			});
+			
+			
 			this.$albumsContent = $('<div class="pageContentWrapper"></div>');
 			var musicAlbumsContextMenu = $.extend(true, [], standardMusicContextMenu);
 			musicAlbumsContextMenu.push({
@@ -549,7 +581,29 @@ var awxUI = {};
 			}
 		},
 
+		/**************************************
+		 * Called when Genres Artists-Page is shown. *
+		 **************************************/
+		onArtistsGenresShow: function() {
+			if (this.$artistsGenresContent.html() == '') {
+				var artistsGenresPage = this.artistsGenresPage;
+				var $contentBox = this.$artistsGenresContent;
+				$contentBox.addClass('loading');
 
+				xbmc.getAudioGenres({
+					onError: function() {
+						mkf.messageLog.show(mkf.lang.get('message_failed_artist_list'), mkf.messageLog.status.error, 5000);
+						$contentBox.removeClass('loading');
+					},
+
+					onSuccess: function(result) {
+						$contentBox.defaultArtistsGenresViewer(result, artistsGenresPage);
+						$contentBox.removeClass('loading');
+					}
+				});
+			}
+		},
+		
 
 		/**************************************
 		 * Called when Albums-Page is shown. *
