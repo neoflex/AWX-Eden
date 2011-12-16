@@ -20,6 +20,7 @@ mkf.lang.add({language: 'Russian', short: 'ru', author: 'Scaramush', values: {
 	// since v0.3.1
 	'page_title_music':					'Музыка',
 	'page_title_artist':				'Исполнители',
+	'page_title_genres':				'Genres',
 	'page_title_albums':				'Альбомы',
 	'page_title_music_files':			'Файлы',
 	'page_title_music_playlist':		'Плейлист',
@@ -36,6 +37,7 @@ mkf.lang.add({language: 'Russian', short: 'ru', author: 'Scaramush', values: {
 	
 	'page_buttontext_music':			'Музыка',
 	'page_buttontext_artist':			'Исполнители',
+	'page_buttontext_genre':			'Genres',
 	'page_buttontext_albums':			'Альбомы',
 	'page_buttontext_music_files':		'Файлы',
 	'page_buttontext_music_playlist':	'Плейлист',

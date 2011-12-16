@@ -20,6 +20,7 @@ mkf.lang.add({language: 'Deutsch', short: 'de', author: 'MKay', values: {
 	// since v0.3.1
 	'page_title_music':					'Musik',
 	'page_title_artist':				'Interpreten',
+	'page_title_genres':				'Genres',
 	'page_title_albums':				'Alben',
 	'page_title_music_files':			'Dateien',
 	'page_title_music_playlist':		'Playlist',
@@ -36,6 +37,7 @@ mkf.lang.add({language: 'Deutsch', short: 'de', author: 'MKay', values: {
 	
 	'page_buttontext_music':			'Musik',
 	'page_buttontext_artist':			'Interpreten',
+	'page_buttontext_genre':			'Genres',
 	'page_buttontext_albums':			'Alben',
 	'page_buttontext_music_files':		'Dateien',
 	'page_buttontext_music_playlist':	'Playlist',
@@ -87,6 +89,8 @@ mkf.lang.add({language: 'Deutsch', short: 'de', author: 'MKay', values: {
 	'messsage_add_song_to_playlist': 	'F%FCge Song zur Playlist hinzu ... ',
 	'message_currently_not_supported':	'Dies wird derzeit nicht von der XBMC-API unterst%FCtzt.',
 	'message_playing_item': 			'Spiele Eintrag ab ... ',
+	'message_removing_item': 			'Removing item ... ',
+	'message_failed_remove': 			'Failed to remove playlist item... ',
 	'message_playing_movie': 			'Spiele Film ab ... ',
 	'messsage_add_movie_to_playlist':	'F%FCge Film zur Playlist hinzu ... ',
 	'message_playing_episode': 			'Spiele Episode ab ... ',
