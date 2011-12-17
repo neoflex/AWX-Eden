@@ -134,6 +134,7 @@ mkf.lang.add({language: 'Français', short: 'fr', author: 'DanoneKiD', values: {
 	'btn_play': 						'Lire',
 	'btn_enqueue': 						'Ajouter',
 	'btn_swap':							'Déplacer',
+	'btn_all':							'All Albums',
 	'btn_songs': 						'Titres',
 	'btn_remove': 						'Retirer',
 	'btn_information':					'Informations',

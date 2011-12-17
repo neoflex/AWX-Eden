@@ -605,6 +605,9 @@ span.information {
 span.unwatched {
     background-position: -80px 0;
 }
+span.all {
+    background-position: -96px 0;
+}
 div.recentTVenq a.button:hover span.enqueue {
     background-position: left bottom;
 }
@@ -626,6 +629,9 @@ div.folderLinkWrapper a.button:hover span.unwatched {
 div.folderLinkWrapper span.playlistmove:hover {
 	float: left;
     background-position: -64px -16px;
+}
+div.folderLinkWrapper a.button:hover span.all {
+    background-position: -96px -16px;
 }
 div.movieinfo {
 	display: table-row;

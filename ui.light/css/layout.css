@@ -580,6 +580,9 @@ span.playlistmove {
 span.unwatched {
     background-position: -80px 0;
 }
+span.all {
+    background-position: -96px 0;
+}
 div.folderLinkWrapper a.button:hover span.enqueue { background-position:left bottom; }
 div.folderLinkWrapper a.button:hover span.play { background-position: -32px -16px; }
 div.folderLinkWrapper a.button:hover span.remove { background-position: -16px -16px; }
@@ -589,6 +592,9 @@ div.folderLinkWrapper span.playlistmove:hover {
 }
 div.folderLinkWrapper a.button:hover span.unwatched {
     background-position: -80px -16px;
+}
+div.folderLinkWrapper a.button:hover span.all {
+    background-position: -96px -16px;
 }
 div.mkfOverlay div.dialogSystemControl {
     width: 350px;

@@ -338,7 +338,6 @@ var xbmc = {};
 					'{"jsonrpc": "2.0", "method": "Player.GetActivePlayers", "id": 1}',
 
 					function (response) {
-
 						if (response.result[0]) {
 							xbmc.sendCommand(
 								'{"jsonrpc": "2.0", "method": "Player.Repeat", "params": { "playerid": ' + response.result[0].playerid + ', "state": "' + settings.type + '" }, "id": 1}',
@@ -453,7 +452,28 @@ var xbmc = {};
 		},
 
 
+		getGenresAlbums: function(options) {
+			var settings = {
+				genreid: 0,
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
+			
+			var order = mkf.cookieSettings.get('albumOrder')=='album'? 'label' : 'artist';
 
+			xbmc.sendCommand(
+				'{"jsonrpc": "2.0", "method": "AudioLibrary.GetAlbums", "params": { "genreid" : ' + settings.genreid + ', "properties": ["artist", "genre", "rating", "thumbnail"], "sort": { "order": "ascending", "method": "' + order + '" } }, "id": 1}',
+
+				function(response) {
+					settings.onSuccess(response.result);
+				},
+
+				settings.onError
+			);
+		},
+		
+		
 		getArtistsAlbums: function(options) {
 			var settings = {
 				artistid: 0,
@@ -1355,38 +1375,19 @@ var xbmc = {};
 			};
 			$.extend(settings, options);
 
-			var eps = []; /*{
-				"episode": 0,
-				"episodeid": 0,
-				"label": null,
-				"playcount": 0,
-				"season": 0
-			};*/
+			var eps = [];
 			
 			xbmc.sendCommand(
 				'{"jsonrpc":"2.0","id":2,"method":"VideoLibrary.GetEpisodes","params":{ "tvshowid": ' + settings.tvshowid + ', "properties":["season","playcount","episode"]}}',
 
 				function(response) {
-					//$.extend(eps, response.result);
 					var n = 0;
 					$.each(response.result.episodes, function (i, episode) {
-						//console.log(episode);
-						
 						if (episode.playcount == 0) {
-							//eps.push({"episode": episode.episode, "episodeid": episodeid, "label": episode.label, "playcount": episode.playcount, "season": episode.season});
-							//console.log(response.result.episodes[i]);
-							//$.extend(eps,response.result.episodes[i]);
 							eps.splice(n,0,response.result.episodes[i]);
 							n += 1;
-							//delete eps.episodes[i];
-							//console.log('n ' + n);
-							//console.log(eps.episodes[i]);
 						}
 					});
-					//eps.episodes.splice(0,1);
-					//console.log(typeof(eps));
-					//console.log(eps);
-					//settings.onSuccess(response.result);
 					settings.onSuccess(eps);
 				},
 
@@ -1648,12 +1649,11 @@ var xbmc = {};
 								xbmc.periodicUpdater.firePlayerStatusChanged(shuffle? 'shuffleOn': 'shuffleOff');
 								}
 								
-								//TO DO repeat
+								//repeat none, one, all
 								repeat = currentPlayer.repeat;
 								if (xbmc.periodicUpdater.repeatStatus != repeat) {
 								xbmc.periodicUpdater.repeatStatus = repeat;
 								xbmc.periodicUpdater.firePlayerStatusChanged(repeat);
-								//xbmc.periodicUpdater.firePlayerStatusChanged(shuffle? 'shuffleOn': 'shuffleOff');
 								}
 							},
 

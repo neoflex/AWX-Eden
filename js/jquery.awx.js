@@ -461,7 +461,7 @@
 
 
 	/* ########################### *\
-	 |  Show artists genres.
+	 |  Show audio genres.
 	 |
 	 |  @param genreResult		Result of AudioLibrary.GetGenres.
 	 |  @param parentPage		Page which is used as parent for new sub pages.
@@ -506,7 +506,46 @@
 			return false;
 		}; // END onArtistGenresClick
 
+		var onAllGenresAlbumsClick = function(e) {
+			// open new page to show artist's albums
+			var $artistContent = $('<div class="pageContentWrapper"></div>');
+			var artistPage = mkf.pages.createTempPage(parentPage, {
+				title: e.data.strGenre,
+				content: $artistContent
+			});
+			artistPage.setContextMenu(
+				[
+					{
+						'icon':'close', 'title':mkf.lang.get('ctxt_btn_close_album_list'), 'shortcut':'Ctrl+1', 'onClick':
+						function() {
+							mkf.pages.closeTempPage(artistPage);
+							return false;
+						}
+					}
+				]
+			);
+			mkf.pages.showTempPage(artistPage);
 
+			// show artist's
+			$artistContent.addClass('loading');
+			xbmc.getGenresAlbums({
+				genreid: e.data.idGenre,
+
+				onError: function() {
+					mkf.messageLog.show(mkf.lang.get('message_failed_album_list'), mkf.messageLog.status.error, 5000);
+					$artistGenresContent.removeClass('loading');
+				},
+
+				onSuccess: function(result) {
+					$artistContent.defaultAlbumViewer(result, artistPage);
+					$artistContent.removeClass('loading');
+				}
+			});
+
+			return false;
+		}; // END onArtistGenresClick
+		
+		
 		// no genres?
 		if (!artistGenresResult || !artistGenresResult.genres) {
 			return;
@@ -516,11 +555,16 @@
 			var artistGenresList = $('<ul class="fileList"></ul>').appendTo($(this));
 
 			if (artistGenresResult.limits.total > 0) {
+				//Add option to show all albums in genre - getGenresAlbums
+				//artistGenresList.append('<li><a href="" class="allgenrealbums">All albums from genre</a></li>');
 				$.each(artistGenresResult.genres, function(i, artistGenres)  {
-					artistGenresList.append('<li' + (i%2==0? ' class="even"': '') + '><a href="" class="genre' +
+					artistGenresList.append('<li' + (i%2==0? ' class="even"': '') + 
+										//'><a href="" class="allgenre' + artistGenres.genreid + '">All - </a><a href="" class="genre' + 
+										'><div class="folderLinkWrapper"><a href="" class="button allgenre' + artistGenres.genreid + '" title="' + mkf.lang.get('btn_all') + '"><span class="miniIcon all" /></a><a href="" class="genre' + 
 										artistGenres.genreid + '">' +
 										(i+1) + '. ' + artistGenres.label + '<div class="findKeywords">' + artistGenres.label.toLowerCase() + '</div>' +
-										'</a></li>');
+										'</a></div></li>');
+					artistGenresList.find('.allgenre' + artistGenres.genreid).on('click', {idGenre: artistGenres.genreid, strGenre: artistGenres.label}, onAllGenresAlbumsClick);
 					artistGenresList.find('.genre' + artistGenres.genreid)
 						.bind('click',
 							{
@@ -864,9 +908,6 @@
 		}
 
 		var onItemRemoveClick = function(event) {
-			//alert(mkf.lang.get('message_currently_not_supported'));
-			// TODO implement for new JSON-API
-			
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_removing_item'));
 			var fn;
 			
@@ -1003,6 +1044,7 @@
 						/*if (i == xbmc.periodicUpdater.curPlaylistNum && xbmc.periodicUpdater.playerStatus != 'stopped') {
 							playlistItemClass = 'current';
 						}*/
+						//initial marking of currently playing item. After periodic sets.
 						if (i == xbmc.periodicUpdater.curPlaylistNum && xbmc.periodicUpdater.playerStatus != 'stopped') {
 							playlistItemCur = 'playlistItemCur';
 						} else {
@@ -1253,17 +1295,6 @@
 
 		var onMovieInformationClick = function(event) {
 			var dialogHandle = mkf.dialog.show();
-
-			/*xbmc.getMovieInfo({
-				movieid: event.data.idMovie,
-				onSuccess: function(movie) {
-				},
-				onError: function() {
-					mkf.messageLog.show('Failed to load movie information!', mkf.messageLog.status.error, 5000);
-					mkf.dialog.close(dialogHandle);
-				}
-			});*/
-
 			var movie = event.data.movie;
 			var dialogContent = '';
 			var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');

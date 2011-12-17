@@ -134,6 +134,7 @@ mkf.lang.add({language: 'English', short: 'en', author: 'MKay', values: {
 	'btn_play': 						'Play',
 	'btn_enqueue': 						'Enqueue',
 	'btn_swap':							'Swap',
+	'btn_all':							'All Albums',
 	'btn_songs': 						'Songs',
 	'btn_remove': 						'Remove',
 	'btn_information':					'Information',

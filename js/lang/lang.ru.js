@@ -134,6 +134,7 @@ mkf.lang.add({language: 'Russian', short: 'ru', author: 'Scaramush', values: {
 	'btn_play': 						'Воспроизвести',
 	'btn_enqueue': 						'Добавить в плейлист',
 	'btn_swap':							'Swap',
+	'btn_all':							'All Albums',
 	'btn_songs': 						'Песни',
 	'btn_remove': 						'Удалить',
 	'btn_information':					'Информация',
