@@ -962,16 +962,25 @@
 			this.each(function() {
 				var $itemList = $('<ul class="fileList" id="sortable"></ul>').appendTo($(this));
 				var runtime = 0;
+				//console.log(playlistResult.items);
 				if (playlistResult.limits.total > 0) {
 					$.each(playlistResult.items, function(i, item)  {
-						var artist = (item.artist? item.artist : mkf.lang.get('label_not_available'));
-						var title = (item.title? item.title : mkf.lang.get('label_not_available'));
-						var label = (item.label? item.label : mkf.lang.get('label_not_available'));
-						var duration  = (item.duration? item.duration : mkf.lang.get('label_not_available'));
+						// for files added via file function
+						if (item.type != 'unknown') {
+							var artist = (item.artist? item.artist : mkf.lang.get('label_not_available'));
+							var album = (item.album? item.album : mkf.lang.get('label_not_available'));
+							var title = (item.title? item.title : mkf.lang.get('label_not_available'));
+							var label = (item.label? item.label : mkf.lang.get('label_not_available'));
+							//var duration = (item.duration? item.duration : '');
+						} else {
+							var label = (item.label? item.label : mkf.lang.get('label_not_available'));
+						};
+						var duration = (item.duration? item.duration : '');
 						var playlistItemClass = '';
 						if (i%2==0) {
 							playlistItemClass = 'even';
 						}
+						// what to about runtime and added files? console.log(runtime);
 						runtime += duration;
 						playlistItemCur = 'playlistItem';
 						//Change background colour of currently playing item.
@@ -988,7 +997,7 @@
 						$item = $('<li class="' + playlistItemClass + '" id="apli' + i + '"><div class="folderLinkWrapper playlistItem' + i + '">' + 
 							'<a class="button remove" href="" title="' + mkf.lang.get('btn_remove') +  '"><span class="miniIcon remove" /></a><span class="miniIcon playlistmove" title="' + mkf.lang.get('btn_swap') +  '" />' +
 							'<a class="' + playlistItemCur + ' apli' + i + ' play" href="">' + (i+1) + '. ' +
-							(playlist=='Audio'? artist + ' - ' + title : label) + '&nbsp;&nbsp;&nbsp;&nbsp;' + xbmc.formatTime(duration) +
+							(artist? artist + ' - ' : '') + (album? album + ' - ' : '') + label + '&nbsp;&nbsp;&nbsp;&nbsp;' + (duration? xbmc.formatTime(duration) : '') +
 							'</a></div></li>').appendTo($itemList);
 
 						$item.find('a.play').bind('click', {itemNum: i}, onItemPlayClick);
@@ -1445,13 +1454,13 @@
 			var valueClass = 'value' + xbmc.getTvShowThumbType();
 			dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getTvShowThumbType() + ' dialogThumb' + xbmc.getTvShowThumbType() + '" />' +
 				'<h1 class="underline">' + tvshow.title + '</h1>' +
-				//'<div class="test"><span class="label">' + mkf.lang.get('label_original_title') + '</span><span class="'+valueClass+'">' + tvshow.originaltitle + '</span></div>' +
+				//'<div class="test"><img src="' + tvshow.file + 'logo.png' + '" /></div>' +
 				//'<div class="test"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="'+valueClass+'">' + tvshow.runtime + '</span></div>' +
 				'<div class="test"><span class="label">' + mkf.lang.get('label_genre') + '</span><span class="'+valueClass+'">' + (tvshow.genre? tvshow.genre : mkf.lang.get('label_not_available')) + '</span></div>' +
 				'<div class="test"><span class="label">' + mkf.lang.get('label_rating') + '</span><span class="'+valueClass+'"><div class="smallRating' + Math.round(tvshow.rating) + '"></div></span></div>' +
 				'<div class="test"><span class="label">' + mkf.lang.get('label_year') + '</span><span class="'+valueClass+'">' + (tvshow.year? tvshow.year : mkf.lang.get('label_not_available')) + '</span></div>' +
 				//'<div class="test"><span class="label">' + mkf.lang.get('label_director') + '</span><span class="'+valueClass+'">' + tvshow.director + '</span></div>' +
-				//'<div class="test"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="'+valueClass+'">' + tvshow.file + '</span></div>' +
+				'<div class="test"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="'+valueClass+'">' + tvshow.file + '</span></div>' +
 				'<p class="plot">' + tvshow.plot + '</p>';
 			mkf.dialog.setContent(dialogHandle, dialogContent);
 
@@ -2002,9 +2011,9 @@
 	 |  @param mediaType	Media-Type to show. (Either 'Audio' or 'Video')
 	\* ########################### */
 	$.fn.defaultFilesystemViewer = function(mediaType, parentPage, folder) {
-		var media = 'Audio';
+		var media = 'music';
 		if (mediaType === 'Video') {
-			media = 'Video';
+			media = 'video';
 		}
 
 		var onFilePlayClick = function(event) {
@@ -2017,7 +2026,7 @@
 				var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_folder'));
 
 				var fn = 'playVideoFolder';
-				if (media == 'Audio') {
+				if (media == 'music') {
 					fn = 'playAudioFolder';
 				}
 
@@ -2035,7 +2044,7 @@
 				var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_file'));
 
 				var fn = 'playVideoFile';
-				if (media == 'Audio') {
+				if (media == 'music') {
 					fn = 'playAudioFile';
 				}
 
@@ -2062,7 +2071,7 @@
 				var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_folder_to_playlist'));
 
 				var fn = xbmc.addVideoFolderToPlaylist;
-				if (media == 'Audio') {
+				if (media == 'music') {
 					fn = xbmc.addAudioFolderToPlaylist;
 				}
 
@@ -2081,7 +2090,7 @@
 				var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_file_to_playlist'));
 
 				var fn = xbmc.addVideoFileToPlaylist;
-				if (media == 'Audio') {
+				if (media == 'music') {
 					fn = xbmc.addAudioFileToPlaylist;
 				}
 
@@ -2206,11 +2215,12 @@
 				// TODO support Windows/OSX-Folders
 				// /media - Folder may exist (access to usb-sticks etc.)
 				xbmc.getDirectory({
-					directory: '/media',
+					direcotry: '/media',
+					//directory: '/mnt/media/music/',
 
 					onSuccess: function(result) {
 						var $file = $('<li' + (globalI%2==0? ' class="even"': '') + '><a href="" class="fileMedia"> /media</a></li>').appendTo($filelist);
-						$file.bind('click', {folder: {name:'media', path:'/media'}}, onFolderClick);
+						$file.bind('click', {folder: {name:'media', path:'/media/'}}, onFolderClick);
 					},
 
 					async: false
@@ -2358,6 +2368,7 @@
 
 				thumbElement.attr('src', 'images/thumb.png');
 				if (currentFile.thumbnail) {
+					console.log(currentFile.thumbnail.width);
 					thumbElement.attr('src', xbmc.getThumbUrl(currentFile.thumbnail));
 				}
 			});

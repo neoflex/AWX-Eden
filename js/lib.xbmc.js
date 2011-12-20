@@ -114,7 +114,7 @@ var xbmc = {};
 					},
 					complete: function(XMLHttpRequest, textStatus) {
 						//console.log(onComplete);
-						if (onComplete) { onComplete(); }
+						//if (onComplete) { onComplete(); }
 					}
 				});
 			}
@@ -566,7 +566,70 @@ var xbmc = {};
 			};
 			$.extend(settings, options);
 
+			//Will not recurse
+			console.log(settings.folder);
+			var containsfiles = false;
+			var recurseDir = [];
+			
 			xbmc.getDirectory({
+				media: 'music',
+				directory: settings.folder,
+				
+				onSuccess: function(result) {
+					console.log(result);
+					var n = 0;
+					$.each(result.files, function(i, file) {
+						if (file.filetype == 'file') {
+							console.log( i + '.audio file!');
+							containsfiles = true;
+						};
+						if (file.filetype == 'directory') {
+							console.log( n + '.dir');
+							recurseDir[n] = file.file;
+							n ++;
+						};
+						//if (file.filetype == 'file') { if (file.file.search(/\.mp3|\.flac|\.wav|\.aac/i)) { console.log( i + '.audio file!') }; };
+					});
+				},
+				onError: function() {
+					settings.onError(mkf.lang.get('message_failed_folders_content'));
+				}
+			});
+			console.log(recurseDir);
+			console.log(containsfiles);
+			if (containsfiles) {
+				console.log('send dir to playlist');
+				xbmc.sendCommand(
+					'{"jsonrpc": "2.0", "method": "Playlist.Add", "params": {"item": {"directory": "' + settings.folder + '"}, "playlistid": 0}, "id": 1}',
+					
+					function(response) {
+						settings.onSuccess()
+					},
+					
+					function(response) {
+						settings.onError(mkf.lang.get('message_failed_add_files_to_playlist'));
+					}
+				);	
+			};
+			if (recurseDir.length > 0) {
+				console.log('send dir to playlist');
+				$.each(recurseDir, function(i, dir) {
+					console.log('adding dir: ' + dir);
+					xbmc.sendCommand(
+						'{"jsonrpc": "2.0", "method": "Playlist.Add", "params": {"item": {"directory": "' + recurseDir[i] + '"}, "playlistid": 0}, "id": 1}',
+						
+						function(response) {
+							settings.onSuccess()
+						},
+						
+						function(response) {
+							settings.onError(mkf.lang.get('message_failed_add_files_to_playlist'));
+						}
+					);	
+				});
+			};
+			if (!containsfiles && recurseDir.length == 0) { settings.onError(mkf.lang.get('message_failed_add_files_to_playlist')); };
+			/*xbmc.getDirectory({
 				media: 'Audio',
 				directory: settings.folder.replace(/\\/g, "\\\\"),
 
@@ -599,7 +662,7 @@ var xbmc = {};
 				onError: function() {
 					settings.onError(mkf.lang.get('message_failed_folders_content'));
 				}
-			});
+			});*/
 		},
 
 		
@@ -1240,7 +1303,7 @@ var xbmc = {};
 			$.extend(settings, options);
 
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": { "properties": ["genre", "plot", "title", "originaltitle", "year", "rating", "thumbnail", "playcount"] }, "id": 1}',
+				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": { "properties": ["genre", "plot", "title", "originaltitle", "year", "rating", "thumbnail", "playcount", "file"] }, "id": 1}',
 				function(response) {
 					settings.onSuccess(response.result);
 				},
@@ -1328,7 +1391,7 @@ var xbmc = {};
 
 		getSources: function(options) {
 			var settings = {
-				media: 'Audio',
+				media: 'music',
 				onSuccess: null,
 				onError: null,
 				async: true
@@ -1336,7 +1399,7 @@ var xbmc = {};
 			$.extend(settings, options);
 
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "Files.GetSources", "params" : { "media" : "' + (settings.media=='Audio'? 'music' : 'video') + '" }, "id": 1}',
+				'{"jsonrpc": "2.0", "method": "Files.GetSources", "params" : { "media" : "' + settings.media + '" }, "id": 1}',
 
 				function(response) {
 					settings.onSuccess(response.result);
@@ -1434,16 +1497,16 @@ var xbmc = {};
 		
 		getDirectory: function(options) {
 			var settings = {
-				media: 'Audio',
+				media: 'music',
 				directory: '',
 				onSuccess: null,
 				onError: null,
-				async: true
+				async: false
 			};
 			$.extend(settings, options);
 
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "Files.GetDirectory", "params" : { "directory" : "' + settings.directory.replace(/\\/g, "\\\\") + '", "media" : "' + (settings.media=='Audio'? 'music' : 'video') +'", "sort": { "order": "ascending", "method": "file" } }, "id": 1}',
+				'{"jsonrpc": "2.0", "method": "Files.GetDirectory", "params" : { "directory" : "' + settings.directory.replace(/\\/g, "\\\\") + '", "media" : "' + settings.media +'", "sort": { "order": "ascending", "method": "file" } }, "id": 1}',
 
 				function(response) {
 					settings.onSuccess(response.result);

@@ -248,13 +248,14 @@ div.thumbWrapper:hover {
 div.thumbWrapper div.linkWrapper {
 	position: absolute;
 	top: 10px;
-	left: 5%;
+	left: 7px;
 	width: 90%;
 	display: none;
 }
 div.linkTVWrapper {
     display: none;
     left: 5%;
+	top: 7px;
     position: absolute;
     width: 90%;
 }
@@ -552,7 +553,7 @@ div.folderLinkWrapper a.song,
 div.folderLinkWrapper a.playlistItem,
 div.folderLinkWrapper a.episode { padding-left: 35px; }
 div.folderLinkWrapper a.folder,
-div.folderLinkWrapper a.file { padding-left: 60px; }
+div.folderLinkWrapper a.file { padding-left: 35px; }
 
 div.folderLinkWrapper a.playlistItemCur {
 	font-weight:bold;

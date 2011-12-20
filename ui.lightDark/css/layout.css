@@ -225,7 +225,7 @@ div.thumbWrapper:hover {
 }
 div.thumbWrapper div.linkWrapper {
     display: none;
-    left: 5%;
+    left: 7px;
     position: absolute;
     top: 10px;
     width: 90%;
@@ -233,6 +233,7 @@ div.thumbWrapper div.linkWrapper {
 div.linkTVWrapper {
     display: none;
     left: 5%;
+	top: 7px;
     position: absolute;
     width: 90%;
 }
@@ -572,7 +573,7 @@ div.folderLinkWrapper a.song, div.folderLinkWrapper a.playlistItem, div.folderLi
     padding-left: 35px;
 }
 div.folderLinkWrapper a.folder, div.folderLinkWrapper a.file {
-    padding-left: 60px;
+    padding-left: 35px;
 }
 div.folderLinkWrapper a.playlistItemCur {
 	color: #fff;
@@ -938,6 +939,7 @@ div.ui-slider-vertical a.ui-slider-handle {
     border-right: 1px solid #7C7C7C;
     float: left;
     height: 100px;
+	width: 100px;
     overflow: hidden;
 }
 span.currentlyPlaying {

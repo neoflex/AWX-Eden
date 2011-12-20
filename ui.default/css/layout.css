@@ -252,7 +252,7 @@ div.folderLinkWrapper a.song,
 div.folderLinkWrapper a.playlistItem,
 div.folderLinkWrapper a.episode { padding-left: 47px; }
 div.folderLinkWrapper a.folder,
-div.folderLinkWrapper a.file { padding-left: 84px; }
+div.folderLinkWrapper a.file { padding-left: 50px; }
 
 div.folderLinkWrapper a.playlistItemCur {
 	font-weight:bold;
@@ -321,7 +321,7 @@ div.thumbWrapper div.linkWrapper {
 div.linkTVWrapper {
     display: none;
     left: 5%;
-	top: 2px;
+	top: 3px;
     position: absolute;
     width: 90%;
 }
