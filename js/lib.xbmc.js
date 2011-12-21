@@ -567,7 +567,7 @@ var xbmc = {};
 			$.extend(settings, options);
 
 			//Will not recurse
-			console.log(settings.folder);
+			//console.log(settings.folder);
 			var containsfiles = false;
 			var recurseDir = [];
 			
@@ -576,7 +576,7 @@ var xbmc = {};
 				directory: settings.folder,
 				
 				onSuccess: function(result) {
-					console.log(result);
+					//console.log(result);
 					var n = 0;
 					$.each(result.files, function(i, file) {
 						if (file.filetype == 'file') {
@@ -595,10 +595,10 @@ var xbmc = {};
 					settings.onError(mkf.lang.get('message_failed_folders_content'));
 				}
 			});
-			console.log(recurseDir);
-			console.log(containsfiles);
+			//console.log(recurseDir);
+			//console.log(containsfiles);
 			if (containsfiles) {
-				console.log('send dir to playlist');
+				//console.log('send dir to playlist');
 				xbmc.sendCommand(
 					'{"jsonrpc": "2.0", "method": "Playlist.Add", "params": {"item": {"directory": "' + settings.folder + '"}, "playlistid": 0}, "id": 1}',
 					
@@ -612,9 +612,9 @@ var xbmc = {};
 				);	
 			};
 			if (recurseDir.length > 0) {
-				console.log('send dir to playlist');
+				//console.log('send dir to playlist');
 				$.each(recurseDir, function(i, dir) {
-					console.log('adding dir: ' + dir);
+					//console.log('adding dir: ' + dir);
 					xbmc.sendCommand(
 						'{"jsonrpc": "2.0", "method": "Playlist.Add", "params": {"item": {"directory": "' + recurseDir[i] + '"}, "playlistid": 0}, "id": 1}',
 						
