@@ -577,6 +577,226 @@
 		});
 	}; // END defaultArtistsGenresViewer
 	
+
+	/* ########################### *\
+	 |  Show music playlists.
+	 |
+	 |  @param MusicPlaylistsResult		Result of Files.GetDirectory.
+	 |  @param parentPage		Page which is used as parent for new sub pages.
+	\* ########################### */
+	$.fn.defaultMusicPlaylistsViewer = function(MusicPlaylistsResult, parentPage) {
+		var onMusicPlaylistsClick = function(e) {
+			// open new page to show artist's albums
+			var $MusicPlaylistsContent = $('<div class="pageContentWrapper"></div>');
+			var MusicPlaylistsPage = mkf.pages.createTempPage(parentPage, {
+				title: e.data.strLabel,
+				content: $MusicPlaylistsContent
+			});
+			MusicPlaylistsPage.setContextMenu(
+				[
+					{
+						'icon':'close', 'title':mkf.lang.get('ctxt_btn_close_album_list'), 'shortcut':'Ctrl+1', 'onClick':
+						function() {
+							mkf.pages.closeTempPage(MusicPlaylistsPage);
+							return false;
+						}
+					}
+				]
+			);
+			mkf.pages.showTempPage(MusicPlaylistsPage);
+
+			// list playlist
+			$MusicPlaylistsContent.addClass('loading');
+			xbmc.getDirectory({
+				directory: e.data.strFile,
+				isPlaylist: true,
+
+				onError: function() {
+					mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
+					$MusicPlaylistsContent.removeClass('loading');
+				},
+
+				onSuccess: function(result) {
+					$MusicPlaylistsContent.defaultMusicPlaylistsViewer(result, MusicPlaylistsPage);
+					$MusicPlaylistsContent.removeClass('loading');
+				}
+			});
+
+			return false;
+		}; // END onMusicPlaylistsClick
+
+		var onAddPlaylistToPlaylistClick = function(e) {
+			//console.log(e.data.playlistinfo);
+			var isSmart = false;
+			if (e.data.playlistinfo.file.search(/\.xsp/i) !=-1) { isSmart = true; };
+			//console.log(e.data.playlistinfo.file.search(/\.xsp/i));
+			//console.log(isSmart);
+			if (e.data.playlistinfo.type == 'unknown' && isSmart == true) {
+				//unknown and .xsp so should be a smart playlist
+				xbmc.getDirectory({
+					directory: e.data.playlistinfo.file,
+					isPlaylist: true,
+					
+					onError: function() {
+						mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
+						$MusicPlaylistsContent.removeClass('loading');
+					},
+
+					onSuccess: function(result) {
+						//parse playlist
+						//console.log(result);
+						$.each(result.files, function(i, file) {
+							if (file.type == 'album') {
+								//add to playlist by albumid, returned as id
+								var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_album_to_playlist'));
+								xbmc.addAlbumToPlaylist({
+									albumid: file.id,
+									onSuccess: function() {
+										mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+									},
+									onError: function(errorText) {
+										mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+									}
+								});
+							} else if (file.type == 'song') {
+								//add to playlist by songid, returned as id
+								var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_song_to_playlist'));
+								xbmc.addSongToPlaylist({
+									songid: file.id,
+									// async required to add in playlist order
+									async: false,
+									
+									onSuccess: function() {
+										mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+									},
+									onError: function(errorText) {
+										mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+									}
+								});
+							} else {
+								//it's not any of those, error
+								mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
+							};
+						});
+					}
+				});
+			};
+			
+			//should be normal playlist. m3u only? Can use playlist.add directory addAudioFolderToPlaylist
+			if (!isSmart && e.data.playlistinfo.type == 'unknown') {
+				var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_album_to_playlist'));
+				xbmc.addAudioFolderToPlaylist({
+					folder: e.data.playlistinfo.file,
+					
+					onSuccess: function() {
+						mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+					},
+					onError: function(errorText) {
+						mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+					}
+				});
+			};
+			
+			if (!isSmart && e.data.playlistinfo.type == 'album') {
+				var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_album_to_playlist'));
+				xbmc.addAlbumToPlaylist({
+					albumid: e.data.playlistinfo.id,
+					onSuccess: function() {
+						mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+					},
+					onError: function(errorText) {
+						mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+					}
+				});
+			};
+			
+			if (!isSmart && e.data.playlistinfo.type == 'song') {
+				var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_song_to_playlist'));
+				xbmc.addSongToPlaylist({
+					songid: e.data.playlistinfo.id,
+					async: true,
+					
+					onSuccess: function() {
+						mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+					},
+					onError: function(errorText) {
+						mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+					}
+				});			
+			};
+			//is an album? Throw to addAlbumToPlaylist
+				/*if (e.data.playlistinfo.type == 'album') {
+					var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_album_to_playlist'));
+					xbmc.addAlbumToPlaylist({
+						albumid: e.data.playlistinfo.id,
+						onSuccess: function() {
+							mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+						},
+						onError: function(errorText) {
+							mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+						}
+					});
+				};
+				
+				if (e.data.playlistinfo.type == 'song') {
+					//add to playlist by songid, returned as id
+					var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_song_to_playlist'));
+					xbmc.addSongToPlaylist({
+						songid: e.data.playlistinfo.id,
+						async: true,
+						
+						onSuccess: function() {
+							mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+						},
+						onError: function(errorText) {
+							mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+						}
+					});
+				};*/
+			
+			/*var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_album_to_playlist'));
+			xbmc.addAlbumToPlaylist({
+				albumid: event.data.idAlbum,
+				onSuccess: function() {
+					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+				},
+				onError: function(errorText) {
+					mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+				}
+			});*/
+			return false;
+		};
+		
+		// no artists?
+		if (!MusicPlaylistsResult || !MusicPlaylistsResult.files) {
+			return;
+		}
+
+		//console.log(MusicPlaylistsResult);
+		this.each (function() {
+			var MusicPlaylistsList = $('<ul class="fileList"></ul>').appendTo($(this));
+
+			if (MusicPlaylistsResult.limits.total > 0) {
+				$.each(MusicPlaylistsResult.files, function(i, playlist)  {
+					MusicPlaylistsList.append('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper">' +
+										'<a href="" class="button playlistinfo' + i +'" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a>' +
+										'<a href="" class="playlist' + i + '">' + playlist.label + ' - Type: ' + 
+										(playlist.type == 'unknown' ? 'Playlist' : playlist.type) + '<div class="findKeywords">' + playlist.label.toLowerCase() + '</div>' +
+										'</a></div></li>');
+					MusicPlaylistsList.find('.playlist' + i)
+						.bind('click',
+							{
+								//idPlaylist: playlist.id,
+								strFile: playlist.file,
+								strLabel: playlist.label
+							},
+							onMusicPlaylistsClick);
+					MusicPlaylistsList.find('.playlistinfo' + i).bind('click', {playlistinfo: playlist}, onAddPlaylistToPlaylistClick);
+				});
+			}
+		});
+	}; // END defaultMusicPlaylistsViewer
+
 	
 	/* ########################### *\
 	 |  Show the albums.
@@ -2368,7 +2588,7 @@
 
 				thumbElement.attr('src', 'images/thumb.png');
 				if (currentFile.thumbnail) {
-					console.log(currentFile.thumbnail.width);
+					//console.log(currentFile.thumbnail.width);
 					thumbElement.attr('src', xbmc.getThumbUrl(currentFile.thumbnail));
 				}
 			});

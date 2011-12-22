@@ -154,6 +154,37 @@ var awxUI = {};
 				className: 'artistsGenres'
 			});
 			
+			//playlists m3u smart etc.
+			this.$MusicPlaylistsContent = $('<div class="pageContentWrapper"></div>');
+			var MusicPlaylistsContextMenu = $.extend(true, [], standardMusicContextMenu);
+			/*MusicPlaylistsContextMenu.push({
+				'id':'findArtistsButton', 'icon':'find', 'title':mkf.lang.get('ctxt_btn_find'), 'shortcut':'Ctrl+2', 'onClick':
+					function(){
+						var pos = $('#findArtistsButton').offset();
+						awxUI.$MusicPlaylistsContent
+							.defaultFindBox({id:'artistsFindBox', searchItems:'a', top: pos.top, left: pos.left});
+						return false;
+					}
+			});*/
+			MusicPlaylistsContextMenu.push({
+				'icon':'refresh', 'title':mkf.lang.get('ctxt_btn_refresh_list'), 'onClick':
+					function(){
+						awxUI.$MusicPlaylistsContent.empty();
+						awxUI.onMusicPlaylistsShow();
+
+						return false;
+					}
+			});	
+			
+			this.MusicPlaylistsPage = musicPage.addPage({
+				title: mkf.lang.get('page_title_music_playlists'),
+				menuButtonText: '&raquo; ' + mkf.lang.get('page_buttontext_music_playlists'),
+				content: this.$MusicPlaylistsContent,
+				contextMenu: MusicPlaylistsContextMenu,
+				onShow: $.proxy(this, "onMusicPlaylistsShow"),
+				className: 'MusicPlaylists'
+			});
+
 			
 			this.$albumsContent = $('<div class="pageContentWrapper"></div>');
 			var musicAlbumsContextMenu = $.extend(true, [], standardMusicContextMenu);
@@ -604,7 +635,29 @@ var awxUI = {};
 			}
 		},
 		
+		/**************************************
+		 * Called when Music playlists-Page is shown. *
+		 **************************************/
+		onMusicPlaylistsShow: function() {
+			if (this.$MusicPlaylistsContent.html() == '') {
+				var MusicPlaylistsPage = this.MusicPlaylistsPage;
+				var $contentBox = this.$MusicPlaylistsContent;
+				$contentBox.addClass('loading');
 
+				xbmc.getMusicPlaylists({
+					onError: function() {
+						mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
+						$contentBox.removeClass('loading');
+					},
+
+					onSuccess: function(result) {
+						$contentBox.defaultMusicPlaylistsViewer(result, MusicPlaylistsPage);
+						$contentBox.removeClass('loading');
+					}
+				});
+			}
+		},
+		
 		/**************************************
 		 * Called when Albums-Page is shown. *
 		 **************************************/

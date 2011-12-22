@@ -64,7 +64,8 @@ var awxUI = {};
 		/**************************
 		 * Set up page structure: *
 		 *  - Music               *
-		 *     - Artists          *
+		 *     - Artists		  *
+		 *	   - Genres			  *
 		 *     - Albums           *
 		 *     - Files            *
 		 *     - Playlist         *
@@ -93,6 +94,7 @@ var awxUI = {};
 						}
 					}];
 
+			// Artists
 			this.$artistsContent = $('<div class="pageContentWrapper"></div>');
 			var artistsContextMenu = $.extend(true, [], standardMusicContextMenu);
 			artistsContextMenu.push({
@@ -123,7 +125,7 @@ var awxUI = {};
 				className: 'artists'
 			});
 			
-			
+			// Music Genres
 			this.$artistsGenresContent = $('<div class="pageContentWrapper"></div>');
 			var artistsGenresContextMenu = $.extend(true, [], standardMusicContextMenu);
 			artistsGenresContextMenu.push({
@@ -154,7 +156,38 @@ var awxUI = {};
 				className: 'artistsGenres'
 			});
 
-		
+			//playlists m3u smart etc.
+			this.$MusicPlaylistsContent = $('<div class="pageContentWrapper"></div>');
+			var MusicPlaylistsContextMenu = $.extend(true, [], standardMusicContextMenu);
+			/*MusicPlaylistsContextMenu.push({
+				'id':'findArtistsButton', 'icon':'find', 'title':mkf.lang.get('ctxt_btn_find'), 'shortcut':'Ctrl+2', 'onClick':
+					function(){
+						var pos = $('#findArtistsButton').offset();
+						awxUI.$MusicPlaylistsContent
+							.defaultFindBox({id:'artistsFindBox', searchItems:'a', top: pos.top, left: pos.left});
+						return false;
+					}
+			});*/
+			MusicPlaylistsContextMenu.push({
+				'icon':'refresh', 'title':mkf.lang.get('ctxt_btn_refresh_list'), 'onClick':
+					function(){
+						awxUI.$MusicPlaylistsContent.empty();
+						awxUI.onMusicPlaylistsShow();
+
+						return false;
+					}
+			});	
+			
+			this.MusicPlaylistsPage = musicPage.addPage({
+				title: mkf.lang.get('page_title_music_playlists'),
+				menuButtonText: '&raquo; ' + mkf.lang.get('page_buttontext_music_playlists'),
+				content: this.$MusicPlaylistsContent,
+				contextMenu: MusicPlaylistsContextMenu,
+				onShow: $.proxy(this, "onMusicPlaylistsShow"),
+				className: 'MusicPlaylists'
+			});
+			
+			// Albums
 			this.$albumsContent = $('<div class="pageContentWrapper"></div>');
 			var musicAlbumsContextMenu = $.extend(true, [], standardMusicContextMenu);
 			musicAlbumsContextMenu.push({
@@ -208,6 +241,7 @@ var awxUI = {};
 			});
 			//end recent albums
 			
+			//Music Files
 			this.$musicFilesContent = $('<div class="pageContentWrapper"></div>');
 			var musicFilesContextMenu = $.extend(true, [], standardMusicContextMenu);
 			musicFilesContextMenu.push({
@@ -241,6 +275,7 @@ var awxUI = {};
 				className: 'audiofiles'
 			});
 			
+			//Playlist
 			this.$musicPlaylistContent = $('<div class="pageContentWrapper"></div>');
 			var musicPlaylistContextMenu = $.extend(true, [], standardMusicContextMenu);
 			musicPlaylistContextMenu.push({
@@ -273,6 +308,7 @@ var awxUI = {};
 				className: 'playlist'
 			});
 
+			//Music Scan
 			this.$musicScanContent = $('<div class="pageContentWrapper"></div>');
 			var musicScanContextMenu = $.extend(true, [], standardMusicContextMenu);
 			
@@ -302,6 +338,7 @@ var awxUI = {};
 						}
 					}];
 
+			//Movies
 			this.$moviesContent = $('<div class="pageContentWrapper"></div>');
 			var videoMoviesContextMenu = $.extend(true, [], standardVideosContextMenu);
 			videoMoviesContextMenu.push({
@@ -355,6 +392,7 @@ var awxUI = {};
 			});
 			//end recent movies
 			
+			//TV Shows
 			this.$tvShowsContent = $('<div class="pageContentWrapper"></div>');
 			var videoTvShowsContextMenu = $.extend(true, [], standardVideosContextMenu);
 			videoTvShowsContextMenu.push({
@@ -417,6 +455,7 @@ var awxUI = {};
 			});
 			// end recently added eps
 			
+			//Video Files
 			this.$videoFilesContent = $('<div class="pageContentWrapper"></div>');
 			this.videoFilesPage = videosPage.addPage({
 				title: mkf.lang.get('page_title_video_files'),
@@ -427,6 +466,7 @@ var awxUI = {};
 				className: 'videofiles'
 			});
 
+			//Video Playlist
 			this.$videoPlaylistContent = $('<div class="pageContentWrapper"></div>');
 			var videoPlaylistContextMenu = $.extend(true, [], standardVideosContextMenu);
 			videoPlaylistContextMenu.push({
@@ -459,6 +499,7 @@ var awxUI = {};
 				className: 'playlist'
 			});
 			
+			//Video Scan
 			this.$videoScanContent = $('<div class="pageContentWrapper"></div>');
 			var videoScanContextMenu = $.extend(true, [], standardVideosContextMenu);
 			
@@ -581,6 +622,30 @@ var awxUI = {};
 
 
 		/**************************************
+		 * Called when Music playlists-Page is shown. *
+		 **************************************/
+		onMusicPlaylistsShow: function() {
+			if (this.$MusicPlaylistsContent.html() == '') {
+				var MusicPlaylistsPage = this.MusicPlaylistsPage;
+				var $contentBox = this.$MusicPlaylistsContent;
+				$contentBox.addClass('loading');
+
+				xbmc.getMusicPlaylists({
+					onError: function() {
+						mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
+						$contentBox.removeClass('loading');
+					},
+
+					onSuccess: function(result) {
+						$contentBox.defaultMusicPlaylistsViewer(result, MusicPlaylistsPage);
+						$contentBox.removeClass('loading');
+					}
+				});
+			}
+		},
+		
+		
+		/**************************************
 		 * Called when Genres Artists-Page is shown. *
 		 **************************************/
 		onArtistsGenresShow: function() {
@@ -602,7 +667,7 @@ var awxUI = {};
 				});
 			}
 		},
-		
+
 		
 		/**************************************
 		 * Called when Albums-Page is shown. *

@@ -516,7 +516,25 @@ var xbmc = {};
 		},
 
 
+		getMusicPlaylists: function(options) {
+			var settings = {
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
 
+			xbmc.sendCommand(
+				'{"jsonrpc": "2.0", "method": "Files.GetDirectory", "params": {"directory": "special://profile/playlists/music/", "media": "music"}, "id": 1}',
+
+				function(response) {
+					settings.onSuccess(response.result);
+				},
+
+				settings.onError
+			);
+		},
+		
+		
 		addSongToPlaylist: function(options) {
 			var settings = {
 				songid: 0,
@@ -580,11 +598,11 @@ var xbmc = {};
 					var n = 0;
 					$.each(result.files, function(i, file) {
 						if (file.filetype == 'file') {
-							console.log( i + '.audio file!');
+							//console.log( i + '.audio file!');
 							containsfiles = true;
 						};
 						if (file.filetype == 'directory') {
-							console.log( n + '.dir');
+							//console.log( n + '.dir');
 							recurseDir[n] = file.file;
 							n ++;
 						};
@@ -1498,6 +1516,7 @@ var xbmc = {};
 		getDirectory: function(options) {
 			var settings = {
 				media: 'music',
+				isPlaylist: false,
 				directory: '',
 				onSuccess: null,
 				onError: null,
@@ -1505,8 +1524,15 @@ var xbmc = {};
 			};
 			$.extend(settings, options);
 
+			var command;
+			
+			if (settings.isPlaylist) {
+				command = '{"jsonrpc": "2.0", "method": "Files.GetDirectory", "params" : { "directory" : "' + settings.directory.replace(/\\/g, "\\\\") + '", "media" : "' + settings.media +'" }, "id": 1}'
+				} else {
+				command = '{"jsonrpc": "2.0", "method": "Files.GetDirectory", "params" : { "directory" : "' + settings.directory.replace(/\\/g, "\\\\") + '", "media" : "' + settings.media +'", "sort": { "order": "ascending", "method": "file" } }, "id": 1}'
+				};
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "Files.GetDirectory", "params" : { "directory" : "' + settings.directory.replace(/\\/g, "\\\\") + '", "media" : "' + settings.media +'", "sort": { "order": "ascending", "method": "file" } }, "id": 1}',
+				command,
 
 				function(response) {
 					settings.onSuccess(response.result);

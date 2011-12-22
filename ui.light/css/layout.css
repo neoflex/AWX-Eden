@@ -749,6 +749,7 @@ br.clear { clear:both; }
 }
 #content .mkfMenu li.artists a { background-position: -512px 0; }
 #content .mkfMenu li.playlist a { background-position: -128px 0; }
+#content .mkfMenu li.MusicPlaylists a { background-position: -128px 0; }
 #content .mkfMenu li.audiofiles a { background-position: -256px 0; }
 #content .mkfMenu li.movies a { background-position: -384px 0; }
 #content .mkfMenu li.albums a { background-position: -640px 0; }
