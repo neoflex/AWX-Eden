@@ -586,42 +586,58 @@
 	\* ########################### */
 	$.fn.defaultMusicPlaylistsViewer = function(MusicPlaylistsResult, parentPage) {
 		var onMusicPlaylistsClick = function(e) {
-			// open new page to show artist's albums
-			var $MusicPlaylistsContent = $('<div class="pageContentWrapper"></div>');
-			var MusicPlaylistsPage = mkf.pages.createTempPage(parentPage, {
-				title: e.data.strLabel,
-				content: $MusicPlaylistsContent
-			});
-			MusicPlaylistsPage.setContextMenu(
-				[
-					{
-						'icon':'close', 'title':mkf.lang.get('ctxt_btn_close_album_list'), 'shortcut':'Ctrl+1', 'onClick':
-						function() {
-							mkf.pages.closeTempPage(MusicPlaylistsPage);
-							return false;
+		
+			if (e.data.strType !='song') {
+				// open new page to show playlist or album
+				var $MusicPlaylistsContent = $('<div class="pageContentWrapper"></div>');
+				var MusicPlaylistsPage = mkf.pages.createTempPage(parentPage, {
+					title: e.data.strLabel,
+					content: $MusicPlaylistsContent
+				});
+				MusicPlaylistsPage.setContextMenu(
+					[
+						{
+							'icon':'close', 'title':mkf.lang.get('ctxt_btn_close_album_list'), 'shortcut':'Ctrl+1', 'onClick':
+							function() {
+								mkf.pages.closeTempPage(MusicPlaylistsPage);
+								return false;
+							}
 						}
+					]
+				);
+				mkf.pages.showTempPage(MusicPlaylistsPage);
+
+				
+				// list playlist or album
+				$MusicPlaylistsContent.addClass('loading');
+				xbmc.getDirectory({
+					directory: e.data.strFile,
+					isPlaylist: true,
+
+					onError: function() {
+						mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
+						$MusicPlaylistsContent.removeClass('loading');
+					},
+
+					onSuccess: function(result) {
+						$MusicPlaylistsContent.defaultMusicPlaylistsViewer(result, MusicPlaylistsPage);
+						$MusicPlaylistsContent.removeClass('loading');
 					}
-				]
-			);
-			mkf.pages.showTempPage(MusicPlaylistsPage);
-
-			// list playlist
-			$MusicPlaylistsContent.addClass('loading');
-			xbmc.getDirectory({
-				directory: e.data.strFile,
-				isPlaylist: true,
-
-				onError: function() {
-					mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
-					$MusicPlaylistsContent.removeClass('loading');
-				},
-
-				onSuccess: function(result) {
-					$MusicPlaylistsContent.defaultMusicPlaylistsViewer(result, MusicPlaylistsPage);
-					$MusicPlaylistsContent.removeClass('loading');
-				}
-			});
-
+				});
+			};
+			
+			if (e.data.strType == 'song') {
+				var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_song'));
+				xbmc.playSong({
+					songid: e.data.id,
+					onSuccess: function() {
+						mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+					},
+					onError: function(errorText) {
+						mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+					}
+				});			
+			};
 			return false;
 		}; // END onMusicPlaylistsClick
 
@@ -786,9 +802,10 @@
 					MusicPlaylistsList.find('.playlist' + i)
 						.bind('click',
 							{
-								//idPlaylist: playlist.id,
+								id: playlist.id,
 								strFile: playlist.file,
-								strLabel: playlist.label
+								strLabel: playlist.label,
+								strType: playlist.type
 							},
 							onMusicPlaylistsClick);
 					MusicPlaylistsList.find('.playlistinfo' + i).bind('click', {playlistinfo: playlist}, onAddPlaylistToPlaylistClick);
