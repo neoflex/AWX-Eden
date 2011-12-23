@@ -661,12 +661,17 @@
 					onSuccess: function(result) {
 						//parse playlist
 						//console.log(result);
+						Sn = 1;
+						An = 1;
 						$.each(result.files, function(i, file) {
 							if (file.type == 'album') {
 								//add to playlist by albumid, returned as id
-								var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_album_to_playlist'));
+								if (An == 1) { var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_album_to_playlist')); };
+								An ++;
 								xbmc.addAlbumToPlaylist({
 									albumid: file.id,
+									async: true,
+									
 									onSuccess: function() {
 										mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
 									},
@@ -676,11 +681,14 @@
 								});
 							} else if (file.type == 'song') {
 								//add to playlist by songid, returned as id
-								var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_song_to_playlist'));
+								
+								//console.log(n);
+								if (Sn == 1) { var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_song_to_playlist')); };
+								Sn ++;
 								xbmc.addSongToPlaylist({
 									songid: file.id,
 									// async required to add in playlist order
-									async: false,
+									async: true,
 									
 									onSuccess: function() {
 										mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);

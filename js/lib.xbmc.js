@@ -688,7 +688,8 @@ var xbmc = {};
 			var settings = {
 				albumid: 0,
 				onSuccess: null,
-				onError: null
+				onError: null,
+				async: false
 			};
 			$.extend(settings, options);
 
