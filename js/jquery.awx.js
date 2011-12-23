@@ -69,7 +69,7 @@
 	 |  XBMC-Controls
 	\* ########################### */
 	$.fn.defaultControls = function() {
-		$controls = $('<a class="button play" href=""></a><a class="button stop" href=""></a><a class="button next" href=""></a><a class="button prev" href=""></a><a class="button shuffle" href=""></a><a class="button repeat" href=""></a>');
+		$controls = $('<a class="button play" href=""></a><a class="button stop" href=""></a><a class="button next" href=""></a><a class="button prev" href=""></a><a class="button shuffle" href="" title="' + mkf.lang.get('label_shuffle') + '"></a><a class="button repeat" href="" title="' + mkf.lang.get('label_repeat') + '"></a>');
 		$controls.filter('.play').click(function() {
 			xbmc.control({type: 'play'}); return false;
 		});
@@ -109,13 +109,13 @@
 				$shuffleBtn.unbind('click');
 				$shuffleBtn.bind('click', {"shuffle": false}, shuffle);
 				$shuffleBtn.addClass('unshuffle');
-				$shuffleBtn.attr('title', 'Unshuffle');
+				$shuffleBtn.attr('title', mkf.lang.get('label_unshuffle'));
 
 			} else if (status == 'shuffleOff') {
 				$shuffleBtn.unbind('click');
 				$shuffleBtn.bind('click', {"shuffle": true}, shuffle);
 				$shuffleBtn.removeClass('unshuffle');
-				$shuffleBtn.attr('title', 'Shuffle');
+				$shuffleBtn.attr('title', mkf.lang.get('label_shuffle'));
 			}
 			//No idea if we're in Audio or Video playlist; refresh both..
 			awxUI.onMusicPlaylistShow();
@@ -129,18 +129,18 @@
 				$repeatBtn.bind('click', {"repeat": 'all'}, repeat);
 				$repeatBtn.removeClass('repeatOff');
 				$repeatBtn.addClass('repeat');
-				$repeatBtn.attr('title', 'Repeat all');
+				$repeatBtn.attr('title', mkf.lang.get('label_repeat'));
 			} else if (status == 'all') {
 				$repeatBtn.unbind('click');
 				$repeatBtn.bind('click', {"repeat": 'one'}, repeat);
 				$repeatBtn.addClass('repeat1');
-				$repeatBtn.attr('title', 'Repeat one');
+				$repeatBtn.attr('title', mkf.lang.get('label_repeat1'));
 			} else if (status == 'one') {
 				$repeatBtn.unbind('click');
 				$repeatBtn.removeClass('repeat1');
 				$repeatBtn.bind('click', {"repeat": 'off'}, repeat);			
 				$repeatBtn.addClass('repeatOff');
-				$repeatBtn.attr('title', 'Repeat off');
+				$repeatBtn.attr('title', mkf.lang.get('label_repeatoff'));
 			}
 		});
 		
