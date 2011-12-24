@@ -36,3 +36,8 @@ Have a look at http://ejohn.org/blog/simple-javascript-inheritance/.
 
 --------------------------------------------------------------------------------
 
+Tranlations:
+German - MKay
+Russian - Scaramush
+French - DanoneKiD
+Polish - cienislaw
