@@ -636,7 +636,78 @@ div.smallRating7 { background-position: 0 -112px; }
 div.smallRating8 { background-position: 0 -128px; }
 div.smallRating9 { background-position: 0 -144px; }
 div.smallRating10 { background-position: 0 -160px; }
-
+div.channels0, div.channels1, div.channels2, div.channels3, div.channels4, div.channels5, div.channels6, div.channels7, div.channels8, div.channels9, div.channels10 {
+	float: left;
+	margin-right: 3px;
+    background: url("../images/flagging/channels.png") no-repeat scroll 0 0 transparent;
+    height: 48px;
+    width: 64px;
+}
+div.channels0 {
+    background-position: 0 0;
+}
+div.channels1 {
+    background-position: -64px 0;
+}
+div.channels2 {
+    background-position: -128px 0;
+}
+div.channels3 {
+    background-position: -192px 0;
+}
+div.channels4 {
+    background-position: -256px 0;
+}
+div.channels5 {
+    background-position: -320px 0;
+}
+div.channels6 {
+    background-position: -384px 0;
+}
+div.channels7 {
+    background-position: -448px 0;
+}
+div.channels8 {
+    background-position: -512px 0;
+}
+div.channels9 {
+    background-position: -576px 0;
+}
+div.channels10 {
+    background-position: -640px 0;
+}
+div.aspect133, div.aspect166, div.aspect178, div.aspect185, div.aspect220, div.aspect235  {
+	float: left;
+	margin-right: 3px;
+    background: url("../images/flagging/aspects.png") no-repeat scroll 0 0 transparent;
+    height: 48px;
+    width: 64px;
+}
+div.aspect133 {
+    background-position: 0 0;
+}
+div.aspect166 {
+    background-position: -64px 0;
+}
+div.aspect178 {
+    background-position: -128px 0;
+}
+div.aspect185 {
+    background-position: -192px 0;
+}
+div.aspect220 {
+    background-position: -256px 0;
+}
+div.aspect235 {
+    background-position: -320px 0;
+}
+div.movietags  img {
+	float: left;
+	margin-right: 3px;
+}
+div.movietags {
+	display: table-cell;
+}
 div.recentTVthumb {
 	margin: 5px 5px 0 0;
 	float: left;
