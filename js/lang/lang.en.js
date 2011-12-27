@@ -170,6 +170,7 @@ mkf.lang.add({language: 'English', short: 'en', author: 'MKay', values: {
 	'label_studio':						'Studio:',
 	'label_votes':						'Votes:',
 	'label_subs':						'Subtitles:',
+	'label_audioStreams':				'Audio Streams:',
 	'label_tagline': 					'Tagline:',
 	'label_set': 						'Set:',
 	'label_file': 						'File:',
@@ -192,7 +193,7 @@ mkf.lang.add({language: 'English', short: 'en', author: 'MKay', values: {
 	'settings_help':					'LazyLoad:\nIf you activate LazyLoad, thumbnails will not be loaded until they become visible. This will save the server from many image-requests.\nBut if you have many items (movies, albums, ...) the webinterface can be laggy on scrolling if many thumbs are not loaded.\nIf you deactivate LazyLoad, all thumbs will be loaded when the page is shown (movies page, albums page, ...). It can take a short time until all thumbs are loaded.\n\nTimeOut:\nIf you have lots of movies (or albums ...) it can take some time to get the complete movie list. You can increase the TimeOut-value to prevent errors when trying to show the movie list.',
 	'settings_select_album_order': 		'Please select an album-order first!',
 	'settings_enter_timeout_number': 	'Please enter a timeout-number between 5 and 120!',
-	'settings_need_to_reload_awx':		'You must reload AWX for the changes to take effect!',
+	'settings_need_to_reload_awx':		'You must reload AWX for UI changes to take effect!',
 	'settings_select_language':			'Please select a language!',
 	'settings_filter_watched':			'Hide watched items.'
 }});

@@ -165,6 +165,7 @@ mkf.lang.add({language: 'Polski', short: 'pl', author: 'cienislaw', values: {
 	'label_year': 						'Rok:',
 	'label_director': 					'Reżyser:',
 	'label_tagline': 					'O filmie:',
+	'label_audioStreams':				'Audio Streams:',
 	'label_set': 						'Seria:',
 	'label_file': 						'Plik:',
 	'label_currently_playing':			'Teraz odtwarzane',

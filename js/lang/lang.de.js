@@ -165,6 +165,7 @@ mkf.lang.add({language: 'Deutsch', short: 'de', author: 'MKay', values: {
 	'label_year': 						'Jahr:',
 	'label_director': 					'Regisseur:',
 	'label_tagline': 					'Tagline:',
+	'label_audioStreams':				'Audio Streams:',
 	'label_set': 						'Set:',
 	'label_file': 						'Datei:',
 	'label_currently_playing':			'Derzeit wird gespielt',

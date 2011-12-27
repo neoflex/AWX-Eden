@@ -165,6 +165,7 @@ mkf.lang.add({language: 'Russian', short: 'ru', author: 'Scaramush', values: {
 	'label_year': 					'Год:',
 	'label_director': 				'Режисёр:',
 	'label_tagline': 				'Слоган:',
+	'label_audioStreams':				'Audio Streams:',
 	'label_set': 					'Set:',
 	'label_file': 					'Файл:',
 	'label_currently_playing':			'Сейчас воспроизводится',

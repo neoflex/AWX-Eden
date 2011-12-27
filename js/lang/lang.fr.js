@@ -165,6 +165,7 @@ mkf.lang.add({language: 'Français', short: 'fr', author: 'DanoneKiD', values: {
 	'label_year': 						'Année :',
 	'label_director': 					'Réalisateur :',
 	'label_tagline': 					'Accroche :',
+	'label_audioStreams':				'Audio Streams:',
 	'label_set': 						'Saga :',
 	'label_file': 						'Fichier :',
 	'label_currently_playing':			'Lecture en cours',
