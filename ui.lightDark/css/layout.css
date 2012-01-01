@@ -155,6 +155,7 @@ ul.mkfPageContextMenu li {
     right: 0;
     top: 168px;
     z-index: 50;
+	background: url("") no-repeat fixed;
 }
 #content .mkfPage .pageContent div.pageContentWrapper {
     min-height: 32px;
@@ -769,11 +770,12 @@ ul.fileList {
     padding: 0;
 }
 ul.fileList li {
+	background-color: rgba(0,0,0,0.7);
     border-bottom: 1px solid #ABABAB;
     display: block;
 }
 ul.fileList li.even {
-    background-color: #555555;
+    background-color: rgba(100,100,100,0.7);
 }
 ul.fileList li.current {
     background-color: #FF0000;

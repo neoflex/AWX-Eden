@@ -445,7 +445,7 @@
 				$.each(artistResult.artists, function(i, artist)  {
 					artistList.append('<li' + (i%2==0? ' class="even"': '') + '><a href="" class="artist' +
 										artist.artistid + '">' +
-										(i+1) + '. ' + artist.label + '<div class="findKeywords">' + artist.label.toLowerCase() + '</div>' +
+										artist.label + '<div class="findKeywords">' + artist.label.toLowerCase() + '</div>' +
 										'</a></li>');
 					artistList.find('.artist' + artist.artistid)
 						.bind('click',
@@ -562,7 +562,7 @@
 										//'><a href="" class="allgenre' + artistGenres.genreid + '">All - </a><a href="" class="genre' + 
 										'><div class="folderLinkWrapper"><a href="" class="button allgenre' + artistGenres.genreid + '" title="' + mkf.lang.get('btn_all') + '"><span class="miniIcon all" /></a><a href="" class="genre' + 
 										artistGenres.genreid + '">' +
-										(i+1) + '. ' + artistGenres.label + '<div class="findKeywords">' + artistGenres.label.toLowerCase() + '</div>' +
+										artistGenres.label + '<div class="findKeywords">' + artistGenres.label.toLowerCase() + '</div>' +
 										'</a></div></li>');
 					artistGenresList.find('.allgenre' + artistGenres.genreid).on('click', {idGenre: artistGenres.genreid, strGenre: artistGenres.label}, onAllGenresAlbumsClick);
 					artistGenresList.find('.genre' + artistGenres.genreid)
@@ -640,7 +640,31 @@
 			};
 			return false;
 		}; // END onMusicPlaylistsClick
-
+		
+		var onPlaylistsPlayClick = function(e) {
+			//console.log(e.data);
+			xbmc.clearAudioPlaylist({
+				onError: function() {
+					mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
+					//$MusicPlaylistsContent.removeClass('loading');
+				},
+				onSuccess: function() {
+					//console.log(e.data.playlistinfo);
+					onAddPlaylistToPlaylistClick(e);
+					xbmc.playAudio({
+						onError: function() {
+							mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
+							//$MusicPlaylistsContent.removeClass('loading');
+						},
+						onSuccess: function() {
+							mkf.messageLog.show(mkf.lang.get('message_playing_item'), mkf.messageLog.status.success, 2000);
+						}
+					});
+				}
+			});
+			return false;
+		};
+		
 		var onAddPlaylistToPlaylistClick = function(e) {
 			//console.log(e.data.playlistinfo);
 			var isSmart = false;
@@ -794,7 +818,7 @@
 		// no artists?
 		if (!MusicPlaylistsResult || !MusicPlaylistsResult.files) {
 			return;
-		}
+		};
 
 		//console.log(MusicPlaylistsResult);
 		this.each (function() {
@@ -804,6 +828,7 @@
 				$.each(MusicPlaylistsResult.files, function(i, playlist)  {
 					MusicPlaylistsList.append('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper">' +
 										'<a href="" class="button playlistinfo' + i +'" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a>' +
+										'<a href="" class="button play' + i + '" title="' + mkf.lang.get('btn_play') + '"><span class="miniIcon play" /></a>' +
 										'<a href="" class="playlist' + i + '">' + playlist.label + ' - Type: ' + 
 										(playlist.type == 'unknown' ? 'Playlist' : playlist.type) + '<div class="findKeywords">' + playlist.label.toLowerCase() + '</div>' +
 										'</a></div></li>');
@@ -817,6 +842,7 @@
 							},
 							onMusicPlaylistsClick);
 					MusicPlaylistsList.find('.playlistinfo' + i).bind('click', {playlistinfo: playlist}, onAddPlaylistToPlaylistClick);
+					MusicPlaylistsList.find('.play' + i).bind('click', {playlistinfo: playlist}, onPlaylistsPlayClick);
 				});
 			}
 		});
@@ -914,7 +940,7 @@
 						$album = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper">' + 
 							'<a href="" class="button playlist" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a>' +
 							'<a href="" class="button play" title="' + mkf.lang.get('btn_play') + '"><span class="miniIcon play" /></a>' +
-							'<a href="" class="album' + album.albumid + '">' + (i+1) + '. ' + album.label + ' - ' + album.artist + '<div class="findKeywords">' + album.label.toLowerCase() + ' ' + album.artist.toLowerCase() + '</div>' +
+							'<a href="" class="album' + album.albumid + '">' + album.label + ' - ' + album.artist + '<div class="findKeywords">' + album.label.toLowerCase() + ' ' + album.artist.toLowerCase() + '</div>' +
 							'</a></div></li>').appendTo($albumList);
 
 						$album.find('.album'+ album.albumid).bind('click', {idAlbum: album.albumid, strAlbum: album.label}, onSonglistClick);
@@ -1622,7 +1648,7 @@
 						$movie = $('<li' + (classEven%2==0? ' class="even"': '') + '><div class="folderLinkWrapper">' + 
 							'<a href="" class="button playlist" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a>' +
 							'<a href="" class="button play" title="' + mkf.lang.get('btn_play') + '"><span class="miniIcon play" /></a>' +
-							'<a href="" class="movieName' + movie.movieid + '">' + (i+1) + '. ' + movie.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '<div class="findKeywords">' + movie.label.toLowerCase() + '</div>' +
+							'<a href="" class="movieName' + movie.movieid + '">' + movie.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '<div class="findKeywords">' + movie.label.toLowerCase() + '</div>' +
 							'</a></div></li>').appendTo($movieList);
 
 						$movie.find('.play').bind('click', {idMovie: movie.movieid, strMovie: movie.label}, onMoviePlayClick);
@@ -2981,8 +3007,9 @@
 
 				thumbElement.attr('src', 'images/thumb.png');
 				if (currentFile.thumbnail) {
-					//console.log(currentFile.thumbnail.width);
 					thumbElement.attr('src', xbmc.getThumbUrl(currentFile.thumbnail));
+					//console.log(thumbElement);
+					//console.log(thumbElement.height());
 				}
 			});
 
