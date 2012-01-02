@@ -991,7 +991,7 @@ br.clear { clear:both; }
 #content .mkfMenu li.scanMusic a { background-position: -1024px 0; }
 
 #controls {
-	background: #EAECE6 url('../images/volume.png') no-repeat 20px 10px;
+	background: #EAECE6 ; /*url('../images/volume.png') no-repeat 20px 10px;*/
 	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
 	border: 1px solid #7c7c7c;
 	margin-top: 20px;
@@ -1001,7 +1001,22 @@ br.clear { clear:both; }
 	float: left;
 	margin-right: 10px;
 }
-
+#controls .unmuted {
+    background: url("../images/volume.png") no-repeat scroll transparent;
+    float: left;
+    height: 15px;
+    margin-top: 10px;
+	margin-left: 10px;
+    width: 16px;
+}
+#controls .muted {
+    background: url("../images/muted.png") no-repeat scroll transparent;
+    float: left;
+    height: 15px;
+    margin-top: 10px;
+	margin-left: 10px;
+    width: 16px;
+}
 #controls a.button {
 	background: url('../images/buttons.png') no-repeat;
 	width: 30px;

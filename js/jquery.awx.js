@@ -82,7 +82,9 @@
 		$controls.filter('.prev').click(function() {
 			xbmc.control({type: 'prev'}); return false;
 		});
-
+		$('.mute').click(function() {
+			xbmc.setMute(); return false;
+		});
 		var shuffle = function(event) {
 			xbmc.control({type: (event.data.shuffle? 'shuffle': 'unshuffle')}); return false;
 		};
@@ -102,6 +104,24 @@
 		};
 		
 		$controls.filter('.repeat').bind('click', {"repeat": 'all' }, repeat);
+
+		xbmc.periodicUpdater.addPlayerStatusChangedListener(function(status) {
+			var $muteBtn = $('.mute');
+			if (status == 'muteOn') {
+				//$shuffleBtn.unbind('click');
+				//$shuffleBtn.bind('click', {"shuffle": false}, shuffle);
+				$muteBtn.removeClass('unmuted');
+				$muteBtn.addClass('muted');
+				$muteBtn.attr('title', mkf.lang.get('label_mute'));
+
+			} else if (status == 'muteOff') {
+				//$shuffleBtn.unbind('click');
+				//$shuffleBtn.bind('click', {"shuffle": true}, shuffle);
+				$muteBtn.removeClass('muted');
+				$muteBtn.addClass('unmuted');
+				$muteBtn.attr('title', mkf.lang.get('label_mute'));
+			}
+		});
 		
 		xbmc.periodicUpdater.addPlayerStatusChangedListener(function(status) {
 			var $shuffleBtn = $('.button.shuffle');

@@ -169,11 +169,26 @@ div.ui-slider-vertical a.ui-slider-handle {
 	height: 170px;
 	width: 60px;
 	padding: 15px 15px 40px 15px;
-	background: #343434 url('../images/volume.png') no-repeat 14px 195px;
+	background: #343434; /* url('../images/volume.png') no-repeat 14px 195px;*/
 	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
 	border: 1px solid #7c7c7c;
 }
-
+#controls .unmuted {
+    background: url("../images/volume.png") no-repeat scroll transparent;
+    float: left;
+    height: 15px;
+    margin-top: 180px;
+	margin-left: 0px;
+    width: 16px;
+}
+#controls .muted {
+    background: url("../images/muted.png") no-repeat scroll transparent;
+    float: left;
+    height: 15px;
+    margin-top: 180px;
+	margin-left: 0px;
+    width: 16px;
+}
 #location {
 	position: absolute;
 	top: 0;

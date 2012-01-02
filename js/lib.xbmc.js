@@ -262,7 +262,20 @@ var xbmc = {};
 			);
 		},
 
+		setMute: function() {
+			var settings = {
+				onSuccess: null,
+				onError: null
+			};
+			//$.extend(settings, options);
 
+			xbmc.sendCommand(
+				'{"jsonrpc": "2.0", "method": "Application.SetMute", "params": { "mute": "toggle" }, "id": 1}',
+				settings.onSuccess,
+				settings.onError
+			);
+		},
+		
 
 		shutdown: function(options) {
 			var settings = {
@@ -351,6 +364,44 @@ var xbmc = {};
 				return true;
 			}
 			return false;
+		},
+		
+		setSubtitles:  function(options) {
+			var settings = {
+				command: 'off',
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
+
+			xbmc.sendCommand(
+				'{"jsonrpc": "2.0", "method": "Player.SetSubtitle", "params": { "playerid": 1, "subtitle": "' + settings.command +'"}, "id": 1}',
+
+				function(response) {
+					settings.onSuccess(response.result);
+				},
+
+				settings.onError
+			);
+		},
+		
+		setAudioStream:  function(options) {
+			var settings = {
+				command: 'next',
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
+
+			xbmc.sendCommand(
+				'{"jsonrpc": "2.0", "method": "Player.SetAudioStream", "params": { "playerid": 1, "stream": "' + settings.command +'"}, "id": 1}',
+
+				function(response) {
+					settings.onSuccess(response.result);
+				},
+
+				settings.onError
+			);
 		},
 		
 		
@@ -1635,7 +1686,11 @@ var xbmc = {};
 						repeatStatus: 'off'
 					});
 				}
-				
+				if (typeof xbmc.periodicUpdater.muteStatus === 'undefined') {
+					$.extend(xbmc.periodicUpdater, {
+						muteStatus: 'off'
+					});
+				}				
 				// ---------------------------------
 				// ---      Volume Changes       ---
 				// ---------------------------------
@@ -1675,23 +1730,32 @@ var xbmc = {};
 					);
 
 					// has volume changed? Or first start?
-					if (activePlayer != 'none' || xbmc.periodicUpdater.lastVolume == -1) {
+					//if (activePlayer != 'none' || xbmc.periodicUpdater.lastVolume == -1) {
 						xbmc.sendCommand(
 							'{"jsonrpc": "2.0", "method": "Application.GetProperties", "params": { "properties": [ "volume", "muted" ] }, "id": 1}',
 
 							function (response) {
 								var volume = response.result.volume;
+								var muted = response.result.muted;
 								if (volume != xbmc.periodicUpdater.lastVolume) {
 									xbmc.periodicUpdater.lastVolume = volume;
-									$.each(xbmc.periodicUpdater.volumeChangedListener, function(i, listener)  {
+										$.each(xbmc.periodicUpdater.volumeChangedListener, function(i, listener)  {
 									listener(volume);
-								});
-								}
+									});
+								};
+								if (muted != xbmc.periodicUpdater.muteStatus) {
+									xbmc.periodicUpdater.muteStatus = muted;
+									if (muted) {
+										xbmc.periodicUpdater.firePlayerStatusChanged('muteOn');
+									} else {
+										xbmc.periodicUpdater.firePlayerStatusChanged('muteOff');
+									};
+								};
 							},
 
 							null, true // IS async // not async
 						);
-					}
+					//}
 
 					// playing state					
 					// We reached the end my friend... (of the playlist)

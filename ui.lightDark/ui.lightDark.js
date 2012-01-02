@@ -537,7 +537,7 @@ var awxUI = {};
 							'</div>' +
 							'<div id="header">' +
 								'<div id="controls">' +
-									'<div id="volumeSlider"></div>' +
+									'<div class="mute unmuted"></div><div id="volumeSlider"></div>' +
 								'</div>' +
 								'<div id="currentlyPlaying"></div>' +
 							'</div>' + 
