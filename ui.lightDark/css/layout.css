@@ -150,12 +150,15 @@ ul.mkfPageContextMenu li {
     bottom: 0;
     left: 0;
     overflow: auto;
-    padding: 10px;
+    padding-top: 5px;
     position: absolute;
     right: 0;
     top: 168px;
     z-index: 50;
-	background: url("") no-repeat fixed;
+	background-image: url("");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: 100% 100%;
 }
 #content .mkfPage .pageContent div.pageContentWrapper {
     min-height: 32px;
@@ -754,6 +757,7 @@ div.vSubtitles {
     background-position: 0 0;
 }
 ul.RecentfileList {
+	background-color: rgba(0,0,0,0.7);
     border-top: 1px solid #ABABAB;
     list-style-type: none;
     margin: 0;

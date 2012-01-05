@@ -82,6 +82,8 @@ a.settings:hover { background-position: top right; }
 	margin-left:125px;
 	height: 100%;
 	overflow: auto;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
 }
 #content {
 	margin: 45px 55px 20px 55px;
@@ -229,10 +231,12 @@ div.ui-slider-vertical a.ui-slider-handle {
 	color: #ffbb00;
 }
 ul.fileList {
+	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
 	background: url('../images/splitter_h.png') no-repeat top left;
+	background-color: rgba(0,0,0,0.7);
 }
 ul.fileList li {
 	display: block;
@@ -927,6 +931,7 @@ a.recentTVplay  {
 	z-index: 5
 }
 ul.RecentfileList {
+	background-color: rgba(0,0,0,0.7);
     border-top: 1px solid #ABABAB;
     list-style-type: none;
     margin: 0;

@@ -254,6 +254,7 @@
 			var lang = mkf.cookieSettings.get('lang', 'en');
 			var watched = mkf.cookieSettings.get('watched', 'no');
 			var listview = mkf.cookieSettings.get('listview', 'no');
+			var usefanart = mkf.cookieSettings.get('usefanart', 'no');
 
 			var languages = '';
 			$.each(mkf.lang.getLanguages(), function(key, val) {
@@ -288,8 +289,9 @@
 				'</fieldset>' +
 				'<fieldset>' +
 				'<legend>' + mkf.lang.get('group_view') + '</legend>' +
+				'<input type="checkbox" id="listview" name="listview" ' + (listview=='yes'? 'checked="checked"' : '') + '><label for="listview">' + mkf.lang.get('label_filter_listview') + '</label>' +
 				'<input type="checkbox" id="watched" name="watched" ' + (watched=='yes'? 'checked="checked"' : '') + '><label for="watched">' + mkf.lang.get('label_filter_watched') + '</label>' +
-				'<input type="checkbox" id="listview" name="listview" ' + (listview=='yes'? 'checked="checked"' : '') + '><label for="listview">' + mkf.lang.get('label_filter_listview') + '</label><br />' +
+				'<input type="checkbox" id="usefanart" name="usefanart" ' + (usefanart=='yes'? 'checked="checked"' : '') + '><label for="usefanart">' + mkf.lang.get('label_use_fanart') + '</label><br />' +
 				'</fieldset>' +
 				'<a href="" class="formButton save">' + mkf.lang.get('btn_save') + '</a>' + 
 				'<div class="formHint">' + mkf.lang.get('label_settings_hint') + '</div>' +
@@ -340,7 +342,12 @@
 					'lazyload',
 					document.settingsForm.lazyload.checked? 'yes' : 'no'
 				);
-
+				
+				mkf.cookieSettings.add(
+					'usefanart',
+					document.settingsForm.usefanart.checked? 'yes' : 'no'
+				);
+				
 				mkf.cookieSettings.add(
 					'watched',
 					document.settingsForm.watched.checked? 'yes' : 'no'
@@ -1334,11 +1341,11 @@
 						if (duration != 0) {
 							duration = duration * 60;
 							runtime += duration;
-						}
+						};
 						var playlistItemClass = '';
 						if (i%2==0) {
 							playlistItemClass = 'even';
-						}
+						};
 						//runtime += duration;
 						//Change background colour of currently playing item.
 						/*if (i == xbmc.periodicUpdater.curPlaylistNum && xbmc.periodicUpdater.playerStatus != 'stopped') {
@@ -1349,7 +1356,7 @@
 							playlistItemCur = 'playlistItemCur';
 						} else {
 							playlistItemCur = 'playlistItem';
-						}							
+						};						
 						$item = $('<li class="' + playlistItemClass + '" id="vpli' + i + '"><div class="folderLinkWrapper playlistItem' + i + '">' + 
 							'<a class="button remove" href="" title="' + mkf.lang.get('btn_remove') +  '"><span class="miniIcon remove" /></a><span class="miniIcon playlistmove" title="' + mkf.lang.get('btn_swap') +  '"/>' +
 							'<a class="' + playlistItemCur  + ' vpli' + i + ' play" href="">' + (i+1) + '. ' +
@@ -1428,6 +1435,7 @@
 
 		var onMovieInformationClick = function(event) {
 			var dialogHandle = mkf.dialog.show();
+			var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
 
 			xbmc.getMovieInfo({
 				movieid: event.data.idMovie,
@@ -1446,6 +1454,9 @@
 						vwidth: 0
 					};
 					
+					if ( useFanart ) {
+						$('.mkfOverlay').css('background-image', 'url("' + xbmc.getThumbUrl(movie.fanart) + '")');
+					};
 					if (movie.streamdetails) {
 						if (movie.streamdetails.subtitle) { streamdetails.hasSubs = true };
 						if (movie.streamdetails.audio) { streamdetails.aStreams = movie.streamdetails.audio.length };
@@ -1774,7 +1785,8 @@
 
 		var onMovieInformationClick = function(event) {
 			var dialogHandle = mkf.dialog.show();
-
+			var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
+			
 			xbmc.getMovieInfo({
 				movieid: event.data.idMovie,
 				onSuccess: function(movie) {
@@ -1790,6 +1802,10 @@
 						aLang: '',
 						aspect: 0,
 						vwidth: 0
+					};
+					
+					if ( useFanart ) {
+						$('.mkfOverlay').css('background-image', 'url("' + xbmc.getThumbUrl(movie.fanart) + '")');
 					};
 					
 					if (movie.streamdetails) {
@@ -2094,6 +2110,7 @@
 
 		var onTVShowInformationClick = function(event) {
 			var dialogHandle = mkf.dialog.show();
+			var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
 
 			var NA = mkf.lang.get('label_not_available');
 			var tvshow = {
@@ -2109,6 +2126,9 @@
 			};
 			$.extend(tvshow, event.data.tvshow);
 			var dialogContent = '';
+			if ( useFanart ) {
+				$('.mkfOverlay').css('background-image', 'url("' + xbmc.getThumbUrl(tvshow.fanart) + '")');
+			};			
 			var thumb = (tvshow.thumbnail? xbmc.getThumbUrl(tvshow.thumbnail) : 'images/thumb' + xbmc.getTvShowThumbType() + '.png');
 			var valueClass = 'value' + xbmc.getTvShowThumbType();
 			dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getTvShowThumbType() + ' dialogThumb' + xbmc.getTvShowThumbType() + '" />' +

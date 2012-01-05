@@ -160,6 +160,7 @@ mkf.lang.add({language: 'Russian', short: 'ru', author: 'Scaramush', values: {
 	'label_order_by_title':				'Сортировать по названию',
 	'label_order_by_artist':			'Сортировать по исполнителю',
 	'label_use_lazyload':				'Использовать LazyLoad для постеров',
+	'label_use_fanart':					'Use Fan Art as background',
 	'label_timeout':				'Время ожидания для Ajax-запросов: ',
 	'label_settings_hint':				'(Настройки сохраняются в cookies. Вам нужно включить cookies для этого сайта.)',
 	'label_not_available':				'Н/Д',

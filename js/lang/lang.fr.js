@@ -160,6 +160,7 @@ mkf.lang.add({language: 'Français', short: 'fr', author: 'DanoneKiD', values: {
 	'label_order_by_title':				'Trier par Titre',
 	'label_order_by_artist':			'Trier par Artistes',
 	'label_use_lazyload':				'Utiliser LazyLoad pour les vignettes',
+	'label_use_fanart':					'Use Fan Art as background',
 	'label_timeout':					'TimeOut pour les requêtes Ajax : ',
 	'label_settings_hint':				'(Les paramètres sont stockés dans les Cookies. Vous devez les activer pour ce site.)',
 	'label_not_available':				'N/A',

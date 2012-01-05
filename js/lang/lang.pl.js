@@ -160,6 +160,7 @@ mkf.lang.add({language: 'Polski', short: 'pl', author: 'cienislaw', values: {
 	'label_order_by_title':				'Sortuj po tytule',
 	'label_order_by_artist':			'Sortuj po wykonawcy',
 	'label_use_lazyload':				'użyj LazyLoad dla miniaturek',
+	'label_use_fanart':					'Use Fan Art as background',
 	'label_timeout':					'Limit czasu dla zapytań Ajaxa: ',
 	'label_settings_hint':				'(Ustawienia są przechowywane w ciasteczkach. Dla tej strony musisz włączyć ciasteczka.)',
 	'label_not_available':				'N/A',

@@ -160,6 +160,7 @@ mkf.lang.add({language: 'English', short: 'en', author: 'MKay', values: {
 	'label_order_by_title':				'Order By Title',
 	'label_order_by_artist':			'Order By Artist',
 	'label_use_lazyload':				'use LazyLoad for Thumbnails',
+	'label_use_fanart':					'Use Fan Art as background',
 	'label_timeout':					'TimeOut for Ajax-Requests: ',
 	'label_settings_hint':				'(Settings are stored in cookies. You need to enable cookies for this site.)',
 	'label_not_available':				'N/A',
