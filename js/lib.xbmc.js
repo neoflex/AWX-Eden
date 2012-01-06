@@ -1768,8 +1768,8 @@ var xbmc = {};
 					// We reached the end my friend... (of the playlist)
 					if ( xbmc.periodicUpdater.playerStatus != 'stopped' && activePlayer == 'none') {
 						xbmc.periodicUpdater.playerStatus = 'stopped';
-						if ( $backgroundFanart != currentItem.fanart && useFanart ) {
-							$backgroundFanart = xbmc.getThumbUrl(currentItem.fanart);
+						if ( $backgroundFanart != '' && useFanart ) {
+							$backgroundFanart = '';
 							if ( ui == 'default') {
 								$('#main').css('background-image', 'url("")');
 							} else {
