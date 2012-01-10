@@ -158,7 +158,8 @@ ul.mkfPageContextMenu li {
 	background-image: url("");
 	background-repeat: no-repeat;
 	background-attachment: fixed;
-	background-size: 100% 100%;
+	background-size: 100%;
+	background-position: 0px 168px;
 }
 #content .mkfPage .pageContent div.pageContentWrapper {
     min-height: 32px;
@@ -935,7 +936,7 @@ a.recentTVplay  {
 	left: 5px; 
 	z-index: 5
 }
-a.bigLeft, a.bigRight, a.bigUp, a.bigDown, a.bigSelect, a.bigBack, a.bigHome {
+a.bigLeft, a.bigRight, a.bigUp, a.bigDown, a.bigSelect, a.bigBack, a.bigHome, a.bigSubNext, a.bigSubPrev, a.bigAudioNext, a.bigAudioPrev{
     background: url("../images/controls_big.png") no-repeat scroll 0 0 transparent;
     float: left;
     height: 70px;
@@ -943,7 +944,7 @@ a.bigLeft, a.bigRight, a.bigUp, a.bigDown, a.bigSelect, a.bigBack, a.bigHome {
 }
 a.bigDown {
     background-position: 0 0;
-    margin: 25px 135px 22px 135px;
+    margin: 25px 55px 20px;
 }
 a.bigRight {
     background-position: -70px 0;
@@ -968,6 +969,29 @@ a.bigHome {
 a.bigSelect {
     background-position: -420px 0;
     margin: 25px 55px 0px;
+}
+a.bigSubOnOff {
+    background-position: -420px 0;
+}
+a.bigSubNext {
+    background-position: -525px 0;
+	width: 35px;
+	margin-top: 25px;
+}
+a.bigSubPrev {
+    background-position: -490px 0;
+	width: 35px;
+	margin: 25px 2px 0 10px;
+}
+a.bigAudioNext {
+    background-position: -595px 0;
+	width: 35px;
+	margin-top: 25px;
+}
+a.bigAudioPrev {
+    background-position: -560px 0;
+	width: 35px;
+	margin: 25px 2px 0 0;
 }
 a.exitXBMC, a.shutdown, a.suspend, a.reboot {
     background: url("../images/system_buttons.png") no-repeat scroll 0 0 transparent;

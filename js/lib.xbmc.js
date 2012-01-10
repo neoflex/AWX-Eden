@@ -178,7 +178,11 @@ var xbmc = {};
 		getThumbUrl: function(url) {
 			return '/vfs/' + encodeURI(url);
 		},
-
+		
+		getUrl: function(url) {
+			return location.protocol + '//' + location.host + '/' + encodeURI(url);
+		},
+		
 		detectThumbTypes: function(initContainer, callback) {
 			xbmc.sendCommand(
 				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": {"properties" : ["thumbnail"]}, "id": 1}',
@@ -376,12 +380,8 @@ var xbmc = {};
 
 			xbmc.sendCommand(
 				'{"jsonrpc": "2.0", "method": "Player.SetSubtitle", "params": { "playerid": 1, "subtitle": "' + settings.command +'"}, "id": 1}',
-
-				function(response) {
-					settings.onSuccess(response.result);
-				},
-
-				settings.onError
+					settings.onSuccess,
+					settings.onError
 			);
 		},
 		
@@ -395,12 +395,8 @@ var xbmc = {};
 
 			xbmc.sendCommand(
 				'{"jsonrpc": "2.0", "method": "Player.SetAudioStream", "params": { "playerid": 1, "stream": "' + settings.command +'"}, "id": 1}',
-
-				function(response) {
-					settings.onSuccess(response.result);
-				},
-
-				settings.onError
+					settings.onSuccess,
+					settings.onError
 			);
 		},
 		
@@ -1430,7 +1426,7 @@ var xbmc = {};
 			$.extend(settings, options);
 
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodeDetails", "params": { "episodeid": ' + settings.episodeid + ', "properties": ["season", "episode", "firstaired", "plot", "title", "runtime", "rating", "thumbnail", "playcount", "file"] }, "id": 2}',
+				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodeDetails", "params": { "episodeid": ' + settings.episodeid + ', "properties": ["season", "episode", "firstaired", "plot", "title", "runtime", "rating", "thumbnail", "playcount", "file", "fanart", "streamdetails"] }, "id": 2}',
 				function(response) {
 					settings.onSuccess(response.result.episodedetails);
 				},
@@ -1555,6 +1551,25 @@ var xbmc = {};
 
 			xbmc.sendCommand(
 				'{"jsonrpc":"2.0","id":2,"method":"AudioLibrary.GetRecentlyAddedAlbums","params":{ "limits": {"end": 25},"properties":["thumbnail","genre","artist","rating"]}}',
+
+				function(response) {
+					settings.onSuccess(response.result);
+				},
+
+				settings.onError
+			);
+		},
+
+		getPrepDownload: function(options) {
+			var settings = {
+				path: '',
+				onSuccess: null,
+				onError: null,
+			};
+			$.extend(settings, options);
+
+			xbmc.sendCommand(
+				'{"jsonrpc": "2.0", "method": "Files.PrepareDownload", "params": { "path": "' + settings.path + '"}, "id": 1}',
 
 				function(response) {
 					settings.onSuccess(response.result);

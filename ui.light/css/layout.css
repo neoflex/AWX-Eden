@@ -185,7 +185,8 @@ ul.mkfPageContextMenu li {
 	background-image: url("");
 	background-repeat: no-repeat;
 	background-attachment: fixed;
-	background-size: 100% auto;
+	background-size: 100%;
+	background-position: 0px 168px;
 }
 
 #content .mkfPage .pageContent div.pageContentWrapper {
@@ -741,7 +742,7 @@ div.movietags {
 	display: table-cell;
 }
 ul.RecentfileList {
-	background-color: rgba(0,0,0,0.7);
+	background-color: rgba(255,255,255,0.7);
     border-top: 1px solid #ABABAB;
     list-style-type: none;
     margin: 0;

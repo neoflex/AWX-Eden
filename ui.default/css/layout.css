@@ -83,7 +83,7 @@ a.settings:hover { background-position: top right; }
 	height: 100%;
 	overflow: auto;
 	background-repeat: no-repeat;
-	background-size: 100% 100%;
+	background-size: 100%;
 }
 #content {
 	margin: 45px 55px 20px 55px;

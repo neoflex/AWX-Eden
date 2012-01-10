@@ -187,7 +187,13 @@
 				'<div><a href="" class="bigLeft" title="' + mkf.lang.get('btn_left') + '"></a>' +
 				'<a href="" class="bigSelect" title="' + mkf.lang.get('btn_select') + '"></a>' +
 				'<a href="" class="bigRight" title="' + mkf.lang.get('btn_right') + '"></a></div>' +
-				'<div><a href="" class="bigDown" title="' + mkf.lang.get('btn_down') + '"></a></div>' +
+				'<div><a href="" class="bigSubPrev" title="' + mkf.lang.get('btn_subsPrev') + '"></a>' +
+				'<a href="" class="bigSubNext" title="' + mkf.lang.get('btn_subsNext') + '"></a>' +
+				
+				'<a href="" class="bigDown" title="' + mkf.lang.get('btn_down') + '"></a>' +
+				'<a href="" class="bigAudioPrev" title="' + mkf.lang.get('btn_audioStreamPrev') + '"></a>' +
+				'<a href="" class="bigAudioNext" title="' + mkf.lang.get('btn_audioStreamNext') + '"></a></div>' +
+				
 				'<div class="systemControls">' +
 				'<a href="" class="exitXBMC" title="' + mkf.lang.get('btn_exit') + '"></a>' +
 				'<a href="" class="shutdown" title="' + mkf.lang.get('btn_shutdown') + '"></a>' +
@@ -239,6 +245,19 @@
 			});
 			$('.bigSelect').click(function() {
 				xbmc.input({type: 'Select', onError: failed}); return false;
+			});
+			
+			$('.bigSubNext').click(function() {
+				xbmc.setSubtitles({command: 'next', onError: failed}); return false;
+			});
+			$('.bigSubPrev').click(function() {
+				xbmc.setSubtitles({command: 'previous', onError: failed}); return false;
+			});
+			$('.bigAudioNext').click(function() {
+				xbmc.setAudioStream({command: 'next', onError: failed}); return false;
+			});
+			$('.bigAudioPrev').click(function() {
+				xbmc.setAudioStream({command: 'previous', onError: failed}); return false;
 			});
 			return false;
 		});
@@ -1268,7 +1287,7 @@
 							var artist = (item.artist? item.artist : mkf.lang.get('label_not_available'));
 							var album = (item.album? item.album : mkf.lang.get('label_not_available'));
 							var label = (item.label? item.label : mkf.lang.get('label_not_available'));
-							var title = (item.title? item.title : label);							
+							var title = (item.title? item.title : label);
 							//var duration = (item.duration? item.duration : '');
 						} else {
 							var label = (item.label? item.label : mkf.lang.get('label_not_available'));
@@ -1295,7 +1314,7 @@
 						$item = $('<li class="' + playlistItemClass + '" id="apli' + i + '"><div class="folderLinkWrapper playlistItem' + i + '">' + 
 							'<a class="button remove" href="" title="' + mkf.lang.get('btn_remove') +  '"><span class="miniIcon remove" /></a><span class="miniIcon playlistmove" title="' + mkf.lang.get('btn_swap') +  '" />' +
 							'<a class="' + playlistItemCur + ' apli' + i + ' play" href="">' + (i+1) + '. ' +
-							(artist? artist + ' - ' : '') + (album? album + ' - ' : '') + title + '&nbsp;&nbsp;&nbsp;&nbsp;' + (duration? xbmc.formatTime(duration) : '') +
+							(artist? artist + ' - ' : '') + (album? album + ' - ' : '') + (title? title : label) + '&nbsp;&nbsp;&nbsp;&nbsp;' + (duration? xbmc.formatTime(duration) : '') +
 							'</a></div></li>').appendTo($itemList);
 
 						$item.find('a.play').bind('click', {itemNum: i}, onItemPlayClick);
@@ -1440,6 +1459,20 @@
 			xbmc.getMovieInfo({
 				movieid: event.data.idMovie,
 				onSuccess: function(movie) {
+					var fileDownload = '';
+					
+					xbmc.getPrepDownload({
+						path: movie.file,
+						onSuccess: function(result) {
+							fileDownload = xbmc.getUrl(result.details.path);
+							// no better way?
+							$('.movieinfo').find('a').attr('href',fileDownload);
+						},
+						onError: function(errorText) {
+							$('.movieinfo').find('a').replaceWith(movie.file);
+						},
+					});
+					
 					var dialogContent = '';
 					//console.log(movie);
 					var streamdetails = {
@@ -1608,6 +1641,9 @@
 						};
 					
 					};
+					//fileDownload = pharseFile(movie.file);
+					//console.log(pharseFile(movie.file));
+
 					var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
 					//dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getMovieThumbType() + ' dialogThumb" />' + //Won't this always be poster?!
 					dialogContent += '<div><img src="' + thumb + '" class="thumb thumbPosterLarge dialogThumb" /></div>' +
@@ -1626,7 +1662,7 @@
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_lastplayed') + '</span><span class="value">' + (movie.lastplayed? movie.lastplayed : mkf.lang.get('label_not_available')) + '</span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_playcount') + '</span><span class="value">' + (movie.playcount? movie.playcount : mkf.lang.get('label_not_available')) + '</span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_audioStreams') + '</span><span class="value">' + (streamdetails.aStreams? streamdetails.aStreams : mkf.lang.get('label_not_available')) + '</span></div>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + movie.file + '</span></div></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + '<a href="' + fileDownload + '">' + movie.file + '</a>' + '</span></div></div>' + //(fileDownload? '<a href="' + fileDownload + '">' + movie.file + '</a>' : movie.file) + '</span></div></div>' +
 						'<p class="plot">' + movie.plot + '</p>'+
 						'<div class="movietags">' + 
 						'<div class="vFormat' + streamdetails.vFormat + '" />' +
@@ -1791,6 +1827,20 @@
 				movieid: event.data.idMovie,
 				onSuccess: function(movie) {
 					var dialogContent = '';
+					var fileDownload = '';
+					
+					xbmc.getPrepDownload({
+						path: movie.file,
+						onSuccess: function(result) {
+							fileDownload = xbmc.getUrl(result.details.path);
+							// no better way?
+							$('.movieinfo').find('a').attr('href',fileDownload);
+						},
+						onError: function(errorText) {
+							$('.movieinfo').find('a').replaceWith(movie.file);
+						},
+					});
+					
 					//console.log(movie);
 					var streamdetails = {
 						vFormat: 'SD',
@@ -1977,7 +2027,7 @@
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_lastplayed') + '</span><span class="value">' + (movie.lastplayed? movie.lastplayed : mkf.lang.get('label_not_available')) + '</span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_playcount') + '</span><span class="value">' + (movie.playcount? movie.playcount : mkf.lang.get('label_not_available')) + '</span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_audioStreams') + '</span><span class="value">' + (streamdetails.aStreams? streamdetails.aStreams : mkf.lang.get('label_not_available')) + '</span></div>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + movie.file + '</span></div></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + '<a href="' + fileDownload + '">' + movie.file + '</a>' + '</span></div></div>' +
 						'<p class="plot">' + movie.plot + '</p>'+
 						'<div class="movietags">' + 
 						'<div class="vFormat' + streamdetails.vFormat + '" />' +
@@ -2126,9 +2176,11 @@
 			};
 			$.extend(tvshow, event.data.tvshow);
 			var dialogContent = '';
+			
 			if ( useFanart ) {
 				$('.mkfOverlay').css('background-image', 'url("' + xbmc.getThumbUrl(tvshow.fanart) + '")');
-			};			
+			};
+			
 			var thumb = (tvshow.thumbnail? xbmc.getThumbUrl(tvshow.thumbnail) : 'images/thumb' + xbmc.getTvShowThumbType() + '.png');
 			var valueClass = 'value' + xbmc.getTvShowThumbType();
 			dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getTvShowThumbType() + ' dialogThumb' + xbmc.getTvShowThumbType() + '" />' +
@@ -2419,11 +2471,30 @@
 
 		var onEpisodeInfoClick = function(event) {
 			var dialogHandle = mkf.dialog.show();
+			var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
 
 			xbmc.getEpisodeDetails({
 				episodeid: event.data.idEpisode,
 				onSuccess: function(ep) {
 					var dialogContent = '';
+					
+					var fileDownload = '';
+					xbmc.getPrepDownload({
+						path: ep.file,
+						onSuccess: function(result) {
+							fileDownload = xbmc.getUrl(result.details.path);
+							// no better way?
+							$('.movieinfo').find('a').attr('href',fileDownload);
+						},
+						onError: function(errorText) {
+							$('.movieinfo').find('a').replaceWith(ep.file);
+						},
+					});
+					
+					if ( useFanart ) {
+						$('.mkfOverlay').css('background-image', 'url("' + xbmc.getThumbUrl(ep.fanart) + '")');
+					};	
+					
 					var thumb = (ep.thumbnail? xbmc.getThumbUrl(ep.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
 					//dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getMovieThumbType() + ' dialogThumb" />' + //Won't this always be poster?!
 					dialogContent += '<div><img src="' + thumb + '" class="thumbFanart dialogThumb" /></div>' +
@@ -2436,7 +2507,7 @@
 						//'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_director') + '</span><span class="value">' + (ep.director? ep.director : mkf.lang.get('label_not_available')) + '</span></div>' +
 						//'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_tagline') + '</span><span class="value">' + (ep.tagline? ep.tagline : mkf.lang.get('label_not_available')) + '</span></div>' +
 						//'<tr><td><div class="test"><span class="label">' + mkf.lang.get('label_set') + '</span></td><td><span class="value">' + (ep.set[0]? ep.set : mkf.lang.get('label_not_available')) + '</span></div></td></tr>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + ep.file + '</span></div></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value"><a href="">' + ep.file + '</a></span></div></div>' +
 						'<p class="plot">' + ep.plot + '</p>';
 					mkf.dialog.setContent(dialogHandle, dialogContent);
 					return false;
@@ -2517,11 +2588,30 @@
 
 		var onEpisodeInfoClick = function(event) {
 			var dialogHandle = mkf.dialog.show();
+			var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
 
 			xbmc.getEpisodeDetails({
 				episodeid: event.data.idEpisode,
 				onSuccess: function(ep) {
 					var dialogContent = '';
+					
+					var fileDownload = '';
+					xbmc.getPrepDownload({
+						path: ep.file,
+						onSuccess: function(result) {
+							fileDownload = xbmc.getUrl(result.details.path);
+							// no better way?
+							$('.movieinfo').find('a').attr('href',fileDownload);
+						},
+						onError: function(errorText) {
+							$('.movieinfo').find('a').replaceWith(ep.file);
+						},
+					});
+					
+					if ( useFanart ) {
+						$('.mkfOverlay').css('background-image', 'url("' + xbmc.getThumbUrl(ep.fanart) + '")');
+					};
+			
 					var thumb = (ep.thumbnail? xbmc.getThumbUrl(ep.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
 					//dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getMovieThumbType() + ' dialogThumb" />' + //Won't this always be poster?!
 					dialogContent += '<div><img src="' + thumb + '" class="thumbFanart dialogThumb" /></div>' +
@@ -2534,7 +2624,7 @@
 						//'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_director') + '</span><span class="value">' + (ep.director? ep.director : mkf.lang.get('label_not_available')) + '</span></div>' +
 						//'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_tagline') + '</span><span class="value">' + (ep.tagline? ep.tagline : mkf.lang.get('label_not_available')) + '</span></div>' +
 						//'<tr><td><div class="test"><span class="label">' + mkf.lang.get('label_set') + '</span></td><td><span class="value">' + (ep.set[0]? ep.set : mkf.lang.get('label_not_available')) + '</span></div></td></tr>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + ep.file + '</span></div></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value"><a href="">' + ep.file + '</a></span></div></div>' +
 						'<p class="plot">' + ep.plot + '</p>';
 					mkf.dialog.setContent(dialogHandle, dialogContent);
 					return false;
@@ -2894,7 +2984,7 @@
 				// TODO support Windows/OSX-Folders
 				// /media - Folder may exist (access to usb-sticks etc.)
 				xbmc.getDirectory({
-					direcotry: '/media',
+					directory: '/media',
 					//directory: '/mnt/media/music/',
 
 					onSuccess: function(result) {
