@@ -440,7 +440,164 @@ var xbmc = {};
 			);
 		},
 
+		getAspect: function(aspect) {
+			if (aspect == 0)
+				return 0;
+			if (aspect >= 1.30 && aspect <= 1.39)
+				return '133';
+			else if (aspect < 1.7)
+				return '166';
+			else if (aspect < 1.79)
+				return '178';
+			else if (aspect >= 1.80 && aspect <= 1.95 )
+				return '185';
+			else if (aspect < 2.34)
+				return '220';
+			else
+				return '235';
+		},
 
+		getvFormat: function(width) {
+			if (width == 1920) { 
+				return 'HD1080';
+			} else if (width == 1280 ) { 
+				return 'HD720';
+			} else {
+				return 'SD';
+			};
+		},
+		
+		getVcodec: function(vcodec) {
+			switch (vcodec) {
+			case 'h264':
+				return 'H264';
+				break;
+			case 'xvid':
+				return 'XVID';
+				break;
+			case 'div3':
+				//div3 dx50
+				return 'DivX3';
+				break;
+			case 'dx50':
+				return 'DivX5';
+				break;
+			case 'avc1':
+				return 'AVC1';
+				break;
+			case 'vp8':
+				return 'VP8';
+				break;
+			case 'mpeg1':
+				return 'MPEG1';
+				break;
+			case 'mpeg2':
+				return 'MPEG2';
+				break;
+			case 'dvd':
+				return 'DVD';
+				break;
+			case 'bluray':
+				return 'BluRay';
+				break;
+			case 'vc-1':
+				return 'VC1';
+				break;
+			case 'wvc1':
+				return 'VC1';
+				break;
+			case 'flv':
+				return 'FLV';
+				break;
+			};
+			return 'Unknown';
+		},
+		
+
+		getAcodec: function (acodec) {
+			switch (acodec) {
+			case 'aac':
+				return 'AAC';
+				break;
+			case 'ac3':
+				return 'AC3';
+				break;
+			case 'aif':
+				return 'AIF';
+				break;
+			case 'aifc':
+				return 'AIFC';
+				break;
+			case 'ape':
+				return 'APE';
+				break;
+			case 'avc':
+				return 'AVC';
+				break;
+			case 'cdda':
+				return 'CDDA';
+				break;
+			case 'dca':
+				return 'DCA';
+				break;
+			case 'dts':
+				return 'DTS';
+				break;
+			case 'dtshd_hra':
+				return 'DTSHD';
+				break;
+			case 'dtshd_ma':
+				return 'DTSMA';
+				break;
+			case 'eac3':
+				return 'EAC3';
+				break;
+			case 'flac':
+				return 'FLAC';
+				break;
+			case 'mp1':
+				return 'MP1';
+				break;
+			case 'mp2':
+				return 'MP2';
+				break;
+			case 'mp3':
+				return 'MP3';
+				break;
+			case 'ogg':
+				return 'OGG';
+				break;
+			case 'vorbis':
+				return 'OGG';
+				break;
+			case 'truehd':
+				return 'DDTrueHD';
+				break;
+			case 'wav':
+				return 'wav';
+				break;
+			case 'wavpack':
+				return 'wavpack';
+				break;
+			case 'wma':
+				return 'WMA';
+				break;
+			case 'wmapro':
+				return 'WMAPro';
+				break;
+			case 'wma2':
+				return 'WMA2';
+				break;
+			case 'pcm_bluray':
+				return 'PCM';
+				break;
+			case 'alac':
+				return 'ALAC';
+				break;
+			};		
+		},
+		
+		
 		getAudioGenres: function(options) {
 			var settings = {
 				onSuccess: null,

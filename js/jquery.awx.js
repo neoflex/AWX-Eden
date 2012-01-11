@@ -1492,157 +1492,20 @@
 					};
 					if (movie.streamdetails) {
 						if (movie.streamdetails.subtitle) { streamdetails.hasSubs = true };
-						if (movie.streamdetails.audio) { streamdetails.aStreams = movie.streamdetails.audio.length };
-						//console.log(movie.streamdetails.video.length);
-						if (movie.streamdetails.video[0].aspect.toPrecision(3) >= 1.80 && movie.streamdetails.video[0].aspect.toPrecision(3) <= 1.95) {
-							streamdetails.aspect = movie.streamdetails.video[0].aspect = 1.85;
-						} else if (movie.streamdetails.video[0].aspect.toPrecision(3) >= 1.30 && movie.streamdetails.video[0].aspect.toPrecision(3) <= 1.39) {
-							streamdetails.aspect = movie.streamdetails.video[0].aspect = 1.33;
-						} else if (movie.streamdetails.video[0].aspect.toPrecision(3) >= 2.35) {
-							streamdetails.aspect = movie.streamdetails.video[0].aspect = 2.35;
-						} else {
-							streamdetails.aspect = 1.78;
+						if (movie.streamdetails.audio) {
+							streamdetails.channels = movie.streamdetails.audio[0].channels;
+							streamdetails.aStreams = movie.streamdetails.audio.length;
+							$.each(movie.streamdetails.audio, function(i, audio) { streamdetails.aLang += audio.language + ' ' } );
+							if ( streamdetails.aLang == ' ' ) { streamdetails.aLang = mkf.lang.get('label_not_available') };
 						};
-						var aspect = streamdetails.aspect.toString();
-						aspect = aspect.replace(/\./g, ''); //replace(/[^\d]+/g, ''),
-						//console.log(aspect);
+						streamdetails.aspect = xbmc.getAspect(movie.streamdetails.video[0].aspect);
 						//Get video standard
-						if (movie.streamdetails.video[0].width == 1920) { 
-							streamdetails.vFormat = 'HD1080';
-						} else if (movie.streamdetails.video[0].width == 1280 ) { 
-							streamdetails.vFormat = 'HD720';
-						} else {
-							streamdetails.vFormat = 'SD';
-						};
+						streamdetails.vFormat = xbmc.getvFormat(movie.streamdetails.video[0].width);
 						//Get video codec
-						switch (movie.streamdetails.video[0].codec) {
-						case 'h264':
-							streamdetails.vCodec = 'H264';
-							break;
-						case 'xvid':
-							streamdetails.vCodec = 'XVID';
-							break;
-						case 'div3':
-							//div3 dx50
-							streamdetails.vCodec = 'DivX3';
-							break;
-						case 'dx50':
-							streamdetails.vCodec = 'DivX5';
-							break;
-						case 'avc1':
-							streamdetails.vCodec = 'AVC1';
-							break;
-						case 'vp8':
-							streamdetails.vCodec = 'VP8';
-							break;
-						case 'mpeg1':
-							streamdetails.vCodec = 'MPEG1';
-							break;
-						case 'mpeg2':
-							streamdetails.vCodec = 'MPEG2';
-							break;
-						case 'dvd':
-							streamdetails.vCodec = 'DVD';
-							break;
-						case 'bluray':
-							streamdetails.vCodec = 'BluRay';
-							break;
-						case 'vc-1':
-							streamdetails.vCodec = 'VC1';
-							break;
-						case 'wvc1':
-							streamdetails.vCodec = 'VC1';
-							break;
-						case 'flv':
-							streamdetails.vCodec = 'FLV';
-							break;
-						};
-
+						streamdetails.vCodec = xbmc.getVcodec(movie.streamdetails.video[0].codec);
 						//Set audio icon
-						switch (movie.streamdetails.audio[0].codec) {
-						case 'aac':
-							streamdetails.aCodec = 'AAC';
-							break;
-						case 'ac3':
-							streamdetails.aCodec = 'AC3';
-							break;
-						case 'aif':
-							streamdetails.aCodec = 'AIF';
-							break;
-						case 'aifc':
-							streamdetails.aCodec = 'AIFC';
-							break;
-						case 'ape':
-							streamdetails.aCodec = 'APE';
-							break;
-						case 'avc':
-							streamdetails.aCodec = 'AVC';
-							break;
-						case 'cdda':
-							streamdetails.aCodec = 'CDDA';
-							break;
-						case 'dca':
-							streamdetails.aCodec = 'DCA';
-							break;
-						case 'dts':
-							streamdetails.aCodec = 'DTS';
-							break;
-						case 'dtshd_hra':
-							streamdetails.aCodec = 'DTSHD';
-							break;
-						case 'dtshd_ma':
-							streamdetails.aCodec = 'DTSMA';
-							break;
-						case 'eac3':
-							streamdetails.aCodec = 'EAC3';
-							break;
-						case 'flac':
-							streamdetails.aCodec = 'FLAC';
-							break;
-						case 'mp1':
-							streamdetails.aCodec = 'MP1';
-							break;
-						case 'mp2':
-							streamdetails.aCodec = 'MP2';
-							break;
-						case 'mp3':
-							streamdetails.aCodec = 'MP3';
-							break;
-						case 'ogg':
-							streamdetails.aCodec = 'OGG';
-							break;
-						case 'vorbis':
-							streamdetails.aCodec = 'OGG';
-							break;
-						case 'truehd':
-							streamdetails.aCodec = 'DDTrueHD';
-							break;
-						case 'wav':
-							streamdetails.aCodec = 'wav';
-							break;
-						case 'wavpack':
-							streamdetails.aCodec = 'wavpack';
-							break;
-						case 'wma':
-							streamdetails.aCodec = 'WMA';
-							break;
-						case 'wmapro':
-							streamdetails.aCodec = 'WMAPro';
-							break;
-						case 'wma2':
-							streamdetails.aCodec = 'WMA2';
-							break;
-						case 'pcm_bluray':
-							streamdetails.aCodec = 'PCM';
-							break;
-						case 'alac':
-							streamdetails.aCodec = 'ALAC';
-							break;
-						};
-					
+						streamdetails.aCodec = xbmc.getAcodec(movie.streamdetails.audio[0].codec);
 					};
-					//fileDownload = pharseFile(movie.file);
-					//console.log(pharseFile(movie.file));
 
 					var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
 					//dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getMovieThumbType() + ' dialogThumb" />' + //Won't this always be poster?!
@@ -1661,18 +1524,20 @@
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_set') + '</span><span class="value">' + (movie.set[0]? movie.set : mkf.lang.get('label_not_available')) + '</span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_lastplayed') + '</span><span class="value">' + (movie.lastplayed? movie.lastplayed : mkf.lang.get('label_not_available')) + '</span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_playcount') + '</span><span class="value">' + (movie.playcount? movie.playcount : mkf.lang.get('label_not_available')) + '</span></div>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_audioStreams') + '</span><span class="value">' + (streamdetails.aStreams? streamdetails.aStreams : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_audioStreams') + '</span><span class="value">' + (streamdetails.aStreams? streamdetails.aStreams + ' - ' + streamdetails.aLang : mkf.lang.get('label_not_available')) + '</span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + '<a href="' + fileDownload + '">' + movie.file + '</a>' + '</span></div></div>' + //(fileDownload? '<a href="' + fileDownload + '">' + movie.file + '</a>' : movie.file) + '</span></div></div>' +
-						'<p class="plot">' + movie.plot + '</p>'+
-						'<div class="movietags">' + 
-						'<div class="vFormat' + streamdetails.vFormat + '" />' +
-						'<div class="aspect' + aspect + '"></div>' +
-						'<div class="vCodec' + streamdetails.vCodec + '" />' +
-						'<div class="aCodec' + streamdetails.aCodec + '" />' +
-						'<div class="channels' + movie.streamdetails.audio[0].channels + '"></div>' +
-						(streamdetails.hasSubs? '<div class="vSubtitles" />' : '') +
-						
-						'</div>';
+						'<p class="plot">' + movie.plot + '</p>';
+						if (movie.streamdetails) {
+							dialogContent += 
+							'<div class="movietags">' + 
+							'<div class="vFormat' + streamdetails.vFormat + '" />' +
+							'<div class="aspect' + streamdetails.aspect + '"></div>' +
+							'<div class="vCodec' + streamdetails.vCodec + '" />' +
+							'<div class="aCodec' + streamdetails.aCodec + '" />' +
+							'<div class="channels' + streamdetails.channels + '"></div>' +
+							(streamdetails.hasSubs? '<div class="vSubtitles" />' : '') +
+							'</div>';};
+							
 					mkf.dialog.setContent(dialogHandle, dialogContent);
 					return false;
 				},
@@ -1860,155 +1725,21 @@
 					
 					if (movie.streamdetails) {
 						if (movie.streamdetails.subtitle) { streamdetails.hasSubs = true };
-						if (movie.streamdetails.audio) { streamdetails.aStreams = movie.streamdetails.audio.length };
-						//console.log(movie.streamdetails.video.length);
-						if (movie.streamdetails.video[0].aspect.toPrecision(3) >= 1.80 && movie.streamdetails.video[0].aspect.toPrecision(3) <= 1.95) {
-							streamdetails.aspect = movie.streamdetails.video[0].aspect = 1.85;
-						} else if (movie.streamdetails.video[0].aspect.toPrecision(3) >= 1.30 && movie.streamdetails.video[0].aspect.toPrecision(3) <= 1.39) {
-							streamdetails.aspect = movie.streamdetails.video[0].aspect = 1.33;
-						} else if (movie.streamdetails.video[0].aspect.toPrecision(3) >= 2.35) {
-							streamdetails.aspect = movie.streamdetails.video[0].aspect = 2.35;
-						} else {
-							streamdetails.aspect = 1.78;
+						if (movie.streamdetails.audio) {
+							streamdetails.channels = movie.streamdetails.audio[0].channels;
+							streamdetails.aStreams = movie.streamdetails.audio.length;
+							$.each(movie.streamdetails.audio, function(i, audio) { streamdetails.aLang += audio.language + ' ' } );
+							if ( streamdetails.aLang == ' ' ) { streamdetails.aLang = mkf.lang.get('label_not_available') };
 						};
-						var aspect = streamdetails.aspect.toString();
-						aspect = aspect.replace(/\./g, ''); //replace(/[^\d]+/g, ''),
-						//console.log(aspect);
+						streamdetails.aspect = xbmc.getAspect(movie.streamdetails.video[0].aspect);
 						//Get video standard
-						if (movie.streamdetails.video[0].width == 1920) { 
-							streamdetails.vFormat = 'HD1080';
-						} else if (movie.streamdetails.video[0].width == 1280 ) { 
-							streamdetails.vFormat = 'HD720';
-						} else {
-							streamdetails.vFormat = 'SD';
-						};
+						streamdetails.vFormat = xbmc.getvFormat(movie.streamdetails.video[0].width);
 						//Get video codec
-						switch (movie.streamdetails.video[0].codec) {
-						case 'h264':
-							streamdetails.vCodec = 'H264';
-							break;
-						case 'xvid':
-							streamdetails.vCodec = 'XVID';
-							break;
-						case 'div3':
-							//div3 dx50
-							streamdetails.vCodec = 'DivX3';
-							break;
-						case 'dx50':
-							streamdetails.vCodec = 'DivX5';
-							break;
-						case 'avc1':
-							streamdetails.vCodec = 'AVC1';
-							break;
-						case 'vp8':
-							streamdetails.vCodec = 'VP8';
-							break;
-						case 'mpeg1':
-							streamdetails.vCodec = 'MPEG1';
-							break;
-						case 'mpeg2':
-							streamdetails.vCodec = 'MPEG2';
-							break;
-						case 'dvd':
-							streamdetails.vCodec = 'DVD';
-							break;
-						case 'bluray':
-							streamdetails.vCodec = 'BluRay';
-							break;
-						case 'vc-1':
-							streamdetails.vCodec = 'VC1';
-							break;
-						case 'wvc1':
-							streamdetails.vCodec = 'VC1';
-							break;
-						case 'flv':
-							streamdetails.vCodec = 'FLV';
-							break;
-						};
-
+						streamdetails.vCodec = xbmc.getVcodec(movie.streamdetails.video[0].codec);
 						//Set audio icon
-						switch (movie.streamdetails.audio[0].codec) {
-						case 'aac':
-							streamdetails.aCodec = 'AAC';
-							break;
-						case 'ac3':
-							streamdetails.aCodec = 'AC3';
-							break;
-						case 'aif':
-							streamdetails.aCodec = 'AIF';
-							break;
-						case 'aifc':
-							streamdetails.aCodec = 'AIFC';
-							break;
-						case 'ape':
-							streamdetails.aCodec = 'APE';
-							break;
-						case 'avc':
-							streamdetails.aCodec = 'AVC';
-							break;
-						case 'cdda':
-							streamdetails.aCodec = 'CDDA';
-							break;
-						case 'dca':
-							streamdetails.aCodec = 'DCA';
-							break;
-						case 'dts':
-							streamdetails.aCodec = 'DTS';
-							break;
-						case 'dtshd_hra':
-							streamdetails.aCodec = 'DTSHD';
-							break;
-						case 'dtshd_ma':
-							streamdetails.aCodec = 'DTSMA';
-							break;
-						case 'eac3':
-							streamdetails.aCodec = 'EAC3';
-							break;
-						case 'flac':
-							streamdetails.aCodec = 'FLAC';
-							break;
-						case 'mp1':
-							streamdetails.aCodec = 'MP1';
-							break;
-						case 'mp2':
-							streamdetails.aCodec = 'MP2';
-							break;
-						case 'mp3':
-							streamdetails.aCodec = 'MP3';
-							break;
-						case 'ogg':
-							streamdetails.aCodec = 'OGG';
-							break;
-						case 'vorbis':
-							streamdetails.aCodec = 'OGG';
-							break;
-						case 'truehd':
-							streamdetails.aCodec = 'DDTrueHD';
-							break;
-						case 'wav':
-							streamdetails.aCodec = 'wav';
-							break;
-						case 'wavpack':
-							streamdetails.aCodec = 'wavpack';
-							break;
-						case 'wma':
-							streamdetails.aCodec = 'WMA';
-							break;
-						case 'wmapro':
-							streamdetails.aCodec = 'WMAPro';
-							break;
-						case 'wma2':
-							streamdetails.aCodec = 'WMA2';
-							break;
-						case 'pcm_bluray':
-							streamdetails.aCodec = 'PCM';
-							break;
-						case 'alac':
-							streamdetails.aCodec = 'ALAC';
-							break;
-						};
-					
+						streamdetails.aCodec = xbmc.getAcodec(movie.streamdetails.audio[0].codec);
 					};
+					
 					var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
 					//dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getMovieThumbType() + ' dialogThumb" />' + //Won't this always be poster?!
 					dialogContent += '<div><img src="' + thumb + '" class="thumb thumbPosterLarge dialogThumb" /></div>' +
@@ -2026,18 +1757,20 @@
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_set') + '</span><span class="value">' + (movie.set[0]? movie.set : mkf.lang.get('label_not_available')) + '</span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_lastplayed') + '</span><span class="value">' + (movie.lastplayed? movie.lastplayed : mkf.lang.get('label_not_available')) + '</span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_playcount') + '</span><span class="value">' + (movie.playcount? movie.playcount : mkf.lang.get('label_not_available')) + '</span></div>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_audioStreams') + '</span><span class="value">' + (streamdetails.aStreams? streamdetails.aStreams : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_audioStreams') + '</span><span class="value">' + (streamdetails.aStreams? streamdetails.aStreams + ' - ' + streamdetails.aLang : mkf.lang.get('label_not_available')) + '</span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + '<a href="' + fileDownload + '">' + movie.file + '</a>' + '</span></div></div>' +
-						'<p class="plot">' + movie.plot + '</p>'+
-						'<div class="movietags">' + 
-						'<div class="vFormat' + streamdetails.vFormat + '" />' +
-						'<div class="aspect' + aspect + '"></div>' +
-						'<div class="vCodec' + streamdetails.vCodec + '" />' +
-						'<div class="aCodec' + streamdetails.aCodec + '" />' +
-						'<div class="channels' + movie.streamdetails.audio[0].channels + '"></div>' +
-						(streamdetails.hasSubs? '<div class="vSubtitles" />' : '') +
-						
-						'</div>';
+						'<p class="plot">' + movie.plot + '</p>';
+						if (movie.streamdetails) {
+							dialogContent += 
+							'<div class="movietags">' + 
+							'<div class="vFormat' + streamdetails.vFormat + '" />' +
+							'<div class="aspect' + streamdetails.aspect + '"></div>' +
+							'<div class="vCodec' + streamdetails.vCodec + '" />' +
+							'<div class="aCodec' + streamdetails.aCodec + '" />' +
+							'<div class="channels' + streamdetails.channels + '"></div>' +
+							(streamdetails.hasSubs? '<div class="vSubtitles" />' : '') +
+							'</div>';};
+							
 					mkf.dialog.setContent(dialogHandle, dialogContent);
 					return false;
 				},

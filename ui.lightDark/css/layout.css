@@ -339,6 +339,9 @@ div.mkfOverlay div.dialog span.value, div.mkfOverlay div.dialog span.valuePoster
     overflow: hidden;
     width: 250px;
 }
+div.mkfOverlay div.dialog span.value a {
+	color: #aaa;
+}
 div.mkfOverlay div.dialog span.valueBanner {
     width: 370px;
 }

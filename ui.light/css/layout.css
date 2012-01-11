@@ -362,7 +362,9 @@ div.mkfOverlay div.dialog span.valueBanner {
 div.mkfOverlay div.dialog h1.underline {
 	text-decoration: underline;
 }
-
+div.mkfOverlay div.dialog span.value a {
+	color: #aaa;
+}
 div.mkfOverlay div.dialog div.test {
 	display:block;
 	clear: right;
