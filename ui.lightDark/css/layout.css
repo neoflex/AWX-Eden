@@ -205,10 +205,10 @@ img.epWatched {
 	height: 280px;
 }*/
 div.thumbWrapper {
-    background-color: #EAECE6;
-    border: 1px solid #D8D8D8;
+	/*background-color: rgba(0,0,0,0.8);
+    border: 1px solid #D8D8D8;*/
     float: left;
-    height: 178px;
+    height: 185px;
     margin: 5px;
     overflow: hidden;
     padding: 5px;
@@ -224,10 +224,10 @@ div.thumbBannerWrapper {
     height: 95px;
     width: 383px;
 }
-div.thumbWrapper:hover {
+/*div.thumbWrapper:hover {
     background-color: #EAFFC9;
     border: 1px solid #7AC800;
-}
+}*/
 div.thumbWrapper div.linkWrapper {
     display: none;
     left: 7px;
@@ -264,13 +264,15 @@ div.thumbWrapper a:hover {
     color: #7AC800;
 }
 div.thumbWrapper div.albumName, div.thumbWrapper div.movieName, div.thumbWrapper div.tvshowName {
-    color: #4B4B4B;
+    background-color: rgba(0,0,0,0.8);
+	color: #fff /*#4B4B4B;*/
     font-size: 11px;
     font-weight: bold;
     text-align: center;
+	border-radius: 3px 3px 3px 3px;
 }
 div.thumbWrapper div.albumArtist {
-    color: #4B4B4B;
+    color: #ccc;
     font-size: 11px;
     text-align: center;
 }

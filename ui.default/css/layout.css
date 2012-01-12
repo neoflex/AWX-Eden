@@ -314,7 +314,7 @@ div.folderLinkWrapper a.button:hover span.all {
 }
 div.thumbWrapper {
 	float: left;
-	height: 178px;
+	height: 190px;
 	width: 129px;
 	overflow: hidden;
 	margin: 0 10px 10px 0;
@@ -404,6 +404,8 @@ div.thumbWrapper:hover img.thumb {
 }
 
 div.thumbWrapper div.albumName, div.thumbWrapper div.movieName, div.thumbWrapper div.tvshowName {
+	background-color: rgba(0,0,0,0.8);
+	border-radius: 3px 3px 3px 3px;
 	font-size: 11px;
 	font-weight: bold;
 	text-align: center;

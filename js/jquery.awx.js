@@ -1009,8 +1009,8 @@
 								'<img src="images/loading_thumb.gif" alt="' + album.label + '" class="thumb" original="' + thumb + '" />':
 								'<img src="' + thumb + '" alt="' + album.label + '" class="thumb" />'
 							) +
-							'<div class="albumName">' + album.label + '</div>' +
-							'<div class="albumArtist">' + album.artist + '</div>' +
+							'<div class="albumName">' + album.label + '' +
+							'<div class="albumArtist">' + album.artist + '</div></div>' +
 							'<div class="findKeywords">' + album.label.toLowerCase() + ' ' + album.artist.toLowerCase() + '</div>' +
 						'</div>');
 
@@ -1132,8 +1132,8 @@
 								'<img src="images/loading_thumb.gif" alt="' + album.label + '" class="thumb" original="' + thumb + '" />':
 								'<img src="' + thumb + '" alt="' + album.label + '" class="thumb" />'
 							) +
-							'<div class="albumName">' + album.label + '</div>' +
-							'<div class="albumArtist">' + album.artist + '</div>' +
+							'<div class="albumName">' + album.label + '' +
+							'<div class="albumArtist">' + album.artist + '</div></div>' +
 							'<div class="findKeywords">' + album.label.toLowerCase() + ' ' + album.artist.toLowerCase() + '</div>' +
 						'</div>');
 
@@ -2340,6 +2340,8 @@
 							$('.movieinfo').find('a').replaceWith(ep.file);
 						},
 					});
+					
+					//var tvlogo = xbmc.getLogo(ep.file);
 					
 					if ( useFanart ) {
 						$('.mkfOverlay').css('background-image', 'url("' + xbmc.getThumbUrl(ep.fanart) + '")');

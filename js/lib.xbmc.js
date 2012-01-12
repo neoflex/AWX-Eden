@@ -173,14 +173,34 @@ var xbmc = {};
 			return seconds;
 		},
 
-
-
 		getThumbUrl: function(url) {
 			return '/vfs/' + encodeURI(url);
 		},
 		
 		getUrl: function(url) {
 			return location.protocol + '//' + location.host + '/' + encodeURI(url);
+		},
+
+		getLogo: function(filepath) {
+			//need to figure out callback!
+			var path = filepath.substring(0, filepath.lastIndexOf("/"));
+			
+			path += '/logo.png';
+			//console.log(path);
+			
+			var logo = xbmc.getPrepDownload({
+					path: path,
+					onSuccess: function(result) {
+						return xbmc.getUrl(result.details.path);
+						//console.log(logo);
+					},
+					onError: function(errorText) {
+						return '';
+						console.log('No logo found');
+					},
+				});
+			console.log(logo);
+			return path;
 		},
 		
 		detectThumbTypes: function(initContainer, callback) {
