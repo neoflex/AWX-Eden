@@ -626,7 +626,7 @@ var xbmc = {};
 			$.extend(settings, options);
 
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "AudioLibrary.GetGenres", "id": 1}',
+				'{"jsonrpc": "2.0", "method": "AudioLibrary.GetGenres", "params": {"sort": { "order": "ascending", "method": "label" } }, "id": 1}',
 
 				function(response) {
 					settings.onSuccess(response.result);
@@ -1454,7 +1454,7 @@ var xbmc = {};
 			$.extend(settings, options);
 
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["rating", "thumbnail", "playcount"], "sort": { "order": "ascending", "method": "label" } }, "id": 1}',
+				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["rating", "thumbnail", "playcount"], "sort": { "order": "ascending", "method": "label", "ignorearticle": true } }, "id": 1}',
 				//'{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "director", "plot", "title", "originaltitle", "runtime", "year", "rating", "thumbnail", "playcount", "file", "tagline", "set"], "sort": { "order": "ascending", "method": "label" } }, "id": 1}',
 				function(response) {
 					settings.onSuccess(response.result);
@@ -2042,7 +2042,7 @@ var xbmc = {};
 								var currentItem = response.result.item;
 								//console.log(ui);
 								// $('#content').css('background-image', 'url("' +  + '")')
-								if ( $backgroundFanart != currentItem.fanart && useFanart ) {
+								if ( $backgroundFanart != xbmc.getThumbUrl(currentItem.fanart) && useFanart ) {
 									$backgroundFanart = xbmc.getThumbUrl(currentItem.fanart);
 									if ( ui == 'default') {
 										$('#main').css('background-image', 'url("' + $backgroundFanart + '")');

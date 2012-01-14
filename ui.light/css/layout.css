@@ -761,6 +761,7 @@ ul.fileList {
 	border-top: 1px solid #ABABAB;
 }
 ul.fileList li {
+	height: 35px;
 	display: block;
 	background-color: rgba(255, 255, 255, 0.8);
 	border-bottom: 1px solid #ABABAB;

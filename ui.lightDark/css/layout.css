@@ -774,12 +774,14 @@ ul.RecentfileList li {
     display: block;
 }
 ul.fileList {
+	overflow: hidden;
     border-top: 1px solid #ABABAB;
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
 ul.fileList li {
+	height: 35px;
 	background-color: rgba(0,0,0,0.7);
     border-bottom: 1px solid #ABABAB;
     display: block;
@@ -818,6 +820,7 @@ div.folderLinkWrapper a.playlistItemCur {
 }
 span.miniIcon {
     background: url("../images/mini_buttons.png") no-repeat scroll 0 0 transparent;
+	float: left;
     display: block;
     height: 16px;
     width: 16px;
