@@ -54,7 +54,7 @@ var awx = {};
 					} else if (ui == 'lightDark') {
 						uiScript = 'ui.lightDark/ui.lightDark.js';
 					} else {
-						uiScript = 'ui.default/ui.default.js';
+						uiScript = 'ui.lightDark/ui.lightDark.js';
 					}
 
 					mkf.scriptLoader.load({

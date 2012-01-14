@@ -530,6 +530,7 @@ var mkf = {};
 				$newMenuItem.appendTo($parentMenu);
 				$newMenuItem.children('a').click(function() {
 						mkf.pages.showPage(sp, settings.autoKill);
+						$('#navigation ul.mkfMenu ul, ul.systemMenu ul').hide();
 						return false;
 					});
 
