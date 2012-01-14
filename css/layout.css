@@ -30,7 +30,7 @@ div.mkfOverlay {
 	background: rgba(0, 0, 0, 0.9);*/
 	background-color: #000;
 	background-image: url("");
-	background-size: 100%;
+	background-size: cover;
 	background-repeat: no-repeat;
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#E5000000, endColorstr=#E5000000);
 	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#E5000000, endColorstr=#E5000000)";
