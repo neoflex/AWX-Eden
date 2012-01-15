@@ -1,3 +1,16 @@
+0.4.5:
+ - Added Use fan art as background.
+ - Added HTTP link to files.
+ - Added Click speaker icon to mute/unmute.
+ - Added Movie info tagging.
+ - Added Play playlists.
+ - Fixed IE9 (et al) list view stepping.
+ - Fixed Playlists spamming on enqueue.
+ - Fixed Hide menus on item click.
+ - Changed Removed white boxes from lightDark UI.
+ - Changed Default to lightDark UI.
+ - Changed Removed numbering from Artists etc.
+
 0.4.3:
  - Added Swap playlist items.
  - Added Episode information button.

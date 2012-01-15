@@ -83,7 +83,7 @@ a.settings:hover { background-position: top right; }
 	height: 100%;
 	overflow: auto;
 	background-repeat: no-repeat;
-	background-size: 100%;
+	background-size: cover;
 }
 #content {
 	margin: 45px 55px 20px 55px;
@@ -947,10 +947,11 @@ ul.RecentfileList li {
 }
 
 div.mkfOverlay div.dialogSystemControl {
-    width: 350px;
+    width: 400px;
 	height: 375px;
 }
 div.systemControls {
+	margin-top: 307px;
     height: 50px;
 }
 div.input_big {
@@ -958,7 +959,7 @@ div.input_big {
     border-radius: 5px 5px 5px 5px;
     border-width: 0;
 	height: 280px;
-	width: 340px;
+	width: 260px;
 	position: absolute;
 	margin: 5px;
 }
@@ -966,7 +967,20 @@ div.input_big  a {
 	background-color: #555;
 	border-radius: 5px 5px 5px 5px;
 }
-a.bigLeft, a.bigRight, a.bigUp, a.bigDown, a.bigSelect, a.bigBack, a.bigHome {
+div.input_big_av {
+    background-color: #808080;
+    border-radius: 5px 5px 5px 5px;
+    border-width: 0;
+	height: 280px;
+	width: 130px;
+	position: absolute;
+	margin: 5px 5px 5px 270px;
+}
+div.input_big_av  a {
+	background-color: #555;
+	border-radius: 5px 5px 5px 5px;
+}
+a.bigLeft, a.bigRight, a.bigUp, a.bigDown, a.bigSelect, a.bigBack, a.bigHome, a.bigSubOnOff,  a.bigSubNext, a.bigSubPrev, a.bigAudioNext, a.bigAudioPrev {
     background: url("../images/controls_big.png") no-repeat scroll 0 0 transparent;
     float: left;
     height: 70px;
@@ -974,7 +988,7 @@ a.bigLeft, a.bigRight, a.bigUp, a.bigDown, a.bigSelect, a.bigBack, a.bigHome {
 }
 a.bigDown {
     background-position: 0 0;
-    margin: 25px 135px 22px 135px;
+    margin: 25px 95px 20px;
 }
 a.bigRight {
     background-position: -70px 0;
@@ -986,7 +1000,7 @@ a.bigLeft {
 }
 a.bigUp {
     background-position: -210px 0;
-    margin: 10px 55px 0px;
+    margin: 10px 15px 0px;
 }
 a.bigBack {
     background-position: -280px 0;
@@ -998,14 +1012,39 @@ a.bigHome {
 }
 a.bigSelect {
     background-position: -420px 0;
-    margin: 25px 55px 0px;
+    margin: 25px 15px 0px;
 }
-
+a.bigSubOnOff {
+    background-position: -630px 0px;
+	width: 35px;
+	height: 35px;
+	margin: 25px 0px 0px 5px;
+}
+a.bigSubNext {
+    background-position: -525px 0;
+	width: 35px;
+	margin: 10px 0px 0px 5px;
+}
+a.bigSubPrev {
+    background-position: -490px 0;
+	width: 35px;
+	margin: 10px 0px 0px 8px;
+}
+a.bigAudioNext {
+    background-position: -595px 0;
+	width: 35px;
+	margin: 25px 0 0 45px;
+}
+a.bigAudioPrev {
+    background-position: -560px 0;
+	width: 35px;
+	margin: 25px 0px 0 8px;
+}
 a.exitXBMC, a.shutdown, a.suspend, a.reboot {
     background: url("../images/system_buttons.png") no-repeat scroll 0 0 transparent;
     float: left;
     height: 42px;
-    margin-right: 47px;
+    margin-right: 67px;
     width: 42px;
 }
 a.shutdown {

@@ -398,11 +398,38 @@ var xbmc = {};
 			};
 			$.extend(settings, options);
 
-			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "Player.SetSubtitle", "params": { "playerid": 1, "subtitle": "' + settings.command +'"}, "id": 1}',
-					settings.onSuccess,
-					settings.onError
-			);
+			/*if (settings.command == 'on') {
+				xbmc.sendCommand(
+					'{"jsonrpc": "2.0", "method": "Player.GetActivePlayers", "id": 1}',
+					function (response) {
+						if (response.result[0].playerid == 1) {
+							xbmc.sendCommand(
+							'{"jsonrpc": "2.0", "method": "Player.GetProperties", "params": { "playerid": ' + response.result[0].playerid + ', "properties": "subtitleenabled" }, "id": 1}',
+							function (response) {
+								if (response.result.subtitleenabled) {
+									xbmc.sendCommand(
+									'{"jsonrpc": "2.0", "method": "Player.SetSubtitle", "params": { "playerid": 1, "subtitle": "off"}, "id": 1}',
+									settings.onSuccess,
+									settings.onError
+								} else {
+									xbmc.sendCommand(
+									'{"jsonrpc": "2.0", "method": "Player.SetSubtitle", "params": { "playerid": 1, "subtitle": "off"}, "id": 1}',
+									settings.onSuccess,
+									settings.onError
+								}
+							settings.onSuccess,
+							settings.onError
+						}
+					}
+				);
+				return true;
+			} else {*/
+				xbmc.sendCommand(
+					'{"jsonrpc": "2.0", "method": "Player.SetSubtitle", "params": { "playerid": 1, "subtitle": "' + settings.command +'"}, "id": 1}',
+						settings.onSuccess,
+						settings.onError
+				);
+			//}
 		},
 		
 		setAudioStream:  function(options) {
@@ -1884,9 +1911,11 @@ var xbmc = {};
 					});
 				}
 				if (typeof $backgroundFanart === 'undefined') {
-					$backgroundFanart = "";
+					$backgroundFanart = '';
 				}
-
+				if (typeof xbmc.periodicUpdater.subsenabled === 'undefined') {
+					xbmc.periodicUpdater.subsenabled = false;
+				}
 				var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
 				var ui = mkf.cookieSettings.get('ui');
 				
@@ -1975,7 +2004,7 @@ var xbmc = {};
 						var request = '';
 
 						if (activePlayer == 'audio' || activePlayer == 'video' ) {
-							request = '{"jsonrpc":"2.0","id":2,"method":"Player.GetProperties","params":{ "playerid":' + activePlayerid + ',"properties":["speed", "shuffled", "repeat"] } }'
+							request = '{"jsonrpc":"2.0","id":2,"method":"Player.GetProperties","params":{ "playerid":' + activePlayerid + ',"properties":["speed", "shuffled", "repeat", "subtitleenabled"] } }'
 
 						}/* else if (activePlayer == 'video') {
 							request = '{"jsonrpc":"2.0","id":4,"method":"Player.GetProperties","params":{ "playerid":1,"properties":["speed", "shuffled", "repeat"] } }'
@@ -2006,16 +2035,22 @@ var xbmc = {};
 								//shuffle status changed?
 								shuffle = currentPlayer.shuffled;
 								if (xbmc.periodicUpdater.shuffleStatus != shuffle) {
-								xbmc.periodicUpdater.shuffleStatus = shuffle;
-								xbmc.periodicUpdater.firePlayerStatusChanged(shuffle? 'shuffleOn': 'shuffleOff');
+									xbmc.periodicUpdater.shuffleStatus = shuffle;
+									xbmc.periodicUpdater.firePlayerStatusChanged(shuffle? 'shuffleOn': 'shuffleOff');
 								}
 								
 								//repeat none, one, all
 								repeat = currentPlayer.repeat;
 								if (xbmc.periodicUpdater.repeatStatus != repeat) {
-								xbmc.periodicUpdater.repeatStatus = repeat;
-								xbmc.periodicUpdater.firePlayerStatusChanged(repeat);
+									xbmc.periodicUpdater.repeatStatus = repeat;
+									xbmc.periodicUpdater.firePlayerStatusChanged(repeat);
 								}
+								
+								//subs enabled
+								subs = currentPlayer.subtitleenabled;
+								if (xbmc.periodicUpdater.subsenabled != subs) {
+									xbmc.periodicUpdater.subsenabled = subs;
+								}								
 							},
 
 							null, null, true // IS async // not async

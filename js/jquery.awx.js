@@ -187,12 +187,17 @@
 				'<div><a href="" class="bigLeft" title="' + mkf.lang.get('btn_left') + '"></a>' +
 				'<a href="" class="bigSelect" title="' + mkf.lang.get('btn_select') + '"></a>' +
 				'<a href="" class="bigRight" title="' + mkf.lang.get('btn_right') + '"></a></div>' +
-				'<div><a href="" class="bigSubPrev" title="' + mkf.lang.get('btn_subsPrev') + '"></a>' +
-				'<a href="" class="bigSubNext" title="' + mkf.lang.get('btn_subsNext') + '"></a>' +
 				
-				'<a href="" class="bigDown" title="' + mkf.lang.get('btn_down') + '"></a>' +
-				'<a href="" class="bigAudioPrev" title="' + mkf.lang.get('btn_audioStreamPrev') + '"></a>' +
+				'<div><a href="" class="bigDown" title="' + mkf.lang.get('btn_down') + '"></a></div>' +
+				'</div>' +
+				
+				'<div class="input_big_av"><div><a href="" class="bigSubPrev" title="' + mkf.lang.get('btn_subsPrev') + '"></a>' +
+				'<a href="" class="bigSubOnOff" title="' + mkf.lang.get('btn_subsCycleOnOff') + '"></a>' +
+				'<a href="" class="bigSubNext" title="' + mkf.lang.get('btn_subsNext') + '"></a></div>' +
+				
+				'<div><a href="" class="bigAudioPrev" title="' + mkf.lang.get('btn_audioStreamPrev') + '"></a>' +
 				'<a href="" class="bigAudioNext" title="' + mkf.lang.get('btn_audioStreamNext') + '"></a></div>' +
+				'</div>' +
 				
 				'<div class="systemControls">' +
 				'<a href="" class="exitXBMC" title="' + mkf.lang.get('btn_exit') + '"></a>' +
@@ -246,7 +251,9 @@
 			$('.bigSelect').click(function() {
 				xbmc.input({type: 'Select', onError: failed}); return false;
 			});
-			
+			$('.bigSubOnOff').click(function() {
+				xbmc.setSubtitles({command: (xbmc.periodicUpdater.subsenabled? 'off' : 'on'), onError: failed}); return false;
+			});			
 			$('.bigSubNext').click(function() {
 				xbmc.setSubtitles({command: 'next', onError: failed}); return false;
 			});
@@ -1706,7 +1713,7 @@
 						},
 					});
 					
-					//console.log(movie);
+					
 					var streamdetails = {
 						vFormat: 'SD',
 						vCodec: 'Unknown',
@@ -1742,7 +1749,8 @@
 					
 					var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
 					//dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getMovieThumbType() + ' dialogThumb" />' + //Won't this always be poster?!
-					dialogContent += '<div><img src="' + thumb + '" class="thumb thumbPosterLarge dialogThumb" /></div>' +
+					//<div class="recentTVthumb"><img src="' + thumb + '" alt="' + episode.label + '" class="thumbFanart episode play" /></div>
+					dialogContent += '<div><img src="' + thumb + '" class="thumb thumbPosterLarge dialogThumb play" /></div>' +
 						'<div><h1 class="underline">' + movie.title + '</h1></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_original_title') + '</span><span class="value">' + (movie.originaltitle? movie.originaltitle : mkf.lang.get('label_not_available')) + '</span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="value">' + (movie.runtime? movie.runtime : mkf.lang.get('label_not_available')) + '</span></div>' +
@@ -1772,6 +1780,8 @@
 							'</div>';};
 							
 					mkf.dialog.setContent(dialogHandle, dialogContent);
+					//console.log(find('.play'));
+					//dialogContent.find('.play').bind('click', {idMovie: movie.movieid, strMovie: movie.label}, onMoviePlayClick);
 					return false;
 				},
 				onError: function() {

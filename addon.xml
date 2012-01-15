@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <addon
   id="webinterface.awx-eden"
-  version="0.4.4"
+  version="0.4.5"
   name="AWX-Eden"
   provider-name="MKay">
   <requires>
@@ -17,11 +17,9 @@
 
 Minimum requirements: XBMC (pre) Eden 
 Tested Browsers:
-   - FireFox 3.6 (on Ubuntu Lucid Lynx and Windows XP)
-   - Chromium 6.0.472.62 (on Ubuntu Lucid Lynx)
-   - Opera 10.62 (on Ubuntu Lucid Lynx and Windows XP)
-   - Safari 5.02 (on Windows XP)
-   - Internet Explorer 8 (does not support round edges)
+   - FireFox
+   - Chromium
+   - Internet Explorer 9
 Not supported: Internet Explorer 6
 
 Hint: You may need to clear your browser-cache before you open the new installed/updated webinterface in your browser.</description>
@@ -29,11 +27,9 @@ Hint: You may need to clear your browser-cache before you open the new installed
 
 Mindestvoraussetzung: XBMC (pre) Eden
 Getestete Browser:
-   - FireFox 3.6 (Ubuntu Lucid Lynx and Windows XP)
-   - Chromium 6.0.472.62 (Ubuntu Lucid Lynx)
-   - Opera 10.62 (Ubuntu Lucid Lynx and Windows XP)
-   - Safari 5.02 (Windows XP)
-   - Internet Explorer 8 (does not support round edges)
+   - FireFox
+   - Chromium
+   - Internet Explorer 9
 Nicht unterstuetzt: Internet Explorer 6
 
 Hinweis: Sie muessen Ihren Browser-Cache leeren bevor Sie das neu installierte/aktualisierte Webinterface in Ihrem Browser laden.</description>
@@ -41,11 +37,9 @@ Hinweis: Sie muessen Ihren Browser-Cache leeren bevor Sie das neu installierte/a
 
 Minimalne wymagania: XBMC (pre) Eden 
 Przetestowane przeglądarki internetowe:
-   - FireFox 3.6 (na Ubuntu Lucid Lynx i Windows XP)
-   - Chromium 6.0.472.62 (na Ubuntu Lucid Lynx)
-   - Opera 10.62 (na Ubuntu Lucid Lynx i Windows XP)
-   - Safari 5.02 (na Windows XP)
-   - Internet Explorer 8 (nie obsługuje zaokrąglania narożników)
+   - FireFox
+   - Chromium
+   - Internet Explorer 9
 Nie obsługiwane: Internet Explorer 6
 
 Hint: Po instalacji / aktualizacji, przed uruchomieniem AWX może być konieczne wyczyszczenie cache przeglądarki.</description>
