@@ -1081,7 +1081,10 @@ fieldset.ui_settings {
 	float: left;
 	margin-right: 10px;
 }
-
+fieldset.ui_albums {
+    float: left;
+    margin-right: 10px;
+}
 legend {
 	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
 	border-width: 0px;

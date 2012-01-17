@@ -304,11 +304,17 @@
 				'<legend>' + mkf.lang.get('group_language') + '</legend>' +
 				'<select name="lang" size="1">' + languages + '</select>' +
 				'</fieldset>' +
-				'<fieldset>' +
+				'<fieldset class="ui_albums">' +
 				'<legend>' + mkf.lang.get('group_albums') + '</legend>' +
 				'<input type="radio" id="orderByAlbum" name="albumOrder" value="album" ' + (order=='album'? 'checked="checked"' : '') + '><label for="orderByAlbum">' + mkf.lang.get('label_order_by_title') +'</label>' +
 				'<input type="radio" id="orderByArtist" name="albumOrder" value="artist" ' + (order=='artist'? 'checked="checked"' : '') + '><label for="orderByArtist">' + mkf.lang.get('label_order_by_artist') +'</label>' +
-				'<div>Movie sort order: <select name="filmSort"><option value="label">Title</option><option value="sorttitle">Sort Title</option><option value="year">Year</option></select></div>' +
+				'</fieldset>' +
+				'<fieldset>' +
+				'<legend>' + mkf.lang.get('group_film_sort') + '</legend>' +
+				'' + mkf.lang.get('settings_select_film_sort') +'<select name="filmSort"><option value="label">' + mkf.lang.get('label_film_sort_label') +'</option><option value="sorttitle">' + mkf.lang.get('label_film_sort_sorttitle') +
+				'</option><option value="year">' + mkf.lang.get('label_film_sort_year') +'</option><option value="genre">' + mkf.lang.get('label_film_sort_genre') +'</option>' +
+				'<option value="none">' + mkf.lang.get('label_film_sort_none') +'</option><option value="videorating">' + mkf.lang.get('label_film_sort_videorating') +
+				'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option></select>' +
 				'</fieldset>' +
 				'<fieldset>' +
 				'<legend>' + mkf.lang.get('group_expert') + '</legend>' +

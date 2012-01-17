@@ -376,6 +376,10 @@ fieldset.ui_settings {
     float: left;
     margin-right: 10px;
 }
+fieldset.ui_albums {
+    float: left;
+    margin-right: 10px;
+}
 legend {
     background-color: #606060;
     border-radius: 5px 5px 5px 5px;
