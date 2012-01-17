@@ -1475,13 +1475,16 @@ var xbmc = {};
 		
 		getMovies: function(options) {
 			var settings = {
+				sortby: 'label',
 				onSuccess: null,
 				onError: null
 			};
 			$.extend(settings, options);
 
+			settings.sortby = mkf.cookieSettings.get('filmSort', 'label');
+
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["rating", "thumbnail", "playcount"], "sort": { "order": "ascending", "method": "label", "ignorearticle": true } }, "id": 1}',
+				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["rating", "thumbnail", "playcount"], "sort": { "order": "ascending", "method": "' + settings.sortby + '", "ignorearticle": true } }, "id": 1}',
 				//'{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "director", "plot", "title", "originaltitle", "runtime", "year", "rating", "thumbnail", "playcount", "file", "tagline", "set"], "sort": { "order": "ascending", "method": "label" } }, "id": 1}',
 				function(response) {
 					settings.onSuccess(response.result);

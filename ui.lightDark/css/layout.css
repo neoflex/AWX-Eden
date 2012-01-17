@@ -762,6 +762,12 @@ div.vSubtitles {
 div.vSubtitles {
     background-position: 0 0;
 }
+div a.infoplay {
+	background: url("../images/play.png") no-repeat scroll 0 0 transparent;
+	float: right;
+	width: 100px;
+	height: 48px;
+}
 ul.RecentfileList {
 	background-color: rgba(0,0,0,0.7);
     border-top: 1px solid #ABABAB;

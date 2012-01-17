@@ -281,6 +281,8 @@
 			var watched = mkf.cookieSettings.get('watched', 'no');
 			var listview = mkf.cookieSettings.get('listview', 'no');
 			var usefanart = mkf.cookieSettings.get('usefanart', 'no');
+			var filmSort = mkf.cookieSettings.get('filmSort', 'label');
+			console.log(filmSort);
 
 			var languages = '';
 			$.each(mkf.lang.getLanguages(), function(key, val) {
@@ -294,7 +296,7 @@
 				'<form name="settingsForm">' +
 				'<fieldset class="ui_settings">' +
 				'<legend>' + mkf.lang.get('group_ui') + '</legend>' +
-				'<input type="radio" id="defaultUI" name="userinterface" value="default" ' + (ui!='light'? 'checked="checked"' : '') + '><label for="defaultUI">' + mkf.lang.get('label_default_ui') +'</label>' +
+				'<input type="radio" id="defaultUI" name="userinterface" value="default" ' + (ui=='default'? 'checked="checked"' : '') + '><label for="defaultUI">' + mkf.lang.get('label_default_ui') +'</label>' +
 				'<input type="radio" id="lightUI" name="userinterface" value="light" ' + (ui=='light'? 'checked="checked"' : '') + '><label for="lightUI">Light UI</label>' +
 				'<input type="radio" id="lightDarkUI" name="userinterface" value="lightDark" ' + (ui=='lightDark'? 'checked="checked"' : '') + '><label for="lightDarkUI">LightDark UI</label>' +
 				'</fieldset>' +
@@ -306,6 +308,7 @@
 				'<legend>' + mkf.lang.get('group_albums') + '</legend>' +
 				'<input type="radio" id="orderByAlbum" name="albumOrder" value="album" ' + (order=='album'? 'checked="checked"' : '') + '><label for="orderByAlbum">' + mkf.lang.get('label_order_by_title') +'</label>' +
 				'<input type="radio" id="orderByArtist" name="albumOrder" value="artist" ' + (order=='artist'? 'checked="checked"' : '') + '><label for="orderByArtist">' + mkf.lang.get('label_order_by_artist') +'</label>' +
+				'<div>Movie sort order: <select name="filmSort"><option value="label">Title</option><option value="sorttitle">Sort Title</option><option value="year">Year</option></select></div>' +
 				'</fieldset>' +
 				'<fieldset>' +
 				'<legend>' + mkf.lang.get('group_expert') + '</legend>' +
@@ -363,7 +366,13 @@
 					'albumOrder',
 					document.settingsForm.albumOrder[0].checked? 'album' : 'artist'
 				);
-
+				
+				mkf.cookieSettings.add(
+					'filmSort',
+					document.settingsForm.filmSort.value
+				);
+				console.log(document.settingsForm.filmSort.value);
+				
 				mkf.cookieSettings.add(
 					'lazyload',
 					document.settingsForm.lazyload.checked? 'yes' : 'no'
@@ -1750,7 +1759,8 @@
 					var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
 					//dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getMovieThumbType() + ' dialogThumb" />' + //Won't this always be poster?!
 					//<div class="recentTVthumb"><img src="' + thumb + '" alt="' + episode.label + '" class="thumbFanart episode play" /></div>
-					dialogContent += '<div><img src="' + thumb + '" class="thumb thumbPosterLarge dialogThumb play" /></div>' +
+
+					dialogContent += '<div><img src="' + thumb + '" class="thumb thumbPosterLarge dialogThumb" /></div>' +
 						'<div><h1 class="underline">' + movie.title + '</h1></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_original_title') + '</span><span class="value">' + (movie.originaltitle? movie.originaltitle : mkf.lang.get('label_not_available')) + '</span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="value">' + (movie.runtime? movie.runtime : mkf.lang.get('label_not_available')) + '</span></div>' +
@@ -1767,7 +1777,8 @@
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_playcount') + '</span><span class="value">' + (movie.playcount? movie.playcount : mkf.lang.get('label_not_available')) + '</span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_audioStreams') + '</span><span class="value">' + (streamdetails.aStreams? streamdetails.aStreams + ' - ' + streamdetails.aLang : mkf.lang.get('label_not_available')) + '</span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + '<a href="' + fileDownload + '">' + movie.file + '</a>' + '</span></div></div>' +
-						'<p class="plot">' + movie.plot + '</p>';
+						'<p class="plot">' + movie.plot + '</p>';// +
+						//'<div><a href="" class="infoplay" title="' + mkf.lang.get('btn_play') + '" /></div>';
 						if (movie.streamdetails) {
 							dialogContent += 
 							'<div class="movietags">' + 
@@ -1778,10 +1789,11 @@
 							'<div class="channels' + streamdetails.channels + '"></div>' +
 							(streamdetails.hasSubs? '<div class="vSubtitles" />' : '') +
 							'</div>';};
-							
+					//$(dialogContent).find('.infoplay').bind('click', {idMovie: movie.movieid, strMovie: movie.label}, onMoviePlayClick);
+					//$(dialogContent).find('.infoplay').on('click', function(){console.log('hello');});
 					mkf.dialog.setContent(dialogHandle, dialogContent);
-					//console.log(find('.play'));
-					//dialogContent.find('.play').bind('click', {idMovie: movie.movieid, strMovie: movie.label}, onMoviePlayClick);
+					console.log(onMoviePlayClick);
+					
 					return false;
 				},
 				onError: function() {
