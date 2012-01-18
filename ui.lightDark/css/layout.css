@@ -766,10 +766,17 @@ div.vSubtitles {
 div.vSubtitles {
     background-position: 0 0;
 }
-div a.infoplay {
+span.infoplay {
 	background: url("../images/play.png") no-repeat scroll 0 0 transparent;
 	float: right;
-	width: 100px;
+	margin-right: 2px;
+	width: 50px;
+	height: 48px;
+}
+span.infoqueue {
+	background: url("../images/play.png") no-repeat scroll -50px 0 transparent;
+	float: right;
+	width: 50px;
 	height: 48px;
 }
 ul.RecentfileList {
@@ -892,6 +899,7 @@ div.movietags  img {
 }
 div.movietags {
 	display: table-cell;
+	width: 580px;
 }
 div.mkfOverlay div.dialogSystemControl {
     width: 400px;

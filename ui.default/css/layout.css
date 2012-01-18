@@ -883,12 +883,26 @@ div.vSubtitles {
 div.vSubtitles {
     background-position: 0 0;
 }
+span.infoplay {
+	background: url("../images/play.png") no-repeat scroll 0 0 transparent;
+	float: right;
+	margin-right: 2px;
+	width: 50px;
+	height: 48px;
+}
+span.infoqueue {
+	background: url("../images/play.png") no-repeat scroll -50px 0 transparent;
+	float: right;
+	width: 50px;
+	height: 48px;
+}
 div.movietags  img {
 	float: left;
 	margin-right: 3px;
 }
 div.movietags {
 	display: table-cell;
+	width: 580px;
 }
 div.recentTVthumb {
 	margin: 5px 5px 0 0;

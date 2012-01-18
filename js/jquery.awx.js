@@ -282,7 +282,6 @@
 			var listview = mkf.cookieSettings.get('listview', 'no');
 			var usefanart = mkf.cookieSettings.get('usefanart', 'no');
 			var filmSort = mkf.cookieSettings.get('filmSort', 'label');
-			console.log(filmSort);
 
 			var languages = '';
 			$.each(mkf.lang.getLanguages(), function(key, val) {
@@ -377,7 +376,6 @@
 					'filmSort',
 					document.settingsForm.filmSort.value
 				);
-				console.log(document.settingsForm.filmSort.value);
 				
 				mkf.cookieSettings.add(
 					'lazyload',
@@ -1481,6 +1479,7 @@
 			xbmc.getMovieInfo({
 				movieid: event.data.idMovie,
 				onSuccess: function(movie) {
+					//var dialogContent = '';
 					var fileDownload = '';
 					
 					xbmc.getPrepDownload({
@@ -1495,8 +1494,7 @@
 						},
 					});
 					
-					var dialogContent = '';
-					//console.log(movie);
+					
 					var streamdetails = {
 						vFormat: 'SD',
 						vCodec: 'Unknown',
@@ -1512,6 +1510,7 @@
 					if ( useFanart ) {
 						$('.mkfOverlay').css('background-image', 'url("' + xbmc.getThumbUrl(movie.fanart) + '")');
 					};
+					
 					if (movie.streamdetails) {
 						if (movie.streamdetails.subtitle) { streamdetails.hasSubs = true };
 						if (movie.streamdetails.audio) {
@@ -1528,10 +1527,10 @@
 						//Set audio icon
 						streamdetails.aCodec = xbmc.getAcodec(movie.streamdetails.audio[0].codec);
 					};
-
+					
 					var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
 					//dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getMovieThumbType() + ' dialogThumb" />' + //Won't this always be poster?!
-					dialogContent += '<div><img src="' + thumb + '" class="thumb thumbPosterLarge dialogThumb" /></div>' +
+					var dialogContent = $('<div><img src="' + thumb + '" class="thumb thumbPosterLarge dialogThumb" /></div>' +
 						'<div><h1 class="underline">' + movie.title + '</h1></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_original_title') + '</span><span class="value">' + (movie.originaltitle? movie.originaltitle : mkf.lang.get('label_not_available')) + '</span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="value">' + (movie.runtime? movie.runtime : mkf.lang.get('label_not_available')) + '</span></div>' +
@@ -1547,19 +1546,21 @@
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_lastplayed') + '</span><span class="value">' + (movie.lastplayed? movie.lastplayed : mkf.lang.get('label_not_available')) + '</span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_playcount') + '</span><span class="value">' + (movie.playcount? movie.playcount : mkf.lang.get('label_not_available')) + '</span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_audioStreams') + '</span><span class="value">' + (streamdetails.aStreams? streamdetails.aStreams + ' - ' + streamdetails.aLang : mkf.lang.get('label_not_available')) + '</span></div>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + '<a href="' + fileDownload + '">' + movie.file + '</a>' + '</span></div></div>' + //(fileDownload? '<a href="' + fileDownload + '">' + movie.file + '</a>' : movie.file) + '</span></div></div>' +
-						'<p class="plot">' + movie.plot + '</p>';
-						if (movie.streamdetails) {
-							dialogContent += 
-							'<div class="movietags">' + 
-							'<div class="vFormat' + streamdetails.vFormat + '" />' +
-							'<div class="aspect' + streamdetails.aspect + '"></div>' +
-							'<div class="vCodec' + streamdetails.vCodec + '" />' +
-							'<div class="aCodec' + streamdetails.aCodec + '" />' +
-							'<div class="channels' + streamdetails.channels + '"></div>' +
-							(streamdetails.hasSubs? '<div class="vSubtitles" />' : '') +
-							'</div>';};
-							
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + '<a href="' + fileDownload + '">' + movie.file + '</a>' + '</span></div></div>' +
+						'<p class="plot">' + movie.plot + '</p>' +
+						'<div class="movietags"><span class="infoqueue" title="' + mkf.lang.get('btn_enqueue') + '" /><span class="infoplay" title="' + mkf.lang.get('btn_play') + '" /></div>');
+
+					if (movie.streamdetails) {
+						dialogContent.filter('.movietags').prepend('<div class="vFormat' + streamdetails.vFormat + '" />' +
+						'<div class="aspect' + streamdetails.aspect + '" />' +
+						'<div class="vCodec' + streamdetails.vCodec + '" />' +
+						'<div class="aCodec' + streamdetails.aCodec + '" />' +
+						'<div class="channels' + streamdetails.channels + '" />' +
+						(streamdetails.hasSubs? '<div class="vSubtitles" />' : ''));
+					};
+
+					$(dialogContent).find('.infoplay').on('click', {idMovie: movie.movieid, strMovie: movie.label}, onMoviePlayClick);
+					$(dialogContent).find('.infoqueue').on('click', {idMovie: movie.movieid, strMovie: movie.label}, onAddMovieToPlaylistClick);
 					mkf.dialog.setContent(dialogHandle, dialogContent);
 					return false;
 				},
@@ -1713,7 +1714,7 @@
 			xbmc.getMovieInfo({
 				movieid: event.data.idMovie,
 				onSuccess: function(movie) {
-					var dialogContent = '';
+					//var dialogContent = '';
 					var fileDownload = '';
 					
 					xbmc.getPrepDownload({
@@ -1764,9 +1765,7 @@
 					
 					var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
 					//dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getMovieThumbType() + ' dialogThumb" />' + //Won't this always be poster?!
-					//<div class="recentTVthumb"><img src="' + thumb + '" alt="' + episode.label + '" class="thumbFanart episode play" /></div>
-
-					dialogContent += '<div><img src="' + thumb + '" class="thumb thumbPosterLarge dialogThumb" /></div>' +
+					var dialogContent = $('<div><img src="' + thumb + '" class="thumb thumbPosterLarge dialogThumb" /></div>' +
 						'<div><h1 class="underline">' + movie.title + '</h1></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_original_title') + '</span><span class="value">' + (movie.originaltitle? movie.originaltitle : mkf.lang.get('label_not_available')) + '</span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="value">' + (movie.runtime? movie.runtime : mkf.lang.get('label_not_available')) + '</span></div>' +
@@ -1783,23 +1782,21 @@
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_playcount') + '</span><span class="value">' + (movie.playcount? movie.playcount : mkf.lang.get('label_not_available')) + '</span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_audioStreams') + '</span><span class="value">' + (streamdetails.aStreams? streamdetails.aStreams + ' - ' + streamdetails.aLang : mkf.lang.get('label_not_available')) + '</span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + '<a href="' + fileDownload + '">' + movie.file + '</a>' + '</span></div></div>' +
-						'<p class="plot">' + movie.plot + '</p>';// +
-						//'<div><a href="" class="infoplay" title="' + mkf.lang.get('btn_play') + '" /></div>';
-						if (movie.streamdetails) {
-							dialogContent += 
-							'<div class="movietags">' + 
-							'<div class="vFormat' + streamdetails.vFormat + '" />' +
-							'<div class="aspect' + streamdetails.aspect + '"></div>' +
-							'<div class="vCodec' + streamdetails.vCodec + '" />' +
-							'<div class="aCodec' + streamdetails.aCodec + '" />' +
-							'<div class="channels' + streamdetails.channels + '"></div>' +
-							(streamdetails.hasSubs? '<div class="vSubtitles" />' : '') +
-							'</div>';};
-					//$(dialogContent).find('.infoplay').bind('click', {idMovie: movie.movieid, strMovie: movie.label}, onMoviePlayClick);
-					//$(dialogContent).find('.infoplay').on('click', function(){console.log('hello');});
+						'<p class="plot">' + movie.plot + '</p>' +
+						'<div class="movietags"><span class="infoqueue" title="' + mkf.lang.get('btn_enqueue') + '" /><span class="infoplay" title="' + mkf.lang.get('btn_play') + '" /></div>');
+
+					if (movie.streamdetails) {
+						dialogContent.filter('.movietags').prepend('<div class="vFormat' + streamdetails.vFormat + '" />' +
+						'<div class="aspect' + streamdetails.aspect + '" />' +
+						'<div class="vCodec' + streamdetails.vCodec + '" />' +
+						'<div class="aCodec' + streamdetails.aCodec + '" />' +
+						'<div class="channels' + streamdetails.channels + '" />' +
+						(streamdetails.hasSubs? '<div class="vSubtitles" />' : ''));
+					};
+
+					$(dialogContent).find('.infoplay').on('click', {idMovie: movie.movieid, strMovie: movie.label}, onMoviePlayClick);
+					$(dialogContent).find('.infoqueue').on('click', {idMovie: movie.movieid, strMovie: movie.label}, onAddMovieToPlaylistClick);
 					mkf.dialog.setContent(dialogHandle, dialogContent);
-					console.log(onMoviePlayClick);
-					
 					return false;
 				},
 				onError: function() {
