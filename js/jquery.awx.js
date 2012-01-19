@@ -310,9 +310,10 @@
 				'</fieldset>' +
 				'<fieldset>' +
 				'<legend>' + mkf.lang.get('group_film_sort') + '</legend>' +
-				'' + mkf.lang.get('settings_select_film_sort') +'<select name="filmSort"><option value="label">' + mkf.lang.get('label_film_sort_label') +'</option><option value="sorttitle">' + mkf.lang.get('label_film_sort_sorttitle') +
-				'</option><option value="year">' + mkf.lang.get('label_film_sort_year') +'</option><option value="genre">' + mkf.lang.get('label_film_sort_genre') +'</option>' +
-				'<option value="none">' + mkf.lang.get('label_film_sort_none') +'</option><option value="videorating">' + mkf.lang.get('label_film_sort_videorating') +
+				'' + mkf.lang.get('settings_select_film_sort') +'<select name="filmSort"><option value="label" ' + (filmSort=='label'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_label') +
+				'</option><option value="sorttitle" ' + (filmSort=='sorttitle'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_sorttitle') +
+				'</option><option value="year" ' + (filmSort=='year'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_year') +'</option><option value="genre "' + (filmSort=='genre'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_genre') +'</option>' +
+				'<option value="none" ' + (filmSort=='none'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_none') +'</option><option value="videorating" ' + (filmSort=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
 				'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option></select>' +
 				'</fieldset>' +
 				'<fieldset>' +
@@ -2312,23 +2313,6 @@
 					$(dialogContent).find('.infoqueue').on('click', {idEpisode: ep.episodeid, strMovie: ep.label}, onAddEpisodeToPlaylistClick);
 					mkf.dialog.setContent(dialogHandle, dialogContent);
 					return false;
-/*					
-					var thumb = (ep.thumbnail? xbmc.getThumbUrl(ep.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
-					//dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getMovieThumbType() + ' dialogThumb" />' + //Won't this always be poster?!
-					dialogContent += '<div><img src="' + thumb + '" class="thumbFanart dialogThumb" /></div>' +
-						'<div><h1 class="underline">' + ep.title + '</h1></div>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_episode') + '</span><span class="value">' + (ep.episode? ep.episode : mkf.lang.get('label_not_available')) + '</span></div>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_season') + '</span><span class="value">' + (ep.season? ep.season : mkf.lang.get('label_not_available')) + '</span></div>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="value">' + (ep.runtime? ep.runtime : mkf.lang.get('label_not_available')) + '</span></div>' +						
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_rating') + '</span><span class="value"><div class="smallRating' + Math.round(ep.rating) + '"></div></span></div>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_firstaired') + '</span><span class="value">' + (ep.firstaired? ep.firstaired : mkf.lang.get('label_not_available')) + '</span></div>' +
-						//'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_director') + '</span><span class="value">' + (ep.director? ep.director : mkf.lang.get('label_not_available')) + '</span></div>' +
-						//'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_tagline') + '</span><span class="value">' + (ep.tagline? ep.tagline : mkf.lang.get('label_not_available')) + '</span></div>' +
-						//'<tr><td><div class="test"><span class="label">' + mkf.lang.get('label_set') + '</span></td><td><span class="value">' + (ep.set[0]? ep.set : mkf.lang.get('label_not_available')) + '</span></div></td></tr>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value"><a href="">' + ep.file + '</a></span></div></div>' +
-						'<p class="plot">' + ep.plot + '</p>';
-					mkf.dialog.setContent(dialogHandle, dialogContent);
-					return false;*/
 				},
 				onError: function() {
 					mkf.messageLog.show('Failed to load episode information!', mkf.messageLog.status.error, 5000);

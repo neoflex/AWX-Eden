@@ -1,5 +1,6 @@
 Pre 0.4.6:
  - Added Select sort order for movies.
+ - Added TV episode tagging
 
 0.4.5:
  - Added Use fan art as background.
