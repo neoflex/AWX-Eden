@@ -1489,7 +1489,7 @@ var xbmc = {};
 				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["rating", "thumbnail", "playcount"], "sort": { "order": "' + settings.order +'", "method": "' + settings.sortby + '", "ignorearticle": true } }, "id": 1}',
 				//'{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "director", "plot", "title", "originaltitle", "runtime", "year", "rating", "thumbnail", "playcount", "file", "tagline", "set"], "sort": { "order": "ascending", "method": "label" } }, "id": 1}',
 				function(response) {
-					if (settings.order == 'descending') {
+					if (settings.order == 'descending' && settings.sortby == 'none') {
 					var mresult = $.makeArray(response.result.movies).reverse();
 					delete response.result.movies;
 					response.result.movies = mresult;
