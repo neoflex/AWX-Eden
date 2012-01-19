@@ -1519,13 +1519,13 @@
 							$.each(movie.streamdetails.audio, function(i, audio) { streamdetails.aLang += audio.language + ' ' } );
 							if ( streamdetails.aLang == ' ' ) { streamdetails.aLang = mkf.lang.get('label_not_available') };
 						};
-						streamdetails.aspect = xbmc.getAspect(movie.streamdetails.video[0].aspect);
-						//Get video standard
-						streamdetails.vFormat = xbmc.getvFormat(movie.streamdetails.video[0].width);
-						//Get video codec
-						streamdetails.vCodec = xbmc.getVcodec(movie.streamdetails.video[0].codec);
-						//Set audio icon
-						streamdetails.aCodec = xbmc.getAcodec(movie.streamdetails.audio[0].codec);
+					streamdetails.aspect = xbmc.getAspect(movie.streamdetails.video[0].aspect);
+					//Get video standard
+					streamdetails.vFormat = xbmc.getvFormat(movie.streamdetails.video[0].width);
+					//Get video codec
+					streamdetails.vCodec = xbmc.getVcodec(movie.streamdetails.video[0].codec);
+					//Set audio icon
+					streamdetails.aCodec = xbmc.getAcodec(movie.streamdetails.audio[0].codec);
 					};
 					
 					var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
@@ -1754,13 +1754,13 @@
 							$.each(movie.streamdetails.audio, function(i, audio) { streamdetails.aLang += audio.language + ' ' } );
 							if ( streamdetails.aLang == ' ' ) { streamdetails.aLang = mkf.lang.get('label_not_available') };
 						};
-						streamdetails.aspect = xbmc.getAspect(movie.streamdetails.video[0].aspect);
-						//Get video standard
-						streamdetails.vFormat = xbmc.getvFormat(movie.streamdetails.video[0].width);
-						//Get video codec
-						streamdetails.vCodec = xbmc.getVcodec(movie.streamdetails.video[0].codec);
-						//Set audio icon
-						streamdetails.aCodec = xbmc.getAcodec(movie.streamdetails.audio[0].codec);
+					streamdetails.aspect = xbmc.getAspect(movie.streamdetails.video[0].aspect);
+					//Get video standard
+					streamdetails.vFormat = xbmc.getvFormat(movie.streamdetails.video[0].width);
+					//Get video codec
+					streamdetails.vCodec = xbmc.getVcodec(movie.streamdetails.video[0].codec);
+					//Set audio icon
+					streamdetails.aCodec = xbmc.getAcodec(movie.streamdetails.audio[0].codec);
 					};
 					
 					var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
@@ -2248,11 +2248,71 @@
 							$('.movieinfo').find('a').replaceWith(ep.file);
 						},
 					});
+
+					var streamdetails = {
+						vFormat: 'SD',
+						vCodec: 'Unknown',
+						aCodec: 'Unknown',
+						channels: 0,
+						aStreams: 0,
+						hasSubs: false,
+						aLang: '',
+						aspect: 0,
+						vwidth: 0
+					};
+
+					if (ep.streamdetails) {
+						if (ep.streamdetails.subtitle) { streamdetails.hasSubs = true };
+						if (ep.streamdetails.audio) {
+							streamdetails.channels = ep.streamdetails.audio[0].channels;
+							streamdetails.aStreams = ep.streamdetails.audio.length;
+							$.each(ep.streamdetails.audio, function(i, audio) { streamdetails.aLang += audio.language + ' ' } );
+							if ( streamdetails.aLang == ' ' ) { streamdetails.aLang = mkf.lang.get('label_not_available') };
+						};
+					streamdetails.aspect = xbmc.getAspect(ep.streamdetails.video[0].aspect);
+					//Get video standard
+					streamdetails.vFormat = xbmc.getvFormat(ep.streamdetails.video[0].width);
+					//Get video codec
+					streamdetails.vCodec = xbmc.getVcodec(ep.streamdetails.video[0].codec);
+					//Set audio icon
+					streamdetails.aCodec = xbmc.getAcodec(ep.streamdetails.audio[0].codec);
+					};
 					
 					if ( useFanart ) {
 						$('.mkfOverlay').css('background-image', 'url("' + xbmc.getThumbUrl(ep.fanart) + '")');
 					};	
 					
+					var thumb = (ep.thumbnail? xbmc.getThumbUrl(ep.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
+					//dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getMovieThumbType() + ' dialogThumb" />' + //Won't this always be poster?!
+					var dialogContent = $('<div><img src="' + thumb + '" class="thumbFanart dialogThumb" /></div>' +
+						'<div><h1 class="underline">' + ep.title + '</h1></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_episode') + '</span><span class="value">' + (ep.episode? ep.episode : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_season') + '</span><span class="value">' + (ep.season? ep.season : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="value">' + (ep.runtime? ep.runtime : mkf.lang.get('label_not_available')) + '</span></div>' +						
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_rating') + '</span><span class="value"><div class="smallRating' + Math.round(ep.rating) + '"></div></span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_votes') + '</span><span class="value">' + (ep.votes? ep.votes : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_firstaired') + '</span><span class="value">' + (ep.firstaired? ep.firstaired : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_lastplayed') + '</span><span class="value">' + (ep.lastplayed? ep.lastplayed : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_playcount') + '</span><span class="value">' + (ep.playcount? ep.playcount : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_audioStreams') + '</span><span class="value">' + (streamdetails.aStreams? streamdetails.aStreams + ' - ' + streamdetails.aLang : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + '<a href="' + fileDownload + '">' + ep.file + '</a>' + '</span></div></div>' +
+						'<p class="plot">' + ep.plot + '</p>' +
+						'<div class="movietags"><span class="infoqueue" title="' + mkf.lang.get('btn_enqueue') + '" /><span class="infoplay" title="' + mkf.lang.get('btn_play') + '" /></div>');
+
+					if (ep.streamdetails) {
+						dialogContent.filter('.movietags').prepend('<div class="vFormat' + streamdetails.vFormat + '" />' +
+						'<div class="aspect' + streamdetails.aspect + '" />' +
+						'<div class="vCodec' + streamdetails.vCodec + '" />' +
+						'<div class="aCodec' + streamdetails.aCodec + '" />' +
+						'<div class="channels' + streamdetails.channels + '" />' +
+						(streamdetails.hasSubs? '<div class="vSubtitles" />' : ''));
+					};
+
+					$(dialogContent).find('.infoplay').on('click', {idEpisode: ep.episodeid, strMovie: ep.label}, onEpisodePlayClick);
+					$(dialogContent).find('.infoqueue').on('click', {idEpisode: ep.episodeid, strMovie: ep.label}, onAddEpisodeToPlaylistClick);
+					mkf.dialog.setContent(dialogHandle, dialogContent);
+					return false;
+/*					
 					var thumb = (ep.thumbnail? xbmc.getThumbUrl(ep.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
 					//dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getMovieThumbType() + ' dialogThumb" />' + //Won't this always be poster?!
 					dialogContent += '<div><img src="' + thumb + '" class="thumbFanart dialogThumb" /></div>' +
@@ -2268,7 +2328,7 @@
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value"><a href="">' + ep.file + '</a></span></div></div>' +
 						'<p class="plot">' + ep.plot + '</p>';
 					mkf.dialog.setContent(dialogHandle, dialogContent);
-					return false;
+					return false;*/
 				},
 				onError: function() {
 					mkf.messageLog.show('Failed to load episode information!', mkf.messageLog.status.error, 5000);
@@ -2365,27 +2425,68 @@
 							$('.movieinfo').find('a').replaceWith(ep.file);
 						},
 					});
-					
-					//var tvlogo = xbmc.getLogo(ep.file);
+
+					var streamdetails = {
+						vFormat: 'SD',
+						vCodec: 'Unknown',
+						aCodec: 'Unknown',
+						channels: 0,
+						aStreams: 0,
+						hasSubs: false,
+						aLang: '',
+						aspect: 0,
+						vwidth: 0
+					};
+
+					if (ep.streamdetails) {
+						if (ep.streamdetails.subtitle) { streamdetails.hasSubs = true };
+						if (ep.streamdetails.audio) {
+							streamdetails.channels = ep.streamdetails.audio[0].channels;
+							streamdetails.aStreams = ep.streamdetails.audio.length;
+							$.each(ep.streamdetails.audio, function(i, audio) { streamdetails.aLang += audio.language + ' ' } );
+							if ( streamdetails.aLang == ' ' ) { streamdetails.aLang = mkf.lang.get('label_not_available') };
+						};
+					streamdetails.aspect = xbmc.getAspect(ep.streamdetails.video[0].aspect);
+					//Get video standard
+					streamdetails.vFormat = xbmc.getvFormat(ep.streamdetails.video[0].width);
+					//Get video codec
+					streamdetails.vCodec = xbmc.getVcodec(ep.streamdetails.video[0].codec);
+					//Set audio icon
+					streamdetails.aCodec = xbmc.getAcodec(ep.streamdetails.audio[0].codec);
+					};
 					
 					if ( useFanart ) {
 						$('.mkfOverlay').css('background-image', 'url("' + xbmc.getThumbUrl(ep.fanart) + '")');
-					};
-			
+					};	
+					
 					var thumb = (ep.thumbnail? xbmc.getThumbUrl(ep.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
 					//dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getMovieThumbType() + ' dialogThumb" />' + //Won't this always be poster?!
-					dialogContent += '<div><img src="' + thumb + '" class="thumbFanart dialogThumb" /></div>' +
+					var dialogContent = $('<div><img src="' + thumb + '" class="thumbFanart dialogThumb" /></div>' +
 						'<div><h1 class="underline">' + ep.title + '</h1></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_episode') + '</span><span class="value">' + (ep.episode? ep.episode : mkf.lang.get('label_not_available')) + '</span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_season') + '</span><span class="value">' + (ep.season? ep.season : mkf.lang.get('label_not_available')) + '</span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="value">' + (ep.runtime? ep.runtime : mkf.lang.get('label_not_available')) + '</span></div>' +						
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_rating') + '</span><span class="value"><div class="smallRating' + Math.round(ep.rating) + '"></div></span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_votes') + '</span><span class="value">' + (ep.votes? ep.votes : mkf.lang.get('label_not_available')) + '</span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_firstaired') + '</span><span class="value">' + (ep.firstaired? ep.firstaired : mkf.lang.get('label_not_available')) + '</span></div>' +
-						//'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_director') + '</span><span class="value">' + (ep.director? ep.director : mkf.lang.get('label_not_available')) + '</span></div>' +
-						//'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_tagline') + '</span><span class="value">' + (ep.tagline? ep.tagline : mkf.lang.get('label_not_available')) + '</span></div>' +
-						//'<tr><td><div class="test"><span class="label">' + mkf.lang.get('label_set') + '</span></td><td><span class="value">' + (ep.set[0]? ep.set : mkf.lang.get('label_not_available')) + '</span></div></td></tr>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value"><a href="">' + ep.file + '</a></span></div></div>' +
-						'<p class="plot">' + ep.plot + '</p>';
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_lastplayed') + '</span><span class="value">' + (ep.lastplayed? ep.lastplayed : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_playcount') + '</span><span class="value">' + (ep.playcount? ep.playcount : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_audioStreams') + '</span><span class="value">' + (streamdetails.aStreams? streamdetails.aStreams + ' - ' + streamdetails.aLang : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + '<a href="' + fileDownload + '">' + ep.file + '</a>' + '</span></div></div>' +
+						'<p class="plot">' + ep.plot + '</p>' +
+						'<div class="movietags"><span class="infoqueue" title="' + mkf.lang.get('btn_enqueue') + '" /><span class="infoplay" title="' + mkf.lang.get('btn_play') + '" /></div>');
+
+					if (ep.streamdetails) {
+						dialogContent.filter('.movietags').prepend('<div class="vFormat' + streamdetails.vFormat + '" />' +
+						'<div class="aspect' + streamdetails.aspect + '" />' +
+						'<div class="vCodec' + streamdetails.vCodec + '" />' +
+						'<div class="aCodec' + streamdetails.aCodec + '" />' +
+						'<div class="channels' + streamdetails.channels + '" />' +
+						(streamdetails.hasSubs? '<div class="vSubtitles" />' : ''));
+					};
+
+					$(dialogContent).find('.infoplay').on('click', {idEpisode: ep.episodeid, strMovie: ep.label}, onEpisodePlayClick);
+					$(dialogContent).find('.infoqueue').on('click', {idEpisode: ep.episodeid, strMovie: ep.label}, onAddEpisodeToPlaylistClick);
 					mkf.dialog.setContent(dialogHandle, dialogContent);
 					return false;
 				},
