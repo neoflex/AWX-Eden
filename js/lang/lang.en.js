@@ -200,6 +200,7 @@ mkf.lang.add({language: 'English', short: 'en', author: 'MKay', values: {
 	'label_search_results':				'Search Results for &quot;{0}&quot;:',
 	'label_total_runtime':				'Total play time: ',
 	'label_filter_watched':				'Hide watched (Movies and TV)',
+	'label_filter_mdesc':				'Descending',
 	'label_filter_listview':			'List view (no thumbnails)',
 	'label_season':						'Season:',
 	'label_episode':					'Episode:',

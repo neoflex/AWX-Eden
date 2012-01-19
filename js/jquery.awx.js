@@ -282,6 +282,7 @@
 			var listview = mkf.cookieSettings.get('listview', 'no');
 			var usefanart = mkf.cookieSettings.get('usefanart', 'no');
 			var filmSort = mkf.cookieSettings.get('filmSort', 'label');
+			var mdesc = mkf.cookieSettings.get('mdesc', 'no');
 
 			var languages = '';
 			$.each(mkf.lang.getLanguages(), function(key, val) {
@@ -315,6 +316,7 @@
 				'</option><option value="year" ' + (filmSort=='year'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_year') +'</option><option value="genre "' + (filmSort=='genre'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_genre') +'</option>' +
 				'<option value="none" ' + (filmSort=='none'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_none') +'</option><option value="videorating" ' + (filmSort=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
 				'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option></select>' +
+				'<input type="checkbox" id="mdesc" name="mdesc" ' + (mdesc=='descending'? 'checked="checked"' : '') + '><label for="mdesc">' + mkf.lang.get('label_filter_mdesc') + '</label>' +
 				'</fieldset>' +
 				'<fieldset>' +
 				'<legend>' + mkf.lang.get('group_expert') + '</legend>' +
@@ -376,6 +378,11 @@
 				mkf.cookieSettings.add(
 					'filmSort',
 					document.settingsForm.filmSort.value
+				);
+				
+				mkf.cookieSettings.add(
+					'mdesc',
+					document.settingsForm.mdesc.checked? 'descending' : 'ascending'
 				);
 				
 				mkf.cookieSettings.add(
