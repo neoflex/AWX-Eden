@@ -200,6 +200,7 @@ mkf.lang.add({language: 'Français', short: 'fr', author: 'DanoneKiD', values: {
 	'label_search_results':				'Résultats pour &quot;{0}&quot; :',
 	'label_total_runtime':				'Durée totale de lecture : ',
 	'label_filter_watched':				'Masquer les vus (Films & Episodes)',
+	'label_filter_mdesc':				'Descending',
 	'label_filter_listview':			'Vue Liste (sans Vignettes)',
 	'label_season':						'Saison :',
 	'label_episode':					'Episode :',

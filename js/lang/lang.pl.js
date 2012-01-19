@@ -200,6 +200,7 @@ mkf.lang.add({language: 'Polski', short: 'pl', author: 'cienislaw', values: {
 	'label_search_results':				'Wyniki wyszukiwania dla &quot;{0}&quot;:',
 	'label_total_runtime':				'Całkowity czas odtwarzania: ',
 	'label_filter_watched':				'Ukryj oglądane (Filmy i Seriale TV)',
+	'label_filter_mdesc':				'Descending',
 	'label_filter_listview':			'Widok listy (bez miniaturek)',
 	'label_season':						'Sezon:',
 	'label_episode':					'Odcinek:',
