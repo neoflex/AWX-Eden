@@ -37,11 +37,9 @@ Hinweis: Sie muessen Ihren Browser-Cache leeren bevor Sie das neu installierte/a
 
 Minimalne wymagania: XBMC (pre) Eden 
 Przetestowane przeglądarki internetowe:
-   - FireFox 3.6 (na Ubuntu Lucid Lynx i Windows XP)
-   - Chromium 6.0.472.62 (na Ubuntu Lucid Lynx)
-   - Opera 10.62 (na Ubuntu Lucid Lynx i Windows XP)
-   - Safari 5.02 (na Windows XP)
-   - Internet Explorer 8 (nie obsługuje zaokrąglania narożników)
+   - FireFox
+   - Chrome
+   - Internet Explorer 9
 Nie obsługiwane: Internet Explorer 6
 
 Hint: Po instalacji / aktualizacji, przed uruchomieniem AWX może być konieczne wyczyszczenie cache przeglądarki.</description>
