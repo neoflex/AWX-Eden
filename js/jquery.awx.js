@@ -279,6 +279,7 @@
 			var ui = mkf.cookieSettings.get('ui');
 			var lang = mkf.cookieSettings.get('lang', 'en');
 			var watched = mkf.cookieSettings.get('watched', 'no');
+			var showwatched = mkf.cookieSettings.get('showwatched', 'no');
 			var listview = mkf.cookieSettings.get('listview', 'no');
 			var usefanart = mkf.cookieSettings.get('usefanart', 'no');
 			var filmSort = mkf.cookieSettings.get('filmSort', 'label');
@@ -327,8 +328,9 @@
 				'<fieldset>' +
 				'<legend>' + mkf.lang.get('group_view') + '</legend>' +
 				'<input type="checkbox" id="listview" name="listview" ' + (listview=='yes'? 'checked="checked"' : '') + '><label for="listview">' + mkf.lang.get('label_filter_listview') + '</label>' +
-				'<input type="checkbox" id="watched" name="watched" ' + (watched=='yes'? 'checked="checked"' : '') + '><label for="watched">' + mkf.lang.get('label_filter_watched') + '</label>' +
 				'<input type="checkbox" id="usefanart" name="usefanart" ' + (usefanart=='yes'? 'checked="checked"' : '') + '><label for="usefanart">' + mkf.lang.get('label_use_fanart') + '</label><br />' +
+				'<input type="checkbox" id="watched" name="watched" ' + (watched=='yes'? 'checked="checked"' : '') + '><label for="watched">' + mkf.lang.get('label_filter_watched') + '</label>' +
+				'<input type="checkbox" id="showwatched" name="showwatched" ' + (showwatched=='yes'? 'checked="checked"' : '') + '><label for="showwatched">' + mkf.lang.get('label_filter_showwatched') + '</label>' +
 				'</fieldset>' +
 				'<a href="" class="formButton save">' + mkf.lang.get('btn_save') + '</a>' + 
 				'<div class="formHint">' + mkf.lang.get('label_settings_hint') + '</div>' +
@@ -398,6 +400,11 @@
 				mkf.cookieSettings.add(
 					'watched',
 					document.settingsForm.watched.checked? 'yes' : 'no'
+				);
+				
+				mkf.cookieSettings.add(
+					'showwatched',
+					document.settingsForm.showwatched.checked? 'yes' : 'no'
 				);
 				
 				mkf.cookieSettings.add(
@@ -1584,7 +1591,7 @@
 		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
 		var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
 		var listview = mkf.cookieSettings.get('listview', 'no')=='yes'? true : false;
-		
+		var filterShowWatched = mkf.cookieSettings.get('showwatched', 'yes')=='yes'? true : false;
 		
 		
 		this.each(function() {
@@ -1599,13 +1606,14 @@
 						if (typeof movie.movieid === 'undefined') {
 							return;
 						}
-						if (movie.playcount > 0) {
+						if (movie.playcount > 0 && !filterShowWatched) {
 							watched = true;
 						}
 						
 						if (filterWatched && watched) {
 							return;
 						}
+						
 					classEven += 1
 					//list view
 						$movie = $('<li' + (classEven%2==0? ' class="even"': '') + '><div class="folderLinkWrapper">' + 
@@ -1818,7 +1826,7 @@
 
 		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
 		var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
-
+		var filterShowWatched = mkf.cookieSettings.get('showwatched', 'yes')=='yes'? true : false;
 
 		this.each(function() {
 			var $movieContainer = $(this);
@@ -1833,7 +1841,7 @@
 						return;
 					}
 					
-					if (movie.playcount > 0) {
+					if (movie.playcount > 0 && !filterShowWatched) {
 						watched = true;
 					}
 					
@@ -2015,6 +2023,7 @@
 		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
 		var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
 		var listview = mkf.cookieSettings.get('listview', 'no')=='yes'? true : false;
+		var filterShowWatched = mkf.cookieSettings.get('showwatched', 'yes')=='yes'? true : false;
 
 		this.each(function() {
 			var $tvshowContainer = $(this);
@@ -2025,7 +2034,7 @@
 				$.each(tvShowResult.tvshows, function(i, tvshow) {
 					var watched = false;
 					
-					if (tvshow.playcount > 0) {
+					if (tvshow.playcount > 0 && !filterShowWatched) {
 						watched = true;
 					}
 					
@@ -2149,8 +2158,9 @@
 				$.each(seasonsResult.seasons, function(i, season)  {
 					var watched = false;
 					var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
+					var filterShowWatched = mkf.cookieSettings.get('showwatched', 'yes')=='yes'? true : false;
 					
-					if (season.playcount > 0) {
+					if (season.playcount > 0 && !filterShowWatched) {
 						watched = true;
 					}
 					
@@ -2337,8 +2347,9 @@
 				$.each(episodesResult.episodes, function(i, episode)  {
 					var watched = false;
 					var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
+					var filterShowWatched = mkf.cookieSettings.get('showwatched', 'yes')=='yes'? true : false;
 					
-					if (episode.playcount > 0) {
+					if (episode.playcount > 0 && !filterShowWatched) {
 						watched = true;
 					}
 					
@@ -2598,8 +2609,9 @@
 				$.each(episodesResult.episodes, function(i, episode)  {
 					var watched = false;
 					//var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
+					var filterShowWatched = mkf.cookieSettings.get('showwatched', 'yes')=='yes'? true : false;
 					
-					if (episode.playcount > 0) {
+					if (episode.playcount > 0 && !filterShowWatched) {
 						watched = true;
 					}
 					
@@ -2629,6 +2641,278 @@
 		});
 	}; // END defaultRecentlyAddedEpisodesViewer
 	
+	/* ########################### *\
+	 |  Show video playlists.
+	 |
+	 |  @param MusicPlaylistsResult		Result of Files.GetDirectory.
+	 |  @param parentPage		Page which is used as parent for new sub pages.
+	\* ########################### */
+	$.fn.defaultVideoPlaylistsViewer = function(VideoPlaylistsResult, parentPage) {
+		var onVideoPlaylistsClick = function(e) {
+		
+			if (e.data.strType !='song') {
+				// open new page to show playlist or album
+				var $VideoPlaylistsContent = $('<div class="pageContentWrapper"></div>');
+				var VideoPlaylistsPage = mkf.pages.createTempPage(parentPage, {
+					title: e.data.strLabel,
+					content: $VideoPlaylistsContent
+				});
+				VideoPlaylistsPage.setContextMenu(
+					[
+						{
+							'icon':'close', 'title':mkf.lang.get('ctxt_btn_close_album_list'), 'shortcut':'Ctrl+1', 'onClick':
+							function() {
+								mkf.pages.closeTempPage(VideoPlaylistsPage);
+								return false;
+							}
+						}
+					]
+				);
+				mkf.pages.showTempPage(VideoPlaylistsPage);
+
+				
+				// list playlist or album
+				$VideoPlaylistsContent.addClass('loading');
+				xbmc.getDirectory({
+					directory: e.data.strFile,
+					isPlaylist: true,
+
+					onError: function() {
+						mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
+						$VideoPlaylistsContent.removeClass('loading');
+					},
+
+					onSuccess: function(result) {
+						$VideoPlaylistsContent.defaultVideoPlaylistsViewer(result, VideoPlaylistsPage);
+						$VideoPlaylistsContent.removeClass('loading');
+					}
+				});
+			};
+			
+			if (e.data.strType == 'song') {
+				var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_song'));
+				xbmc.playSong({
+					songid: e.data.id,
+					onSuccess: function() {
+						mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+					},
+					onError: function(errorText) {
+						mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+					}
+				});			
+			};
+			return false;
+		}; // END onVideoPlaylistsClick
+		
+		var onPlaylistsPlayClick = function(e) {
+			//console.log(e.data);
+			xbmc.clearVideoPlaylist({
+				onError: function() {
+					mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
+					//$VideoPlaylistsContent.removeClass('loading');
+				},
+				onSuccess: function() {
+					//console.log(e.data.playlistinfo);
+					onAddPlaylistToPlaylistClick(e);
+					xbmc.playVideo({
+						onError: function() {
+							mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
+							//$MusicPlaylistsContent.removeClass('loading');
+						},
+						onSuccess: function() {
+							mkf.messageLog.show(mkf.lang.get('message_playing_item'), mkf.messageLog.status.success, 2000);
+						}
+					});
+				}
+			});
+			return false;
+		};
+		
+		var onAddPlaylistToPlaylistClick = function(e) {
+			//console.log(e.data.playlistinfo);
+			var isSmart = false;
+			if (e.data.playlistinfo.file.search(/\.xsp/i) !=-1) { isSmart = true; };
+			//console.log(e.data.playlistinfo.file.search(/\.xsp/i));
+			//console.log(isSmart);
+			if (e.data.playlistinfo.type == 'unknown' && isSmart == true) {
+				//unknown and .xsp so should be a smart playlist
+				xbmc.getDirectory({
+					directory: e.data.playlistinfo.file,
+					isPlaylist: true,
+					
+					onError: function() {
+						mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
+						$VideoPlaylistsContent.removeClass('loading');
+					},
+
+					onSuccess: function(result) {
+						//parse playlist
+						console.log(result);
+						Sn = 1;
+						An = 1;
+						Mn = 1;
+						Tn = 1;
+						$.each(result.files, function(i, file) {
+							if (file.type == 'album') {
+								//add to playlist by albumid, returned as id
+								if (An == 1) { var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_album_to_playlist')); };
+								An ++;
+								xbmc.addAlbumToPlaylist({
+									albumid: file.id,
+									async: true,
+									
+									onSuccess: function() {
+										mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+									},
+									onError: function(errorText) {
+										mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+									}
+								});
+							} else if (file.type == 'song') {
+								//add to playlist by songid, returned as id
+								
+								//console.log(n);
+								if (Sn == 1) { var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_song_to_playlist')); };
+								Sn ++;
+								xbmc.addSongToPlaylist({
+									songid: file.id,
+									// async required to add in playlist order
+									async: true,
+									
+									onSuccess: function() {
+										mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+									},
+									onError: function(errorText) {
+										mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+									}
+								});
+							} else {
+								//it's not any of those, error
+								mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
+							};
+						});
+					}
+				});
+			};
+			
+			//should be normal playlist. m3u only? Can use playlist.add directory addAudioFolderToPlaylist
+			if (!isSmart && e.data.playlistinfo.type == 'unknown') {
+				var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_album_to_playlist'));
+				xbmc.addAudioFolderToPlaylist({
+					folder: e.data.playlistinfo.file,
+					
+					onSuccess: function() {
+						mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+					},
+					onError: function(errorText) {
+						mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+					}
+				});
+			};
+			
+			if (!isSmart && e.data.playlistinfo.type == 'album') {
+				var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_album_to_playlist'));
+				xbmc.addAlbumToPlaylist({
+					albumid: e.data.playlistinfo.id,
+					onSuccess: function() {
+						mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+					},
+					onError: function(errorText) {
+						mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+					}
+				});
+			};
+			
+			if (!isSmart && e.data.playlistinfo.type == 'song') {
+				var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_song_to_playlist'));
+				xbmc.addSongToPlaylist({
+					songid: e.data.playlistinfo.id,
+					async: true,
+					
+					onSuccess: function() {
+						mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+					},
+					onError: function(errorText) {
+						mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+					}
+				});			
+			};
+			//is an album? Throw to addAlbumToPlaylist
+				/*if (e.data.playlistinfo.type == 'video') {
+					var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_album_to_playlist'));
+					xbmc.addAVideoToPlaylist({
+						videoid: e.data.playlistinfo.id,
+						onSuccess: function() {
+							mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+						},
+						onError: function(errorText) {
+							mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+						}
+					});
+				};
+				
+				if (e.data.playlistinfo.type == 'song') {
+					//add to playlist by songid, returned as id
+					var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_song_to_playlist'));
+					xbmc.addSongToPlaylist({
+						songid: e.data.playlistinfo.id,
+						async: true,
+						
+						onSuccess: function() {
+							mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+						},
+						onError: function(errorText) {
+							mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+						}
+					});
+				};*/
+			
+			/*var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_album_to_playlist'));
+			xbmc.addAlbumToPlaylist({
+				albumid: event.data.idAlbum,
+				onSuccess: function() {
+					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+				},
+				onError: function(errorText) {
+					mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+				}
+			});*/
+			return false;
+		};
+		
+		// no artists?
+		if (!VideoPlaylistsResult || !VideoPlaylistsResult.files) {
+			return;
+		};
+
+		//console.log(MusicPlaylistsResult);
+		this.each (function() {
+			var VideoPlaylistsList = $('<ul class="fileList"></ul>').appendTo($(this));
+
+			if (VideoPlaylistsResult.limits.total > 0) {
+				$.each(VideoPlaylistsResult.files, function(i, playlist)  {
+					VideoPlaylistsList.append('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper">' +
+										'<a href="" class="button playlistinfo' + i +'" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a>' +
+										'<a href="" class="button play' + i + '" title="' + mkf.lang.get('btn_play') + '"><span class="miniIcon play" /></a>' +
+										'<a href="" class="playlist' + i + '">' + playlist.label + ' - Type: ' + 
+										(playlist.type == 'unknown' ? 'Playlist' : playlist.type) + '<div class="findKeywords">' + playlist.label.toLowerCase() + '</div>' +
+										'</a></div></li>');
+					VideoPlaylistsList.find('.playlist' + i)
+						.bind('click',
+							{
+								id: playlist.id,
+								strFile: playlist.file,
+								strLabel: playlist.label,
+								strType: playlist.type
+							},
+							onVideoPlaylistsClick);
+					VideoPlaylistsList.find('.playlistinfo' + i).bind('click', {playlistinfo: playlist}, onAddPlaylistToPlaylistClick);
+					VideoPlaylistsList.find('.play' + i).bind('click', {playlistinfo: playlist}, onPlaylistsPlayClick);
+				});
+			}
+		});
+	}; // END defaultVideoPlaylistsViewer
+
 	
 	/* ########################### *\
 	 |  Show filesystem.
