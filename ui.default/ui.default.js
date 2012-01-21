@@ -126,11 +126,11 @@ var awxUI = {};
 			this.$artistsGenresContent = $('<div class="pageContentWrapper"></div>');
 			var artistsGenresContextMenu = $.extend(true, [], standardMusicContextMenu);
 			artistsGenresContextMenu.push({
-				'id':'findArtistsButton', 'icon':'find', 'title':mkf.lang.get('ctxt_btn_find'), 'shortcut':'Ctrl+2', 'onClick':
+				'id':'findArtistsGenresButton', 'icon':'find', 'title':mkf.lang.get('ctxt_btn_find'), 'shortcut':'Ctrl+2', 'onClick':
 					function(){
-						var pos = $('#findArtistsButton').offset();
+						var pos = $('#findArtistsGenresButton').offset();
 						awxUI.$artistsGenresContent
-							.defaultFindBox({id:'artistsFindBox', searchItems:'a', top: pos.top, left: pos.left});
+							.defaultFindBox({id:'artistsGenresFindBox', searchItems:'.folderLinkWrapper', top: pos.top, left: pos.left});
 						return false;
 					}
 			});
