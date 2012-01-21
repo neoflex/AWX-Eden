@@ -337,6 +337,36 @@ var awxUI = {};
 				onShow: $.proxy(this, "onMoviesShow")
 			});
 			
+			//playlists video smart etc.
+			this.$VideoPlaylistsContent = $('<div class="pageContentWrapper"></div>');
+			var VideoPlaylistsContextMenu = $.extend(true, [], standardVideosContextMenu);
+			/*MusicPlaylistsContextMenu.push({
+				'id':'findArtistsButton', 'icon':'find', 'title':mkf.lang.get('ctxt_btn_find'), 'shortcut':'Ctrl+2', 'onClick':
+					function(){
+						var pos = $('#findArtistsButton').offset();
+						awxUI.$MusicPlaylistsContent
+							.defaultFindBox({id:'artistsFindBox', searchItems:'a', top: pos.top, left: pos.left});
+						return false;
+					}
+			});*/
+			VideoPlaylistsContextMenu.push({
+				'icon':'refresh', 'title':mkf.lang.get('ctxt_btn_refresh_list'), 'onClick':
+					function(){
+						awxUI.$VideoPlaylistsContent.empty();
+						awxUI.onVideoPlaylistsShow();
+
+						return false;
+					}
+			});	
+			
+			this.VideoPlaylistsPage = videosPage.addPage({
+				title: mkf.lang.get('page_title_video_playlists'),
+				menuButtonText: mkf.lang.get('page_buttontext_video_playlists'),
+				content: this.$VideoPlaylistsContent,
+				contextMenu: VideoPlaylistsContextMenu,
+				onShow: $.proxy(this, "onVideoPlaylistsShow"),
+				className: 'VideoPlaylists'
+			});			
 			//Recent movies
 			this.$moviesRecentContent = $('<div class="pageContentWrapper"></div>');
 			var videoMoviesRecentContextMenu = $.extend(true, [], standardVideosContextMenu);
@@ -726,6 +756,28 @@ var awxUI = {};
 			}
 		},
 
+		/**************************************
+		 * Called when Video playlists-Page is shown. *
+		 **************************************/
+		onVideoPlaylistsShow: function() {
+			if (this.$VideoPlaylistsContent.html() == '') {
+				var VideoPlaylistsPage = this.VideoPlaylistsPage;
+				var $contentBox = this.$VideoPlaylistsContent;
+				$contentBox.addClass('loading');
+
+				xbmc.getVideoPlaylists({
+					onError: function() {
+						mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
+						$contentBox.removeClass('loading');
+					},
+
+					onSuccess: function(result) {
+						$contentBox.defaultVideoPlaylistsViewer(result, VideoPlaylistsPage);
+						$contentBox.removeClass('loading');
+					}
+				});
+			}
+		},
 		
 		/*********************************************
 		 * Called when Recent Movie-Page is shown.          *

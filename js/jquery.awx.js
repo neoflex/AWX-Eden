@@ -548,51 +548,51 @@
 	 |  @param parentPage		Page which is used as parent for new sub pages.
 	\* ########################### */
 	$.fn.defaultArtistsGenresViewer = function(artistGenresResult, parentPage) {
-		var onArtistGenresClick = function(e) {
-			// open new page to show artist's albums
-			var $artistContent = $('<div class="pageContentWrapper"></div>');
-			var artistPage = mkf.pages.createTempPage(parentPage, {
-				title: e.data.strGenre,
-				content: $artistContent
-			});
-			artistPage.setContextMenu(
-				[
-					{
-						'icon':'close', 'title':mkf.lang.get('ctxt_btn_close_album_list'), 'shortcut':'Ctrl+1', 'onClick':
-						function() {
-							mkf.pages.closeTempPage(artistPage);
-							return false;
+			var onArtistGenresClick = function(e) {
+				// open new page to show artist's albums
+				var $artistContent = $('<div class="pageContentWrapper"></div>');
+				var artistPage = mkf.pages.createTempPage(parentPage, {
+					title: e.data.strGenre,
+					content: $artistContent
+				});
+				artistPage.setContextMenu(
+					[
+						{
+							'icon':'close', 'title':mkf.lang.get('ctxt_btn_close_album_list'), 'shortcut':'Ctrl+1', 'onClick':
+							function() {
+								mkf.pages.closeTempPage(artistPage);
+								return false;
+							}
 						}
+					]
+				);
+				mkf.pages.showTempPage(artistPage);
+
+				// show artist's
+				$artistContent.addClass('loading');
+				xbmc.getArtistsGenres({
+					genreid: e.data.idGenre,
+
+					onError: function() {
+						mkf.messageLog.show(mkf.lang.get('message_failed_artists_list'), mkf.messageLog.status.error, 5000);
+						$artistGenresContent.removeClass('loading');
+					},
+
+					onSuccess: function(result) {
+						$artistContent.defaultArtistsViewer(result, artistPage);
+						$artistContent.removeClass('loading');
 					}
-				]
-			);
-			mkf.pages.showTempPage(artistPage);
+				});
 
-			// show artist's
-			$artistContent.addClass('loading');
-			xbmc.getArtistsGenres({
-				genreid: e.data.idGenre,
-
-				onError: function() {
-					mkf.messageLog.show(mkf.lang.get('message_failed_artists_list'), mkf.messageLog.status.error, 5000);
-					$artistGenresContent.removeClass('loading');
-				},
-
-				onSuccess: function(result) {
-					$artistContent.defaultArtistsViewer(result, artistPage);
-					$artistContent.removeClass('loading');
-				}
-			});
-
-			return false;
-		}; // END onArtistGenresClick
+				return false;
+			}; // END onArtistGenresClick
 
 		var onAllGenresAlbumsClick = function(e) {
 			// open new page to show artist's albums
-			var $artistContent = $('<div class="pageContentWrapper"></div>');
+			var $artistsGenresContent = $('<div class="pageContentWrapper"></div>');
 			var artistPage = mkf.pages.createTempPage(parentPage, {
 				title: e.data.strGenre,
-				content: $artistContent
+				content: $artistsGenresContent
 			});
 			artistPage.setContextMenu(
 				[
@@ -608,18 +608,18 @@
 			mkf.pages.showTempPage(artistPage);
 
 			// show artist's
-			$artistContent.addClass('loading');
+			$artistsGenresContent.addClass('loading');
 			xbmc.getGenresAlbums({
 				genreid: e.data.idGenre,
 
 				onError: function() {
 					mkf.messageLog.show(mkf.lang.get('message_failed_album_list'), mkf.messageLog.status.error, 5000);
-					$artistGenresContent.removeClass('loading');
+					$artistsGenresContent.removeClass('loading');
 				},
 
 				onSuccess: function(result) {
-					$artistContent.defaultAlbumViewer(result, artistPage);
-					$artistContent.removeClass('loading');
+					$artistsGenresContent.defaultAlbumViewer(result, artistPage);
+					$artistsGenresContent.removeClass('loading');
 				}
 			});
 
@@ -639,6 +639,7 @@
 				//Add option to show all albums in genre - getGenresAlbums
 				//artistGenresList.append('<li><a href="" class="allgenrealbums">All albums from genre</a></li>');
 				$.each(artistGenresResult.genres, function(i, artistGenres)  {
+					if (artistGenres.genreid == 0) { return };
 					artistGenresList.append('<li' + (i%2==0? ' class="even"': '') + 
 										//'><a href="" class="allgenre' + artistGenres.genreid + '">All - </a><a href="" class="genre' + 
 										'><div class="folderLinkWrapper"><a href="" class="button allgenre' + artistGenres.genreid + '" title="' + mkf.lang.get('btn_all') + '"><span class="miniIcon all" /></a><a href="" class="genre' + 
@@ -2650,8 +2651,197 @@
 	$.fn.defaultVideoPlaylistsViewer = function(VideoPlaylistsResult, parentPage) {
 		var onVideoPlaylistsClick = function(e) {
 		
-			if (e.data.strType !='song') {
-				// open new page to show playlist or album
+			if (e.data.strType =='episode') {
+				var dialogHandle = mkf.dialog.show();
+				var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
+
+				xbmc.getEpisodeDetails({
+					episodeid: e.data.id,
+					onSuccess: function(ep) {
+						var dialogContent = '';
+						
+						var fileDownload = '';
+						xbmc.getPrepDownload({
+							path: ep.file,
+							onSuccess: function(result) {
+								fileDownload = xbmc.getUrl(result.details.path);
+								// no better way?
+								$('.movieinfo').find('a').attr('href',fileDownload);
+							},
+							onError: function(errorText) {
+								$('.movieinfo').find('a').replaceWith(ep.file);
+							},
+						});
+
+						var streamdetails = {
+							vFormat: 'SD',
+							vCodec: 'Unknown',
+							aCodec: 'Unknown',
+							channels: 0,
+							aStreams: 0,
+							hasSubs: false,
+							aLang: '',
+							aspect: 0,
+							vwidth: 0
+						};
+
+						if (ep.streamdetails) {
+							if (ep.streamdetails.subtitle) { streamdetails.hasSubs = true };
+							if (ep.streamdetails.audio) {
+								streamdetails.channels = ep.streamdetails.audio[0].channels;
+								streamdetails.aStreams = ep.streamdetails.audio.length;
+								$.each(ep.streamdetails.audio, function(i, audio) { streamdetails.aLang += audio.language + ' ' } );
+								if ( streamdetails.aLang == ' ' ) { streamdetails.aLang = mkf.lang.get('label_not_available') };
+							};
+						streamdetails.aspect = xbmc.getAspect(ep.streamdetails.video[0].aspect);
+						//Get video standard
+						streamdetails.vFormat = xbmc.getvFormat(ep.streamdetails.video[0].width);
+						//Get video codec
+						streamdetails.vCodec = xbmc.getVcodec(ep.streamdetails.video[0].codec);
+						//Set audio icon
+						streamdetails.aCodec = xbmc.getAcodec(ep.streamdetails.audio[0].codec);
+						};
+						
+						if ( useFanart ) {
+							$('.mkfOverlay').css('background-image', 'url("' + xbmc.getThumbUrl(ep.fanart) + '")');
+						};	
+						
+						var thumb = (ep.thumbnail? xbmc.getThumbUrl(ep.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
+						//dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getMovieThumbType() + ' dialogThumb" />' + //Won't this always be poster?!
+						var dialogContent = $('<div><img src="' + thumb + '" class="thumbFanart dialogThumb" /></div>' +
+							'<div><h1 class="underline">' + ep.title + '</h1></div>' +
+							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_episode') + '</span><span class="value">' + (ep.episode? ep.episode : mkf.lang.get('label_not_available')) + '</span></div>' +
+							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_season') + '</span><span class="value">' + (ep.season? ep.season : mkf.lang.get('label_not_available')) + '</span></div>' +
+							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="value">' + (ep.runtime? ep.runtime : mkf.lang.get('label_not_available')) + '</span></div>' +						
+							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_rating') + '</span><span class="value"><div class="smallRating' + Math.round(ep.rating) + '"></div></span></div>' +
+							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_votes') + '</span><span class="value">' + (ep.votes? ep.votes : mkf.lang.get('label_not_available')) + '</span></div>' +
+							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_firstaired') + '</span><span class="value">' + (ep.firstaired? ep.firstaired : mkf.lang.get('label_not_available')) + '</span></div>' +
+							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_lastplayed') + '</span><span class="value">' + (ep.lastplayed? ep.lastplayed : mkf.lang.get('label_not_available')) + '</span></div>' +
+							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_playcount') + '</span><span class="value">' + (ep.playcount? ep.playcount : mkf.lang.get('label_not_available')) + '</span></div>' +
+							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_audioStreams') + '</span><span class="value">' + (streamdetails.aStreams? streamdetails.aStreams + ' - ' + streamdetails.aLang : mkf.lang.get('label_not_available')) + '</span></div>' +
+							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + '<a href="' + fileDownload + '">' + ep.file + '</a>' + '</span></div></div>' +
+							'<p class="plot">' + ep.plot + '</p>' +
+							'<div class="movietags"></div>');
+
+						if (ep.streamdetails) {
+							dialogContent.filter('.movietags').prepend('<div class="vFormat' + streamdetails.vFormat + '" />' +
+							'<div class="aspect' + streamdetails.aspect + '" />' +
+							'<div class="vCodec' + streamdetails.vCodec + '" />' +
+							'<div class="aCodec' + streamdetails.aCodec + '" />' +
+							'<div class="channels' + streamdetails.channels + '" />' +
+							(streamdetails.hasSubs? '<div class="vSubtitles" />' : ''));
+						};
+
+						//$(dialogContent).find('.infoplay').on('click', {idEpisode: ep.episodeid, strMovie: ep.label}, onEpisodePlayClick);
+						//$(dialogContent).find('.infoqueue').on('click', {idEpisode: ep.episodeid, strMovie: ep.label}, onAddEpisodeToPlaylistClick);
+						mkf.dialog.setContent(dialogHandle, dialogContent);
+						return false;
+					},
+					onError: function() {
+						mkf.messageLog.show('Failed to load episode information!', mkf.messageLog.status.error, 5000);
+						mkf.dialog.close(dialogHandle);
+					}
+				});
+				return false;
+			} else if (e.data.strType == 'movie') {
+				var dialogHandle = mkf.dialog.show();
+				var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
+				
+				xbmc.getMovieInfo({
+					movieid: e.data.id,
+					onSuccess: function(movie) {
+						//var dialogContent = '';
+						var fileDownload = '';
+						
+						xbmc.getPrepDownload({
+							path: movie.file,
+							onSuccess: function(result) {
+								fileDownload = xbmc.getUrl(result.details.path);
+								// no better way?
+								$('.movieinfo').find('a').attr('href',fileDownload);
+							},
+							onError: function(errorText) {
+								$('.movieinfo').find('a').replaceWith(movie.file);
+							},
+						});
+						
+						var streamdetails = {
+							vFormat: 'SD',
+							vCodec: 'Unknown',
+							aCodec: 'Unknown',
+							channels: 0,
+							aStreams: 0,
+							hasSubs: false,
+							aLang: '',
+							aspect: 0,
+							vwidth: 0
+						};
+						
+						if ( useFanart ) {
+							$('.mkfOverlay').css('background-image', 'url("' + xbmc.getThumbUrl(movie.fanart) + '")');
+						};
+						
+						if (movie.streamdetails) {
+							if (movie.streamdetails.subtitle) { streamdetails.hasSubs = true };
+							if (movie.streamdetails.audio) {
+								streamdetails.channels = movie.streamdetails.audio[0].channels;
+								streamdetails.aStreams = movie.streamdetails.audio.length;
+								$.each(movie.streamdetails.audio, function(i, audio) { streamdetails.aLang += audio.language + ' ' } );
+								if ( streamdetails.aLang == ' ' ) { streamdetails.aLang = mkf.lang.get('label_not_available') };
+							};
+						streamdetails.aspect = xbmc.getAspect(movie.streamdetails.video[0].aspect);
+						//Get video standard
+						streamdetails.vFormat = xbmc.getvFormat(movie.streamdetails.video[0].width);
+						//Get video codec
+						streamdetails.vCodec = xbmc.getVcodec(movie.streamdetails.video[0].codec);
+						//Set audio icon
+						streamdetails.aCodec = xbmc.getAcodec(movie.streamdetails.audio[0].codec);
+						};
+						
+						var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
+						//dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getMovieThumbType() + ' dialogThumb" />' + //Won't this always be poster?!
+						var dialogContent = $('<div><img src="' + thumb + '" class="thumb thumbPosterLarge dialogThumb" /></div>' +
+							'<div><h1 class="underline">' + movie.title + '</h1></div>' +
+							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_original_title') + '</span><span class="value">' + (movie.originaltitle? movie.originaltitle : mkf.lang.get('label_not_available')) + '</span></div>' +
+							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="value">' + (movie.runtime? movie.runtime : mkf.lang.get('label_not_available')) + '</span></div>' +
+							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_genre') + '</span><span class="value">' + (movie.genre? movie.genre : mkf.lang.get('label_not_available')) + '</span></div>' +
+							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_rating') + '</span><span class="value"><div class="smallRating' + Math.round(movie.rating) + '"></div></span></div>' +
+							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_votes') + '</span><span class="value">' + (movie.votes? movie.votes : mkf.lang.get('label_not_available')) + '</span></div>' +
+							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_year') + '</span><span class="value">' + (movie.year? movie.year : mkf.lang.get('label_not_available')) + '</span></div>' +
+							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_director') + '</span><span class="value">' + (movie.director? movie.director : mkf.lang.get('label_not_available')) + '</span></div>' +
+							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_writer') + '</span><span class="value">' + (movie.writer? movie.writer : mkf.lang.get('label_not_available')) + '</span></div>' +
+							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_studio') + '</span><span class="value">' + (movie.studio? movie.studio : mkf.lang.get('label_not_available')) + '</span></div>' +
+							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_tagline') + '</span><span class="value">' + (movie.tagline? movie.tagline : mkf.lang.get('label_not_available')) + '</span></div>' +
+							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_set') + '</span><span class="value">' + (movie.set[0]? movie.set : mkf.lang.get('label_not_available')) + '</span></div>' +
+							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_lastplayed') + '</span><span class="value">' + (movie.lastplayed? movie.lastplayed : mkf.lang.get('label_not_available')) + '</span></div>' +
+							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_playcount') + '</span><span class="value">' + (movie.playcount? movie.playcount : mkf.lang.get('label_not_available')) + '</span></div>' +
+							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_audioStreams') + '</span><span class="value">' + (streamdetails.aStreams? streamdetails.aStreams + ' - ' + streamdetails.aLang : mkf.lang.get('label_not_available')) + '</span></div>' +
+							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + '<a href="' + fileDownload + '">' + movie.file + '</a>' + '</span></div></div>' +
+							'<p class="plot">' + movie.plot + '</p>' +
+							'<div class="movietags"></div>');
+
+						if (movie.streamdetails) {
+							dialogContent.filter('.movietags').prepend('<div class="vFormat' + streamdetails.vFormat + '" />' +
+							'<div class="aspect' + streamdetails.aspect + '" />' +
+							'<div class="vCodec' + streamdetails.vCodec + '" />' +
+							'<div class="aCodec' + streamdetails.aCodec + '" />' +
+							'<div class="channels' + streamdetails.channels + '" />' +
+							(streamdetails.hasSubs? '<div class="vSubtitles" />' : ''));
+						};
+
+						//$(dialogContent).find('.infoplay').on('click', {idMovie: movie.movieid, strMovie: movie.label}, onMoviePlayClick);
+						//$(dialogContent).find('.infoqueue').on('click', {idMovie: movie.movieid, strMovie: movie.label}, onAddMovieToPlaylistClick);
+						mkf.dialog.setContent(dialogHandle, dialogContent);
+						return false;
+					},
+					onError: function() {
+						mkf.messageLog.show('Failed to load movie information!', mkf.messageLog.status.error, 5000);
+						mkf.dialog.close(dialogHandle);
+					}
+				});
+				return false;
+			} else {
+				// open new page to show playlist item
 				var $VideoPlaylistsContent = $('<div class="pageContentWrapper"></div>');
 				var VideoPlaylistsPage = mkf.pages.createTempPage(parentPage, {
 					title: e.data.strLabel,
@@ -2676,6 +2866,7 @@
 				xbmc.getDirectory({
 					directory: e.data.strFile,
 					isPlaylist: true,
+					media: 'video',
 
 					onError: function() {
 						mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
@@ -2687,19 +2878,6 @@
 						$VideoPlaylistsContent.removeClass('loading');
 					}
 				});
-			};
-			
-			if (e.data.strType == 'song') {
-				var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_song'));
-				xbmc.playSong({
-					songid: e.data.id,
-					onSuccess: function() {
-						mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
-					},
-					onError: function(errorText) {
-						mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
-					}
-				});			
 			};
 			return false;
 		}; // END onVideoPlaylistsClick
@@ -2739,6 +2917,7 @@
 				xbmc.getDirectory({
 					directory: e.data.playlistinfo.file,
 					isPlaylist: true,
+					media: 'video',
 					
 					onError: function() {
 						mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
@@ -2747,12 +2926,13 @@
 
 					onSuccess: function(result) {
 						//parse playlist
-						console.log(result);
+						//console.log('in smart');
 						Sn = 1;
 						An = 1;
 						Mn = 1;
 						Tn = 1;
 						$.each(result.files, function(i, file) {
+							//console.log(file);
 							if (file.type == 'album') {
 								//add to playlist by albumid, returned as id
 								if (An == 1) { var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_album_to_playlist')); };
@@ -2776,7 +2956,7 @@
 								Sn ++;
 								xbmc.addSongToPlaylist({
 									songid: file.id,
-									// async required to add in playlist order
+									// async false required to add in playlist order
 									async: true,
 									
 									onSuccess: function() {
@@ -2786,8 +2966,77 @@
 										mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
 									}
 								});
+							} else if (file.type == 'movie') {
+								//add to playlist by movieid, returned as id
+								if (Mn == 1) { var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_movie_to_playlist')); };
+								Mn ++;
+								xbmc.addMovieToPlaylist({
+									movieid: file.id,
+									async: true,
+									
+									onSuccess: function() {
+										mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+									},
+									onError: function(errorText) {
+										mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+									}
+								});
+							} else if (file.type == 'episode') {
+								//add to playlist by movieid, returned as id
+								if (Tn == 1) { var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_episode_to_playlist')); };
+								Tn ++;
+								xbmc.addEpisodeToPlaylist({
+									episodeid: file.id,
+									async: true,
+									
+									onSuccess: function() {
+										mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+									},
+									onError: function(errorText) {
+										mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+									}
+								});
+							} else if (file.filetype == 'directory') {
+								//assume TV show and descend to add episodes
+								// async false required to add in playlist order
+								if (Tn == 1) { var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_episode_to_playlist')); };
+								Tn ++;
+								xbmc.getDirectory({
+									directory: file.file,
+									isPlaylist: true,
+									media: 'video',
+									
+									onError: function() {
+										mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
+										$VideoPlaylistsContent.removeClass('loading');
+									},
+
+									onSuccess: function(result) {
+										//var Dn = 1;
+										$.each(result.files, function(i, dirfile) {
+											if (dirfile.type != 'episode') { return; };
+											xbmc.addEpisodeToPlaylist({
+												episodeid: dirfile.id,
+												async: false,
+												
+												onSuccess: function() {
+													/*console.log(Dn);
+													if (Dn == 1) {
+														mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+														Dn ++;
+													}*/
+												},
+												onError: function(errorText) {
+													mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+												}
+											});
+										});									
+									}
+								});
+								mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
 							} else {
 								//it's not any of those, error
+								//console.log('else error: ' + file.filetype);
 								mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
 							};
 						});
@@ -2795,10 +3044,42 @@
 				});
 			};
 			
+			/*if (file.type == 'directory') {
+				//assume TV show and descend to add episodes
+				console.log('isDir');
+				if (Tn == 1) { var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_episode_to_playlist')); };
+				Tn ++;
+				xbmc.getDirectory({
+					directory: file.directory,
+					isPlaylist: true,
+					media: 'video',
+					
+					onError: function() {
+						mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
+						$VideoPlaylistsContent.removeClass('loading');
+					},
+
+					onSuccess: function(result) {
+						console.log(result);
+						xbmc.addEpisodeToPlaylist({
+							episodeid: result.,
+							async: false,
+							
+							onSuccess: function() {
+								mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+							},
+							onError: function(errorText) {
+								mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+							}
+						});
+					}
+				});
+			};*/
+			
 			//should be normal playlist. m3u only? Can use playlist.add directory addAudioFolderToPlaylist
 			if (!isSmart && e.data.playlistinfo.type == 'unknown') {
 				var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_album_to_playlist'));
-				xbmc.addAudioFolderToPlaylist({
+				xbmc.addVideoFolderToPlaylist({
 					folder: e.data.playlistinfo.file,
 					
 					onSuccess: function() {
@@ -2836,6 +3117,38 @@
 						mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
 					}
 				});			
+			};
+			
+			if (!isSmart && e.data.playlistinfo.type == 'movie') {
+				//add to playlist by movieid, returned as id
+				var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_movie_to_playlist'));
+				xbmc.addMovieToPlaylist({
+					movieid: e.data.playlistinfo.id,
+					async: true,
+					
+					onSuccess: function() {
+						mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+					},
+					onError: function(errorText) {
+						mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+					}
+				});
+			};
+			
+			if (!isSmart && e.data.playlistinfo.type == 'episode') {
+				//add to playlist by episodeid, returned as id
+				var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_episode_to_playlist'));
+				xbmc.addEpisodeToPlaylist({
+					episodeid: e.data.playlistinfo.id,
+					async: true,
+					
+					onSuccess: function() {
+						mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+					},
+					onError: function(errorText) {
+						mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+					}
+				});
 			};
 			//is an album? Throw to addAlbumToPlaylist
 				/*if (e.data.playlistinfo.type == 'video') {
@@ -2891,6 +3204,7 @@
 
 			if (VideoPlaylistsResult.limits.total > 0) {
 				$.each(VideoPlaylistsResult.files, function(i, playlist)  {
+					if (playlist.label.search('extrafanart') != -1) { return; };
 					VideoPlaylistsList.append('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper">' +
 										'<a href="" class="button playlistinfo' + i +'" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a>' +
 										'<a href="" class="button play' + i + '" title="' + mkf.lang.get('btn_play') + '"><span class="miniIcon play" /></a>' +

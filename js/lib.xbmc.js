@@ -398,38 +398,11 @@ var xbmc = {};
 			};
 			$.extend(settings, options);
 
-			/*if (settings.command == 'on') {
-				xbmc.sendCommand(
-					'{"jsonrpc": "2.0", "method": "Player.GetActivePlayers", "id": 1}',
-					function (response) {
-						if (response.result[0].playerid == 1) {
-							xbmc.sendCommand(
-							'{"jsonrpc": "2.0", "method": "Player.GetProperties", "params": { "playerid": ' + response.result[0].playerid + ', "properties": "subtitleenabled" }, "id": 1}',
-							function (response) {
-								if (response.result.subtitleenabled) {
-									xbmc.sendCommand(
-									'{"jsonrpc": "2.0", "method": "Player.SetSubtitle", "params": { "playerid": 1, "subtitle": "off"}, "id": 1}',
-									settings.onSuccess,
-									settings.onError
-								} else {
-									xbmc.sendCommand(
-									'{"jsonrpc": "2.0", "method": "Player.SetSubtitle", "params": { "playerid": 1, "subtitle": "off"}, "id": 1}',
-									settings.onSuccess,
-									settings.onError
-								}
-							settings.onSuccess,
-							settings.onError
-						}
-					}
-				);
-				return true;
-			} else {*/
-				xbmc.sendCommand(
-					'{"jsonrpc": "2.0", "method": "Player.SetSubtitle", "params": { "playerid": 1, "subtitle": "' + settings.command +'"}, "id": 1}',
-						settings.onSuccess,
-						settings.onError
-				);
-			//}
+			xbmc.sendCommand(
+				'{"jsonrpc": "2.0", "method": "Player.SetSubtitle", "params": { "playerid": 1, "subtitle": "' + settings.command +'"}, "id": 1}',
+					settings.onSuccess,
+					settings.onError
+			);
 		},
 		
 		setAudioStream:  function(options) {
@@ -776,6 +749,24 @@ var xbmc = {};
 
 			xbmc.sendCommand(
 				'{"jsonrpc": "2.0", "method": "Files.GetDirectory", "params": {"directory": "special://profile/playlists/music/", "media": "music"}, "id": 1}',
+
+				function(response) {
+					settings.onSuccess(response.result);
+				},
+
+				settings.onError
+			);
+		},
+		
+		getVideoPlaylists: function(options) {
+			var settings = {
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
+
+			xbmc.sendCommand(
+				'{"jsonrpc": "2.0", "method": "Files.GetDirectory", "params": {"directory": "special://profile/playlists/video/", "media": "video"}, "id": 1}',
 
 				function(response) {
 					settings.onSuccess(response.result);
@@ -1307,8 +1298,15 @@ var xbmc = {};
 			};
 			$.extend(settings, options);
 
-
-			xbmc.getDirectory({
+			xbmc.sendCommand(
+				'{"jsonrpc": "2.0", "method": "Playlist.Add", "params": { "item" : { "directory": "' + settings.folder.replace(/\\/g, "\\\\") + '"}, "playlistid": 1 }, "id": 1}',
+				settings.onSuccess,
+				settings.onError,
+				null,
+				settings.async
+			);
+			
+			/*xbmc.getDirectory({
 				media: 'Video',
 				directory: settings.folder.replace(/\\/g, "\\\\"),
 
@@ -1342,7 +1340,7 @@ var xbmc = {};
 				onError: function() {
 					settings.onError(mkf.lang.get('message_failed_folders_content'));
 				}
-			});
+			});*/
 		},
 
 

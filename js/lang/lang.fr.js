@@ -25,6 +25,7 @@ mkf.lang.add({language: 'Français', short: 'fr', author: 'DanoneKiD', values: {
 	'page_title_music_files':			'Fichiers',
 	'page_title_music_playlist':		'Liste de lecture en cours',
 	'page_title_music_playlists':		'Listes de lecture',
+	'page_title_video_playlists':		'Listes de lecture',
 	'page_title_videos':				'Vidéos',
 	'page_title_movies':				'Films',
 	'page_title_tvshows': 				'Séries TV',

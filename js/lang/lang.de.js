@@ -25,6 +25,7 @@ mkf.lang.add({language: 'Deutsch', short: 'de', author: 'MKay', values: {
 	'page_title_music_files':			'Dateien',
 	'page_title_music_playlist':		'Playlist',
 	'page_title_music_playlists':		'Playlists',
+	'page_title_video_playlists':		'Playlists',
 	'page_title_videos':				'Video',
 	'page_title_movies':				'Filme',
 	'page_title_tvshows': 				'Serien',
