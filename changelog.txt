@@ -3,7 +3,8 @@ Pre 0.4.6:
  - Added TV episode tagging.
  - Added Video playlists.
  - Added Hide watched mark.
- 
+ - Added/Changed Library tools: scan, clean and export.
+ - Fixed Genres find.
 
 0.4.5:
  - Added Use fan art as background.
