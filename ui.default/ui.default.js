@@ -886,21 +886,7 @@ var awxUI = {};
 		onVideoScanShow: function() {
 			var $contentBox = this.$videoScanContent;
 			$contentBox.empty();
-			//$contentBox.addClass('loading');
-
-			xbmc.scanVideoLibrary({
-				onError: function() {
-					mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
-					//$contentBox.removeClass('loading');
-				},
-
-				onSuccess: function() {
-					mkf.messageLog.show(mkf.lang.get('page_title_video_scan'), mkf.messageLog.status.success, 5000);
-					//console.log($contentBox);
-					$contentBox.defaultVideoScanViewer('Video');
-					//$contentBox.removeClass('loading');
-				}
-			});
+			$contentBox.defaultVideoScanViewer('Video');
 		},
 		
 		/*********************************************
@@ -909,21 +895,7 @@ var awxUI = {};
 		onMusicScanShow: function() {
 			var $contentBox = this.$musicScanContent;
 			$contentBox.empty();
-			//$contentBox.addClass('loading');
-			
-
-			xbmc.scanAudioLibrary({
-				onError: function() {
-					mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
-					//$contentBox.removeClass('loading');
-				},
-
-				onSuccess: function() {
-					mkf.messageLog.show(mkf.lang.get('page_title_music_scan'), mkf.messageLog.status.success, 5000);
-					$contentBox.defaultMusicScanViewer('Music');
-					//$contentBox.removeClass('loading');
-				}
-			});
+			$contentBox.defaultMusicScanViewer('Music');
 		}
 		
 		

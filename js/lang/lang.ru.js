@@ -117,6 +117,12 @@ mkf.lang.add({language: 'Russian', short: 'ru', author: 'Scaramush', values: {
 	'message_failed_add_songs_to_playlist':		'Не удалось добавить {0} песен в плейлист!',
 	'message_failed_add_files_to_playlist':		'Не удалось добавить несколько файлов в плейлист!',
 	'message_failed_add_episode_to_playlist':	'Не удалось добавить серию в плелист!',
+	'message_music_scan':				'Started Music Library Scan',
+	'message_music_clean':				'Started Music Library Clean',
+	'message_music_export':				'Started Music Library Export',
+	'message_video_scan':				'Started Video Library Scan',
+	'message_video_clean':				'Started Video Library Clean',
+	'message_video_export':				'Started Video Library Export',
 
 	'title_system_control': 			'Управление системой',
 	'title_settings': 				'Настройки AWX',
@@ -151,6 +157,9 @@ mkf.lang.add({language: 'Russian', short: 'ru', author: 'Scaramush', values: {
 	'btn_audioStreamNext':				'Следующий аудиопоток',
 	'btn_audioStreamPrev':				'Предыдущий аудиопоток',
 	'btn_settings':					'Настройки',
+	'btn_scan':							'Scan Library',
+	'btn_clean':						'Clean Library',
+	'btn_export':						'Export Library',
 
 	'group_ui': 					'Интерфейс',
 	'group_language':				'Язык',

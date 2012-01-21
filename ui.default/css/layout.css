@@ -904,6 +904,40 @@ div.movietags {
 	display: table-cell;
 	width: 580px;
 }
+div.tools {
+	width: 415px;
+	margin: auto;
+}
+span.tools {
+    background: url("../images/tools.png") no-repeat scroll 0 0 #9B9B9B;
+    border-radius: 5px 5px 5px 5px;
+    color: #FFFFFF;
+    float: left;
+    margin-right: 10px;
+	margin-bottom: 10px;
+    padding: 128px 0 5px;
+    text-align: center;
+    text-decoration: none;
+    width: 128px;
+}
+span.toolsscan {
+	background-position: 0px -128px;
+}
+span.toolsclean {
+	background-position: -128px -128px;
+}
+span.toolsexport {
+    background-position: -256px -128px;
+}
+span.toolsscan:hover {
+	background-position: 0px 0px;
+}
+span.toolsclean:hover {
+	background-position: -128px 0px;
+}
+span.toolsexport:hover {
+    background-position: -256px 0px;
+}
 div.recentTVthumb {
 	margin: 5px 5px 0 0;
 	float: left;

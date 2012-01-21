@@ -117,6 +117,12 @@ mkf.lang.add({language: 'Français', short: 'fr', author: 'DanoneKiD', values: {
 	'message_failed_add_songs_to_playlist':	'Impossible d\'ajouter {0} titres à la Liste de Lecture !',
 	'message_failed_add_files_to_playlist':	'Impossible d\'ajouter certains fichiers à la Liste de Lecture !',
 	'message_failed_add_episode_to_playlist':	'Impossible d\'ajouter l\'Episode à la Liste de Lecture !',
+	'message_music_scan':				'Started Music Library Scan',
+	'message_music_clean':				'Started Music Library Clean',
+	'message_music_export':				'Started Music Library Export',
+	'message_video_scan':				'Started Video Library Scan',
+	'message_video_clean':				'Started Video Library Clean',
+	'message_video_export':				'Started Video Library Export',
 
 	'title_system_control': 			'Contrôle du Système',
 	'title_settings': 					'Paramètres AWX',
@@ -151,6 +157,9 @@ mkf.lang.add({language: 'Français', short: 'fr', author: 'DanoneKiD', values: {
 	'btn_audioStreamNext':				'Piste audio suivante',
 	'btn_audioStreamPrev':				'Piste audio précédente',
 	'btn_settings':						'Paramètres',
+	'btn_scan':							'Scan Library',
+	'btn_clean':						'Clean Library',
+	'btn_export':						'Export Library',
 
 	'group_ui': 						'Interface',
 	'group_language':					'Langue',

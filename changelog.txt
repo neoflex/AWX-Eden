@@ -1,6 +1,9 @@
 Pre 0.4.6:
  - Added Select sort order for movies.
- - Added TV episode tagging
+ - Added TV episode tagging.
+ - Added Video playlists.
+ - Added Hide watched mark.
+ 
 
 0.4.5:
  - Added Use fan art as background.

@@ -257,6 +257,34 @@ var xbmc = {};
 			);
 		},
 		
+		cleanVideoLibrary: function(options) {
+			var settings = {
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
+
+			xbmc.sendCommand(
+				'{"jsonrpc":"2.0","id":2,"method":"VideoLibrary.Clean"}',
+				settings.onSuccess,
+				settings.onError
+			);
+		},
+		
+		exportVideoLibrary: function(options) {
+			var settings = {
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
+
+			xbmc.sendCommand(
+				'{"jsonrpc":"2.0","id":2,"method":"VideoLibrary.Export"}',
+				settings.onSuccess,
+				settings.onError
+			);
+		},	
+		
 		scanAudioLibrary: function(options) {
 			var settings = {
 				onSuccess: null,
@@ -265,7 +293,35 @@ var xbmc = {};
 			$.extend(settings, options);
 
 			xbmc.sendCommand(
-				'{"jsonrpc":"2.0","id":2,"method":"AudioLibrary.Scan"}',
+				'{"jsonrpc":"2.0","id":2,"method":"VideoLibrary.Scan"}',
+				settings.onSuccess,
+				settings.onError
+			);
+		},
+		
+		cleanAudioLibrary: function(options) {
+			var settings = {
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
+
+			xbmc.sendCommand(
+				'{"jsonrpc":"2.0","id":2,"method":"AudioLibrary.Clean"}',
+				settings.onSuccess,
+				settings.onError
+			);
+		},
+		
+		exportAudioLibrary: function(options) {
+			var settings = {
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
+
+			xbmc.sendCommand(
+				'{"jsonrpc":"2.0","id":2,"method":"AudioLibrary.Export"}',
 				settings.onSuccess,
 				settings.onError
 			);

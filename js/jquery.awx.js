@@ -2192,8 +2192,48 @@
 	 |  @param episodesResult
 	\* ########################### */
 	$.fn.defaultVideoScanViewer = function() {
-	
-		var $scanList = $('<div>Scanning Library....</div><br />').appendTo($(this));
+		var onScanVideo = function() {
+			xbmc.scanVideoLibrary({
+				onError: function() {
+					mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
+				},
+
+				onSuccess: function() {
+					mkf.messageLog.show(mkf.lang.get('message_video_scan'), mkf.messageLog.status.success, 5000);
+				}
+			});
+		};
+		
+		var onCleanVideo = function() {
+			xbmc.cleanVideoLibrary({
+				onError: function() {
+					mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
+				},
+
+				onSuccess: function() {
+					mkf.messageLog.show(mkf.lang.get('message_video_clean'), mkf.messageLog.status.success, 5000);
+				}
+			});
+		};
+		
+		var onExportVideo = function() {
+			xbmc.exportAudioLibrary({
+				onError: function() {
+					mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
+				},
+
+				onSuccess: function() {
+					mkf.messageLog.show(mkf.lang.get('message_video_export'), mkf.messageLog.status.success, 5000);
+				}
+			});
+		};
+		
+		var $scanVideoList = $('<div class="tools"><span class="tools toolsscan" title="' + mkf.lang.get('btn_scan') +
+		'" /><span class="tools toolsclean" title="' + mkf.lang.get('btn_clean') +
+		'" /><span class="tools toolsexport" title="' + mkf.lang.get('btn_export') +'" /></div><br />').appendTo($(this));
+		$scanVideoList.find('.toolsscan').bind('click', onScanVideo);
+		$scanVideoList.find('.toolsclean').bind('click', onCleanVideo);
+		$scanVideoList.find('.toolsexport').bind('click', onExportVideo);
 		
 	}; // END defaultScanViewer
 	
@@ -2203,8 +2243,48 @@
 	 |  @param episodesResult
 	\* ########################### */
 	$.fn.defaultMusicScanViewer = function() {
+		var onScanMusic = function() {
+			xbmc.scanAudioLibrary({
+				onError: function() {
+					mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
+				},
 
-		var $scanMusicList = $('<div>Scanning Library....</div><br />').appendTo($(this));
+				onSuccess: function() {
+					mkf.messageLog.show(mkf.lang.get('message_music_scan'), mkf.messageLog.status.success, 5000);
+				}
+			});
+		};
+		
+		var onCleanMusic = function() {
+			xbmc.cleanAudioLibrary({
+				onError: function() {
+					mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
+				},
+
+				onSuccess: function() {
+					mkf.messageLog.show(mkf.lang.get('message_music_clean'), mkf.messageLog.status.success, 5000);
+				}
+			});
+		};
+		
+		var onExportMusic = function() {
+			xbmc.exportAudioLibrary({
+				onError: function() {
+					mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
+				},
+
+				onSuccess: function() {
+					mkf.messageLog.show(mkf.lang.get('message_music_export'), mkf.messageLog.status.success, 5000);
+				}
+			});
+		};
+		
+		var $scanMusicList = $('<div class="tools"><span class="tools toolsscan" title="' + mkf.lang.get('btn_scan') +
+		'" /><span class="tools toolsclean" title="' + mkf.lang.get('btn_clean') +
+		'" /><span class="tools toolsexport" title="' + mkf.lang.get('btn_export') +'" /></div><br />').appendTo($(this));
+		$scanMusicList.find('.toolsscan').bind('click', onScanMusic);
+		$scanMusicList.find('.toolsclean').bind('click', onCleanMusic);
+		$scanMusicList.find('.toolsexport').bind('click', onExportMusic);
 		
 	}; // END defaultScanViewer
 	

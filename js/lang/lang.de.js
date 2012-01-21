@@ -117,6 +117,12 @@ mkf.lang.add({language: 'Deutsch', short: 'de', author: 'MKay', values: {
 	'message_failed_add_songs_to_playlist':	'Fehler beim Hinzuf%FCgen von {0} Songs zur Playlist!',
 	'message_failed_add_files_to_playlist':	'Fehler beim Hinzuf%FCgen von Dateien zur Playlist!',
 	'message_failed_add_episode_to_playlist':	'Fehler beim Hinzuf%FCgen der Episode zur Playlist!',
+	'message_music_scan':				'Started Music Library Scan',
+	'message_music_clean':				'Started Music Library Clean',
+	'message_music_export':				'Started Music Library Export',
+	'message_video_scan':				'Started Video Library Scan',
+	'message_video_clean':				'Started Video Library Clean',
+	'message_video_export':				'Started Video Library Export',
 
 	'title_system_control': 			'System Steuerung',
 	'title_settings': 					'AWX Einstellungen',
@@ -151,6 +157,9 @@ mkf.lang.add({language: 'Deutsch', short: 'de', author: 'MKay', values: {
 	'btn_audioStreamNext':				'Next Audio Stream',
 	'btn_audioStreamPrev':				'Previous Audio Stream',
 	'btn_settings':						'Einstellungen',
+	'btn_scan':							'Scan Library',
+	'btn_clean':						'Clean Library',
+	'btn_export':						'Export Library',
 
 	'group_ui': 						'UI',
 	'group_language':					'Sprache',
