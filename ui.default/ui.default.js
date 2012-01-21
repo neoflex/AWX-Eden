@@ -272,7 +272,24 @@ var awxUI = {};
 						return false;
 					}
 			});
-
+			musicPlaylistContextMenu.push({
+				'icon':'refresh', 'title':mkf.lang.get('ctxt_btn_refresh_list'), 'onClick':
+					function(){
+						awxUI.$musicPlaylistContent.empty();
+						awxUI.onMusicPlaylistShow();
+						return false;
+					}
+			});
+			musicPlaylistContextMenu.push({
+				'id':'findmusicPlaylistButton', 'icon':'find', 'title':mkf.lang.get('ctxt_btn_find'), 'shortcut':'Ctrl+2', 'onClick':
+					function(){
+						var pos = $('#findmusicPlaylistButton').offset();
+						awxUI.$musicPlaylistContent
+							.defaultFindBox({id:'musicPlaylistFindBox', searchItems:'.folderLinkWrapper', top: pos.top, left: pos.left});
+						return false;
+					}
+			});
+			
 			this.musicPlaylistPage = musicPage.addPage({
 				title: mkf.lang.get('page_title_music_playlist'),
 				content: this.$musicPlaylistContent,
@@ -487,7 +504,16 @@ var awxUI = {};
 						return false;
 					}
 			});
+			videoPlaylistContextMenu.push({
+				'icon':'refresh', 'title':mkf.lang.get('ctxt_btn_refresh_list'), 'onClick':
+					function(){
+						awxUI.$videoPlaylistContent.empty();
+						awxUI.onVideoPlaylistShow();
 
+						return false;
+					}
+			});
+			
 			this.videoPlaylistPage = videosPage.addPage({
 				title: mkf.lang.get('page_title_video_playlist'),
 				content: this.$videoPlaylistContent,
