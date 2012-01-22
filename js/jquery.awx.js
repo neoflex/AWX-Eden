@@ -1825,16 +1825,18 @@
 			return false;
 		};
 
-
+		var ui = mkf.cookieSettings.get('ui');
 		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
 		var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
 		var filterShowWatched = mkf.cookieSettings.get('showwatched', 'yes')=='yes'? true : false;
 		var listview = mkf.cookieSettings.get('listview', 'no')=='yes'? true : false;
 
+		console.log(ui);
+		
 		this.each(function() {
 			var $movieContainer = $(this);
 
-			if (movieResult.limits.total > 0 && listview == true) {
+			if (movieResult.limits.total > 0 && listview == true && ui == 'lightDark') {
 				//<img src="images/thumb.png" width="100" alt="Currently Playing" class="currentThumb" />
 				var $movieList = $('<div> <div id="accordion" style="float: left"></div> <div style="float: right; width: 50%"><img src="images/thumb.png" class="thumbPosterLargeRec" /></div></div>').appendTo($(this));
 				var classEven = -1;
@@ -1982,9 +1984,9 @@
 					console.log($(ui.newHeader).attr('id'));
 					ui.newContent.load($(ui.newHeader).attr('id').toString);
 				});*/
-			};
+			}
 			
-			if (movieResult.limits.total > 0 && listview == false) {
+			else {
 				$.each(movieResult.movies, function(i, movie) {
 					
 					var watched = false;

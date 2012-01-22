@@ -843,12 +843,15 @@ ul.fileList {
 .ui-accordion-header {
 	border-top: 1px solid #ABABAB;
 	color: #ddd;
+	padding-left: 5px;
 	background-color: rgba(20,20,20,0.7);
 }
 .ui-accordion-header a {
     color: #FFFFFF;
 }
 .ui-accordion-content {
+	padding-left: 5px;
+	padding-right: 5px;
 	min-height: 300px; 
 }
 p.loading {

@@ -230,6 +230,24 @@ div.ui-slider-vertical a.ui-slider-handle {
 #location ul li a:hover {
 	color: #ffbb00;
 }
+#accordion {
+	width: 50%;
+    background-color: rgba(50,50,50,0.7);
+}
+.ui-accordion-header {
+	border-top: 1px solid #ABABAB;
+	color: #ddd;
+	padding-left: 5px;
+	background-color: rgba(20,20,20,0.7);
+}
+.ui-accordion-header a {
+    color: #FFFFFF;
+}
+.ui-accordion-content {
+	padding-left: 5px;
+	padding-right: 5px;
+	min-height: 300px; 
+}
 ul.fileList {
 	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
 	list-style-type: none;
@@ -376,6 +394,11 @@ img.epWatched {
 	top:0px; 
 	left:0px; 
 	z-index:4
+}
+img.thumbPosterLargeRec {
+	width: auto;
+	height: 75%;
+	position: fixed;
 }
 img.thumbFanart {
 	border: 1px solid #575757;
