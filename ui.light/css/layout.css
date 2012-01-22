@@ -924,7 +924,7 @@ div.input_big_av  a {
 }
 
 div.recentTVthumb {
-	margin: 5px 5px 0 0;
+	margin: 5px 5px 0 5px;
 	float: left;
 	position: relative; 
 	z-index:3;

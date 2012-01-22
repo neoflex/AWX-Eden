@@ -172,6 +172,11 @@ img.thumb {
     height: 125px;
     width: 125px;
 }
+img.thumbPosterLargeRec {
+	width: auto;
+	height: 75%;
+	position: fixed;
+}
 img.thumbPosterLarge {
     height: 280px;
     width: 200px;
@@ -831,6 +836,25 @@ ul.fileList {
     margin: 0;
     padding: 0;
 }
+#accordion {
+	width: 50%;
+    background-color: rgba(50,50,50,0.7);
+}
+.ui-accordion-header {
+	border-top: 1px solid #ABABAB;
+	color: #ddd;
+	background-color: rgba(20,20,20,0.7);
+}
+.ui-accordion-header a {
+    color: #FFFFFF;
+}
+.ui-accordion-content {
+	min-height: 300px; 
+}
+p.loading {
+	height: 32px; 
+	background: url('../../images/dialog_loading.gif') no-repeat left center; 
+}
 ul.fileList li {
 	height: 35px;
 	background-color: rgba(0,0,0,0.7);
@@ -970,7 +994,7 @@ div.input_big  a {
 	border-radius: 5px 5px 5px 5px;
 }
 div.recentTVthumb {
-	margin: 5px 5px 0 0;
+	margin: 5px 5px 0 5px;
 	float: left;
 	position: relative; 
 	z-index:3;
