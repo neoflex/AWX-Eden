@@ -1727,7 +1727,7 @@
 
 		var onMovieInformationClick = function(event) {
 			var dialogHandle = mkf.dialog.show();
-			var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
+			//var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
 			
 			xbmc.getMovieInfo({
 				movieid: event.data.idMovie,
@@ -1830,15 +1830,14 @@
 		var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
 		var filterShowWatched = mkf.cookieSettings.get('showwatched', 'yes')=='yes'? true : false;
 		var listview = mkf.cookieSettings.get('listview', 'no')=='yes'? true : false;
-
-		console.log(ui);
+		var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
 		
 		this.each(function() {
 			var $movieContainer = $(this);
 
 			if (movieResult.limits.total > 0 && listview == true && ui == 'lightDark') {
 				//<img src="images/thumb.png" width="100" alt="Currently Playing" class="currentThumb" />
-				var $movieList = $('<div> <div id="accordion" style="float: left"></div> <div style="float: right; width: 50%"><img src="images/thumb.png" class="thumbPosterLargeRec" /></div></div>').appendTo($(this));
+				var $movieList = $('<div id="accordion"></div>').appendTo($(this));
 				var classEven = -1;
 					$.each(movieResult.movies, function(i, movie) {
 						//var movies = movieResult.movies;
@@ -1857,7 +1856,7 @@
 								//'<a href="" class="button play" title="' + mkf.lang.get('btn_play') + '"><span class="miniIcon play" /></a>' +
 								//'<a href="" class="movieName' + movie.movieid + '">' + movie.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '<div class="findKeywords">' + movie.label.toLowerCase() + '</div>' +
 								'' +
-								'</div>').appendTo($movieList.find('#accordion'));
+								'</div>').appendTo($movieList);
 
 							//$movie.find('.play').bind('click', {idMovie: movie.movieid, strMovie: movie.label}, onMoviePlayClick);
 							//$movie.find('.playlist').bind('click', {idMovie: movie.movieid}, onAddMovieToPlaylistClick);
@@ -1883,8 +1882,7 @@
 										movieid: movieID,
 										onSuccess: function(movie) {
 											var fileDownload = '';
-											var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
-											$('.thumbPosterLargeRec').attr('src', thumb);
+											
 											
 											xbmc.getPrepDownload({
 												path: movie.file,
@@ -1912,7 +1910,7 @@
 											};
 											
 											/*if ( useFanart ) {
-												$('.mkfOverlay').css('background-image', 'url("' + xbmc.getThumbUrl(movie.fanart) + '")');
+												$('#accordion').css('background-image', 'url("' + xbmc.getThumbUrl(movie.fanart) + '")');
 											};*/
 											
 											if (movie.streamdetails) {
@@ -1931,7 +1929,10 @@
 											//Set audio icon
 											streamdetails.aCodec = xbmc.getAcodec(movie.streamdetails.audio[0].codec);
 											};
-											var dialogContent = $('' +
+											
+											var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
+											//$('.thumbPosterLargeRec').attr('src', thumb);
+											var dialogContent = $('<div style="float: left; margin-right: 5px;"><img src="' + thumb + '" class="thumb thumbPosterLarge dialogThumb" /></div>' +
 											//'<div><h1 class="underline">' + movie.title + '</h1></div>' +
 											'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_original_title') + '</span><span class="value">' + (movie.originaltitle? movie.originaltitle : mkf.lang.get('label_not_available')) + '</span></div>' +
 											'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="value">' + (movie.runtime? movie.runtime : mkf.lang.get('label_not_available')) + '</span></div>' +
@@ -1948,8 +1949,8 @@
 											'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_playcount') + '</span><span class="value">' + (movie.playcount? movie.playcount : mkf.lang.get('label_not_available')) + '</span></div>' +
 											'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_audioStreams') + '</span><span class="value">' + (streamdetails.aStreams? streamdetails.aStreams + ' - ' + streamdetails.aLang : mkf.lang.get('label_not_available')) + '</span></div>' +
 											'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + '<a href="' + fileDownload + '">' + movie.file + '</a>' + '</span></div></div>' +
-											'<p class="plot">' + movie.plot + '</p>' +
-											'<div class="movietags"><span class="infoqueue" title="' + mkf.lang.get('btn_enqueue') + '" /><span class="infoplay" title="' + mkf.lang.get('btn_play') + '" /></div>');
+											'<p class="plot" style="display: block; clear: left">' + movie.plot + '</p>' +
+											'<div class="movietags" style="display: inline-block; width: auto"><span class="infoqueue" title="' + mkf.lang.get('btn_enqueue') + '" /><span class="infoplay" title="' + mkf.lang.get('btn_play') + '" /></div>');
 
 										if (movie.streamdetails) {
 											dialogContent.filter('.movietags').prepend('<div class="vFormat' + streamdetails.vFormat + '" />' +
@@ -1977,7 +1978,8 @@
                 },
                 autoHeight: false,
 				clearStyle: true,
-				fillSpace: true
+				fillSpace: true,
+				collapsible: true
             });
 				/*$( '#accordion' ).accordion();
 				$('.ui-accordion').bind('accordionchange', function(event, ui) {
@@ -3826,8 +3828,12 @@
 				thumbElement.attr('src', 'images/thumb.png');
 				if (currentFile.thumbnail) {
 					thumbElement.attr('src', xbmc.getThumbUrl(currentFile.thumbnail));
-					//console.log(thumbElement);
-					//console.log(thumbElement.height());
+					if (currentFile.showtitle) {
+						thumbElement.removeAttr('width');
+						thumbElement.attr('height', '100px');
+					};
+					//console.log(currentFile.thumbnail);
+					//console.log(xbmc.getThumbUrl(currentFile.thumbnail.height()));
 				}
 			});
 

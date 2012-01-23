@@ -150,7 +150,7 @@ ul.mkfPageContextMenu li {
     bottom: 0;
     left: 0;
     overflow: auto;
-    padding-top: 5px;
+    /*padding-top: 5px;*/
     position: absolute;
     right: 0;
     top: 168px;
@@ -511,6 +511,8 @@ div.movieRating10 {
 }
 div.smallRating0, div.smallRating1, div.smallRating2, div.smallRating3, div.smallRating4, div.smallRating5, div.smallRating6, div.smallRating7, div.smallRating8, div.smallRating9, div.smallRating10 {
     background: url("../images/ratings_small.png") no-repeat scroll 0 0 transparent;
+	display: inline-block;
+	vertical-align: middle;
     height: 16px;
     width: 160px;
 }
@@ -837,21 +839,31 @@ ul.fileList {
     padding: 0;
 }
 #accordion {
-	width: 50%;
-    background-color: rgba(50,50,50,0.7);
+    background-color: rgba(0,0,0,0.7);
+	background-attachment: fixed;
+	background-position: 0 170px;
+	background-repeat: no-repeat;
+	background-size: contain;
 }
 .ui-accordion-header {
 	border-top: 1px solid #ABABAB;
 	color: #ddd;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	height: 32px;
 	padding-left: 5px;
 	background-color: rgba(20,20,20,0.7);
 }
 .ui-accordion-header a {
+	position: relative;
+	top: 20%;
     color: #FFFFFF;
 }
 .ui-accordion-content {
-	padding-left: 5px;
-	padding-right: 5px;
+	background-color: rgba(0,0,0,0.7);
+	border-top: 1px solid #ABABAB;
+	font-size: 14px;
+	padding: 5px;
 	min-height: 300px; 
 }
 p.loading {
@@ -953,6 +965,15 @@ div.folderLinkWrapper a.button:hover span.all {
 }
 div.movieinfo {
 	display: table-row;
+}
+div.movieinfo span.label {
+	font-weight: bold;
+}
+div.movieinfo span.value {
+	margin-left: 5px;
+}
+div.movieinfo a {
+	color: #ddd;
 }
 div.movietags  img {
 	float: left;
