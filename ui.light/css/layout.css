@@ -181,7 +181,7 @@ ul.mkfPageContextMenu li {
 	bottom:0;
 	overflow: auto;
 	z-index: 50;
-	padding-top: 5px;
+	/*padding-top: 5px;*/
 	background-image: url("");
 	background-repeat: no-repeat;
 	background-attachment: fixed;
@@ -349,9 +349,6 @@ div.mkfOverlay div.dialog span.label {
 	font-weight: bold;
 	margin-right: 10px;
 }
-div.movieinfo {
-	display: table-row;
-}
 
 div.mkfOverlay div.dialog span.value,
 div.mkfOverlay div.dialog span.valuePoster,
@@ -503,6 +500,8 @@ div.movieRating10 { height: 71px; background-position: 0 -702px; }
 
 div.smallRating0, div.smallRating1, div.smallRating2, div.smallRating3, div.smallRating4, div.smallRating5, div.smallRating6, div.smallRating7, div.smallRating8, div.smallRating9, div.smallRating10  {
 	background: url('../images/ratings_small.png') no-repeat;
+	display: inline-block;
+	vertical-align: middle;
 	height: 16px;
 	width: 160px;
 }
@@ -757,6 +756,18 @@ span.infoqueue {
 	width: 50px;
 	height: 48px;
 }
+div.movieinfo {
+	display: table-row;
+}
+div.movieinfo span.label {
+	font-weight: bold;
+}
+div.movieinfo span.value {
+	margin-left: 5px;
+}
+div.movieinfo a {
+	color: #333;
+}
 div.movietags  img {
 	float: left;
 	margin-right: 3px;
@@ -811,21 +822,34 @@ ul.RecentfileList li {
     display: block;
 }
 #accordion {
-	width: 50%;
-    background-color: rgba(50,50,50,0.7);
+    /*background-color: rgba(0,0,0,0.7);*/
+	background-attachment: fixed;
+	background-position: 0 170px;
+	background-repeat: no-repeat;
+	background-size: contain;
 }
 .ui-accordion-header {
 	border-top: 1px solid #ABABAB;
-	color: #ddd;
+	color: #222;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	height: 32px;
 	padding-left: 5px;
-	background-color: rgba(20,20,20,0.7);
+	background-color: rgba(234, 255, 201, 0.8);
 }
 .ui-accordion-header a {
-    color: #FFFFFF;
+	position: relative;
+	top: 20%;
+    color: #4B4B4B;
+}
+.ui-accordion-header:hover {
+	background-color: rgba(216, 255, 155, 0.8);
 }
 .ui-accordion-content {
-	padding-left: 5px;
-	padding-right: 5px;
+	background-color: rgba(205,205,205,0.7);
+	border-top: 1px solid #ABABAB;
+	font-size: 14px;
+	padding: 5px;
 	min-height: 300px; 
 }
 ul.fileList {
@@ -1248,6 +1272,7 @@ div.ui-slider-vertical a.ui-slider-handle {
 	float: left;
 	border-right: 1px solid #7c7c7c;
 	height: 100px;
+	width: 100px;
 	background-color: #4b4b4b;
 	overflow: hidden;
 }

@@ -1835,7 +1835,7 @@
 		this.each(function() {
 			var $movieContainer = $(this);
 
-			if (movieResult.limits.total > 0 && listview == true && ui == 'lightDark') {
+			if (movieResult.limits.total > 0 && listview == true) {
 				//<img src="images/thumb.png" width="100" alt="Currently Playing" class="currentThumb" />
 				var $movieList = $('<div id="accordion"></div>').appendTo($(this));
 				var classEven = -1;
@@ -1851,7 +1851,7 @@
 							
 						classEven += 1
 						//list view
-							$movie = $('<h3 id="movieName' + movie.movieid + '"><a href="#">' + movie.label + '</a></h3><div>' + 
+							$movie = $('<h3 id="movieName' + movie.movieid + '"><a href="#">' + movie.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</a></h3><div>' + 
 								//'<a href="" class="button playlist" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a>' +
 								//'<a href="" class="button play" title="' + mkf.lang.get('btn_play') + '"><span class="miniIcon play" /></a>' +
 								//'<a href="" class="movieName' + movie.movieid + '">' + movie.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '<div class="findKeywords">' + movie.label.toLowerCase() + '</div>' +
