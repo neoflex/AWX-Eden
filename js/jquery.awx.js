@@ -279,7 +279,7 @@
 			var ui = mkf.cookieSettings.get('ui');
 			var lang = mkf.cookieSettings.get('lang', 'en');
 			var watched = mkf.cookieSettings.get('watched', 'no');
-			var showwatched = mkf.cookieSettings.get('showwatched', 'no');
+			var hidewatchedmark = mkf.cookieSettings.get('hidewatchedmark', 'no');
 			var listview = mkf.cookieSettings.get('listview', 'no');
 			var usefanart = mkf.cookieSettings.get('usefanart', 'no');
 			var filmSort = mkf.cookieSettings.get('filmSort', 'label');
@@ -330,7 +330,7 @@
 				'<input type="checkbox" id="listview" name="listview" ' + (listview=='yes'? 'checked="checked"' : '') + '><label for="listview">' + mkf.lang.get('label_filter_listview') + '</label>' +
 				'<input type="checkbox" id="usefanart" name="usefanart" ' + (usefanart=='yes'? 'checked="checked"' : '') + '><label for="usefanart">' + mkf.lang.get('label_use_fanart') + '</label><br />' +
 				'<input type="checkbox" id="watched" name="watched" ' + (watched=='yes'? 'checked="checked"' : '') + '><label for="watched">' + mkf.lang.get('label_filter_watched') + '</label>' +
-				'<input type="checkbox" id="showwatched" name="showwatched" ' + (showwatched=='yes'? 'checked="checked"' : '') + '><label for="showwatched">' + mkf.lang.get('label_filter_showwatched') + '</label>' +
+				'<input type="checkbox" id="hidewatchedmark" name="hidewatchedmark" ' + (hidewatchedmark=='yes'? 'checked="checked"' : '') + '><label for="hidewatchedmark">' + mkf.lang.get('label_filter_showwatched') + '</label>' +
 				'</fieldset>' +
 				'<a href="" class="formButton save">' + mkf.lang.get('btn_save') + '</a>' + 
 				'<div class="formHint">' + mkf.lang.get('label_settings_hint') + '</div>' +
@@ -403,8 +403,8 @@
 				);
 				
 				mkf.cookieSettings.add(
-					'showwatched',
-					document.settingsForm.showwatched.checked? 'yes' : 'no'
+					'hidewatchedmark',
+					document.settingsForm.hidewatchedmark.checked? 'yes' : 'no'
 				);
 				
 				mkf.cookieSettings.add(
@@ -1593,7 +1593,7 @@
 		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
 		var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
 		var listview = mkf.cookieSettings.get('listview', 'no')=='yes'? true : false;
-		var filterShowWatched = mkf.cookieSettings.get('showwatched', 'yes')=='yes'? true : false;
+		var filterShowWatched = mkf.cookieSettings.get('hidewatchedmark', 'no')=='yes'? true : false;
 		
 		
 		this.each(function() {
@@ -1828,7 +1828,7 @@
 		var ui = mkf.cookieSettings.get('ui');
 		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
 		var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
-		var filterShowWatched = mkf.cookieSettings.get('showwatched', 'yes')=='yes'? true : false;
+		var filterShowWatched = mkf.cookieSettings.get('hidewatchedmark', 'no')=='yes'? true : false;
 		var listview = mkf.cookieSettings.get('listview', 'no')=='yes'? true : false;
 		var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
 		
@@ -2180,7 +2180,7 @@
 		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
 		var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
 		var listview = mkf.cookieSettings.get('listview', 'no')=='yes'? true : false;
-		var filterShowWatched = mkf.cookieSettings.get('showwatched', 'yes')=='yes'? true : false;
+		var filterShowWatched = mkf.cookieSettings.get('hidewatchedmark', 'no')=='yes'? true : false;
 
 		this.each(function() {
 			var $tvshowContainer = $(this);
@@ -2315,7 +2315,7 @@
 				$.each(seasonsResult.seasons, function(i, season)  {
 					var watched = false;
 					var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
-					var filterShowWatched = mkf.cookieSettings.get('showwatched', 'yes')=='yes'? true : false;
+					var filterShowWatched = mkf.cookieSettings.get('hidewatchedmark', 'no')=='yes'? true : false;
 					
 					if (season.playcount > 0 && !filterShowWatched) {
 						watched = true;
@@ -2584,7 +2584,7 @@
 				$.each(episodesResult.episodes, function(i, episode)  {
 					var watched = false;
 					var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
-					var filterShowWatched = mkf.cookieSettings.get('showwatched', 'yes')=='yes'? true : false;
+					var filterShowWatched = mkf.cookieSettings.get('hidewatchedmark', 'no')=='yes'? true : false;
 					
 					if (episode.playcount > 0 && !filterShowWatched) {
 						watched = true;
@@ -2846,7 +2846,7 @@
 				$.each(episodesResult.episodes, function(i, episode)  {
 					var watched = false;
 					//var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
-					var filterShowWatched = mkf.cookieSettings.get('showwatched', 'yes')=='yes'? true : false;
+					var filterShowWatched = mkf.cookieSettings.get('hidewatchedmark', 'no')=='yes'? true : false;
 					
 					if (episode.playcount > 0 && !filterShowWatched) {
 						watched = true;
