@@ -365,10 +365,12 @@
 				// set new settings
 					if (document.settingsForm.userinterface[1].checked == true) {
 						ui = 'light';
+					} else if ( document.settingsForm.userinterface[0].checked == true) {
+						ui = 'default';
 					} else if ( document.settingsForm.userinterface[2].checked == true) {
 						ui = 'lightDark';
 					} else {
-						ui = 'default';
+						ui = 'lightDark';
 					}
 				mkf.cookieSettings.add('ui', ui);
 
