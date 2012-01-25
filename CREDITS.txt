@@ -17,6 +17,10 @@ Have a look at http://tango.freedesktop.org.
 
 --------------------------------------------------------------------------------
 
+AWX uses some icons from the Confluence skin.
+
+--------------------------------------------------------------------------------
+
 AWX uses a modified version of the "Lazy Load"-jQuery-plugin by Mika Tuupola.
 It is licensed under the MIT license:
 	http://www.opensource.org/licenses/mit-license.php

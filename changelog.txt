@@ -1,12 +1,14 @@
-Pre 0.4.6:
+0.4.6:
  - Added Select sort order for movies.
  - Added TV episode tagging.
  - Added Video playlists.
  - Added Hide watched mark.
  - Added/Changed Library tools: scan, clean and export.
- - Fixed Genres find.
  - Added Refresh playlist.
  - Added Find to music playlist.
+ - Added IMDB to movie info.
+ - Fixed Genres find.
+ - Changed Fan art overflows in currently playing.
 
 0.4.5:
  - Added Use fan art as background.

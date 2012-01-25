@@ -5,11 +5,9 @@ The recommended interface for tablets is light or lightDark.
 
 Minimum requirements: XBMC (pre) Eden
 Tested Browsers:
-   - FireFox 3.6 (on Ubuntu Lucid Lynx and Windows XP)
-   - Chromium 6.0.472.62 (on Ubuntu Lucid Lynx)
-   - Opera 10.62 (on Ubuntu Lucid Lynx and Windows XP)
-   - Safari 5.02 (on Windows XP)
-   - Internet Explorer 8 (does not support round edges)
+   - FireFox
+   - Chromium
+   - Internet Explorer 9
 Not supported: Internet Explorer 6
 
 Hint: You may need to clear your browser-cache before you open the new installed/updated webinterface in your browser.
