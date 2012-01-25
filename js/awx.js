@@ -30,7 +30,7 @@ var awx = {};
 	$.extend(awx, {
 
 		init: function() {
-			var dialogHandle = mkf.dialog.show({content:'<h1 class="loading" id="loadingAWXHint">Loading AWX ...</h1>', closeButton: false});
+			var dialogHandle = mkf.dialog.show({content:'<h1 class="loading" id="loadingAWXHint">Loading AWXi ...</h1>', closeButton: false});
 			$('body').append('<div id="initAWX"></div>');
 			$('#initAWX').hide();
 

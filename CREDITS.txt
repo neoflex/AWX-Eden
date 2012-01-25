@@ -3,7 +3,7 @@
 
 --------------------------------------------------------------------------------
 
-AWX uses the JavaScript Library jQuery and jQuery UI. These projects are
+AWXi uses the JavaScript Library jQuery and jQuery UI. These projects are
 licensed under both MIT and GPL licenses.
 Have a look at
 	http://jquery.com
@@ -11,30 +11,30 @@ Have a look at
 
 --------------------------------------------------------------------------------
 
-AWX uses some icons of the "Tango Base Icon Theme" which is released to the
+AWXi uses some icons of the "Tango Base Icon Theme" which is released to the
 Public Domain.
 Have a look at http://tango.freedesktop.org.
 
 --------------------------------------------------------------------------------
 
-AWX uses some icons from the Confluence skin.
+AWXi uses some icons from the Confluence skin.
 
 --------------------------------------------------------------------------------
 
-AWX uses a modified version of the "Lazy Load"-jQuery-plugin by Mika Tuupola.
+AWXi uses a modified version of the "Lazy Load"-jQuery-plugin by Mika Tuupola.
 It is licensed under the MIT license:
 	http://www.opensource.org/licenses/mit-license.php
 Have a look at http://www.appelsiini.net/projects/lazyload.
 
 --------------------------------------------------------------------------------
 
-AWX uses the "jQuery Hotkeys Plugin" by John Resig.
+AWXi uses the "jQuery Hotkeys Plugin" by John Resig.
 It is licensed under both MIT and GPL licenses.
 Have a look at http://github.com/jeresig/jquery.hotkeys.
 
 --------------------------------------------------------------------------------
 
-AWX uses the "Simple JavaScript Inheritance"-Plugin by John Resig.
+AWXi uses the "Simple JavaScript Inheritance"-Plugin by John Resig.
 It is licensed under the MIT license.
 Have a look at http://ejohn.org/blog/simple-javascript-inheritance/.
 

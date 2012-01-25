@@ -9,6 +9,7 @@
  - Added IMDB to movie info.
  - Fixed Genres find.
  - Changed Fan art overflows in currently playing.
+ - Changed Name to AWXi for official repo.
 
 0.4.5:
  - Added Use fan art as background.
