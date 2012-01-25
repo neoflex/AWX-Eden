@@ -839,7 +839,6 @@ ul.fileList {
     padding: 0;
 }
 #accordion {
-    background-color: rgba(0,0,0,0.7);
 	background-attachment: fixed;
 	background-position: 0 170px;
 	background-repeat: no-repeat;
@@ -852,7 +851,10 @@ ul.fileList {
 	margin-bottom: 0px;
 	height: 32px;
 	padding-left: 5px;
-	background-color: rgba(20,20,20,0.7);
+	background-color: rgba(70,70,70,0.6);
+}
+.ui-accordion-header:hover {
+	background-color: #888;
 }
 .ui-accordion-header a {
 	position: relative;
@@ -860,7 +862,7 @@ ul.fileList {
     color: #FFFFFF;
 }
 .ui-accordion-content {
-	background-color: rgba(0,0,0,0.7);
+	background-color: rgba(0,0,0,0.6);
 	border-top: 1px solid #ABABAB;
 	font-size: 14px;
 	padding: 5px;
