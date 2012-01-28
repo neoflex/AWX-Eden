@@ -1982,6 +1982,7 @@ var xbmc = {};
 				if (typeof xbmc.periodicUpdater.subsenabled === 'undefined') {
 					xbmc.periodicUpdater.subsenabled = false;
 				}
+				
 				var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
 				var ui = mkf.cookieSettings.get('ui');
 				
@@ -2000,6 +2001,7 @@ var xbmc = {};
 					this.progressChangedListener.length)) {
 
 					if (typeof activePlayer === 'undefined') { activePlayer = 'none'; }
+					if (typeof inErrorState === 'undefined') { inErrorState = 0; }
 
 					xbmc.sendCommand(
 						//'{"jsonrpc": "2.0", "method": "XBMC.GetInfoLabels", "params" : {"labels": ["MusicPlayer.Title", "MusicPlayer.Album", "MusicPlayer.Artist", "Player.Time", "Player.Duration", "Player.Volume", "Playlist.Random", "VideoPlayer.Title", "VideoPlayer.TVShowTitle", "Player.Filenameandpath"]}, "id": 1}',
@@ -2007,6 +2009,7 @@ var xbmc = {};
 
 						function (response) {
 							var playerActive = response.result;
+							if (inErrorState != 0) { inErrorState = 0; };
 							//need to cover slideshow
 							if (playerActive == '') {
 								activePlayer = 'none';
@@ -2018,6 +2021,12 @@ var xbmc = {};
 						
 						function(response) {
 							activePlayer = 'none'; // ERROR
+							inErrorState ++;
+							if (inErrorState == 5) {
+								$('body').empty();
+								mkf.dialog.show({content:'<h1>' + mkf.lang.get('message_xbmc_has_quit') + '</h1>', closeButton: false});
+								xbmc.setHasQuit();
+							};
 						},
 
 						null, true // IS async // not async
@@ -2108,6 +2117,7 @@ var xbmc = {};
 								curtimeFormat = xbmc.formatTime(curtime);
 								curruntimeFormat = xbmc.formatTime(curruntime);
 								time = curtimeFormat;
+								
 								if (xbmc.periodicUpdater.progress != time) {
 									xbmc.periodicUpdater.fireProgressChanged({"time": time, total: curruntimeFormat});
 									xbmc.periodicUpdater.progress = time;
@@ -2192,45 +2202,6 @@ var xbmc = {};
 
 							null, null, true // IS async // not async
 						);
-						
-						/*xbmc.sendCommand(
-							'{"jsonrpc": "2.0", "method": "Player.GetProperties", "params": { "properties": ["time", "totaltime", "position"], "playerid": ' + activePlayerid + ' }, "id": 1}',
-							function (response) {
-								var currentTimes = response.result;
-								var curtime;
-								var curruntime;
-								var curPlayItemNum = currentTimes.position;
-								
-								//Get the number of the currently playing item in the playlist
-								if (xbmc.periodicUpdater.curPlaylistNum != curPlayItemNum) {
-									//Change highlights rather than reload playlist
-									if (activePlayer == 'audio') {
-										$("div.folderLinkWrapper a.playlistItemCur").removeClass("playlistItemCur");
-										$(".apli"+curPlayItemNum).addClass("playlistItemCur");
-										xbmc.periodicUpdater.curPlaylistNum = curPlayItemNum;
-										//awxUI.onMusicPlaylistShow();
-									} else if (activePlayer == 'video') {
-										$("#vpli"+xbmc.periodicUpdater.curPlaylistNum).attr("class","playlistItem");
-										$("#vpli"+curPlayItemNum).attr("class","playlistItemCur");
-										xbmc.periodicUpdater.curPlaylistNum = curPlayItemNum;
-										//awxUI.onVideoPlaylistShow();
-									}
-										
-								}
-								
-								curtime = (currentTimes.time.hours * 3600) + (currentTimes.time.minutes * 60) + currentTimes.time.seconds;
-								curruntime = (currentTimes.totaltime.hours * 3600) + (currentTimes.totaltime.minutes * 60) + currentTimes.totaltime.seconds;
-								curtimeFormat = xbmc.formatTime(curtime);
-								curruntimeFormat = xbmc.formatTime(curruntime);
-								time = curtimeFormat;
-								if (xbmc.periodicUpdater.progress != time) {
-									xbmc.periodicUpdater.fireProgressChanged({"time": time, total: curruntimeFormat});
-									xbmc.periodicUpdater.progress = time;
-								}
-							},
-
-							null, null, true // IS async // not async
-						);*/
 					}
 
 				}
