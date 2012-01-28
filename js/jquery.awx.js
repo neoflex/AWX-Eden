@@ -3836,7 +3836,11 @@
 					if (currentFile.showtitle) {
 						thumbElement.removeAttr('width');
 						thumbElement.attr('height', '100px');
-					};
+					} else {
+						thumbElement.removeAttr('height');
+						thumbElement.attr('width', '100px');
+					}
+					
 					//console.log(currentFile.thumbnail);
 					//console.log(xbmc.getThumbUrl(currentFile.thumbnail.height()));
 				}

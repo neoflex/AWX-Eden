@@ -394,24 +394,24 @@ var xbmc = {};
 
 			var commands = {play: 'PlayPause', stop: 'Stop', prev: 'GoPrevious', next: 'GoNext', shuffle: 'Shuffle', unshuffle: 'Unshuffle'};
 
-			if (commands[settings.type]) {
+			/*if (commands[settings.type]) {
 				xbmc.sendCommand(
 					'{"jsonrpc": "2.0", "method": "Player.GetActivePlayers", "id": 1}',
 
-					function (response) {
+					function (response) {*/
 
-						if (response.result[0]) {
+						if (activePlayerid == 1 || activePlayerid == 0) {
 							xbmc.sendCommand(
-								'{"jsonrpc": "2.0", "method": "Player.' + commands[settings.type] + '", "params": { "playerid": ' + response.result[0].playerid + ' }, "id": 1}',
+								'{"jsonrpc": "2.0", "method": "Player.' + commands[settings.type] + '", "params": { "playerid": ' + activePlayerid + ' }, "id": 1}',
 								settings.onSuccess,
 								settings.onError
 							);
 						}
-					},
+					/*},
 					settings.onError
 				);
 				return true;
-			}
+			}*/
 			return false;
 		},
 
@@ -426,23 +426,23 @@ var xbmc = {};
 
 			//var commands = {repeat: 'all', repeat1: 'one', unrepeat: 'off'};
 
-			if (settings.type) {
+			/*if (settings.type) {
 				xbmc.sendCommand(
 					'{"jsonrpc": "2.0", "method": "Player.GetActivePlayers", "id": 1}',
 
-					function (response) {
-						if (response.result[0]) {
+					function (response) {*/
+						if (activePlayerid == 1 || activePlayerid == 0) {
 							xbmc.sendCommand(
-								'{"jsonrpc": "2.0", "method": "Player.Repeat", "params": { "playerid": ' + response.result[0].playerid + ', "state": "' + settings.type + '" }, "id": 1}',
+								'{"jsonrpc": "2.0", "method": "Player.Repeat", "params": { "playerid": ' + activePlayerid + ', "state": "' + settings.type + '" }, "id": 1}',
 								settings.onSuccess,
 								settings.onError
 							);
 						}
-					},
+					/*},
 					settings.onError
 				);
 				return true;
-			}
+			}*/
 			return false;
 		},
 		
@@ -1999,7 +1999,7 @@ var xbmc = {};
 					(this.progressChangedListener &&
 					this.progressChangedListener.length)) {
 
-					var activePlayer = '';
+					if (typeof activePlayer === 'undefined') { activePlayer = 'none'; }
 
 					xbmc.sendCommand(
 						//'{"jsonrpc": "2.0", "method": "XBMC.GetInfoLabels", "params" : {"labels": ["MusicPlayer.Title", "MusicPlayer.Album", "MusicPlayer.Artist", "Player.Time", "Player.Duration", "Player.Volume", "Playlist.Random", "VideoPlayer.Title", "VideoPlayer.TVShowTitle", "Player.Filenameandpath"]}, "id": 1}',
@@ -2020,7 +2020,7 @@ var xbmc = {};
 							activePlayer = 'none'; // ERROR
 						},
 
-						null, false // not async
+						null, true // IS async // not async
 					);
 
 					// has volume changed? Or first start?
@@ -2070,7 +2070,7 @@ var xbmc = {};
 						var request = '';
 
 						if (activePlayer == 'audio' || activePlayer == 'video' ) {
-							request = '{"jsonrpc":"2.0","id":2,"method":"Player.GetProperties","params":{ "playerid":' + activePlayerid + ',"properties":["speed", "shuffled", "repeat", "subtitleenabled"] } }'
+							request = '{"jsonrpc":"2.0","id":2,"method":"Player.GetProperties","params":{ "playerid":' + activePlayerid + ',"properties":["speed", "shuffled", "repeat", "subtitleenabled", "time", "totaltime", "position"] } }'
 
 						}/* else if (activePlayer == 'video') {
 							request = '{"jsonrpc":"2.0","id":4,"method":"Player.GetProperties","params":{ "playerid":1,"properties":["speed", "shuffled", "repeat"] } }'
@@ -2081,7 +2081,37 @@ var xbmc = {};
 
 							function (response) {
 								var currentPlayer = response.result;
+								//var currentTimes = response.result;
+								var curtime;
+								var curruntime;
+								var curPlayItemNum = currentPlayer.position;
 								
+								//Get the number of the currently playing item in the playlist
+								if (xbmc.periodicUpdater.curPlaylistNum != curPlayItemNum) {
+									//Change highlights rather than reload playlist
+									if (activePlayer == 'audio') {
+										$("div.folderLinkWrapper a.playlistItemCur").removeClass("playlistItemCur");
+										$(".apli"+curPlayItemNum).addClass("playlistItemCur");
+										xbmc.periodicUpdater.curPlaylistNum = curPlayItemNum;
+										//awxUI.onMusicPlaylistShow();
+									} else if (activePlayer == 'video') {
+										$("#vpli"+xbmc.periodicUpdater.curPlaylistNum).attr("class","playlistItem");
+										$("#vpli"+curPlayItemNum).attr("class","playlistItemCur");
+										xbmc.periodicUpdater.curPlaylistNum = curPlayItemNum;
+										//awxUI.onVideoPlaylistShow();
+									}
+										
+								}
+								
+								curtime = (currentPlayer.time.hours * 3600) + (currentPlayer.time.minutes * 60) + currentPlayer.time.seconds;
+								curruntime = (currentPlayer.totaltime.hours * 3600) + (currentPlayer.totaltime.minutes * 60) + currentPlayer.totaltime.seconds;
+								curtimeFormat = xbmc.formatTime(curtime);
+								curruntimeFormat = xbmc.formatTime(curruntime);
+								time = curtimeFormat;
+								if (xbmc.periodicUpdater.progress != time) {
+									xbmc.periodicUpdater.fireProgressChanged({"time": time, total: curruntimeFormat});
+									xbmc.periodicUpdater.progress = time;
+								}								
 								if (currentPlayer.speed != 0 && currentPlayer.speed != 1 ) {
 									// not playing
 									if (xbmc.periodicUpdater.playerStatus != 'stopped') {
@@ -2105,7 +2135,7 @@ var xbmc = {};
 									xbmc.periodicUpdater.firePlayerStatusChanged(shuffle? 'shuffleOn': 'shuffleOff');
 								}
 								
-								//repeat none, one, all
+								//repeat off, one, all
 								repeat = currentPlayer.repeat;
 								if (xbmc.periodicUpdater.repeatStatus != repeat) {
 									xbmc.periodicUpdater.repeatStatus = repeat;
@@ -2163,7 +2193,7 @@ var xbmc = {};
 							null, null, true // IS async // not async
 						);
 						
-						xbmc.sendCommand(
+						/*xbmc.sendCommand(
 							'{"jsonrpc": "2.0", "method": "Player.GetProperties", "params": { "properties": ["time", "totaltime", "position"], "playerid": ' + activePlayerid + ' }, "id": 1}',
 							function (response) {
 								var currentTimes = response.result;
@@ -2200,7 +2230,7 @@ var xbmc = {};
 							},
 
 							null, null, true // IS async // not async
-						);
+						);*/
 					}
 
 				}
