@@ -1176,7 +1176,52 @@ var xbmc = {};
 			});
 		},
 
+		playSongNext: function(options) {
+			var settings = {
+				songid: 0,
+				position: 0,
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
 
+			if (activePlayerid == 0) {
+				xbmc.sendCommand(
+					'{"jsonrpc":"2.0","id":2,"method":"Player.GetProperties","params":{ "playerid": 0,"properties":["time", "totaltime", "position"] } }',
+
+					function(response) {
+						//settings.onSuccess();
+						console.log(settings.songid);
+						var insertAhead = 1;
+						var curtime = (response.result.time.hours * 3600) + (response.result.time.minutes * 60) + response.result.time.seconds;
+						var curruntime = (response.result.totaltime.hours * 3600) + (response.result.totaltime.minutes * 60) + response.result.totaltime.seconds;
+						var timeRemaining = curruntime - curtime;
+						// Allow for a delay in inserting. If < 15 seconds left, insert 2 ahead.
+						if (timeRemaining < 15) { insertAhead = 2; };
+						settings.position = response.result.position + insertAhead;
+						
+						console.log(insertAhead);
+						console.log(timeRemaining);
+						xbmc.insertPlaylist({
+							itemid: settings.songid,
+							playlistid: 0,
+							itemtype: 'songid',
+							position: settings.position,
+							
+							onSuccess: settings.onSuccess,
+							
+							onError: settings.onError
+						});
+							
+					},
+
+					settings.onError
+				);
+			//return true;
+			} else {
+				settings.onError(mkf.lang.get('message_failed'));
+			}
+		},
 
 		playAudioFile: function(options) {
 			var settings = {
@@ -1289,8 +1334,25 @@ var xbmc = {};
 			);
 		},
 
+		insertPlaylist: function(options) {
+			var settings = {
+				position: 0,
+				playlistid: 0,
+				itemtype: 'songid',
+				itemid: 0,
+				itemfile: '',
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
 
-
+			xbmc.sendCommand(
+				'{"jsonrpc": "2.0", "method": "Playlist.Insert", "params": { "playlistid": ' + settings.playlistid + ', "position":' + settings.position + ', "item": { "' + settings.itemtype + '":' + settings.itemid + '}}, "id": 1}',
+				settings.onSuccess,
+				settings.onError
+			);
+		},
+		
 		clearVideoPlaylist: function(options) {
 			var settings = {
 				onSuccess: null,
@@ -1566,7 +1628,7 @@ var xbmc = {};
 			$.extend(settings, options);
 
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovieDetails", "params": { "movieid": ' + settings.movieid + ', "properties": ["genre", "director", "plot", "title", "originaltitle", "runtime", "year", "rating", "thumbnail", "playcount", "file", "tagline", "set", "lastplayed", "studio", "mpaa", "votes", "streamdetails", "writer", "fanart", "imdbnumber"] },  "id": 2}',
+				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovieDetails", "params": { "movieid": ' + settings.movieid + ', "properties": ["genre", "director", "plot", "title", "originaltitle", "runtime", "year", "rating", "thumbnail", "playcount", "file", "tagline", "set", "setid", "lastplayed", "studio", "mpaa", "votes", "streamdetails", "writer", "fanart", "imdbnumber"] },  "id": 2}',
 				function(response) {
 					settings.onSuccess(response.result.moviedetails);
 				},
@@ -2001,6 +2063,7 @@ var xbmc = {};
 					this.progressChangedListener.length)) {
 
 					if (typeof activePlayer === 'undefined') { activePlayer = 'none'; }
+					if (typeof activePlayerid === 'undefined') { activePlayerid = -1; }
 					if (typeof inErrorState === 'undefined') { inErrorState = 0; }
 
 					xbmc.sendCommand(

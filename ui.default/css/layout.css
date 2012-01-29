@@ -310,6 +310,9 @@ span.miniIcon {
 	display: block; height: 16px; width: 16px;
 	background: url('../images/mini_buttons.png') no-repeat;
 }
+span.playnext {
+    background-position: -112px top;
+}
 span.enqueue { background-position: left top; }
 span.play { background-position: -32px 0px; }
 span.remove { background-position: -16px 0; }
@@ -333,6 +336,9 @@ div.folderLinkWrapper a.button:hover span.remove { background-position: -16px -1
 div.folderLinkWrapper span.playlistmove:hover {
 	float: left;
     background-position: -64px -16px;
+}
+div.folderLinkWrapper span.playnext:hover {
+    background-position: -112px -16px;
 }
 div.folderLinkWrapper a.button:hover span.unwatched {
     background-position: -80px -16px;

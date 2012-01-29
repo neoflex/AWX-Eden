@@ -1233,15 +1233,31 @@
 			return false;
 		};
 
-
+		var onSongPlayNextClick = function(event) {
+			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_song_next'));
+			xbmc.playSongNext({
+				songid: event.data.idSong,
+				onSuccess: function() {
+					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+				},
+				onError: function() {
+					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_failed'), 8000, mkf.messageLog.status.error);
+				}
+			});
+			return false;
+		};
+		
 		this.each(function() {
 			var $songList = $('<ul class="fileList"></ul>').appendTo($(this));
 
 			if (songResult.limits.total > 0) {
 				$.each(songResult.songs, function(i, song)  {
-					var $song = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper song' + song.songid + '"> <a href="" class="button playlist" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a> <a href="" class="song play">' + song.track + '. ' + song.artist + ' - ' + song.label + '</a></div></li>').appendTo($songList);
+					var $song = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper song' + song.songid + '"> <a href="" class="button playlist" title="' + mkf.lang.get('btn_enqueue') +
+					'"><span class="miniIcon enqueue" /></a> <a href="" class="button playnext" title="' + mkf.lang.get('btn_playnext') +
+					'"><span class="miniIcon playnext" /></a> <a href="" class="song play">' + song.track + '. ' + song.artist + ' - ' + song.label + '</a></div></li>').appendTo($songList);
 					$song.find('.playlist').bind('click', {idSong: song.songid}, onAddSongToPlaylistClick);
 					$song.find('.play').bind('click', {idSong: song.songid}, onSongPlayClick);
+					$song.find('.playnext').bind('click', {idSong: song.songid}, onSongPlayNextClick);
 				});
 			}
 

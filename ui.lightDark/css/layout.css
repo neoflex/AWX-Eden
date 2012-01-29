@@ -917,6 +917,9 @@ span.miniIcon {
     height: 16px;
     width: 16px;
 }
+span.playnext {
+    background-position: -112px top;
+}
 span.playlistmove {
 	float: left;
 	margin: 10px 5px;
@@ -961,6 +964,9 @@ div.folderLinkWrapper a.button:hover span.unwatched {
 div.folderLinkWrapper span.playlistmove:hover {
 	float: left;
     background-position: -64px -16px;
+}
+div.folderLinkWrapper span.playnext:hover {
+    background-position: -112px -16px;
 }
 div.folderLinkWrapper a.button:hover span.all {
     background-position: -96px -16px;

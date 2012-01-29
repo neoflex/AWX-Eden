@@ -1,3 +1,7 @@
+0.4.7 pre
+ - Changed periodicUpdater is all async.
+ - Added Song play next.
+
 0.4.6:
  - Added Select sort order for movies.
  - Added TV episode tagging.
