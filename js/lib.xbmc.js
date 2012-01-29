@@ -293,7 +293,7 @@ var xbmc = {};
 			$.extend(settings, options);
 
 			xbmc.sendCommand(
-				'{"jsonrpc":"2.0","id":2,"method":"VideoLibrary.Scan"}',
+				'{"jsonrpc":"2.0","id":2,"method":"AudioLibrary.Scan"}',
 				settings.onSuccess,
 				settings.onError
 			);
@@ -1926,7 +1926,7 @@ var xbmc = {};
 			var command;
 			
 			if (settings.isPlaylist) {
-				command = '{"jsonrpc": "2.0", "method": "Files.GetDirectory", "params" : { "directory" : "' + settings.directory.replace(/\\/g, "\\\\") + '", "media" : "' + settings.media +'" }, "id": 1}'
+				command = '{"jsonrpc": "2.0", "method": "Files.GetDirectory", "params" : { "directory" : "' + settings.directory.replace(/\\/g, "\\\\") + '", "media" : "' + settings.media +'", "properties": ["artist", "album", "showtitle", "episode", "season"] }, "id": 1}'
 				} else {
 				command = '{"jsonrpc": "2.0", "method": "Files.GetDirectory", "params" : { "directory" : "' + settings.directory.replace(/\\/g, "\\\\") + '", "media" : "' + settings.media +'", "sort": { "order": "ascending", "method": "file" } }, "id": 1}'
 				};

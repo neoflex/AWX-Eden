@@ -913,7 +913,10 @@
 					MusicPlaylistsList.append('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper">' +
 										'<a href="" class="button playlistinfo' + i +'" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a>' +
 										'<a href="" class="button play' + i + '" title="' + mkf.lang.get('btn_play') + '"><span class="miniIcon play" /></a>' +
-										'<a href="" class="playlist' + i + '">' + playlist.label + ' - Type: ' + 
+										'<a href="" class="playlist' + i + '">' + playlist.label +
+										(playlist.artist? ' - Artist: ' + playlist.artist : '') +
+										(playlist.album && playlist.label != playlist.album? ' - Album: ' + playlist.album : '') +
+										' - Type: ' + 
 										(playlist.type == 'unknown' ? 'Playlist' : playlist.type) + '<div class="findKeywords">' + playlist.label.toLowerCase() + '</div>' +
 										'</a></div></li>');
 					MusicPlaylistsList.find('.playlist' + i)
@@ -3465,7 +3468,10 @@
 					VideoPlaylistsList.append('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper">' +
 										'<a href="" class="button playlistinfo' + i +'" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a>' +
 										'<a href="" class="button play' + i + '" title="' + mkf.lang.get('btn_play') + '"><span class="miniIcon play" /></a>' +
-										'<a href="" class="playlist' + i + '">' + playlist.label + ' - Type: ' + 
+										'<a href="" class="playlist' + i + '">' + playlist.label +
+										(playlist.showtitle && playlist.showtitle != playlist.label? ' - Show: ' + playlist.showtitle : '') + ' ' +
+										(playlist.season != -1 && playlist.season? ' - Season: ' + playlist.season : '') +
+										(playlist.episode != -1 && playlist.episode? ' - Episode: ' + playlist.episode : '') + ' - Type: ' + 
 										(playlist.type == 'unknown' ? 'Playlist' : playlist.type) + '<div class="findKeywords">' + playlist.label.toLowerCase() + '</div>' +
 										'</a></div></li>');
 					VideoPlaylistsList.find('.playlist' + i)
