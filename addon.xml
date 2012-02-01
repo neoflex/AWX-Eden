@@ -42,7 +42,7 @@ Przetestowane przeglądarki internetowe:
    - Internet Explorer 9
 Nie obsługiwane: Internet Explorer 6
 
-Hint: Po instalacji / aktualizacji, przed uruchomieniem AWX może być konieczne wyczyszczenie cache przeglądarki.</description>
+Wskazówka: Po instalacji / aktualizacji, przed uruchomieniem AWX może być konieczne wyczyszczenie cache przeglądarki.</description>
     <platform>all</platform>
   </extension>
 </addon>
