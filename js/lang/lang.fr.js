@@ -173,6 +173,7 @@ mkf.lang.add({language: 'Français', short: 'fr', author: 'DanoneKiD', values: {
 	'group_film_recent':				'Recent Movies',
 	'group_tv':							'TV Shows',
 	'group_tv_recent':					'Recent TV',
+	'group_episodes':					'Episodes',
 
 	'label_default_ui': 				'Défaut',
 	'label_order_by_title':				'Trier par Titre',
@@ -204,6 +205,8 @@ mkf.lang.add({language: 'Français', short: 'fr', author: 'DanoneKiD', values: {
 	'label_settings_hint':				'(Les paramètres sont stockés dans les Cookies. Vous devez les activer pour ce site.)',
 	'label_settings_warning':			'* Not recommended for a large amount of items.',
 	'label_not_available':				'N/A',
+	'label_premiered': 					'Premiered:',
+	'label_episodes': 					'Episodes:',
 	'label_original_title': 			'Titre Original :',
 	'label_runtime': 					'Durée :',
 	'label_genre': 						'Genre :',

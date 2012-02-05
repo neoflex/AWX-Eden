@@ -308,7 +308,6 @@ var uiviews = {};
 						},
 					});
 					
-					
 					var streamdetails = {
 						vFormat: 'SD',
 						vCodec: 'Unknown',
@@ -519,41 +518,50 @@ var uiviews = {};
 		
 		/*--------------*/
 		TVShowInfoOverlay: function(e) {
+			
 			var dialogHandle = mkf.dialog.show();
+			//var dialogContent = $('<div></div>');
 			var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
 
-			var NA = mkf.lang.get('label_not_available');
-			var tvshow = {
-				title: NA,
-				originaltitle: NA,
-				runtime: NA,
-				genre: NA,
-				rating: 0,
-				year: NA,
-				director: NA,
-				file: NA,
-				plot: NA
-			};
-			$.extend(tvshow, e.data.tvshow);
-			var dialogContent = '';
+			xbmc.getTvShowInfo({
+				tvshowid: e.data.tvshow.tvshowid,
+				onSuccess: function(tvshow) {
+					
+					if ( useFanart ) {
+						$('.mkfOverlay').css('background-image', 'url("' + xbmc.getThumbUrl(tvshow.fanart) + '")');
+					};
+					
+					var thumb = (tvshow.thumbnail? xbmc.getThumbUrl(tvshow.thumbnail) : 'images/thumb' + xbmc.getTvShowThumbType() + '.png');
+					var valueClass = 'value' + xbmc.getTvShowThumbType();
+					var dialogContent = $('<img src="' + thumb + '" class="thumb thumb' + xbmc.getTvShowThumbType() + ' dialogThumb' + xbmc.getTvShowThumbType() + '" />' +
+						'<h1 class="underline">' + tvshow.title + '</h1>' +
+						//'<div class="test"><img src="' + tvshow.file + 'logo.png' + '" /></div>' +
+						'<div class="test"><span class="label">' + mkf.lang.get('label_genre') + '</span><span class="'+valueClass+'">' + (tvshow.genre? tvshow.genre : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="test"><span class="label">' + mkf.lang.get('label_rating') + '</span><span class="'+valueClass+'"><div class="smallRating' + Math.round(tvshow.rating) + '"></div></span></div>' +
+						'<div class="test"><span class="label">' + mkf.lang.get('label_premiered') + '</span><span class="'+valueClass+'">' + tvshow.premiered + '</span></div>' +
+						//'<div class="test"><span class="label">' + mkf.lang.get('label_year') + '</span><span class="'+valueClass+'">' + (tvshow.year? tvshow.year : mkf.lang.get('label_not_available')) + '</span></div>' +
+						'<div class="test"><span class="label">' + mkf.lang.get('label_episodes') + '</span><span class="'+valueClass+'">' + tvshow.episode + '</span></div>' +
+						'<div class="test"><span class="label">' + mkf.lang.get('label_playcount') + '</span><span class="'+valueClass+'">' + tvshow.playcount + '</span></div>' +
+						'<div class="test"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="'+valueClass+'">' + tvshow.file + '</span></div>' +
+						'<p class="plot">' + tvshow.plot + '</p>');
 
-			if ( useFanart ) {
-				$('.mkfOverlay').css('background-image', 'url("' + xbmc.getThumbUrl(tvshow.fanart) + '")');
-			};
-			
-			var thumb = (tvshow.thumbnail? xbmc.getThumbUrl(tvshow.thumbnail) : 'images/thumb' + xbmc.getTvShowThumbType() + '.png');
-			var valueClass = 'value' + xbmc.getTvShowThumbType();
-			dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getTvShowThumbType() + ' dialogThumb' + xbmc.getTvShowThumbType() + '" />' +
-				'<h1 class="underline">' + tvshow.title + '</h1>' +
-				//'<div class="test"><img src="' + tvshow.file + 'logo.png' + '" /></div>' +
-				//'<div class="test"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="'+valueClass+'">' + tvshow.runtime + '</span></div>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_genre') + '</span><span class="'+valueClass+'">' + (tvshow.genre? tvshow.genre : mkf.lang.get('label_not_available')) + '</span></div>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_rating') + '</span><span class="'+valueClass+'"><div class="smallRating' + Math.round(tvshow.rating) + '"></div></span></div>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_year') + '</span><span class="'+valueClass+'">' + (tvshow.year? tvshow.year : mkf.lang.get('label_not_available')) + '</span></div>' +
-				//'<div class="test"><span class="label">' + mkf.lang.get('label_director') + '</span><span class="'+valueClass+'">' + tvshow.director + '</span></div>' +
-				'<div class="test"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="'+valueClass+'">' + tvshow.file + '</span></div>' +
-				'<p class="plot">' + tvshow.plot + '</p>';
-			mkf.dialog.setContent(dialogHandle, dialogContent);
+					/*xbmc.getLogo(tvshow.file, function(logo) {
+						//$('.dialog').css('background-image', 'url("' + logo + '")');
+						//$('.filelink').find('a').attr('href',fileDownload);
+						if (logo) {
+							$('.dialog').find('img').attr('src', logo);
+							$('.dialog').find('img.thumbBanner').removeAttr('height');
+						}
+					});*/
+					
+					mkf.dialog.setContent(dialogHandle, dialogContent);
+					
+				},
+				onError: function() {
+					mkf.messageLog.show('Failed to load TV information!', mkf.messageLog.status.error, 5000);
+					mkf.dialog.close(dialogHandle);				
+				}
+			});
 
 			return false;
 		}, // END onTVShowInformationClick

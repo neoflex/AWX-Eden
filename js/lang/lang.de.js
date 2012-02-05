@@ -173,6 +173,7 @@ mkf.lang.add({language: 'Deutsch', short: 'de', author: 'MKay', values: {
 	'group_film_recent':				'Recent Movies',
 	'group_tv':							'TV Shows',
 	'group_tv_recent':					'Recent TV',
+	'group_episodes':					'Episodes',
 
 	'label_default_ui': 				'Standard UI',
 	'label_order_by_title':				'Sortieren nach Titel',
@@ -204,6 +205,8 @@ mkf.lang.add({language: 'Deutsch', short: 'de', author: 'MKay', values: {
 	'label_settings_hint':				'(Die Einstellungen werden in Cookies gespeichert. Sie m%FCssen Cookies f%FCr diese Seite zulassen.)',
 	'label_settings_warning':			'* Not recommended for a large amount of items.',
 	'label_not_available':				'N/A',
+	'label_premiered': 					'Premiered:',
+	'label_episodes': 					'Episodes:',
 	'label_original_title': 			'Original-Titel:',
 	'label_runtime': 					'Dauer:',
 	'label_genre': 						'Genre:',

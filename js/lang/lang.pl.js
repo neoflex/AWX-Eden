@@ -173,6 +173,7 @@ mkf.lang.add({language: 'Polski', short: 'pl', author: 'cienislaw', values: {
 	'group_film_recent':				'Recent Movies',
 	'group_tv':							'TV Shows',
 	'group_tv_recent':					'Recent TV',
+	'group_episodes':					'Episodes',
 
 	'label_default_ui': 				'Domyślny UI',
 	'label_order_by_title':				'Sortuj po tytule',
@@ -204,6 +205,8 @@ mkf.lang.add({language: 'Polski', short: 'pl', author: 'cienislaw', values: {
 	'label_settings_hint':				'(Ustawienia są przechowywane w ciasteczkach. Dla tej strony musisz włączyć ciasteczka.)',
 	'label_settings_warning':			'* Not recommended for a large amount of items.',
 	'label_not_available':				'N/A',
+	'label_premiered': 					'Premiered:',
+	'label_episodes': 					'Episodes:',
 	'label_original_title': 			'Tytuł oryginalny:',
 	'label_runtime': 					'Czas trwania:',
 	'label_genre': 						'Gatunek:',

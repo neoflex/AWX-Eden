@@ -287,10 +287,15 @@
 			var filmViewRec = mkf.cookieSettings.get('filmViewRec', 'poster');
 			var TVView = mkf.cookieSettings.get('TVView', 'banner');
 			var TVViewRec = mkf.cookieSettings.get('TVViewRec', 'infolist');
+			var EpView = mkf.cookieSettings.get('EpView', 'listover');
 			var usefanart = mkf.cookieSettings.get('usefanart', 'no');
 			var filmSort = mkf.cookieSettings.get('filmSort', 'label');
+			var TVSort = mkf.cookieSettings.get('TVSort', 'label');
+			var EpSort = mkf.cookieSettings.get('EpSort', 'episode');
 			var albumSort = mkf.cookieSettings.get('albumSort', 'album');
 			var mdesc = mkf.cookieSettings.get('mdesc', 'no');
+			var tvdesc = mkf.cookieSettings.get('tvdesc', 'no');
+			var epdesc = mkf.cookieSettings.get('epdesc', 'no');
 			var adesc = mkf.cookieSettings.get('adesc', 'no');
 
 			var languages = '';
@@ -407,8 +412,18 @@
 				//'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option>
 				'</select>' +
 				'</fieldset>' +
+
+				'<fieldset class="ui_views">' +
+				'<legend>' + mkf.lang.get('group_episodes') + '</legend>' +
+				'<select name="EpView"><option value="listover" ' + (EpView=='listover'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_overlay') + '</option>' +
+				//'<option value="listover" ' + (EpView=='listover'? 'selected' : '') + '>' + mkf.lang.get('label_view_tv_list_overlay') +
+				//'</option><option value="listin" ' + (EpView=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') +'</option><option value="accordion"' + (EpView=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
+				//'<option value="none" ' + (EpView=='none'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_none') +'</option><option value="videorating" ' + (EpView=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
+				//'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option>
+				'</select>' +
+				'</fieldset>' +
 				
-				'<fieldset>' +
+				'<fieldset style="clear: left">' +
 				'<legend>' + mkf.lang.get('group_view') + '</legend>' +
 				//'<input type="checkbox" id="listview" name="listview" ' + (listview=='yes'? 'checked="checked"' : '') + '><label for="listview">' + mkf.lang.get('label_filter_listview') + '</label>' +
 				'<input type="checkbox" id="usefanart" name="usefanart" ' + (usefanart=='yes'? 'checked="checked"' : '') + '><label for="usefanart">' + mkf.lang.get('label_use_fanart') + '</label>' +
@@ -441,9 +456,33 @@
 				'</option><option value="sorttitle" ' + (filmSort=='sorttitle'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_sorttitle') +
 				'</option><option value="year" ' + (filmSort=='year'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_year') +'</option><option value="genre"' + (filmSort=='genre'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_genre') +'</option>' +
 				'<option value="none" ' + (filmSort=='none'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_none') +'</option><option value="videorating" ' + (filmSort=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
-				'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option></select>' +
+				'</option><option value="studio" ' + (filmSort=='studio'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_studio') +'</option></select>' +
 				'<input type="checkbox" id="mdesc" name="mdesc" ' + (mdesc=='descending'? 'checked="checked"' : '') + '><label for="mdesc">' + mkf.lang.get('label_filter_mdesc') + '</label>' +
 				'</fieldset>' +
+				
+				'<fieldset class="ui_views">' +
+				'<legend>' + mkf.lang.get('group_tv') + '</legend>' +
+				'' + mkf.lang.get('settings_select_film_sort') +'<select name="TVSort"><option value="label" ' + (TVSort=='label'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_label') +
+				'</option>' +
+				'</option><option value="year" ' + (TVSort=='year'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_year') +
+				'</option><option value="genre"' + (TVSort=='genre'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_genre') +'</option>' +
+				//'<option value="none" ' + (TVSort=='none'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_none') + '</option>'  +
+				'<option value="videorating" ' + (TVSort=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
+				'</option><option value="episode" ' + (TVSort=='episode'? 'selected' : '') + '>' + mkf.lang.get('group_episodes') +'</option></select>' +
+				'<input type="checkbox" id="tvdesc" name="tvdesc" ' + (tvdesc=='descending'? 'checked="checked"' : '') + '><label for="mdesc">' + mkf.lang.get('label_filter_mdesc') + '</label>' +
+				'</fieldset>' +
+				'<fieldset>' +
+				'<legend>' + mkf.lang.get('group_episodes') + '</legend>' +
+				'' + mkf.lang.get('settings_select_film_sort') +'<select name="EpSort"><option value="label" ' + (EpSort=='label'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_label') +
+				'</option>' +
+				//'</option><option value="year" ' + (EpSort=='year'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_year') +
+				//'</option><option value="genre"' + (EpSort=='genre'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_genre') +'</option>' +
+				'<option value="none" ' + (EpSort=='none'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_none') + '</option>'  +
+				'<option value="videorating" ' + (EpSort=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
+				'</option><option value="episode" ' + (EpSort=='episode'? 'selected' : '') + '>' + mkf.lang.get('group_episodes') +'</option></select>' +
+				'<input type="checkbox" id="epdesc" name="epdesc" ' + (epdesc=='descending'? 'checked="checked"' : '') + '><label for="mdesc">' + mkf.lang.get('label_filter_mdesc') + '</label>' +
+				'</fieldset>' +
+				
 				'</form>' +
 				'</div>' +
 				'</div>' +
@@ -514,7 +553,27 @@
 				mkf.cookieSettings.add(
 					'albumsViewRec',
 					document.settingsViews.albumsViewRec.value
-				);	
+				);
+				
+				mkf.cookieSettings.add(
+					'tvdesc',
+					document.settingsSorting.tvdesc.checked? 'descending' : 'ascending'
+				);
+				
+				mkf.cookieSettings.add(
+					'TVSort',
+					document.settingsSorting.TVSort.value
+				);
+				
+				mkf.cookieSettings.add(
+					'EpSort',
+					document.settingsSorting.EpSort.value
+				);
+				
+				mkf.cookieSettings.add(
+					'epdesc',
+					document.settingsSorting.epdesc.checked? 'descending' : 'ascending'
+				);
 				
 				mkf.cookieSettings.add(
 					'filmSort',
@@ -543,6 +602,11 @@
 				mkf.cookieSettings.add(
 					'TVViewRec',
 					document.settingsViews.TVViewRec.value
+				);
+				
+				mkf.cookieSettings.add(
+					'EpView',
+					document.settingsViews.EpView.value
 				);
 				
 				mkf.cookieSettings.add(

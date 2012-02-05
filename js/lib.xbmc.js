@@ -181,17 +181,14 @@ var xbmc = {};
 			return location.protocol + '//' + location.host + '/' + encodeURI(url);
 		},
 
-		getLogo: function(filepath) {
-			//need to figure out callback!
+		getLogo: function(filepath, callback) {
 			var path = filepath.substring(0, filepath.lastIndexOf("/"));
-			
 			path += '/logo.png';
-			//console.log(path);
 			
 			var logo = xbmc.getPrepDownload({
 					path: path,
 					onSuccess: function(result) {
-						return xbmc.getUrl(result.details.path);
+						callback(xbmc.getUrl(result.details.path));
 						//console.log(logo);
 					},
 					onError: function(errorText) {
@@ -199,8 +196,7 @@ var xbmc = {};
 						console.log('No logo found');
 					},
 				});
-			console.log(logo);
-			return path;
+			return true;
 		},
 		
 		detectThumbTypes: function(initContainer, callback) {
@@ -1622,12 +1618,12 @@ var xbmc = {};
 				//'{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": {"properties" : ["genre", "director", "plot", "title", "originaltitle", "runtime", "year", "rating", "thumbnail", "playcount", "file", "tagline", "set"], "sort": { "order": "ascending", "method": "label" } }, "id": 1}',
 				function(response) {
 					if (settings.order == 'descending' && settings.sortby == 'none') {
-					var mresult = $.makeArray(response.result.movies).reverse();
-					delete response.result.movies;
-					response.result.movies = mresult;
-					settings.onSuccess(response.result);
+						var mresult = $.makeArray(response.result.movies).reverse();
+						delete response.result.movies;
+						response.result.movies = mresult;
+						settings.onSuccess(response.result);
 					} else {
-					settings.onSuccess(response.result);
+						settings.onSuccess(response.result);
 					};
 				},
 				settings.onError
@@ -1711,13 +1707,18 @@ var xbmc = {};
 
 		getTvShows: function(options) {
 			var settings = {
+				sortby: 'label',
+				order: 'ascending',
 				onSuccess: null,
 				onError: null
 			};
 			$.extend(settings, options);
+			
+			settings.sortby = mkf.cookieSettings.get('TVSort', 'label');
+			settings.order = mkf.cookieSettings.get('tvdesc', 'ascending');
 
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": { "properties": ["genre", "plot", "title", "originaltitle", "year", "rating", "thumbnail", "playcount", "file", "fanart"] }, "id": 1}',
+				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShows", "params": { "properties": ["genre", "plot", "title", "originaltitle", "year", "rating", "thumbnail", "playcount", "file", "fanart"], "sort": { "order": "' + settings.order + '", "method": "' + settings.sortby + '" } }, "id": 1}',
 				function(response) {
 					settings.onSuccess(response.result);
 				},
@@ -1725,7 +1726,22 @@ var xbmc = {};
 			);
 		},
 
+		getTvShowInfo: function(options) {
+			var settings = {
+				tvshowid: 0,
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
 
+			xbmc.sendCommand(
+				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShowDetails", "params": { "tvshowid": ' + settings.tvshowid + ', "properties": [ "votes", "premiered", "genre", "plot", "title", "originaltitle", "year", "rating", "thumbnail", "playcount", "file", "fanart", "episode"] }, "id": 1}',
+				function(response) {
+					settings.onSuccess(response.result.tvshowdetails);
+				},
+				settings.onError
+			);
+		},
 
 		getSeasons: function(options) {
 			var settings = {
@@ -1757,10 +1773,20 @@ var xbmc = {};
 			};
 			$.extend(settings, options);
 
+			settings.sortby = mkf.cookieSettings.get('EpSort', 'label');
+			settings.order = mkf.cookieSettings.get('epdesc', 'ascending');
+			
 			xbmc.sendCommand(
 				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodes", "params": { "tvshowid": ' + settings.tvshowid + ', "season" : ' + settings.season + ', "properties": ["episode", "playcount", "fanart", "plot", "season", "showtitle", "thumbnail"], "sort": { "order": "' + settings.order + '", "method": "' + settings.sortby + '" } }, "id": 1}',
 				function(response) {
-					settings.onSuccess(response.result);
+					if (settings.order == 'descending' && settings.sortby == 'none') {
+						var epresult = $.makeArray(response.result.episodes).reverse();
+						delete response.result.episodes;
+						response.result.episodes = epresult;
+						settings.onSuccess(response.result);
+					} else {
+						settings.onSuccess(response.result);
+					};
 				},
 				settings.onError
 			);
