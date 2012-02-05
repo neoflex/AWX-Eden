@@ -1,3 +1,7 @@
+0.5.0
+ - Added Sorting.
+ - Added Views (more to come).
+
 0.4.8
  - Added Movie views!
  - Added Song play next.
