@@ -286,7 +286,7 @@ div.findKeywords {
 }
 div.playtime {
     background-color: rgba(0,0,0,0.8);
-	width: 12%;
+	width: 13%;
 	color: #fff;
     font-size: 12px;
     font-weight: bold;
@@ -1153,7 +1153,7 @@ a.recentTVplay  {
 	position: relative; 
 	float: left;
 	top: 98px; 
-	left: 5px; 
+	left: 10px; 
 	z-index: 5
 }
 a.bigLeft, a.bigRight, a.bigUp, a.bigDown, a.bigSelect, a.bigBack, a.bigHome, a.bigSubOnOff,  a.bigSubNext, a.bigSubPrev, a.bigAudioNext, a.bigAudioPrev {

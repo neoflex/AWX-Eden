@@ -274,15 +274,19 @@
 		var $settingsButton = $('<a href="" class="settings"></a>');
 		$settingsButton.click(function() {
 			var order = mkf.cookieSettings.get('albumOrder', 'artist');
-			var lazyload = mkf.cookieSettings.get('lazyload', 'no');
+			var lazyload = mkf.cookieSettings.get('lazyload', 'yes');
 			var timeout = mkf.cookieSettings.get('timeout', 10);
 			var ui = mkf.cookieSettings.get('ui');
 			var lang = mkf.cookieSettings.get('lang', 'en');
 			var watched = mkf.cookieSettings.get('watched', 'no');
 			var hidewatchedmark = mkf.cookieSettings.get('hidewatchedmark', 'no');
-			var listview = mkf.cookieSettings.get('listview', 'no');
+			//var listview = mkf.cookieSettings.get('listview', 'no');
+			var albumsView = mkf.cookieSettings.get('albumsView', 'cover');
+			var albumsViewRec = mkf.cookieSettings.get('albumsViewRec', 'cover');
 			var filmView = mkf.cookieSettings.get('filmView', 'poster');
 			var filmViewRec = mkf.cookieSettings.get('filmViewRec', 'poster');
+			var TVView = mkf.cookieSettings.get('TVView', 'banner');
+			var TVViewRec = mkf.cookieSettings.get('TVViewRec', 'infolist');
 			var usefanart = mkf.cookieSettings.get('usefanart', 'no');
 			var filmSort = mkf.cookieSettings.get('filmSort', 'label');
 			var albumSort = mkf.cookieSettings.get('albumSort', 'album');
@@ -348,6 +352,25 @@
 				'<div id="tabs-2">' +
 				'<form name="settingsViews">' +
 				'<fieldset class="ui_views">' +
+				'<legend>' + mkf.lang.get('group_albums') + '</legend>' +
+				'<select name="albumsView"><option value="cover" ' + (albumsView=='cover'? 'selected' : '') + '>' + mkf.lang.get('label_view_album_cover') +
+				'</option><option value="list" ' + (albumsView=='list'? 'selected' : '') + '>' + mkf.lang.get('label_view_album_list') +
+				//'</option><option value="listin" ' + (albumsView=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') +'</option><option value="accordion"' + (albumsView=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
+				//'<option value="none" ' + (filmView=='none'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_none') +'</option><option value="videorating" ' + (filmView=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
+				//'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option>
+				'</select>' +
+				'</fieldset>' +
+				'<fieldset>' +
+				'<legend>' + mkf.lang.get('group_albums_recent') + '</legend>' +
+				'<select name="albumsViewRec"><option value="cover" ' + (albumsViewRec=='cover'? 'selected' : '') + '>' + mkf.lang.get('label_view_album_cover') +
+				'</option><option value="list" ' + (albumsViewRec=='list'? 'selected' : '') + '>' + mkf.lang.get('label_view_album_list') +
+				//'</option><option value="listin" ' + (albumsViewRec=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') +'</option><option value="accordion"' + (albumsViewRec=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
+				//'<option value="none" ' + (filmView=='none'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_none') +'</option><option value="videorating" ' + (filmView=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
+				//'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option>
+				'</select>' +
+				'</fieldset>' +
+				
+				'<fieldset class="ui_views">' +
 				'<legend>' + mkf.lang.get('group_film_sort') + '</legend>' +
 				'<select name="filmView"><option value="poster" ' + (filmView=='poster'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_poster') +
 				'</option><option value="listover" ' + (filmView=='listover'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_overlay') +
@@ -365,6 +388,26 @@
 				//'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option>
 				'</select>' +
 				'</fieldset>' +
+				
+				'<fieldset class="ui_views">' +
+				'<legend>' + mkf.lang.get('group_tv') + '</legend>' +
+				'<select name="TVView"><option value="banner" ' + (TVView=='banner'? 'selected' : '') + '>' + mkf.lang.get('label_view_tv_banner') +
+				'</option><option value="listover" ' + (TVView=='listover'? 'selected' : '') + '>' + mkf.lang.get('label_view_tv_list_overlay') +
+				//'</option><option value="listin" ' + (TVView=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') +'</option><option value="accordion"' + (TVView=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
+				//'<option value="none" ' + (filmView=='none'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_none') +'</option><option value="videorating" ' + (filmView=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
+				//'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option>
+				'</select>' +
+				'</fieldset>' +
+				'<fieldset>' +
+				'<legend>' + mkf.lang.get('group_tv_recent') + '</legend>' +
+				'<select name="TVViewRec"><option value="infolist" ' + (TVViewRec=='infolist'? 'selected' : '') + '>' + mkf.lang.get('label_view_tv_infolist') + '</option>' +
+				//'<option value="listover" ' + (TVViewRec=='listover'? 'selected' : '') + '>' + mkf.lang.get('label_view_tv_list_overlay') +
+				//'</option><option value="listin" ' + (TVViewRec=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') +'</option><option value="accordion"' + (TVViewRec=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
+				//'<option value="none" ' + (filmView=='none'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_none') +'</option><option value="videorating" ' + (filmView=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
+				//'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option>
+				'</select>' +
+				'</fieldset>' +
+				
 				'<fieldset>' +
 				'<legend>' + mkf.lang.get('group_view') + '</legend>' +
 				//'<input type="checkbox" id="listview" name="listview" ' + (listview=='yes'? 'checked="checked"' : '') + '><label for="listview">' + mkf.lang.get('label_filter_listview') + '</label>' +
@@ -375,6 +418,7 @@
 				'<div class="formHint">' + mkf.lang.get('label_settings_warning') + '</div>' +
 				'</form>' +
 				'</div>' +
+				/*---- Sorting ----*/
 				'<div id="tabs-3">' +
 				'<form name="settingsSorting">' +
 				'<fieldset class="ui_albums">' +
@@ -463,6 +507,16 @@
 				);
 				
 				mkf.cookieSettings.add(
+					'albumsView',
+					document.settingsViews.albumsView.value
+				);
+				
+				mkf.cookieSettings.add(
+					'albumsViewRec',
+					document.settingsViews.albumsViewRec.value
+				);	
+				
+				mkf.cookieSettings.add(
 					'filmSort',
 					document.settingsSorting.filmSort.value
 				);
@@ -481,12 +535,21 @@
 					'filmViewRec',
 					document.settingsViews.filmViewRec.value
 				);
+				mkf.cookieSettings.add(
+					'TVView',
+					document.settingsViews.TVView.value
+				);
+				
+				mkf.cookieSettings.add(
+					'TVViewRec',
+					document.settingsViews.TVViewRec.value
+				);
 				
 				mkf.cookieSettings.add(
 					'lazyload',
 					document.settingsForm.lazyload.checked? 'yes' : 'no'
 				);
-				
+								
 				mkf.cookieSettings.add(
 					'usefanart',
 					document.settingsViews.usefanart.checked? 'yes' : 'no'
@@ -830,16 +893,20 @@
 
 		if (!albumResult.limits.total > 0) { return };
 		
-		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
-		var listview = mkf.cookieSettings.get('listview', 'no')=='yes'? true : false;
-
+		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'yes')=='yes'? true : false;
+		//var listview = mkf.cookieSettings.get('listview', 'no')=='yes'? true : false;
+		var view = mkf.cookieSettings.get('albumsView', 'cover');
+		
 		var $albumViewerElement = $(this);
 		
-		if (listview) {
-			uiviews.AlbumsViewList(albumResult, parentPage).appendTo($albumViewerElement);
-		} else {
-			uiviews.AlbumsViewThumbnails(albumResult, parentPage).appendTo($albumViewerElement);
-		}
+		switch (view) {
+			case 'list':
+				uiviews.AlbumsViewList(albumResult, parentPage).appendTo($albumViewerElement);
+				break;
+			case 'cover':
+				uiviews.AlbumsViewThumbnails(albumResult, parentPage).appendTo($albumViewerElement);
+				break;
+		};
 
 		if (useLazyLoad) {
 			function loadThumbs(i) {
@@ -867,11 +934,19 @@
 
 		if (!albumResult.limits.total > 0) { return };
 		
-		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
-
+		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'yes')=='yes'? true : false;
+		var view = mkf.cookieSettings.get('albumsViewRec', 'cover');
+		
 		var $albumViewerElement = $(this);
 		
-		uiviews.AlbumsViewThumbnails(albumResult, parentPage).appendTo($albumViewerElement);
+		switch (view) {
+			case 'list':
+				uiviews.AlbumsViewList(albumResult, parentPage).appendTo($albumViewerElement);
+				break;
+			case 'cover':
+				uiviews.AlbumsViewThumbnails(albumResult, parentPage).appendTo($albumViewerElement);
+				break;
+		};
 
 		if (useLazyLoad) {
 			function loadThumbs(i) {
@@ -941,7 +1016,7 @@
 
 		if (!movieResult.limits.total > 0) { return };
 		
-		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
+		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'yes')=='yes'? true : false;
 		//var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
 		//var listview = mkf.cookieSettings.get('listview', 'no')=='yes'? true : false;
 		//var filterShowWatched = mkf.cookieSettings.get('hidewatchedmark', 'no')=='yes'? true : false;
@@ -997,7 +1072,7 @@
 		if (!movieResult.limits.total > 0) { return };
 		
 		var ui = mkf.cookieSettings.get('ui');
-		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
+		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'yes')=='yes'? true : false;
 		var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
 		var filterShowWatched = mkf.cookieSettings.get('hidewatchedmark', 'no')=='yes'? true : false;
 		var view = mkf.cookieSettings.get('filmViewRec', 'poster');
@@ -1061,18 +1136,28 @@
 		
 		if (!tvShowResult.limits.total > 0) { return };
 		
-		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
+		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'yes')=='yes'? true : false;
 		var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
-		var listview = mkf.cookieSettings.get('listview', 'no')=='yes'? true : false;
+		//var listview = mkf.cookieSettings.get('listview', 'no')=='yes'? true : false;
 		var filterShowWatched = mkf.cookieSettings.get('hidewatchedmark', 'no')=='yes'? true : false;
+		var view = mkf.cookieSettings.get('TVView', 'banner');	
 		
 		var $tvshowContainer = $(this);
+
+		switch (view) {
+			case 'banner':
+				uiviews.TVViewBanner(tvShowResult, parentPage).appendTo($tvshowContainer);
+				break;
+			case 'listover':
+				uiviews.TVViewList(tvShowResult, parentPage).appendTo($tvshowContainer);
+				break;
+		};
 		
-		if (listview) {
+		/*if (listview) {
 			uiviews.TVViewList(tvShowResult, parentPage).appendTo($tvshowContainer);
 		} else {
 			uiviews.TVViewBanner(tvShowResult, parentPage).appendTo($tvshowContainer);
-		}
+		}*/
 
 		if (useLazyLoad) {
 			function loadThumbs(i) {
@@ -1216,7 +1301,7 @@
 		
 		if (!episodesResult.limits.total > 0) { return };
 		
-		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
+		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'yes')=='yes'? true : false;
 		var epsContainer = $(this);
 		
 		uiviews.TVEpisodesViewList(episodesResult).appendTo(epsContainer);
@@ -1259,14 +1344,20 @@
 	
 		if (!episodesResult.limits.total > 0) { return };
 		
-		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
+		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'yes')=='yes'? true : false;
+		var view = mkf.cookieSettings.get('TVViewRec', 'infolist');	
+		
 		var epsContainer = $(this);
 		var options = {
 			filterWatched: false,
 			filterShowWatched: true
 		}
 		
-		uiviews.TVRecentViewInfoList(episodesResult, parentPage, options).appendTo(epsContainer);
+		switch (view) {
+			case 'infolist':
+				uiviews.TVRecentViewInfoList(episodesResult, parentPage, options).appendTo(epsContainer);
+				break;
+		};
 		
 		if (useLazyLoad) {
 			function loadThumbs(i) {

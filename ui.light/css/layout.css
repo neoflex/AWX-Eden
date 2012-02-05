@@ -308,7 +308,15 @@ div.thumbWrapper div.albumArtist {
 div.findKeywords {
 	display: none;
 }
-
+div.playtime {
+    background-color: rgba(0,0,0,0.8);
+	width: 13%;
+	color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+	border-radius: 3px 3px 3px 3px;
+}
 #contextMenu ul a {
 	display: block;
 	height: 22px;
@@ -1093,7 +1101,7 @@ a.recentTVplay  {
 	position: relative; 
 	float: left;
 	top: 98px; 
-	left: 5px; 
+	left: 10px; 
 	z-index: 5
 }
 

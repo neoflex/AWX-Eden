@@ -1324,7 +1324,15 @@ div.findBox {
 div.findBox input { width: 140px; margin: 5px; }
 
 div.findKeywords { display: none; }
-
+div.playtime {
+    background-color: rgba(0,0,0,0.8);
+	width: 13%;
+	color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+	border-radius: 3px 3px 3px 3px;
+}
 h1.findBoxTitle {
 	font-size: 14px;
 	color: #eeeeee;
