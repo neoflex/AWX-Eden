@@ -285,7 +285,9 @@
 			var filmViewRec = mkf.cookieSettings.get('filmViewRec', 'poster');
 			var usefanart = mkf.cookieSettings.get('usefanart', 'no');
 			var filmSort = mkf.cookieSettings.get('filmSort', 'label');
+			var albumSort = mkf.cookieSettings.get('albumSort', 'album');
 			var mdesc = mkf.cookieSettings.get('mdesc', 'no');
+			var adesc = mkf.cookieSettings.get('adesc', 'no');
 
 			var languages = '';
 			$.each(mkf.lang.getLanguages(), function(key, val) {
@@ -377,9 +379,18 @@
 				'<form name="settingsSorting">' +
 				'<fieldset class="ui_albums">' +
 				'<legend>' + mkf.lang.get('group_albums') + '</legend>' +
+				'' + mkf.lang.get('settings_select_film_sort') +'<select name="albumSort"><option value="album" ' + (albumSort=='album'? 'selected' : '') + '>' + mkf.lang.get('label_album_sort_album') +
+				'</option><option value="artist" ' + (albumSort=='artist'? 'selected' : '') + '>' + mkf.lang.get('label_album_sort_artist') +
+				'</option><option value="year" ' + (albumSort=='year'? 'selected' : '') + '>' + mkf.lang.get('label_album_sort_year') +'</option><option value="genre"' + (albumSort=='genre'? 'selected' : '') + '>' + mkf.lang.get('label_album_sort_genre') +'</option>' +
+				'<option value="none" ' + (albumSort=='none'? 'selected' : '') + '>' + mkf.lang.get('label_album_sort_none') +
+				'</select>' +
+				'<input type="checkbox" id="adesc" name="adesc" ' + (adesc=='descending'? 'checked="checked"' : '') + '><label for="adesc">' + mkf.lang.get('label_filter_mdesc') + '</label>' +
+				'</fieldset>' +
+				/*'<fieldset class="ui_albums">' +
+				'<legend>' + mkf.lang.get('group_albums') + '</legend>' +
 				'<input type="radio" id="orderByAlbum" name="albumOrder" value="album" ' + (order=='album'? 'checked="checked"' : '') + '><label for="orderByAlbum">' + mkf.lang.get('label_order_by_title') +'</label>' +
 				'<input type="radio" id="orderByArtist" name="albumOrder" value="artist" ' + (order=='artist'? 'checked="checked"' : '') + '><label for="orderByArtist">' + mkf.lang.get('label_order_by_artist') +'</label>' +
-				'</fieldset>' +
+				'</fieldset>' +*/
 				'<fieldset>' +
 				'<legend>' + mkf.lang.get('group_film_sort') + '</legend>' +
 				'' + mkf.lang.get('settings_select_film_sort') +'<select name="filmSort"><option value="label" ' + (filmSort=='label'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_label') +
@@ -406,12 +417,12 @@
 			});
 
 			$('.save').click(function() {
-				// Checks
-				if (!document.settingsSorting.albumOrder[0].checked &&
+				// Checks - No longer needed. Default to album
+				/*if (!document.settingsSorting.albumOrder[0].checked &&
 					!document.settingsSorting.albumOrder[1].checked) {
 					alert(mkf.lang.get('settings_select_album_order'));
 					return false;
-				}
+				}*/
 
 				var timeout = parseInt(document.settingsForm.timeout.value);
 				if (isNaN(timeout) || timeout < 5 || timeout > 120) {
@@ -442,8 +453,23 @@
 				);
 				
 				mkf.cookieSettings.add(
+					'albumSort',
+					document.settingsSorting.albumSort.value
+				);	
+				
+				mkf.cookieSettings.add(
+					'adesc',
+					document.settingsSorting.adesc.checked? 'descending' : 'ascending'
+				);
+				
+				mkf.cookieSettings.add(
 					'filmSort',
 					document.settingsSorting.filmSort.value
+				);
+				
+				mkf.cookieSettings.add(
+					'mdesc',
+					document.settingsSorting.mdesc.checked? 'descending' : 'ascending'
 				);
 				
 				mkf.cookieSettings.add(
@@ -454,11 +480,6 @@
 				mkf.cookieSettings.add(
 					'filmViewRec',
 					document.settingsViews.filmViewRec.value
-				);
-				
-				mkf.cookieSettings.add(
-					'mdesc',
-					document.settingsSorting.mdesc.checked? 'descending' : 'ascending'
 				);
 				
 				mkf.cookieSettings.add(

@@ -1372,14 +1372,10 @@ var uiviews = {};
 						// what to about runtime and added files? console.log(runtime);
 						runtime += duration;
 						playlistItemCur = 'playlistItem';
-						//Change background colour of currently playing item.
-						/*if (i == xbmc.periodicUpdater.curPlaylistNum && xbmc.periodicUpdater.playerStatus != 'stopped') {
-							playlistItemClass = 'current';
-						}*/
 						
 						if (i == xbmc.periodicUpdater.curPlaylistNum && xbmc.periodicUpdater.playerStatus != 'stopped') {
 							playlistItemCur = 'playlistItemCur';
-							$('#content').scrollTop($('.fileList li:nth-child(' + i + ')').position().top);
+							//$('#content').scrollTop($('.fileList li:nth-child(' + i + ')').position().top);
 						} else {
 							playlistItemCur = 'playlistItem';
 						}
@@ -1396,7 +1392,7 @@ var uiviews = {};
 					});
 				
 				if (runtime > 0) {
-						$('<p>' + mkf.lang.get('label_total_runtime') + xbmc.formatTime(runtime) + '</p>').appendTo($itemList);
+						$('<div class="playtime"><p>' + mkf.lang.get('label_total_runtime') + xbmc.formatTime(runtime) + '</p></div>').appendTo(page);
 				}
 				
 				

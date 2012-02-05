@@ -735,15 +735,19 @@ var xbmc = {};
 		getGenresAlbums: function(options) {
 			var settings = {
 				genreid: 0,
+				sortby: 'album',
+				order: 'ascending',
 				onSuccess: null,
 				onError: null
 			};
 			$.extend(settings, options);
 			
-			var order = mkf.cookieSettings.get('albumOrder')=='album'? 'label' : 'artist';
-
+			//var order = mkf.cookieSettings.get('albumOrder')=='album'? 'label' : 'artist';
+			settings.sortby = mkf.cookieSettings.get('albumSort', 'label');
+			settings.order = mkf.cookieSettings.get('adesc', 'ascending');
+			
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "AudioLibrary.GetAlbums", "params": { "genreid" : ' + settings.genreid + ', "properties": ["artist", "genre", "rating", "thumbnail"], "sort": { "order": "ascending", "method": "' + order + '" } }, "id": 1}',
+				'{"jsonrpc": "2.0", "method": "AudioLibrary.GetAlbums", "params": { "genreid" : ' + settings.genreid + ', "properties": ["artist", "genre", "rating", "thumbnail"], "sort": { "order": "' + settings.order + '", "method": "' + settings.sortby + '" } }, "id": 1}',
 
 				function(response) {
 					settings.onSuccess(response.result);
@@ -777,18 +781,29 @@ var xbmc = {};
 
 		getAlbums: function(options) {
 			var settings = {
+				sortby: 'album',
+				order: 'ascending',
 				onSuccess: null,
 				onError: null
 			};
 			$.extend(settings, options);
 
-			var order = mkf.cookieSettings.get('albumOrder')=='album'? 'label' : 'artist';
+			//var order = mkf.cookieSettings.get('albumOrder')=='album'? 'label' : 'artist';
+			settings.sortby = mkf.cookieSettings.get('albumSort', 'label');
+			settings.order = mkf.cookieSettings.get('adesc', 'ascending');
 
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "AudioLibrary.GetAlbums", "params": {"properties": ["artist", "genre", "rating", "thumbnail"], "sort": { "order": "ascending", "method": "' + order + '" } }, "id": 1}',
+				'{"jsonrpc": "2.0", "method": "AudioLibrary.GetAlbums", "params": {"properties": ["artist", "genre", "rating", "thumbnail", "year"], "sort": { "order": "' + settings.order + '", "method": "' + settings.sortby + '", "ignorearticle": true } }, "id": 1}',
 
 				function(response) {
+					if (settings.order == 'descending' && settings.sortby == 'none') {
+					var aresult = $.makeArray(response.result.albums).reverse();
+					delete response.result.albums;
+					response.result.albums = aresult;
 					settings.onSuccess(response.result);
+					} else {
+					settings.onSuccess(response.result);
+					}
 				},
 
 				settings.onError
@@ -1298,13 +1313,14 @@ var xbmc = {};
 		getAlbumsSongs: function(options) {
 			var settings = {
 				albumid: 0,
+				sortby: 'track',
 				onSuccess: null,
 				onError: null
 			};
 			$.extend(settings, options);
 
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "AudioLibrary.GetSongs", "params": { "albumid": ' + settings.albumid + ', "properties": ["artist", "track"] }, "id": 1}',
+				'{"jsonrpc": "2.0", "method": "AudioLibrary.GetSongs", "params": { "albumid": ' + settings.albumid + ', "properties": ["artist", "track"], "sort": { "method": "' + settings.sortby + '"} }, "id": 1}',
 
 				function(response) {
 					settings.onSuccess(response.result);
@@ -1734,13 +1750,15 @@ var xbmc = {};
 			var settings = {
 				tvshowid: 0,
 				season: 0,
+				sortby: 'episode',
+				order: 'ascending',
 				onSuccess: null,
 				onError: null
 			};
 			$.extend(settings, options);
 
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodes", "params": { "tvshowid": ' + settings.tvshowid + ', "season" : ' + settings.season + ', "properties": ["episode", "playcount", "fanart", "plot", "season", "showtitle", "thumbnail"], "sort": { "order": "ascending", "method": "episode" } }, "id": 1}',
+				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodes", "params": { "tvshowid": ' + settings.tvshowid + ', "season" : ' + settings.season + ', "properties": ["episode", "playcount", "fanart", "plot", "season", "showtitle", "thumbnail"], "sort": { "order": "' + settings.order + '", "method": "' + settings.sortby + '" } }, "id": 1}',
 				function(response) {
 					settings.onSuccess(response.result);
 				},

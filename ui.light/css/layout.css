@@ -403,6 +403,7 @@ fieldset.ui_settings {
 	margin-right: 10px;
 }
 fieldset.ui_albums {
+	width: 45%;
     float: left;
     margin-right: 10px;
 }
