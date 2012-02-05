@@ -447,10 +447,10 @@
 					}
 				mkf.cookieSettings.add('ui', ui);
 
-				mkf.cookieSettings.add(
+				/*mkf.cookieSettings.add(
 					'albumOrder',
 					document.settingsSorting.albumOrder[0].checked? 'album' : 'artist'
-				);
+				);*/
 				
 				mkf.cookieSettings.add(
 					'albumSort',
