@@ -1740,7 +1740,7 @@ var xbmc = {};
 			$.extend(settings, options);
 
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodes", "params": { "tvshowid": ' + settings.tvshowid + ', "season" : ' + settings.season + ', "properties": ["episode", "playcount", "fanart"], "sort": { "order": "ascending", "method": "episode" } }, "id": 1}',
+				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetEpisodes", "params": { "tvshowid": ' + settings.tvshowid + ', "season" : ' + settings.season + ', "properties": ["episode", "playcount", "fanart", "plot", "season", "showtitle", "thumbnail"], "sort": { "order": "ascending", "method": "episode" } }, "id": 1}',
 				function(response) {
 					settings.onSuccess(response.result);
 				},
