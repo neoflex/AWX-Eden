@@ -120,7 +120,26 @@ var xbmc = {};
 			}
 		},
 
+		/*getSearchTerm: function(type) {
 
+			switch (type) {
+				case 'movies':
+				if (mkf.cookieSettings.get('filmView', 'poster') == 'poster') {
+					return '.thumbWrapper';
+				} else {
+					return 'a';
+				}
+				break;
+				case 'moviesets':
+				if (mkf.cookieSettings.get('filmViewSets', 'poster') == 'poster') {
+					return '.thumbWrapper';
+				} else {
+					return 'a';
+				}
+				break;
+			}
+
+		},*/
 
 		getMovieThumbType: function() {
 			return this.movieThumbType;
@@ -1648,8 +1667,49 @@ var xbmc = {};
 			);
 		},
 		
-		
+		getMovieSets: function(options) {
+			var settings = {
+				sortby: 'label',
+				order: 'ascending',
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
 
+			//settings.sortby = mkf.cookieSettings.get('filmSort', 'label');
+			//settings.order = mkf.cookieSettings.get('mdesc', 'ascending');
+
+			xbmc.sendCommand(
+				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovieSets", "params": {"properties": [ "fanart", "playcount", "thumbnail"] },"id": 1 }',
+				function(response) {
+						settings.onSuccess(response.result);
+				},
+				settings.onError
+			);
+		},
+
+		getMovieSetDetails: function(options) {
+			var settings = {
+				setid: 0,
+				sortby: 'label',
+				order: 'ascending',
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
+
+			//settings.sortby = mkf.cookieSettings.get('filmSort', 'label');
+			//settings.order = mkf.cookieSettings.get('mdesc', 'ascending');
+
+			xbmc.sendCommand(
+				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovieSetDetails", "params": {"setid": ' + settings.setid + ', "properties": [ "fanart", "playcount", "thumbnail"], "movies": { "properties": [ "rating", "thumbnail", "playcount" ], "sort": { "order": "ascending", "method": "sorttitle" }} },"id": 1 } },"id": 1 }',
+				function(response) {
+						settings.onSuccess(response.result);
+				},
+				settings.onError
+			);
+		},
+		
 		addEpisodeToPlaylist: function(options) {
 			var settings = {
 				episodeid: 0,

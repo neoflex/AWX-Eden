@@ -17,7 +17,9 @@
  */
 
 
+
 var awxUI = {};
+
 
 
 (function($) {
@@ -241,7 +243,7 @@ var awxUI = {};
 			
 			this.$musicFilesContent = $('<div class="pageContentWrapper"></div>');
 			var musicFilesContextMenu = $.extend(true, [], standardMusicContextMenu);
-			/*musicFilesContextMenu.push({
+			musicFilesContextMenu.push({
 				'id':'findFilesButton', 'icon':'find', 'title':mkf.lang.get('ctxt_btn_find'), 'shortcut':'Ctrl+2', 'onClick':
 					function(){
 						var pos = $('#findFilesButton').offset();
@@ -250,7 +252,7 @@ var awxUI = {};
 						return false;
 					}
 			});
-			musicFilesContextMenu.push({
+			/*musicFilesContextMenu.push({
 				// Doesn't work because of subPages.
 				'icon':'refresh', 'title':mkf.lang.get('ctxt_btn_refresh_list'), 'onClick':
 					function(){
@@ -378,6 +380,37 @@ var awxUI = {};
 				contextMenu: videoMoviesContextMenu,
 				onShow: $.proxy(this, "onMoviesShow"),
 				className: 'movies'
+			});
+
+			//Movie sets
+			this.$movieSetsContent = $('<div class="pageContentWrapper"></div>');
+			var videoMovieSetsContextMenu = $.extend(true, [], standardVideosContextMenu);
+			videoMovieSetsContextMenu.push({
+				'id':'findMovieButton', 'icon':'find', 'title':mkf.lang.get('ctxt_btn_find'), 'shortcut':'Ctrl+2', 'onClick':
+					function(){
+						var pos = $('#findMovieSetsButton').offset();
+						awxUI.$movieSetsContent
+							.defaultFindBox({id:'moviesetsFindBox', searchItems: '.thumbWrapper', top: pos.top, left: pos.left});
+						return false;
+					}
+			});
+			videoMovieSetsContextMenu.push({
+				'icon':'refresh', 'title':mkf.lang.get('ctxt_btn_refresh_list'), 'onClick':
+					function(){
+						awxUI.$movieSetsContent.empty();
+						awxUI.onMovieSetsShow();
+
+						return false;
+					}
+			});
+			
+			this.movieSetsPage = videosPage.addPage({
+				title: mkf.lang.get('page_title_moviesets'),
+				content: this.$movieSetsContent,
+				menuButtonText: '&raquo; ' + mkf.lang.get('page_buttontext_moviesets'),
+				contextMenu: videoMovieSetsContextMenu,
+				onShow: $.proxy(this, "onMovieSetsShow"),
+				className: 'moviesets'
 			});
 			
 			//playlists video smart etc.
@@ -818,6 +851,31 @@ var awxUI = {};
 			}
 		},
 
+
+		/*********************************************
+		 * Called when Movie sets-Page is shown.          *
+		 *********************************************/
+		onMovieSetsShow: function() {
+
+			if (this.$movieSetsContent.html() == '') {
+				var movieSetsPage = this.movieSetsPage;
+				var $contentBox = this.$movieSetsContent;
+				$contentBox.addClass('loading');
+
+				xbmc.getMovieSets({
+					onError: function() {
+						mkf.messageLog.show(mkf.lang.get('message_failed_movie_list'), mkf.messageLog.status.error, 5000);
+						$contentBox.removeClass('loading');
+					},
+
+					onSuccess: function(result) {
+						$contentBox.defaultMovieSetsViewer(result, movieSetsPage);
+						$contentBox.removeClass('loading');
+					}
+				});
+			}
+		},
+
 		/**************************************
 		 * Called when Video playlists-Page is shown. *
 		 **************************************/
@@ -960,6 +1018,8 @@ var awxUI = {};
 			$contentBox.empty();
 			$contentBox.defaultMusicScanViewer('Music');
 		}
+
+
 
 
 	}); // END awxUI

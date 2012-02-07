@@ -285,6 +285,7 @@
 			var albumsViewRec = mkf.cookieSettings.get('albumsViewRec', 'cover');
 			var filmView = mkf.cookieSettings.get('filmView', 'poster');
 			var filmViewRec = mkf.cookieSettings.get('filmViewRec', 'poster');
+			var filmViewSets = mkf.cookieSettings.get('filmViewSets', 'poster');
 			var TVView = mkf.cookieSettings.get('TVView', 'banner');
 			var TVViewRec = mkf.cookieSettings.get('TVViewRec', 'infolist');
 			var EpView = mkf.cookieSettings.get('EpView', 'listover');
@@ -384,6 +385,17 @@
 				//'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option>
 				'</select>' +
 				'</fieldset>' +
+				
+				'<fieldset>' +
+				'<legend>' + mkf.lang.get('page_title_moviesets') + '</legend>' +
+				'<select name="filmViewSets"><option value="poster" ' + (filmViewSets=='poster'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_poster') +
+				'</option><option value="listover" ' + (filmViewSets=='listover'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_overlay') +
+				'</option><option value="listin" ' + (filmViewSets=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') +'</option><option value="accordion"' + (filmViewSets=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
+				//'<option value="none" ' + (filmViewSets=='none'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_none') +'</option><option value="videorating" ' + (filmViewRec=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
+				//'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option>
+				'</select>' +
+				'</fieldset>' +
+				
 				'<fieldset>' +
 				'<legend>' + mkf.lang.get('group_film_recent') + '</legend>' +
 				'<select name="filmViewRec"><option value="poster" ' + (filmViewRec=='poster'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_poster') +
@@ -403,6 +415,7 @@
 				//'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option>
 				'</select>' +
 				'</fieldset>' +
+				
 				'<fieldset>' +
 				'<legend>' + mkf.lang.get('group_tv_recent') + '</legend>' +
 				'<select name="TVViewRec"><option value="infolist" ' + (TVViewRec=='infolist'? 'selected' : '') + '>' + mkf.lang.get('label_view_tv_infolist') + '</option>' +
@@ -594,6 +607,12 @@
 					'filmViewRec',
 					document.settingsViews.filmViewRec.value
 				);
+				
+				mkf.cookieSettings.add(
+					'filmViewSets',
+					document.settingsViews.filmViewSets.value
+				);
+				
 				mkf.cookieSettings.add(
 					'TVView',
 					document.settingsViews.TVView.value
@@ -1126,6 +1145,49 @@
 
 	}; // END defaultMovieViewer
 
+	
+	/* ########################### *\
+	 |  Show movie sets.
+	 |
+	 |  @param movieResult	Result of VideoLibrary.GetMovieSets.
+	\* ########################### */
+	$.fn.defaultMovieSetsViewer = function(movieResult, parentPage) {
+
+		if (!movieResult.limits.total > 0) { return };
+		
+		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'yes')=='yes'? true : false;
+		//var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
+		//var listview = mkf.cookieSettings.get('listview', 'no')=='yes'? true : false;
+		//var filterShowWatched = mkf.cookieSettings.get('hidewatchedmark', 'no')=='yes'? true : false;
+		var view = mkf.cookieSettings.get('filmViewSets', 'poster');
+		var options;
+		var $movieContainer = $(this);
+
+		switch (view) {
+			case 'poster':
+				uiviews.MovieSetsViewThumbnails(movieResult, parentPage, options).appendTo($movieContainer);
+				break;
+			case 'listover':
+				uiviews.MovieSetsViewList(movieResult, parentPage, options).appendTo($movieContainer);
+				break;
+		};
+		
+		if (useLazyLoad) {
+			function loadThumbs(i) {
+				$movieContainer.find('img.thumb').lazyload(
+					{
+						queuedLoad: true,
+						container: ($('#main').length? $('#main'): $('#content')),	// TODO remove fixed #main
+						errorImage: 'images/thumb' + xbmc.getMovieThumbType() + '.png'
+						//errorImage: 'images/thumbBanner.png'
+					}
+				);
+			};
+			setTimeout(loadThumbs, 100);
+		}
+
+	}; // END defaultMovieSetsViewer
+	
 	/* ########################### *\
 	 |  Show Recent movies.
 	 |

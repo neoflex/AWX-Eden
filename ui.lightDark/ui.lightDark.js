@@ -25,27 +25,44 @@ var awxUI = {};
 	$.extend(awxUI, {
 		// --- Pages ---
 		artistsPage: null,
+		//artistsGenresPage: null,
 		albumsPage: null,
+		//MusicPlaylistsPage: null,
+		//albumsRecentPage: null,
 		musicFilesPage: null,
 		musicPlaylistPage: null,
+		//musicScanPage: null,
 
 		moviesPage: null,
+		//movieSetsPage: null,
+		//moviesRecentPage: null,
+		//VideoPlaylistsPage: null,
 		tvShowsPage: null,
+		//tvShowsRecentlyAddedPage: null,
 		videoFilesPage: null,
 		videoPlaylistPage: null,
+		//videoScanPage: null,
 
 		// --- Page Content ---
 		$musicContent: null,
 		$artistsContent: null,
+		//$artistsGenresContent: null,
+		//$MusicPlaylistsContent: null,
 		$albumsContent: null,
+		//$albumsRecentContent: null,
 		$musicFilesContent: null,
 		$musicPlaylistContent: null,
+		//$musicScanContent: null,
 
 		$videosContent: null,
 		$moviesContent: null,
+		//$VideoPlaylistsContent: null,
+		//$moviesRecentContent: null,
 		$tvShowsContent: null,
+		//$tvShowsRecentlyAddedContent: null,
 		$videoFilesContent: null,
 		$videoPlaylistContent: null,
+		//$videoScanContent: null,
 
 
 
@@ -77,6 +94,23 @@ var awxUI = {};
 		 **************************/
 		setupPages: function() {
 			var listview = mkf.cookieSettings.get('listview', 'no')=='yes'? true : false;
+			
+			//listview?'.folderLinkWrapper' : '.thumbWrapper'
+			/*var findTerm {
+				artist: 'a',
+				artistGenres: 'a',
+				mPlaylists: 'a',
+				albums: '.thumbWrapper',
+				mFiles: 'a',
+				mPlaylist: 'a',
+				movies: '.thumbWrapper',
+				movieSets: '.thumbWrapper',
+				mPlaylists: 'a',
+				TVShows: '.thumbWrapper',
+				vFiles: 'a',
+				vPlaylist: 'a'
+			};*/
+			
 			// --- MUSIC ---
 			this.$musicContent = $('<div class="pageContentWrapper"></div>');
 			var musicPage = mkf.pages.addPage({
@@ -133,7 +167,7 @@ var awxUI = {};
 					function(){
 						var pos = $('#findArtistsGenresButton').offset();
 						awxUI.$artistsGenresContent
-							.defaultFindBox({id:'artistsGenresFindBox', searchItems:'.folderLinkWrapper', top: pos.top, left: pos.left});
+							.defaultFindBox({id:'artistsGenresFindBox', searchItems:'a', top: pos.top, left: pos.left});
 						return false;
 					}
 			});
@@ -306,15 +340,6 @@ var awxUI = {};
 						return false;
 					}
 			});
-			musicPlaylistContextMenu.push({
-				'id':'findmusicPlaylistButton', 'icon':'find', 'title':mkf.lang.get('ctxt_btn_find'), 'shortcut':'Ctrl+2', 'onClick':
-					function(){
-						var pos = $('#findmusicPlaylistButton').offset();
-						awxUI.$musicPlaylistContent
-							.defaultFindBox({id:'musicPlaylistFindBox', searchItems:'.folderLinkWrapper', top: pos.top, left: pos.left});
-						return false;
-					}
-			});
 			
 			this.musicPlaylistPage = musicPage.addPage({
 				title: mkf.lang.get('page_title_music_playlist'),
@@ -384,6 +409,38 @@ var awxUI = {};
 				contextMenu: videoMoviesContextMenu,
 				onShow: $.proxy(this, "onMoviesShow"),
 				className: 'movies'
+			});
+			
+
+			//Movie sets
+			this.$movieSetsContent = $('<div class="pageContentWrapper"></div>');
+			var videoMovieSetsContextMenu = $.extend(true, [], standardVideosContextMenu);
+			videoMovieSetsContextMenu.push({
+				'id':'findMovieButton', 'icon':'find', 'title':mkf.lang.get('ctxt_btn_find'), 'shortcut':'Ctrl+2', 'onClick':
+					function(){
+						var pos = $('#findMovieSetsButton').offset();
+						awxUI.$movieSetsContent
+							.defaultFindBox({id:'moviesetsFindBox', searchItems: '.thumbWrapper', top: pos.top, left: pos.left});
+						return false;
+					}
+			});
+			videoMovieSetsContextMenu.push({
+				'icon':'refresh', 'title':mkf.lang.get('ctxt_btn_refresh_list'), 'onClick':
+					function(){
+						awxUI.$movieSetsContent.empty();
+						awxUI.onMovieSetsShow();
+
+						return false;
+					}
+			});
+			
+			this.movieSetsPage = videosPage.addPage({
+				title: mkf.lang.get('page_title_moviesets'),
+				content: this.$movieSetsContent,
+				menuButtonText: '&raquo; ' + mkf.lang.get('page_buttontext_moviesets'),
+				contextMenu: videoMovieSetsContextMenu,
+				onShow: $.proxy(this, "onMovieSetsShow"),
+				className: 'moviesets'
 			});
 			
 			
@@ -830,6 +887,31 @@ var awxUI = {};
 				});
 			}
 		},
+	
+		/*********************************************
+		 * Called when Movie sets-Page is shown.          *
+		 *********************************************/
+		onMovieSetsShow: function() {
+
+			if (this.$movieSetsContent.html() == '') {
+				var movieSetsPage = this.movieSetsPage;
+				var $contentBox = this.$movieSetsContent;
+				$contentBox.addClass('loading');
+
+				xbmc.getMovieSets({
+					onError: function() {
+						mkf.messageLog.show(mkf.lang.get('message_failed_movie_list'), mkf.messageLog.status.error, 5000);
+						$contentBox.removeClass('loading');
+					},
+
+					onSuccess: function(result) {
+						$contentBox.defaultMovieSetsViewer(result, movieSetsPage);
+						$contentBox.removeClass('loading');
+					}
+				});
+			}
+		},
+
 		
 		/**************************************
 		 * Called when Video playlists-Page is shown. *
@@ -963,7 +1045,22 @@ var awxUI = {};
 		onVideoScanShow: function() {
 			var $contentBox = this.$videoScanContent;
 			$contentBox.empty();
-			$contentBox.defaultVideoScanViewer('Video');
+			//$contentBox.addClass('loading');
+
+			xbmc.scanVideoLibrary({
+				onError: function() {
+					mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
+					//$contentBox.removeClass('loading');
+				},
+
+				onSuccess: function() {
+					mkf.messageLog.show(mkf.lang.get('page_title_video_scan'), mkf.messageLog.status.success, 5000);
+					//console.log($contentBox);
+
+					$contentBox.defaultVideoScanViewer('Video');
+					//$contentBox.removeClass('loading');
+				}
+			});
 		},
 		
 		/*********************************************
@@ -972,7 +1069,21 @@ var awxUI = {};
 		onMusicScanShow: function() {
 			var $contentBox = this.$musicScanContent;
 			$contentBox.empty();
-			$contentBox.defaultMusicScanViewer('Music');
+			//$contentBox.addClass('loading');
+			
+
+			xbmc.scanAudioLibrary({
+				onError: function() {
+					mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
+					//$contentBox.removeClass('loading');
+				},
+
+				onSuccess: function() {
+					mkf.messageLog.show(mkf.lang.get('page_title_music_scan'), mkf.messageLog.status.success, 5000);
+					$contentBox.defaultMusicScanViewer('Music');
+					//$contentBox.removeClass('loading');
+				}
+			});
 		}
 
 		
