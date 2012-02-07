@@ -120,12 +120,14 @@ var xbmc = {};
 			}
 		},
 
-		/*getSearchTerm: function(type) {
+		getSearchTerm: function(type) {
 
 			switch (type) {
 				case 'movies':
 				if (mkf.cookieSettings.get('filmView', 'poster') == 'poster') {
 					return '.thumbWrapper';
+				} else if (mkf.cookieSettings.get('filmView') == 'listover') {
+					return '.folderLinkWrapper';
 				} else {
 					return 'a';
 				}
@@ -139,7 +141,7 @@ var xbmc = {};
 				break;
 			}
 
-		},*/
+		},
 
 		getMovieThumbType: function() {
 			return this.movieThumbType;

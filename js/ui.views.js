@@ -1053,7 +1053,8 @@ var uiviews = {};
 					if (filterWatched && watched) { return; }
 
 					classEven += 1;
-							$movie = $('<h3 id="movieName' + movie.movieid + '"><a href="#">' + movie.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</a></h3><div>' + 
+							$movie = $('<h3 id="movieName' + movie.movieid + '"><a href="#">' + movie.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') +
+							'<div class="findKeywords">' + movie.label.toLowerCase() + '</div></a></h3><div>' + 
 								'</div>').appendTo($moviesList);
 				});
 			
@@ -1106,7 +1107,8 @@ var uiviews = {};
 
 					classEven += 1;
 							$movie = $('<h3 class="multiOpenAccordion-header" id="movieName' + movie.movieid + '"><a href="#">' + movie.label +
-							(watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</a></h3><div class="multiOpenAccordion-content">' +
+							(watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '<div class="findKeywords">' + movie.label.toLowerCase() + '</div></a></h3>' +
+							'<div class="multiOpenAccordion-content">' +
 								'</div>').appendTo($moviesList);
 				});
 				
@@ -1211,7 +1213,7 @@ var uiviews = {};
 /*------------------*/
 
 		/*----Movie Sets list view----*/
-		MovieSetsViewList: function(movies, options) {
+		MovieSetsViewList: function(movies, parentPage, options) {
 		
 		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
 		var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
@@ -1224,20 +1226,19 @@ var uiviews = {};
 			var classEven = -1;
 				$.each(movies.sets, function(i, movie) {
 					var watched = false;
-					if (typeof movie.movieid === 'undefined') { return; }
 					if (movie.playcount > 0 && !filterShowWatched) { watched = true; }
 					if (filterWatched && watched) { return; }
 						
 					classEven += 1
 					$movie = $('<li' + (classEven%2==0? ' class="even"': '') + '><div class="folderLinkWrapper">' + 
-						'<a href="" class="button playlist" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a>' +
-						'<a href="" class="button play" title="' + mkf.lang.get('btn_play') + '"><span class="miniIcon play" /></a>' +
-						'<a href="" class="movieName' + movie.movieid + '">' + movie.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '<div class="findKeywords">' + movie.label.toLowerCase() + '</div>' +
+						//'<a href="" class="button playlist" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a>' +
+						//'<a href="" class="button play" title="' + mkf.lang.get('btn_play') + '"><span class="miniIcon play" /></a>' +
+						'<a href="" class="movieSet' + movie.setid + '">' + movie.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '<div class="findKeywords">' + movie.label.toLowerCase() + '</div>' +
 						'</a></div></li>').appendTo($movieList);
 
-					$movie.find('.play').bind('click', {idMovie: movie.movieid, strMovie: movie.label}, uiviews.MoviePlay);
-					$movie.find('.playlist').bind('click', {idMovie: movie.movieid}, uiviews.AddMovieToPlaylist);
-					$movie.find('.movieName' + movie.movieid).bind('click', {idMovie: movie.movieid}, uiviews.MovieInfoOverlay);
+					//$movie.find('.play').bind('click', {idMovie: movie.movieid, strMovie: movie.label}, uiviews.MoviePlay);
+					//$movie.find('.playlist').bind('click', {idMovie: movie.movieid}, uiviews.AddMovieToPlaylist);
+					$movie.find('.movieSet' + movie.setid).bind('click', {idSet: movie.setid, strSet: movie.label, objParentPage: parentPage}, uiviews.MovieSetDetails);
 				});
 			return $movieList;
 		},
@@ -1261,10 +1262,10 @@ var uiviews = {};
 				var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
 				var $movie = $(
 					'<div class="set'+movie.setid+' thumbWrapper thumb' + xbmc.getMovieThumbType() + 'Wrapper">' +
-						'<div class="linkWrapper">' + 
+						//'<div class="linkWrapper">' + 
 							//'<a href="" class="list">' + mkf.lang.get('btn_play') + '</a>' + 
 							//<a href="" class="playlist">' + mkf.lang.get('btn_enqueue') + '</a><a href="" class="info">' + mkf.lang.get('btn_information') + '</a>' +
-						'</div>' +
+						//'</div>' +
 						(useLazyLoad?
 							'<img src="images/loading_thumb' + xbmc.getMovieThumbType() + '.gif" alt="' + movie.label + '" class="list thumb thumb' + xbmc.getMovieThumbType() + '" original="' + thumb + '" />':
 							'<img src="' + thumb + '" alt="' + movie.label + '" class="thumb thumb' + xbmc.getMovieThumbType() + '" />'

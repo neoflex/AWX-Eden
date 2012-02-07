@@ -388,7 +388,7 @@ var awxUI = {};
 					function(){
 						var pos = $('#findMovieButton').offset();
 						awxUI.$moviesContent
-							.defaultFindBox({id:'moviesFindBox', searchItems:(listview?'.folderLinkWrapper' : '.thumbWrapper'), top: pos.top, left: pos.left});
+							.defaultFindBox({id:'moviesFindBox', searchItems: xbmc.getSearchTerm('movies'), top: pos.top, left: pos.left});
 						return false;
 					}
 			});
@@ -416,11 +416,11 @@ var awxUI = {};
 			this.$movieSetsContent = $('<div class="pageContentWrapper"></div>');
 			var videoMovieSetsContextMenu = $.extend(true, [], standardVideosContextMenu);
 			videoMovieSetsContextMenu.push({
-				'id':'findMovieButton', 'icon':'find', 'title':mkf.lang.get('ctxt_btn_find'), 'shortcut':'Ctrl+2', 'onClick':
+				'id':'findMovieSetsButton', 'icon':'find', 'title':mkf.lang.get('ctxt_btn_find'), 'shortcut':'Ctrl+2', 'onClick':
 					function(){
 						var pos = $('#findMovieSetsButton').offset();
 						awxUI.$movieSetsContent
-							.defaultFindBox({id:'moviesetsFindBox', searchItems: '.thumbWrapper', top: pos.top, left: pos.left});
+							.defaultFindBox({id:'moviesetsFindBox', searchItems: xbmc.getSearchTerm('moviesets'), top: pos.top, left: pos.left});
 						return false;
 					}
 			});
