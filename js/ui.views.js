@@ -577,7 +577,7 @@ var uiviews = {};
 						//'<div class="test"><img src="' + tvshow.file + 'logo.png' + '" /></div>' +
 						'<div class="test"><span class="label">' + mkf.lang.get('label_genre') + '</span><span class="'+valueClass+'">' + (tvshow.genre? tvshow.genre : mkf.lang.get('label_not_available')) + '</span></div>' +
 						'<div class="test"><span class="label">' + mkf.lang.get('label_rating') + '</span><span class="'+valueClass+'"><div class="smallRating' + Math.round(tvshow.rating) + '"></div></span></div>' +
-						'<div class="test"><span class="label">' + mkf.lang.get('label_premiered') + '</span><span class="'+valueClass+'">' + tvshow.premiered + '</span></div>' +
+						'<div class="test"><span class="label">' + mkf.lang.get('label_premiered') + '</span><span class="'+valueClass+'">' + (tvshow.premiered? tvshow.premiered : mkf.lang.get('label_not_available')) + '</span></div>' +
 						//'<div class="test"><span class="label">' + mkf.lang.get('label_year') + '</span><span class="'+valueClass+'">' + (tvshow.year? tvshow.year : mkf.lang.get('label_not_available')) + '</span></div>' +
 						'<div class="test"><span class="label">' + mkf.lang.get('label_episodes') + '</span><span class="'+valueClass+'">' + tvshow.episode + '</span></div>' +
 						'<div class="test"><span class="label">' + mkf.lang.get('label_playcount') + '</span><span class="'+valueClass+'">' + tvshow.playcount + '</span></div>' +
@@ -1268,7 +1268,7 @@ var uiviews = {};
 						//'</div>' +
 						(useLazyLoad?
 							'<img src="images/loading_thumb' + xbmc.getMovieThumbType() + '.gif" alt="' + movie.label + '" class="list thumb thumb' + xbmc.getMovieThumbType() + '" original="' + thumb + '" />':
-							'<img src="' + thumb + '" alt="' + movie.label + '" class="thumb thumb' + xbmc.getMovieThumbType() + '" />'
+							'<img src="' + thumb + '" alt="' + movie.label + '" class="list thumb thumb' + xbmc.getMovieThumbType() + '" />'
 						) +
 						'<div class="movieName">' + movie.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</div>' +
 						'<div class="findKeywords">' + movie.label.toLowerCase() + '</div>' +

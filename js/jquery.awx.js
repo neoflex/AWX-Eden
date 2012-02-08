@@ -389,8 +389,8 @@
 				'<fieldset>' +
 				'<legend>' + mkf.lang.get('page_title_moviesets') + '</legend>' +
 				'<select name="filmViewSets"><option value="poster" ' + (filmViewSets=='poster'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_poster') +
-				'</option><option value="listover" ' + (filmViewSets=='listover'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_overlay') +
-				'</option><option value="listin" ' + (filmViewSets=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') +'</option><option value="accordion"' + (filmViewSets=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
+				'</option><option value="listover" ' + (filmViewSets=='listover'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_overlay') + '</option>' +
+				//'<option value="listin" ' + (filmViewSets=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') +'</option><option value="accordion"' + (filmViewSets=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
 				//'<option value="none" ' + (filmViewSets=='none'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_none') +'</option><option value="videorating" ' + (filmViewRec=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
 				//'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option>
 				'</select>' +

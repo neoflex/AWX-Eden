@@ -123,6 +123,22 @@ var xbmc = {};
 		getSearchTerm: function(type) {
 
 			switch (type) {
+				case 'artists':
+					return 'a';
+					break;
+				case 'agenres':
+					return '.folderLinkWrapper';
+					break;
+				case 'albums':
+				if (mkf.cookieSettings.get('albumsView', 'cover') == 'cover') {
+					return '.thumbWrapper';
+				} else {
+					return '.folderLinkWrapper';
+				}
+					break;
+				case 'aplaylist':
+					return '.folderLinkWrapper';
+					break;
 				case 'movies':
 				if (mkf.cookieSettings.get('filmView', 'poster') == 'poster') {
 					return '.thumbWrapper';
@@ -135,10 +151,22 @@ var xbmc = {};
 				case 'moviesets':
 				if (mkf.cookieSettings.get('filmViewSets', 'poster') == 'poster') {
 					return '.thumbWrapper';
+				} else if (mkf.cookieSettings.get('filmViewSets') == 'listover') {
+					return '.folderLinkWrapper';
 				} else {
 					return 'a';
 				}
 				break;
+				case 'tvshows':
+				if (mkf.cookieSettings.get('TVView', 'banner') == 'banner') {
+					return '.thumbWrapper';
+				} else {
+					return '.folderLinkWrapper';
+				}
+				break;
+				case 'vplaylist':
+					return '.folderLinkWrapper';
+					break;
 			}
 
 		},
