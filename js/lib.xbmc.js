@@ -74,8 +74,72 @@ var xbmc = {};
 			this.detectThumbTypes(initContainer, callback);
 		},
 
+		//Some things aren't possible by JSONRPC as yet.
+		httpapi: function(command, parameter, onSuccess, onError, onComplete, asyncRequest) {
+			if (typeof asyncRequest === 'undefined')
+				asyncRequest = true;
 
+			if (!this.xbmcHasQuit) {
+				$.ajax({
+					async: asyncRequest,
+					type: 'GET',
+					url: '/xbmcCmds/xbmcHttp',		
+					data: {
+						"command": command,
+						//"parameter": parameter
+					},
+					dataType: 'text',
+					cache: false,
+					timeout: this.timeout,
+					success: function(result, textStatus, XMLHttpRequest) {	
+					
+						// its possible to get here on timeouts. --> error
+						if (XMLHttpRequest.readyState==4 && XMLHttpRequest.status==0) {
+							if (onError) {
+								onError({"error" : { "ajaxFailed" : true, "xhr" : XMLHttpRequest, "status" : textStatus }});
+							}
+							return;
+						}
+						
+						// Example Error-Response: { "error" : { "code" : -32601, "message" : "Method not found." } }
+						if (result.error) {
+							if (onError) { onError(result); }
+							return;
+						}
+							
+						if (onSuccess) { onSuccess(result); }
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						if (onError) {
+							onError({"error" : { "ajaxFailed" : true, "xhr" : XMLHttpRequest, "status" : textStatus, "errorThrown" : errorThrown }});
+						}
+					},
+					complete: function(XMLHttpRequest, textStatus) {
+						if (onComplete) { onComplete(); }
+					}
+				});
+			}
+		},
 
+		//Cinema Experience
+		cinemaEx: function(options) {
+			var settings = {
+				film: 'Blade Runner',
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
+			
+			xbmc.httpapi(
+				//ExecBuiltIn(RunScript(script.cinema.experience,command<li>movie_title=' + settings.film + ')),
+				'ExecBuiltIn(RunScript(script.cinema.experience,command<li>movie_title=' + settings.film + '))',
+				settings.onSuccess,
+				settings.Error
+			);
+			
+			return true;
+		},
+		
 		sendCommand: function(command, onSuccess, onError, onComplete, asyncRequest) {
 			if (typeof asyncRequest === 'undefined')
 				asyncRequest = true;
@@ -233,19 +297,21 @@ var xbmc = {};
 		getLogo: function(filepath, callback) {
 			var path = filepath.substring(0, filepath.lastIndexOf("/"));
 			path += '/logo.png';
+			//console.log(path);
 			
 			var logo = xbmc.getPrepDownload({
 					path: path,
+					async: true,
 					onSuccess: function(result) {
 						callback(xbmc.getUrl(result.details.path));
 						//console.log(logo);
 					},
 					onError: function(errorText) {
-						return '';
-						console.log('No logo found');
+						//callback('error');
+						//console.log('No logo found');
 					},
 				});
-			return true;
+			//return true;
 		},
 		
 		detectThumbTypes: function(initContainer, callback) {
@@ -746,7 +812,8 @@ var xbmc = {};
 			$.extend(settings, options);
 
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "AudioLibrary.GetArtists", "params": {"sort": { "order": "ascending", "method": "artist" } }, "id": 1}',
+				'{"jsonrpc": "2.0", "method": "AudioLibrary.GetArtists", "params": { "properties": [ "thumbnail", "fanart", "born", "formed", "died", "disbanded", "yearsactive", "mood", "style", "genre" ], "sort": { "order": "ascending", "method": "artist" } }, "id": 1}',
+				//'{"jsonrpc": "2.0", "method": "AudioLibrary.GetArtists", "params": {"sort": { "order": "ascending", "method": "artist" } }, "id": 1}',
 
 				function(response) {
 					settings.onSuccess(response.result);

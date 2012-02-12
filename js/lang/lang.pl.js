@@ -192,6 +192,7 @@ mkf.lang.add({language: 'Polski', short: 'pl', author: 'cienislaw', values: {
 	'label_album_sort_genre': 			'Gatunek',
 	'label_album_sort_year': 			'Rok',
 	'label_album_sort_none': 			'Dodane',
+	'label_view_logo':					'Logo*',
 	'label_view_film_poster': 			'Plakat',
 	'label_view_film_list_overlay': 	'Lista (Szczegóły w okienku)',
 	'label_view_film_list_inline': 		'Lista (Szczegóły w rozwinięciu)',
@@ -245,7 +246,7 @@ mkf.lang.add({language: 'Polski', short: 'pl', author: 'cienislaw', values: {
 	'label_firstaired': 				'Pierwsza emisja:',
 
 	'settings_help': 					'LazyLoad:\nJeśli włączysz LazyLoad, to miniatury nie zostaną wczytane, dopóki nie będzie trzeba ich pokazać. Zmniejszy to ilość odwołań do obrazków umieszczonych na serwerze.\nAle, jeśli masz dużą bibliotekę (wiele filmów, albumów, ...), to przez doczytywanie miniaturek przewijanie strony może stracić na płynności.\nJeśli wyłączysz LazyLoad, to przy wyświetleniu strony (z filmami, albumami, ...) zostaną wczytane wszystkie obrazki. Wczytanie wszystkich miniaturek może zająć trochę czasu.\n\nCzas oczekiwania:\nJeśli masz wiele filmów (lub albumów...) wczytanie ich kompletnej listy może zająć trochę czasu.  Możesz zwiększyć czas oczekiwania, by zapobiec błędom podczas wyświetlania listy filmów.',
-	'settings_select_album_order': 		'Proszę najpierw wybrać sposób sortowania albumów!',
+	'settings_select_artists_path': 	'Please select the location of your artists logos',
 	'settings_select_film_sort': 		'Sortuj wg: ',
 	'settings_enter_timeout_number': 	'Wprowadź czas oczekiwania pomiędzy 5 a 120!',
 	'settings_need_to_reload_awx': 		'Musisz przeładować AWX, by zmiany odniosły skutek!',

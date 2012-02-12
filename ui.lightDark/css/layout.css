@@ -181,6 +181,10 @@ img.thumbPosterLarge {
     height: 280px;
     width: 200px;
 }
+img.thumbLogo {
+	height: 116px;
+	width: 300px;	
+}
 img.thumbPoster {
     height: 185px;
     width: 125px;
@@ -209,7 +213,7 @@ img.epWatched {
     border-width: 0;
 	height: 280px;
 }*/
-div.thumbWrapper {
+div.thumbWrapper, div.logoWrapper {
 	/*background-color: rgba(0,0,0,0.8);
     border: 1px solid #D8D8D8;*/
     float: left;
@@ -229,6 +233,10 @@ div.thumbBannerWrapper {
     height: 95px;
     width: 383px;
 }
+div.thumbLogoWrapper {
+    height: 133px;
+    width: 300px;
+}
 /*div.thumbWrapper:hover {
     background-color: #EAFFC9;
     border: 1px solid #7AC800;
@@ -240,12 +248,22 @@ div.thumbWrapper div.linkWrapper {
     top: 10px;
     width: 90%;
 }
+div.linkTVLogoWrapper {
+    display: none;
+    left: 5%;
+	top: 5px;
+    position: absolute;
+    width: 90%;
+}
 div.linkTVWrapper {
     display: none;
     left: 5%;
 	top: 6px;
     position: absolute;
     width: 90%;
+}
+div.logoWrapper:hover div.linkTVLogoWrapper {
+    display: block;
 }
 div.thumbWrapper:hover div.linkTVWrapper {
     display: block;
@@ -265,10 +283,22 @@ div.thumbWrapper a {
     padding: 2px 7px;
     text-decoration: none;
 }
-div.thumbWrapper a:hover {
+div.logoWrapper a {
+    background-color: #343434;
+    border: 1px solid #A4A4A4;
+    /*border-radius: 5px 5px 5px 5px;*/
+    color: #FFFFFF;
+    display: block;
+    font-size: 16px;
+    margin-bottom: 1px;
+    opacity: 0.9;
+    padding: 8px 7px;
+    text-decoration: none;
+}
+div.thumbWrapper a:hover, div.logoWrapper a:hover {
     color: #7AC800;
 }
-div.thumbWrapper div.albumName, div.thumbWrapper div.movieName, div.thumbWrapper div.tvshowName {
+div.thumbWrapper div.albumName, div.thumbWrapper div.movieName, div.thumbWrapper div.tvshowName, div.logoWrapper div.albumArtist, div.logoWrapper div.tvshowName {
     background-color: rgba(0,0,0,0.8);
 	color: #fff /*#4B4B4B;*/
     font-size: 11px;
@@ -399,6 +429,18 @@ fieldset.ui_albums {
 	width: 45%;
     float: left;
     margin-right: 10px;
+}
+select {
+	width: 99%;
+}
+select#artists {
+	width: 46%;
+	float: left;
+	margin-right: 27px;
+}
+input#artists_path {
+	width: 264px;
+	height: 13px;
 }
 legend {
     background-color: #606060;

@@ -192,6 +192,7 @@ mkf.lang.add({language: 'Français', short: 'fr', author: 'DanoneKiD', values: {
 	'label_album_sort_genre':			'Genre',
 	'label_album_sort_year':			'Year',
 	'label_album_sort_none':			'Added',
+	'label_view_logo':					'Logo*',
 	'label_view_film_poster':			'Poster',
 	'label_view_film_list_overlay':		'List (Details Overlay)',
 	'label_view_film_list_inline':		'List (Details Inline)',
@@ -245,7 +246,7 @@ mkf.lang.add({language: 'Français', short: 'fr', author: 'DanoneKiD', values: {
 	'label_firstaired':					'1ère diffusion :',
 	
 	'settings_help':					'LazyLoad :\nSi vous activez LazyLoad, les vignettes ne seront pas chargées tant qu\'elles ne sont pas visibles. Cela permettra de réduire la charge serveur.\nMais si vous avez beaucoup d\'objets (films, albums, ...) l\'interface sera ralentie lors du défillement des vignettes non-chargées.\nSi vous désactivez LazyLoad, toutes les vignettes seront chargées au chargement de la page (films, albums, ...). Cela peut prendre un certain temps avant que toutes les vignettes soient chargées.\n\nTimeOut :\nSi vous avez beaucoup de films (ou d\'albums...) cela peut prendre du temps pour charger la liste complète. Vous pouvez augmenter la valeur du TimeOut pour éviter des erreur lors du chargement des listes.',
-	'settings_select_album_order': 		'Sélectionnez un ordre d\'Album en premier SVP !',
+	'settings_select_artists_path': 	'Please select the location of your artists logos',
 	'settings_select_film_sort':		'Order By: ',
 	'settings_enter_timeout_number': 	'Entrez une valeur entre 5 et 120 SVP !',
 	'settings_need_to_reload_awx':		'Vous devez recharger AWX pour prendre en compte les changements !',

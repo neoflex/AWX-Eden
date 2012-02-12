@@ -921,6 +921,64 @@ var uiviews = {};
 
 			return $artistList;
 		},
+
+		/*----Artists thumb view----*/
+		ArtistViewThumbnails: function(artists, parentPage) {
+			var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
+			var $artistList = $('<div></div>');
+
+				$.each(artists.artists, function(i, artist)  {
+					var thumb = (artist.thumbnail? xbmc.getThumbUrl(artist.thumbnail) : 'images/thumb.png');
+					$artist = $('<div class="album'+artist.artistid+' thumbWrapper">' +
+						(useLazyLoad?
+							'<img src="images/loading_thumb.gif" alt="' + artist.label + '" class="thumb albums" original="' + thumb + '" />':
+							'<img src="' + thumb + '" alt="' + artist.label + '" class="thumb albums" />'
+						) +
+						'<div class="albumArtist">' + artist.artist + '</div></div>' +
+						'<div class="findKeywords">' + artist.label.toLowerCase() + ' ' + artist.artist.toLowerCase() + '</div>' +
+					'</div>');
+
+				$artistList.append($artist);
+				$artist.find('.albums').bind('click', { idArtist: artist.artistid, strArtist: artist.label, objParentPage: parentPage }, uiviews.ArtistAlbums)
+
+				});
+
+			return $artistList;
+		},
+
+		/*----Artists logo view----*/
+		ArtistViewLogos: function(artists, parentPage) {
+			//var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
+			var artistsPath = mkf.cookieSettings.get('artistsPath', '');
+			var $artistList = $('<div></div>');
+
+				$.each(artists.artists, function(i, artist)  {
+					var thumb = (artist.thumbnail? xbmc.getThumbUrl(artist.thumbnail) : 'images/thumb.png');
+					$artist = $('<div class="album'+artist.artistid+' logoWrapper thumbLogoWrapper">' +
+						//(useLazyLoad?
+							//'<img src="images/loading_thumb.gif" alt="' + artist.label + '" class="thumb albums" original="' + thumb + '" />':
+							'<img src="' + thumb + '" alt="' + artist.label + '" class="thumbLogo albums" />' +
+						//) +
+						'<div class="albumArtist">' + artist.artist + '</div></div>' +
+						'<div class="findKeywords">' + artist.label.toLowerCase() + '</div>' +
+					'</div>').appendTo($artistList);;
+
+				artist.file = artistsPath + artist.label + '/';
+				
+				//console.log($artist.find('img.thumbLogo'));
+				//$artistList.append($artist);
+				$artist.find('.albums').bind('click', { idArtist: artist.artistid, strArtist: artist.label, objParentPage: parentPage }, uiviews.ArtistAlbums);
+				//$artist.find('img.thumbLogo').attr('src', 'images/thumb.png'); 
+				xbmc.getLogo(artist.file, function(logo) {
+						//xbmc.getLogo(tvshow.file, function(logo) { $tvshow.find('img.thumbLogo').attr('src', logo); } );
+						//console.log(logo);
+						//console.log($('.album'+artist.artistid).children('img')); 
+						$('.album'+artist.artistid).children('img').attr('src', logo); 
+					});
+				});
+
+			return $artistList;
+		},
 		
 		/*----Audio genres list view----*/
 		AudioGenresViewList: function(agenres, parentPage) {
@@ -1352,6 +1410,57 @@ var uiviews = {};
 					$tvshow.find('.season').bind('click', {idTvShow: tvshow.tvshowid, strTvShow: tvshow.label, objParentPage: parentPage}, uiviews.SeasonsList);
 					$tvshow.find('.info').bind('click', {'tvshow': tvshow}, uiviews.TVShowInfoOverlay);
 					$tvshow.find('.unwatched').bind('click', {idTvShow: tvshow.tvshowid, strTvShow: tvshow.label, objParentPage: parentPage}, uiviews.Unwatched);
+				});
+
+			}
+			return $tvShowList;
+		},
+		
+		/*----TV logo view----*/
+		TVViewLogoWall: function(shows, parentPage) {
+		
+			var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
+			var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
+			//var listview = mkf.cookieSettings.get('listview', 'no')=='yes'? true : false;
+			var filterShowWatched = mkf.cookieSettings.get('hidewatchedmark', 'no')=='yes'? true : false;
+			
+			var $tvShowList = $('<div></div>');
+			
+			if (shows.limits.total > 0) {
+				$.each(shows.tvshows, function(i, tvshow) {
+					var watched = false;
+					if (tvshow.playcount > 0 && !filterShowWatched) { watched = true; }
+					if (filterWatched && watched) { return; }
+					var thumb = (tvshow.thumbnail? xbmc.getThumbUrl(tvshow.thumbnail) : 'images/thumb' + xbmc.getTvShowThumbType() + '.png');
+					/*xbmc.getLogo(tvshow.file, function(logo) {
+						//$('.dialog').css('background-image', 'url("' + logo + '")');
+						//$('.filelink').find('a').attr('href',fileDownload);
+						if (logo) {
+							$('.dialog').find('img').attr('src', logo);
+							$('.dialog').find('img.thumbBanner').removeAttr('height');
+						}
+					});*/
+					
+					//console.log(thumb);
+					var $tvshow = $('<div class="tvshow'+tvshow.tvshowid+' logoWrapper thumbLogoWrapper">' +
+							'<div class="linkTVLogoWrapper">' + 
+								'<a href="" class="season">' + mkf.lang.get('btn_seasons') + '</a>' +
+								'<a href="" class="info">' + mkf.lang.get('btn_information') + '</a>' +
+								'<a href="" class="unwatched">' + mkf.lang.get('btn_unwatched') + '</a>' +
+							'</div>' +
+							//(useLazyLoad?
+								//'<img src="images/loading_thumb' + xbmc.getTvShowThumbType() + '.gif" alt="' + tvshow.label + '" class="thumbLogo" original="' + thumb + '" />':
+								'<img src="' + thumb + '" alt="' + tvshow.label + '" class="thumbLogo" />' +
+							//) +
+							'<div class="tvshowName">' + tvshow.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</div>' +
+							'<div class="findKeywords">' + tvshow.label.toLowerCase() + '</div>' +
+						'</div>')
+						.appendTo($tvShowList);
+					$tvshow.find('.season').bind('click', {idTvShow: tvshow.tvshowid, strTvShow: tvshow.label, objParentPage: parentPage}, uiviews.SeasonsList);
+					$tvshow.find('.info').bind('click', {'tvshow': tvshow}, uiviews.TVShowInfoOverlay);
+					$tvshow.find('.unwatched').bind('click', {idTvShow: tvshow.tvshowid, strTvShow: tvshow.label, objParentPage: parentPage}, uiviews.Unwatched);
+					xbmc.getLogo(tvshow.file, function(logo) { $tvshow.find('img.thumbLogo').attr('src', logo); } );
+					//console.log($tvshow.find('img.thumbLogo'));
 				});
 
 			}

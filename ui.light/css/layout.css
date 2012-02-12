@@ -394,7 +394,18 @@ div.mkfOverlay div.dialog img.dialogThumbBanner {
 	display: block;
 	margin: 0 auto;
 }
-
+select {
+	width: 99%;
+}
+select#artists {
+	width: 46%;
+	float: left;
+	margin-right: 27px;
+}
+input#artists_path {
+	width: 264px;
+	height: 13px;
+}
 fieldset {
 	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
 	border-width: 0px;

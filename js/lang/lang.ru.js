@@ -192,6 +192,7 @@ mkf.lang.add({language: 'Russian', short: 'ru', author: 'Scaramush', values: {
 	'label_album_sort_genre':			'Genre',
 	'label_album_sort_year':			'Year',
 	'label_album_sort_none':			'Added',
+	'label_view_logo':					'Logo*',
 	'label_view_film_poster':			'Poster',
 	'label_view_film_list_overlay':		'List (Details Overlay)',
 	'label_view_film_list_inline':		'List (Details Inline)',
@@ -245,7 +246,7 @@ mkf.lang.add({language: 'Russian', short: 'ru', author: 'Scaramush', values: {
 	'label_firstaired':				'Вышло в эфир:',
 
 	'settings_help':				'LazyLoad:\nЕсли вы включите LazyLoad, постеры не рагрузятся до тех пор пока они не понадобятся. Это уменьшает нагрузку на сервер.\nНо если у вас много элементов (фильмов, альбомов, ...) вебинтерфейс может тормозить при прокрутке если много постеров не подгружено.\nЕсли вы выключите LazyLoad, все постеры загрузятся как только страница будет показана (страница фильмов, страница альбомов, ...). Это может занять некоторое время.\n\nTimeOut:\nЕсли у вас много фильмов (или альбомов ...) загрузка постеров может занять некоторое время. Вы можете увеличить значение параметра TimeOut, чтобы избежать ошибок по таймауту, когда пытаетесь просмотреть весь список фильмов.',
-	'settings_select_album_order': 			'Пожалуйста сначала выберите порядок альбомов!',
+	'settings_select_artists_path': 	'Please select the location of your artists logos',
 	'settings_select_film_sort':		'Упорядочить по: ',
 	'settings_enter_timeout_number':	 	'Пожалуйста введите значение timeout между 5 и 120!',
 	'settings_need_to_reload_awx':			'Вам нужно перегрузить AWX для применения изменений!',

@@ -281,6 +281,8 @@
 			var watched = mkf.cookieSettings.get('watched', 'no');
 			var hidewatchedmark = mkf.cookieSettings.get('hidewatchedmark', 'no');
 			//var listview = mkf.cookieSettings.get('listview', 'no');
+			var artistsView = mkf.cookieSettings.get('artistsView', 'list');
+			var artistsPath = mkf.cookieSettings.get('artistsPath');
 			var albumsView = mkf.cookieSettings.get('albumsView', 'cover');
 			var albumsViewRec = mkf.cookieSettings.get('albumsViewRec', 'cover');
 			var filmView = mkf.cookieSettings.get('filmView', 'poster');
@@ -357,6 +359,21 @@
 				'</div>' +
 				'<div id="tabs-2">' +
 				'<form name="settingsViews">' +
+				
+				//Artists
+				'<fieldset>' +
+				'<legend>' + mkf.lang.get('page_buttontext_artist') + '</legend>' +
+				'<select id="artists" name="artistsView"><option value="cover" ' + (artistsView=='cover'? 'selected' : '') + '>' + mkf.lang.get('label_view_album_cover') +
+				'</option><option value="list" ' + (artistsView=='list'? 'selected' : '') + '>' + mkf.lang.get('label_view_album_list') +
+				'</option><option value="logo" ' + (artistsView=='logo'? 'selected' : '') + '>' + mkf.lang.get('label_view_logo') + '</option>' +
+				//<option value="accordion"' + (albumsView=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
+				//'<option value="none" ' + (filmView=='none'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_none') +'</option><option value="videorating" ' + (filmView=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
+				//'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option>
+				'</select>' +
+				'<input type="text" name="artists_path" id="artists_path" style="display: ' + (artistsView == 'logo'? 'block' : 'none') + ';" />' +
+				//(artistsPath? $('input#artists_path').val(artistsPath) : '') +
+				'</fieldset>' +
+				
 				'<fieldset class="ui_views">' +
 				'<legend>' + mkf.lang.get('group_albums') + '</legend>' +
 				'<select name="albumsView"><option value="cover" ' + (albumsView=='cover'? 'selected' : '') + '>' + mkf.lang.get('label_view_album_cover') +
@@ -366,6 +383,7 @@
 				//'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option>
 				'</select>' +
 				'</fieldset>' +
+				
 				'<fieldset>' +
 				'<legend>' + mkf.lang.get('group_albums_recent') + '</legend>' +
 				'<select name="albumsViewRec"><option value="cover" ' + (albumsViewRec=='cover'? 'selected' : '') + '>' + mkf.lang.get('label_view_album_cover') +
@@ -396,7 +414,7 @@
 				'</select>' +
 				'</fieldset>' +
 				
-				'<fieldset>' +
+				'<fieldset class="ui_views">' +
 				'<legend>' + mkf.lang.get('group_film_recent') + '</legend>' +
 				'<select name="filmViewRec"><option value="poster" ' + (filmViewRec=='poster'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_poster') +
 				'</option><option value="listover" ' + (filmViewRec=='listover'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_overlay') +
@@ -406,17 +424,18 @@
 				'</select>' +
 				'</fieldset>' +
 				
-				'<fieldset class="ui_views">' +
+				'<fieldset>' +
 				'<legend>' + mkf.lang.get('group_tv') + '</legend>' +
 				'<select name="TVView"><option value="banner" ' + (TVView=='banner'? 'selected' : '') + '>' + mkf.lang.get('label_view_tv_banner') +
 				'</option><option value="listover" ' + (TVView=='listover'? 'selected' : '') + '>' + mkf.lang.get('label_view_tv_list_overlay') +
-				//'</option><option value="listin" ' + (TVView=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') +'</option><option value="accordion"' + (TVView=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
+				'</option><option value="logo" ' + (TVView=='logo'? 'selected' : '') + '>' + mkf.lang.get('label_view_logo') + '</option>' +
+				//<option value="accordion"' + (TVView=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
 				//'<option value="none" ' + (filmView=='none'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_none') +'</option><option value="videorating" ' + (filmView=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
 				//'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option>
 				'</select>' +
 				'</fieldset>' +
 				
-				'<fieldset>' +
+				'<fieldset class="ui_views">' +
 				'<legend>' + mkf.lang.get('group_tv_recent') + '</legend>' +
 				'<select name="TVViewRec"><option value="infolist" ' + (TVViewRec=='infolist'? 'selected' : '') + '>' + mkf.lang.get('label_view_tv_infolist') + '</option>' +
 				//'<option value="listover" ' + (TVViewRec=='listover'? 'selected' : '') + '>' + mkf.lang.get('label_view_tv_list_overlay') +
@@ -426,7 +445,7 @@
 				'</select>' +
 				'</fieldset>' +
 
-				'<fieldset class="ui_views">' +
+				'<fieldset>' +
 				'<legend>' + mkf.lang.get('group_episodes') + '</legend>' +
 				'<select name="EpView"><option value="listover" ' + (EpView=='listover'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_overlay') + '</option>' +
 				//'<option value="listover" ' + (EpView=='listover'? 'selected' : '') + '>' + mkf.lang.get('label_view_tv_list_overlay') +
@@ -505,6 +524,13 @@
 				}
 			);
 
+			$('#artists').change(function() {
+				$('#artists_path').css('display', ($(this).val() == 'logo') ? 'block' : 'none');
+			});
+			
+			
+			if (artistsPath) { $('input#artists_path').val(artistsPath) };
+			
 			$( "#tabs" ).tabs({ selected: 0 });
 			
 			$('.expertHelp').click(function() {
@@ -513,12 +539,13 @@
 			});
 
 			$('.save').click(function() {
-				// Checks - No longer needed. Default to album
-				/*if (!document.settingsSorting.albumOrder[0].checked &&
-					!document.settingsSorting.albumOrder[1].checked) {
-					alert(mkf.lang.get('settings_select_album_order'));
+				//Check artistsPath ends with a /
+				if (document.settingsViews.artists_path.value.lastIndexOf("/") + 1 != document.settingsViews.artists_path.value.length) { document.settingsViews.artists_path.value += '/'; console.log('added slash'); };
+				// Checks require artist logo location as skins.
+				if (document.settingsViews.artistsView.value == 'logo' && !document.settingsViews.artists_path.value) {
+					alert(mkf.lang.get('settings_select_artists_path'));
 					return false;
-				}*/
+				}
 
 				var timeout = parseInt(document.settingsForm.timeout.value);
 				if (isNaN(timeout) || timeout < 5 || timeout > 120) {
@@ -556,6 +583,16 @@
 				mkf.cookieSettings.add(
 					'adesc',
 					document.settingsSorting.adesc.checked? 'descending' : 'ascending'
+				);
+				
+				mkf.cookieSettings.add(
+					'artistsView',
+					document.settingsViews.artistsView.value
+				);
+				
+				mkf.cookieSettings.add(
+					'artistsPath',
+					document.settingsViews.artists_path.value
 				);
 				
 				mkf.cookieSettings.add(
@@ -718,8 +755,35 @@
 
 		if (!artistResult.limits.total > 0) { return };
 		
-		uiviews.ArtistViewList(artistResult, parentPage).appendTo($(this));
+		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
+		var view = mkf.cookieSettings.get('artistsView', 'list');
+		var $artistsViewerElement = $(this);
 
+		switch (view) {
+			case 'list':
+				uiviews.ArtistViewList(artistResult, parentPage).appendTo($artistsViewerElement);
+				break;
+			case 'cover':
+				uiviews.ArtistViewThumbnails(artistResult, parentPage).appendTo($artistsViewerElement);
+				break;
+			case 'logo':
+				uiviews.ArtistViewLogos(artistResult, parentPage).appendTo($artistsViewerElement);
+				break;
+		};
+		
+		if (useLazyLoad) {
+			function loadThumbs(i) {
+				$artistsViewerElement.find('img.thumb').lazyload(
+					{
+						queuedLoad: true,
+						container: ($('#main').length? $('#main'): $('#content')),	// TODO remove fixed #main
+						errorImage: 'images/thumb.png'
+					}
+				);
+			};
+			setTimeout(loadThumbs, 100);
+		}
+		
 	}; // END defaultArtistsViewer
 
 
@@ -1277,6 +1341,9 @@
 			case 'listover':
 				uiviews.TVViewList(tvShowResult, parentPage).appendTo($tvshowContainer);
 				break;
+			case 'logo':
+				uiviews.TVViewLogoWall(tvShowResult, parentPage).appendTo($tvshowContainer);
+				break;
 		};
 		
 		/*if (listview) {
@@ -1359,8 +1426,8 @@
 		};
 		
 		var $scanVideoList = $('<div class="tools"><span class="tools toolsscan" title="' + mkf.lang.get('btn_scan') +
-		'" /><span class="tools toolsclean" title="' + mkf.lang.get('btn_clean') +
-		'" /><span class="tools toolsexport" title="' + mkf.lang.get('btn_export') +'" /></div><br />').appendTo($(this));
+		'">' + mkf.lang.get('btn_scan') + '</span><span class="tools toolsclean" title="' + mkf.lang.get('btn_clean') +
+		'">' + mkf.lang.get('btn_clean') + '</span><span class="tools toolsexport" title="' + mkf.lang.get('btn_export') +'">' + mkf.lang.get('btn_export') +'</span></div><br />').appendTo($(this));
 		$scanVideoList.find('.toolsscan').bind('click', onScanVideo);
 		$scanVideoList.find('.toolsclean').bind('click', onCleanVideo);
 		$scanVideoList.find('.toolsexport').bind('click', onExportVideo);
@@ -1410,8 +1477,8 @@
 		};
 		
 		var $scanMusicList = $('<div class="tools"><span class="tools toolsscan" title="' + mkf.lang.get('btn_scan') +
-		'" /><span class="tools toolsclean" title="' + mkf.lang.get('btn_clean') +
-		'" /><span class="tools toolsexport" title="' + mkf.lang.get('btn_export') +'" /></div><br />').appendTo($(this));
+		'">' + mkf.lang.get('btn_scan') + '</span><span class="tools toolsclean" title="' + mkf.lang.get('btn_clean') +
+		'">' + mkf.lang.get('btn_clean') + '</span><span class="tools toolsexport" title="' + mkf.lang.get('btn_export') +'">' + mkf.lang.get('btn_export') +'</span></div><br />').appendTo($(this));
 		$scanMusicList.find('.toolsscan').bind('click', onScanMusic);
 		$scanMusicList.find('.toolsclean').bind('click', onCleanMusic);
 		$scanMusicList.find('.toolsexport').bind('click', onExportMusic);
