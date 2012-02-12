@@ -268,6 +268,23 @@ var uiviews = {};
 			return false;
 		},
 
+		/*------*/
+		CinExPlay: function(event) {
+			//var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_movie'));
+
+			xbmc.cinemaEx({
+				film: event.data.strMovie,
+				onSuccess: function() {
+					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+				},
+				onError: function(errorText) {
+					mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+				}
+			});
+
+			return false;
+		},
+		
 		/*---------------*/
 		AddMovieToPlaylist: function(event) {
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_movie_to_playlist'));
@@ -289,6 +306,7 @@ var uiviews = {};
 		MovieInfoOverlay: function(e) {
 			var dialogHandle = mkf.dialog.show();
 			var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
+			var cinex = mkf.cookieSettings.get('cinex', 'no')=='yes'? true : false;
 
 			xbmc.getMovieInfo({
 				movieid: e.data.idMovie,
@@ -361,6 +379,7 @@ var uiviews = {};
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_audioStreams') + '</span><span class="value">' + (streamdetails.aStreams? streamdetails.aStreams + ' - ' + streamdetails.aLang : mkf.lang.get('label_not_available')) + '</span></div>' +
 						(movie.imdbnumber? '<div class="movieinfo"><span class="label">IMDB:</span><span class="value">' + '<a href="http://www.imdb.com/title/' + movie.imdbnumber + '">IMDB</a>' + '</span></div></div>' : '') +
 						'<div class="movieinfo filelink"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + '<a href="' + fileDownload + '">' + movie.file + '</a>' + '</span></div></div>' +
+						(cinex? '<div class="movieinfo"><span><a href="#" class="cinexplay">Cinema Experience Play</a></span></div>' : '') +
 						'<p class="plot">' + movie.plot + '</p>' +
 						'<div class="movietags"><span class="infoqueue" title="' + mkf.lang.get('btn_enqueue') + '" /><span class="infoplay" title="' + mkf.lang.get('btn_play') + '" /></div>');
 
@@ -375,6 +394,7 @@ var uiviews = {};
 
 					$(dialogContent).find('.infoplay').on('click', {idMovie: movie.movieid, strMovie: movie.label}, uiviews.MoviePlay);
 					$(dialogContent).find('.infoqueue').on('click', {idMovie: movie.movieid, strMovie: movie.label}, uiviews.AddMovieToPlaylist);
+					$(dialogContent).find('.cinexplay').on('click', {idMovie: movie.movieid, strMovie: movie.label}, uiviews.CinExPlay);
 					mkf.dialog.setContent(dialogHandle, dialogContent);
 					return false;
 				},

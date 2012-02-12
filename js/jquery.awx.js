@@ -280,6 +280,7 @@
 			var lang = mkf.cookieSettings.get('lang', 'en');
 			var watched = mkf.cookieSettings.get('watched', 'no');
 			var hidewatchedmark = mkf.cookieSettings.get('hidewatchedmark', 'no');
+			var cinex = mkf.cookieSettings.get('cinex', 'no');
 			//var listview = mkf.cookieSettings.get('listview', 'no');
 			var artistsView = mkf.cookieSettings.get('artistsView', 'list');
 			var artistsPath = mkf.cookieSettings.get('artistsPath');
@@ -461,6 +462,7 @@
 				'<input type="checkbox" id="usefanart" name="usefanart" ' + (usefanart=='yes'? 'checked="checked"' : '') + '><label for="usefanart">' + mkf.lang.get('label_use_fanart') + '</label>' +
 				'<input type="checkbox" id="watched" name="watched" ' + (watched=='yes'? 'checked="checked"' : '') + '><label for="watched">' + mkf.lang.get('label_filter_watched') + '</label>' +
 				'<input type="checkbox" id="hidewatchedmark" name="hidewatchedmark" ' + (hidewatchedmark=='yes'? 'checked="checked"' : '') + '><label for="hidewatchedmark">' + mkf.lang.get('label_filter_showwatched') + '</label>' +
+				'<br /><input type="checkbox" id="cinex" name="cinex" ' + (cinex=='yes'? 'checked="checked"' : '') + '><label for="cinex">' + mkf.lang.get('label_cinex') + '</label>' +
 				'</fieldset>' +
 				'<div class="formHint">' + mkf.lang.get('label_settings_warning') + '</div>' +
 				'</form>' +
@@ -685,10 +687,10 @@
 					document.settingsViews.hidewatchedmark.checked? 'yes' : 'no'
 				);
 				
-				/*mkf.cookieSettings.add(
-					'listview',
-					document.settingsViews.listview.checked? 'yes' : 'no'
-				);*/
+				mkf.cookieSettings.add(
+					'cinex',
+					document.settingsViews.cinex.checked? 'yes' : 'no'
+				);
 				
 				mkf.cookieSettings.add(
 					'lang',

@@ -136,8 +136,6 @@ var xbmc = {};
 				settings.onSuccess,
 				settings.Error
 			);
-			
-			return true;
 		},
 		
 		sendCommand: function(command, onSuccess, onError, onComplete, asyncRequest) {
