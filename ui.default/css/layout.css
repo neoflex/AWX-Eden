@@ -506,7 +506,7 @@ div.movieinfo span.label {
 div.movieinfo span.value {
 	margin-left: 5px;
 }
-div.movieinfo a {
+div.movieinfo a, a.cinexplay {
 	color: #ddd;
 }
 div.movietags  img {
@@ -545,7 +545,9 @@ div.movietags {
 	padding: 5px;
 	min-height: 300px; 
 }
-
+div.multiOpenAccordion-content p.plot {
+	clear: both;
+}
 #accordion {
     background-color: rgba(0,0,0,0.7);
 	background-attachment: fixed;
@@ -765,9 +767,9 @@ div.mkfOverlay div.dialog div.test {
 	clear: right;
 }
 
-div.mkfOverlay div.dialog p.plot {
+div.mkfOverlay div.dialog p.plot, div.cinex {
 	clear: both;
-	padding-top: 10px;
+	/*padding-top: 15px;*/
 }
 
 div.mkfOverlay div.dialog img.dialogThumb,

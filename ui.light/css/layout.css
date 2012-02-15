@@ -379,9 +379,9 @@ div.mkfOverlay div.dialog div.test {
 	clear: right;
 }
 
-div.mkfOverlay div.dialog p.plot {
+div.mkfOverlay div.dialog p.plot, div.cinex {
 	clear: both;
-	padding-top: 10px;
+	/*padding-top: 15px;*/
 }
 
 div.mkfOverlay div.dialog img.dialogThumb,
@@ -789,6 +789,9 @@ div.movieinfo span.value {
 	margin-left: 5px;
 }
 div.movieinfo a {
+	color: #333;
+}
+a.cinexplay {
 	color: #333;
 }
 div.movietags  img {
