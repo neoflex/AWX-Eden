@@ -213,6 +213,8 @@ mkf.lang.add({language: 'Français', short: 'fr', author: 'DanoneKiD', values: {
 	'label_original_title': 			'Titre Original :',
 	'label_runtime': 					'Durée :',
 	'label_genre': 						'Genre :',
+	'label_mood':						'Mood:',
+	'label_style':						'Style:',
 	'label_rating': 					'Note :',
 	'label_year': 						'Année :',
 	'label_director': 					'Réalisateur :',

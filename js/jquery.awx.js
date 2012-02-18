@@ -379,7 +379,8 @@
 				'<legend>' + mkf.lang.get('group_albums') + '</legend>' +
 				'<select name="albumsView"><option value="cover" ' + (albumsView=='cover'? 'selected' : '') + '>' + mkf.lang.get('label_view_album_cover') +
 				'</option><option value="list" ' + (albumsView=='list'? 'selected' : '') + '>' + mkf.lang.get('label_view_album_list') +
-				//'</option><option value="listin" ' + (albumsView=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') +'</option><option value="accordion"' + (albumsView=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
+				'</option><option value="listin" ' + (albumsView=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') + '</option>' +
+				//'<option value="accordion"' + (albumsView=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
 				//'<option value="none" ' + (filmView=='none'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_none') +'</option><option value="videorating" ' + (filmView=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
 				//'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option>
 				'</select>' +
@@ -389,7 +390,8 @@
 				'<legend>' + mkf.lang.get('group_albums_recent') + '</legend>' +
 				'<select name="albumsViewRec"><option value="cover" ' + (albumsViewRec=='cover'? 'selected' : '') + '>' + mkf.lang.get('label_view_album_cover') +
 				'</option><option value="list" ' + (albumsViewRec=='list'? 'selected' : '') + '>' + mkf.lang.get('label_view_album_list') +
-				//'</option><option value="listin" ' + (albumsViewRec=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') +'</option><option value="accordion"' + (albumsViewRec=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
+				'</option><option value="listin" ' + (albumsViewRec=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') + '</option>' +
+				//'<option value="accordion"' + (albumsViewRec=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
 				//'<option value="none" ' + (filmView=='none'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_none') +'</option><option value="videorating" ' + (filmView=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
 				//'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option>
 				'</select>' +
@@ -1050,10 +1052,13 @@
 		
 		switch (view) {
 			case 'list':
-				uiviews.AlbumsViewList(albumResult, parentPage).appendTo($albumViewerElement);
+				uiviews.AlbumsViewList(albumResult, parentPage).appendTo($albumViewerElement);				
 				break;
 			case 'cover':
 				uiviews.AlbumsViewThumbnails(albumResult, parentPage).appendTo($albumViewerElement);
+				break;
+			case 'listin':
+				uiviews.AlbumsViewListInline(albumResult).appendTo($albumViewerElement);
 				break;
 		};
 
@@ -1094,6 +1099,9 @@
 				break;
 			case 'cover':
 				uiviews.AlbumsViewThumbnails(albumResult, parentPage).appendTo($albumViewerElement);
+				break;
+			case 'listin':
+				uiviews.AlbumsViewListInline(albumResult).appendTo($albumViewerElement);
 				break;
 		};
 

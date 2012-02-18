@@ -213,6 +213,8 @@ mkf.lang.add({language: 'Polski', short: 'pl', author: 'cienislaw', values: {
 	'label_original_title': 			'Tytuł oryginalny:',
 	'label_runtime': 					'Czas trwania:',
 	'label_genre': 						'Gatunek:',
+	'label_mood':						'Mood:',
+	'label_style':						'Style:',
 	'label_rating': 					'Ocena:',
 	'label_year': 						'Rok:',
 	'label_director': 					'Reżyser:',

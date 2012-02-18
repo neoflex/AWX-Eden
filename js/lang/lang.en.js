@@ -213,6 +213,8 @@ mkf.lang.add({language: 'English', short: 'en', author: 'MKay', values: {
 	'label_original_title': 			'Original Title:',
 	'label_runtime': 					'Runtime:',
 	'label_genre': 						'Genre:',
+	'label_mood':						'Mood:',
+	'label_style':						'Style:',
 	'label_rating': 					'Rating:',
 	'label_year': 						'Year:',
 	'label_director': 					'Director:',

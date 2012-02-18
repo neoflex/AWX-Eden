@@ -307,6 +307,7 @@ ul.fileList {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
+	overflow: hidden;
 	background: url('../images/splitter_h.png') no-repeat top left;
 	background-color: rgba(0,0,0,0.7);
 }
@@ -390,7 +391,7 @@ div.folderLinkWrapper a.button:hover span.unwatched {
 div.folderLinkWrapper a.button:hover span.all {
     background-position: -96px -16px;
 }
-div.thumbWrapper {
+div.thumbWrapper, div.logoWrapper {
 	float: left;
 	height: 190px;
 	width: 129px;
@@ -407,7 +408,10 @@ div.thumbBannerWrapper {
 	height: 95px;
 	width: 383px;
 }
-
+div.thumbLogoWrapper {
+    height: 133px;
+    width: 300px;
+}
 div.thumbWrapper div.linkWrapper {
 	position: absolute;
 	top: 5%;
@@ -460,6 +464,10 @@ img.epWatched {
 	left:0px; 
 	z-index:4
 }
+img.thumbLogo {
+	height: 116px;
+	width: 300px;	
+}
 img.thumbPosterLargeRec {
 	width: auto;
 	height: 75%;
@@ -485,7 +493,7 @@ div.thumbWrapper:hover img.thumb {
 	border: 2px solid #FFBB00;
 }
 
-div.thumbWrapper div.albumName, div.thumbWrapper div.movieName, div.thumbWrapper div.tvshowName {
+div.thumbWrapper div.albumName, div.thumbWrapper div.movieName, div.logoWrapper div.albumArtist, div.thumbWrapper div.tvshowName {
 	background-color: rgba(0,0,0,0.8);
 	border-radius: 3px 3px 3px 3px;
 	font-size: 11px;
@@ -496,6 +504,21 @@ div.thumbWrapper div.albumName, div.thumbWrapper div.movieName, div.thumbWrapper
 div.thumbWrapper div.albumArtist {
 	font-size: 11px;
 	text-align: center;
+}
+div.albumInfo {
+    background-color: rgba(0,0,0,0.8);
+	margin-top: 5px;
+	width: 128px;
+	/*position: absolute;*/
+	color: #fff;
+    font-size: 12px;
+	border-radius: 3px 3px 3px 3px;
+}
+div.albumInfo span.label {
+	font-weight: bold;
+}
+div.albumInfo span.value {
+	margin-left: 5px;
 }
 div.movieinfo {
 	display: table-row;

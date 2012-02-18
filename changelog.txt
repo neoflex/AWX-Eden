@@ -1,7 +1,10 @@
 0.5.1
  - Added Artists views
  - Added Logo wall for artists and TV show. Does not support lazyload!
-
+ - Added Play movies via Cinema Experience addon.
+ - Added Chinese translation by Taxigps.
+ - Added Albums inline list view.
+ 
 0.5.0
  - Added Sorting.
  - Added Movie Sets.

@@ -213,6 +213,8 @@ mkf.lang.add({language: 'Russian', short: 'ru', author: 'Scaramush', values: {
 	'label_original_title': 		'Оригинальное название:',
 	'label_runtime': 				'Время воспризведения:',
 	'label_genre': 					'Жанр:',
+	'label_mood':					'Mood:',
+	'label_style':					'Style:',
 	'label_rating': 				'Рейтинг:',
 	'label_year': 					'Год:',
 	'label_director': 				'Режисёр:',
