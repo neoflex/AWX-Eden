@@ -240,7 +240,7 @@ div.thumbWrapper, div.logoWrapper {
 	padding: 5px;
 	position: relative;
 	border: 1px solid #d8d8d8;
-	background-color: #eaece6;
+	background-color: rgba(234, 236, 230, 0.8); /*#eaece6;*/
 	text-align: center;
 }
 
@@ -275,6 +275,16 @@ div.linkTVWrapper {
     position: absolute;
     width: 90%;
 }
+div.linkTVLogoWrapper {
+    display: none;
+    left: 5%;
+	top: 5px;
+    position: absolute;
+    width: 90%;
+}
+div.logoWrapper:hover div.linkTVLogoWrapper {
+    display: block;
+}
 div.thumbWrapper:hover div.linkTVWrapper {
     display: block;
 }
@@ -298,7 +308,21 @@ div.thumbWrapper a {
 div.thumbWrapper a:hover {
 	color: #7ac800;
 }
-
+div.logoWrapper a {
+    background-color: #343434;
+    border: 1px solid #A4A4A4;
+    /*border-radius: 5px 5px 5px 5px;*/
+    color: #FFFFFF;
+    display: block;
+    font-size: 16px;
+    margin-bottom: 1px;
+    opacity: 0.9;
+    padding: 8px 7px;
+    text-decoration: none;
+}
+div.thumbWrapper a:hover, div.logoWrapper a:hover {
+    color: #7AC800;
+}
 div.thumbWrapper div.albumName, div.thumbWrapper div.movieName, div.logoWrapper div.albumArtist, div.thumbWrapper div.tvshowName {
 	color: #4b4b4b;
 	font-size: 11px;
@@ -802,6 +826,13 @@ span.infoqueue {
 	width: 50px;
 	height: 48px;
 }
+span.infoinfo {
+	background: url("../images/play.png") no-repeat scroll -100px 0 transparent;
+	float: right;
+	margin-right: 2px;
+	width: 50px;
+	height: 48px;
+}
 div.movieinfo {
 	display: table-row;
 }
@@ -869,6 +900,19 @@ ul.RecentfileList {
 ul.RecentfileList li {
     border-bottom: 1px solid #ABABAB;
     display: block;
+}
+div.singleView {
+	vertical-align: middle;
+}
+div.singleView div.prev {
+	width: 48px;
+	height: 48px;
+	background-image: url("../images/scroll-left.png");
+}
+div.singleView div.next {
+	width: 48px;
+	height: 48px;
+	background-image: url("../images/scroll-right.png");
 }
 #multiOpenAccordion {
     /*background-color: rgba(0,0,0,0.7);*/

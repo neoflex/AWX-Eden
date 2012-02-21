@@ -86,7 +86,7 @@ a.settings:hover { background-position: top right; }
 	background-size: cover;
 }
 #content {
-	margin: 45px 55px 20px 55px;
+	margin: 45px 55px 10px 55px;
 }
 #content .mkfPage .pageContent div.pageContentWrapper {
 	min-height: 32px;
@@ -392,14 +392,32 @@ div.folderLinkWrapper a.button:hover span.all {
     background-position: -96px -16px;
 }
 div.thumbWrapper, div.logoWrapper {
-	float: left;
-	height: 190px;
-	width: 129px;
-	overflow: hidden;
-	margin: 0 10px 10px 0;
-	position: relative;
+	/*background-color: rgba(0,0,0,0.8);
+    border: 1px solid #D8D8D8;*/
+    float: left;
+    height: 185px;
+    margin: 5px;
+    overflow: hidden;
+    padding: 5px;
+    position: relative;
+    text-align: center;
+    width: 129px;
 }
-
+div.logoWrapper a {
+    background-color: #343434;
+    border: 1px solid #A4A4A4;
+    /*border-radius: 5px 5px 5px 5px;*/
+    color: #FFFFFF;
+    display: block;
+    font-size: 16px;
+    margin-bottom: 1px;
+    opacity: 0.9;
+    padding: 8px 7px;
+    text-decoration: none;
+}
+div.logoWrapper a:hover {
+    color: #7AC800;
+}
 div.thumbPosterWrapper {
 	height: 238px;
 	width: 129px;
@@ -425,6 +443,16 @@ div.linkTVWrapper {
 	top: 3px;
     position: absolute;
     width: 90%;
+}
+div.linkTVLogoWrapper {
+    display: none;
+    left: 5%;
+	top: 5px;
+    position: absolute;
+    width: 90%;
+}
+div.logoWrapper:hover div.linkTVLogoWrapper {
+    display: block;
 }
 div.thumbWrapper:hover div.linkTVWrapper {
     display: block;
@@ -539,6 +567,19 @@ div.movietags  img {
 div.movietags {
 	display: table-cell;
 	width: 580px;
+}
+div.singleView {
+	vertical-align: middle;
+}
+div.singleView div.prev {
+	width: 48px;
+	height: 48px;
+	background-image: url("../images/scroll-left.png");
+}
+div.singleView div.next {
+	width: 48px;
+	height: 48px;
+	background-image: url("../images/scroll-right.png");
 }
 #multiOpenAccordion {
     background-color: rgba(0,0,0,0.7);
@@ -1076,6 +1117,13 @@ span.infoplay {
 span.infoqueue {
 	background: url("../images/play.png") no-repeat scroll -50px 0 transparent;
 	float: right;
+	width: 50px;
+	height: 48px;
+}
+span.infoinfo {
+	background: url("../images/play.png") no-repeat scroll -100px 0 transparent;
+	float: right;
+	margin-right: 2px;
 	width: 50px;
 	height: 48px;
 }

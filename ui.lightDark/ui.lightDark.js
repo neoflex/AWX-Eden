@@ -700,8 +700,16 @@ var awxUI = {};
 					});
 			});
 			
+			//show mfkPages root video or music to allow height 100%
+			/*if ($(this).hasClass('.videos')) {
+				
+			}*/
 			//onClick hide menus for tablets
-			$('#navigation ul.mkfMenu > li > a, ul.systemMenu > li > a').click(function(){ $('#navigation ul.mkfMenu ul, ul.systemMenu ul').hide(); });
+			/*$('#navigation ul.mkfMenu > li > a').click(function(){
+				if ($(this).parent().hasClass('videos')) { $('.mfkPage, .videos').show() }
+				else if ($(this).parent().hasClass('music')) { $('.mfkPage, .music').show() };
+				$('#navigation ul.mkfMenu ul, ul.systemMenu ul').hide(); 
+			});*/
 		},
 		
 		

@@ -858,6 +858,13 @@ span.infoqueue {
 	width: 50px;
 	height: 48px;
 }
+span.infoinfo {
+	background: url("../images/play.png") no-repeat scroll -100px 0 transparent;
+	float: right;
+	margin-right: 2px;
+	width: 50px;
+	height: 48px;
+}
 div.tools {
 	width: 415px;
 	margin: auto;
@@ -909,6 +916,19 @@ ul.fileList {
     list-style-type: none;
     margin: 0;
     padding: 0;
+}
+div.singleView {
+	vertical-align: middle;
+}
+div.singleView div.prev {
+	width: 48px;
+	height: 48px;
+	background-image: url("../images/scroll-left.png");
+}
+div.singleView div.next {
+	width: 48px;
+	height: 48px;
+	background-image: url("../images/scroll-right.png");
 }
 #multiOpenAccordion {
 	background-attachment: fixed;

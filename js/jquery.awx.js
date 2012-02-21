@@ -1183,7 +1183,8 @@
 
 		switch (view) {
 			case 'poster':
-				uiviews.MovieViewThumbnails(movieResult, options).appendTo($movieContainer);
+				//uiviews.MovieViewThumbnails(movieResult, options).appendTo($movieContainer);
+				uiviews.MovieViewSingle(movieResult, options).appendTo($movieContainer);
 				break;
 			case 'listover':
 				uiviews.MovieViewList(movieResult, options).appendTo($movieContainer);
@@ -2376,12 +2377,12 @@
 				// TODO support Windows/OSX-Folders
 				// /media - Folder may exist (access to usb-sticks etc.)
 				xbmc.getDirectory({
-					directory: '/media',
-					//directory: '/mnt/media/music/',
+					//directory: '/media',
+					directory: '/mnt/media/music/',
 
 					onSuccess: function(result) {
 						var $file = $('<li' + (globalI%2==0? ' class="even"': '') + '><a href="" class="fileMedia"> /media</a></li>').appendTo($filelist);
-						$file.bind('click', {folder: {name:'media', path:'/media/'}}, onFolderClick);
+						$file.bind('click', {folder: {name:'media', path:'/mnt/'}}, onFolderClick);
 					},
 
 					async: false
