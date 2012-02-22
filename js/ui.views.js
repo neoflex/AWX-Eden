@@ -1482,31 +1482,6 @@ var uiviews = {};
 				
 			} ) );
 			
-			/*$.each(movies.movies, function(i, movie) {
-				var watched = false;
-				// if movie has no id (e.g. movie sets), ignore it
-				if (typeof movie.movieid === 'undefined') { return; }
-				if (movie.playcount > 0) { watched = true; }
-				if (filterWatched && watched) { return; }
-				
-				var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
-				var $movie = $(
-					'<div class="movie'+movie.movieid+' thumbWrapper thumb' + xbmc.getMovieThumbType() + 'Wrapper">' +
-						'<div class="linkWrapper">' + 
-							'<a href="" class="play">' + mkf.lang.get('btn_play') + '</a><a href="" class="playlist">' + mkf.lang.get('btn_enqueue') + '</a><a href="" class="info">' + mkf.lang.get('btn_information') + '</a>' +
-							'<div class="movieRating' + Math.round(movie.rating) + '"></div>' +
-						'</div>' +
-						(useLazyLoad?
-							'<img src="images/loading_thumb' + xbmc.getMovieThumbType() + '.gif" alt="' + movie.label + '" class="thumb thumb' + xbmc.getMovieThumbType() + '" original="' + thumb + '" />':
-							'<img src="' + thumb + '" alt="' + movie.label + '" class="thumb thumb' + xbmc.getMovieThumbType() + '" />'
-						) +
-						'<div class="movieName">' + movie.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</div>' +
-						'<div class="findKeywords">' + movie.label.toLowerCase() + '</div>' +
-					'</div>').appendTo($moviesList);
-				$movie.find('.play').bind('click', {idMovie: movie.movieid, strMovie: movie.label}, uiviews.MoviePlay);
-				$movie.find('.playlist').bind('click', {idMovie: movie.movieid}, uiviews.AddMovieToPlaylist);
-				$movie.find('.info').bind('click', {idMovie: movie.movieid}, uiviews.MovieInfoOverlay);
-			});*/
 			return $moviesList;
 		},
 		

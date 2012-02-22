@@ -402,7 +402,8 @@
 				'<select name="filmView"><option value="poster" ' + (filmView=='poster'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_poster') +
 				'</option><option value="listover" ' + (filmView=='listover'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_overlay') +
 				'</option><option value="listin" ' + (filmView=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') +'</option><option value="accordion"' + (filmView=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
-				//'<option value="none" ' + (filmView=='none'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_none') +'</option><option value="videorating" ' + (filmView=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
+				'<option value="singlePoster" ' + (filmView=='singlePoster'? 'selected' : '') + '>' + mkf.lang.get('label_single_poster') +'</option>' +
+				//'<option value="videorating" ' + (filmView=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
 				//'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option>
 				'</select>' +
 				'</fieldset>' +
@@ -421,9 +422,9 @@
 				'<legend>' + mkf.lang.get('group_film_recent') + '</legend>' +
 				'<select name="filmViewRec"><option value="poster" ' + (filmViewRec=='poster'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_poster') +
 				'</option><option value="listover" ' + (filmViewRec=='listover'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_overlay') +
-				'</option><option value="listin" ' + (filmViewRec=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') +'</option><option value="accordion"' + (filmViewRec=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
-				//'<option value="none" ' + (filmViewRec=='none'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_none') +'</option><option value="videorating" ' + (filmViewRec=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
-				//'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option>
+				'</option><option value="listin" ' + (filmViewRec=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') +
+				'</option><option value="accordion"' + (filmViewRec=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
+				'<option value="singlePoster" ' + (filmView=='singlePoster'? 'selected' : '') + '>' + mkf.lang.get('label_single_poster') +'</option>' +
 				'</select>' +
 				'</fieldset>' +
 				
@@ -1183,8 +1184,7 @@
 
 		switch (view) {
 			case 'poster':
-				//uiviews.MovieViewThumbnails(movieResult, options).appendTo($movieContainer);
-				uiviews.MovieViewSingle(movieResult, options).appendTo($movieContainer);
+				uiviews.MovieViewThumbnails(movieResult, options).appendTo($movieContainer);				
 				break;
 			case 'listover':
 				uiviews.MovieViewList(movieResult, options).appendTo($movieContainer);
@@ -1194,6 +1194,9 @@
 				break;
 			case 'accordion':
 				uiviews.MovieViewAccordion(movieResult, options).appendTo($movieContainer);
+				break;
+			case 'singlePoster':
+				uiviews.MovieViewSingle(movieResult, options).appendTo($movieContainer);
 				break;
 		};
 		
@@ -1301,6 +1304,9 @@
 				break;
 			case 'accordion':
 				uiviews.MovieViewAccordion(movieResult, options).appendTo($movieContainer);
+				break;
+			case 'singlePoster':
+				uiviews.MovieViewSingle(movieResult, options).appendTo($movieContainer);
 				break;
 		};
 		

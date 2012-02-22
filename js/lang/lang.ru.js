@@ -197,6 +197,7 @@ mkf.lang.add({language: 'Russian', short: 'ru', author: 'Scaramush', values: {
 	'label_view_film_list_overlay':		'List (Details Overlay)',
 	'label_view_film_list_inline':		'List (Details Inline)',
 	'label_view_film_accordion':		'Accordion (Details Inline)*',
+	'label_single_poster':				'Single Poster',
 	'label_view_tv_banner':				'Banner',
 	'label_view_tv_list_overlay':		'List (Details Overlay)',
 	'label_view_tv_infolist':			'Info List',

@@ -197,6 +197,7 @@ mkf.lang.add({language: 'Polski', short: 'pl', author: 'cienislaw', values: {
 	'label_view_film_list_overlay': 	'Lista (Szczegóły w okienku)',
 	'label_view_film_list_inline': 		'Lista (Szczegóły w rozwinięciu)',
 	'label_view_film_accordion': 		'Harmonia (Szczegóły w rozwinięciu)',
+	'label_single_poster':				'Single Poster',
 	'label_view_tv_banner': 			'Baner',
 	'label_view_tv_list_overlay': 		'Lista (Szczegóły w okienku)',
 	'label_view_tv_infolist': 			'Lista info',
