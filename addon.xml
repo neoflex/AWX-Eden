@@ -34,7 +34,7 @@ Getestete Browser:
 Nicht unterstuetzt: Internet Explorer 6
 
 Hinweis: Sie muessen Ihren Browser-Cache leeren bevor Sie das neu installierte/aktualisierte Webinterface in Ihrem Browser laden.</description>
-    <description lang="pl">Ten Interfejs WWW pozwala kontrolować wybór, kolejkowanie i odtwarzanie zasobów audio / wideo, a wszystko to przy pomocy wygodnego interfejsu prezentującego zasoby multimedialne przy użyciu miniatur dla filmów, seriali tv, wykonawców i albumów muzycznych. Został zaprojektowany do użytkowania na komputerach osobistych lub notebookach w przeglądarce takiej jak FireFox, która obsługuje JavaScript.
+    <description lang="pl">Ten Interfejs WWW pozwala kontrolować wybór, dodawanie do kolejki i proces odtwarzania zasobów audio / wideo, a wszystko to przy pomocy wygodnego interfejsu prezentującego zasoby multimedialne przy użyciu miniatur filmów, seriali tv, wykonawców i albumów muzycznych. AWXi został zaprojektowany do użytkowania na komputerach osobistych lub notebookach w przeglądarce obsługującej JavaScript, takiej jak FireFox.
 
 Minimalne wymagania: XBMC (pre) Eden 
 Przetestowane przeglądarki internetowe:
