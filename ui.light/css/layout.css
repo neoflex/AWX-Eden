@@ -945,6 +945,9 @@ div.singleView div.next {
 	padding: 5px;
 	min-height: 300px; 
 }
+div.multiOpenAccordion-content p.plot, div.ui-accordion-content p.plot {
+	clear: both;
+}
 .ui-tabs {
     padding: 0.2em;
     position: relative;

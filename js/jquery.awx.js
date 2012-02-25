@@ -277,6 +277,7 @@
 			var lazyload = mkf.cookieSettings.get('lazyload', 'yes');
 			var timeout = mkf.cookieSettings.get('timeout', 10);
 			var ui = mkf.cookieSettings.get('ui');
+			var oldui = mkf.cookieSettings.get('ui');
 			var lang = mkf.cookieSettings.get('lang', 'en');
 			var watched = mkf.cookieSettings.get('watched', 'no');
 			var hidewatchedmark = mkf.cookieSettings.get('hidewatchedmark', 'no');
@@ -327,35 +328,13 @@
 				'<legend>' + mkf.lang.get('group_language') + '</legend>' +
 				'<select name="lang" size="1">' + languages + '</select>' +
 				'</fieldset>' +
-				/*'<fieldset class="ui_albums">' +
-				'<legend>' + mkf.lang.get('group_albums') + '</legend>' +
-				'<input type="radio" id="orderByAlbum" name="albumOrder" value="album" ' + (order=='album'? 'checked="checked"' : '') + '><label for="orderByAlbum">' + mkf.lang.get('label_order_by_title') +'</label>' +
-				'<input type="radio" id="orderByArtist" name="albumOrder" value="artist" ' + (order=='artist'? 'checked="checked"' : '') + '><label for="orderByArtist">' + mkf.lang.get('label_order_by_artist') +'</label>' +
-				'</fieldset>' +
-				'<fieldset>' +
-				'<legend>' + mkf.lang.get('group_film_sort') + '</legend>' +
-				'' + mkf.lang.get('settings_select_film_sort') +'<select name="filmSort"><option value="label" ' + (filmSort=='label'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_label') +
-				'</option><option value="sorttitle" ' + (filmSort=='sorttitle'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_sorttitle') +
-				'</option><option value="year" ' + (filmSort=='year'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_year') +'</option><option value="genre "' + (filmSort=='genre'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_genre') +'</option>' +
-				'<option value="none" ' + (filmSort=='none'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_none') +'</option><option value="videorating" ' + (filmSort=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
-				'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option></select>' +
-				'<input type="checkbox" id="mdesc" name="mdesc" ' + (mdesc=='descending'? 'checked="checked"' : '') + '><label for="mdesc">' + mkf.lang.get('label_filter_mdesc') + '</label>' +
-				'</fieldset>' +*/
+
 				'<fieldset>' +
 				'<legend>' + mkf.lang.get('group_expert') + '</legend>' +
 				'<a href="" class="formButton expertHelp" title="' + mkf.lang.get('btn_title_help') + '">' + mkf.lang.get('btn_text_help') + '</a>' + 
 				'<input type="checkbox" id="lazyload" name="lazyload" ' + (lazyload=='yes'? 'checked="checked"' : '') + '><label for="lazyload">' + mkf.lang.get('label_use_lazyload') + '</label><br />' +
 				'<label for="timeout">' + mkf.lang.get('label_timeout') + '</label><input type="text" id="timeout" name="timeout" value="' + timeout + '" maxlength="3" style="width: 30px; margin-top: 10px;"> ' + mkf.lang.get('label_seconds') +
 				'</fieldset>' +
-				/*'<fieldset>' +
-				'<legend>' + mkf.lang.get('group_view') + '</legend>' +
-				'<input type="checkbox" id="listview" name="listview" ' + (listview=='yes'? 'checked="checked"' : '') + '><label for="listview">' + mkf.lang.get('label_filter_listview') + '</label>' +
-				'<input type="checkbox" id="usefanart" name="usefanart" ' + (usefanart=='yes'? 'checked="checked"' : '') + '><label for="usefanart">' + mkf.lang.get('label_use_fanart') + '</label><br />' +
-				'<input type="checkbox" id="watched" name="watched" ' + (watched=='yes'? 'checked="checked"' : '') + '><label for="watched">' + mkf.lang.get('label_filter_watched') + '</label>' +
-				'<input type="checkbox" id="hidewatchedmark" name="hidewatchedmark" ' + (hidewatchedmark=='yes'? 'checked="checked"' : '') + '><label for="hidewatchedmark">' + mkf.lang.get('label_filter_showwatched') + '</label>' +
-				'</fieldset>' +
-				'<a href="" class="formButton save">' + mkf.lang.get('btn_save') + '</a>' + 
-				'<div class="formHint">' + mkf.lang.get('label_settings_hint') + '</div>' +*/
 				'</form>' +
 				'</div>' +
 				'<div id="tabs-2">' +
@@ -372,7 +351,6 @@
 				//'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option>
 				'</select>' +
 				'<input type="text" name="artists_path" id="artists_path" style="display: ' + (artistsView == 'logo'? 'block' : 'none') + ';" />' +
-				//(artistsPath? $('input#artists_path').val(artistsPath) : '') +
 				'</fieldset>' +
 				
 				'<fieldset class="ui_views">' +
@@ -424,7 +402,7 @@
 				'</option><option value="listover" ' + (filmViewRec=='listover'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_overlay') +
 				'</option><option value="listin" ' + (filmViewRec=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') +
 				'</option><option value="accordion"' + (filmViewRec=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
-				'<option value="singlePoster" ' + (filmView=='singlePoster'? 'selected' : '') + '>' + mkf.lang.get('label_single_poster') +'</option>' +
+				'<option value="singlePoster" ' + (filmViewRec=='singlePoster'? 'selected' : '') + '>' + mkf.lang.get('label_single_poster') +'</option>' +
 				'</select>' +
 				'</fieldset>' +
 				
@@ -545,7 +523,7 @@
 
 			$('.save').click(function() {
 				//Check artistsPath ends with a /
-				if (document.settingsViews.artists_path.value.lastIndexOf("/") + 1 != document.settingsViews.artists_path.value.length) { document.settingsViews.artists_path.value += '/'; console.log('added slash'); };
+				if (document.settingsViews.artists_path.value.lastIndexOf("/") + 1 != document.settingsViews.artists_path.value.length) { document.settingsViews.artists_path.value += '/'; };
 				// Checks require artist logo location as skins.
 				if (document.settingsViews.artistsView.value == 'logo' && !document.settingsViews.artists_path.value) {
 					alert(mkf.lang.get('settings_select_artists_path'));
@@ -574,11 +552,6 @@
 						ui = 'lightDark';
 					}
 				mkf.cookieSettings.add('ui', ui);
-
-				/*mkf.cookieSettings.add(
-					'albumOrder',
-					document.settingsSorting.albumOrder[0].checked? 'album' : 'artist'
-				);*/
 				
 				mkf.cookieSettings.add(
 					'albumSort',
@@ -702,7 +675,7 @@
 
 				mkf.cookieSettings.add('timeout', timeout);
 
-				alert(mkf.lang.get('settings_need_to_reload_awx'));
+				if (oldui != ui) alert(mkf.lang.get('settings_need_to_reload_awx'));
 				mkf.dialog.close(dialogHandle);
 
 				return false;
@@ -1046,7 +1019,6 @@
 		if (!albumResult.limits.total > 0) { return };
 		
 		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'yes')=='yes'? true : false;
-		//var listview = mkf.cookieSettings.get('listview', 'no')=='yes'? true : false;
 		var view = mkf.cookieSettings.get('albumsView', 'cover');
 		
 		var $albumViewerElement = $(this);
@@ -1200,13 +1172,6 @@
 				break;
 		};
 		
-		/*if (movieResult.limits.total > 0 && listview == true) {			
-			uiviews.MovieViewListInline(movieResult).appendTo($movieContainer);
-		}	
-		else {
-			uiviews.MovieViewThumbnails(movieResult).appendTo($movieContainer);
-		}*/
-		
 		if (useLazyLoad) {
 			function loadThumbs(i) {
 				$movieContainer.find('img.thumb').lazyload(
@@ -1310,13 +1275,6 @@
 				break;
 		};
 		
-		/*if (movieResult.limits.total > 0 && listview == true) {			
-			uiviews.MovieViewAccordion(movieResult, options).appendTo($movieContainer);
-		}	
-		else {
-			uiviews.MovieViewThumbnails(movieResult, options).appendTo($movieContainer);
-		}*/
-		
 		if (useLazyLoad) {
 			function loadThumbs(i) {
 				$movieContainer.find('img.thumb').lazyload(
@@ -1362,12 +1320,6 @@
 				uiviews.TVViewLogoWall(tvShowResult, parentPage).appendTo($tvshowContainer);
 				break;
 		};
-		
-		/*if (listview) {
-			uiviews.TVViewList(tvShowResult, parentPage).appendTo($tvshowContainer);
-		} else {
-			uiviews.TVViewBanner(tvShowResult, parentPage).appendTo($tvshowContainer);
-		}*/
 
 		if (useLazyLoad) {
 			function loadThumbs(i) {
@@ -2140,7 +2092,6 @@
 			return;
 		};
 
-		//console.log(MusicPlaylistsResult);
 		this.each (function() {
 			var VideoPlaylistsList = $('<ul class="fileList"></ul>').appendTo($(this));
 
@@ -2544,9 +2495,7 @@
 						thumbElement.removeAttr('height');
 						thumbElement.attr('width', '100px');
 					}
-					
-					//console.log(currentFile.thumbnail);
-					//console.log(xbmc.getThumbUrl(currentFile.thumbnail.height()));
+
 				}
 			});
 

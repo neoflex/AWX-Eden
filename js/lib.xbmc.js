@@ -1766,7 +1766,7 @@ var xbmc = {};
 			$.extend(settings, options);
 
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovieDetails", "params": { "movieid": ' + settings.movieid + ', "properties": ["genre", "director", "plot", "title", "originaltitle", "runtime", "year", "rating", "thumbnail", "playcount", "file", "tagline", "set", "setid", "lastplayed", "studio", "mpaa", "votes", "streamdetails", "writer", "fanart", "imdbnumber"] },  "id": 2}',
+				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovieDetails", "params": { "movieid": ' + settings.movieid + ', "properties": ["genre", "director", "plot", "title", "originaltitle", "runtime", "year", "rating", "thumbnail", "playcount", "trailer", "cast", "file", "tagline", "set", "setid", "lastplayed", "studio", "mpaa", "votes", "streamdetails", "writer", "fanart", "imdbnumber"] },  "id": 2}',
 				function(response) {
 					settings.onSuccess(response.result.moviedetails);
 				},

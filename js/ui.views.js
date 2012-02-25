@@ -269,6 +269,23 @@ var uiviews = {};
 		},
 
 		/*------*/
+		FilePlay: function(event) {
+			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_file'));
+
+			xbmc.playVideoFile({
+				file: event.data.file,
+				onSuccess: function() {
+					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+				},
+				onError: function(errorText) {
+					mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+				}
+			});
+
+			return false;
+		},
+		
+		/*------*/
 		CinExPlay: function(event) {
 			//var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_movie'));
 
@@ -370,13 +387,16 @@ var uiviews = {};
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_rating') + '</span><span class="value"><div class="smallRating' + Math.round(movie.rating) + '"></div></span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_votes') + '</span><span class="value">' + (movie.votes? movie.votes : mkf.lang.get('label_not_available')) + '</span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_year') + '</span><span class="value">' + (movie.year? movie.year : mkf.lang.get('label_not_available')) + '</span></div>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_director') + '</span><span class="value">' + (movie.director? movie.director : mkf.lang.get('label_not_available')) + '</span></div>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_writer') + '</span><span class="value">' + (movie.writer? movie.writer : mkf.lang.get('label_not_available')) + '</span></div>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_studio') + '</span><span class="value">' + (movie.studio? movie.studio : mkf.lang.get('label_not_available')) + '</span></div>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_tagline') + '</span><span class="value">' + (movie.tagline? movie.tagline : mkf.lang.get('label_not_available')) + '</span></div>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_set') + '</span><span class="value">' + (movie.set[0]? movie.set : mkf.lang.get('label_not_available')) + '</span></div>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_lastplayed') + '</span><span class="value">' + (movie.lastplayed? movie.lastplayed : mkf.lang.get('label_not_available')) + '</span></div>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_playcount') + '</span><span class="value">' + (movie.playcount? movie.playcount : mkf.lang.get('label_not_available')) + '</span></div>' +
+						(movie.director? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_director') + '</span><span class="value">' + movie.director + '</span></div>' : '') +
+						(movie.writer? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_writer') + '</span><span class="value">' + movie.writer + '</span></div>' : '') +
+						(movie.studio? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_studio') + '</span><span class="value">' + movie.studio + '</span></div>' : '') +
+						(movie.tagline? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_tagline') + '</span><span class="value">' + movie.tagline + '</span></div>' : '') +
+						(movie.trailer? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_trailer') + '</span><span class="value"><a href="' + movie.trailer + '">' + mkf.lang.get('label_link') + '</a>' +
+						'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="trailerplay">' + mkf.lang.get('label_xbmc_play') + '</a></span></div></div>' : '') +
+						
+						(movie.set[0]? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_set') + '</span><span class="value">' + movie.set + '</span></div>' : '') +
+						(movie.lastplayed? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_lastplayed') + '</span><span class="value">' + movie.lastplayed + '</span></div>' : '') +
+						(movie.playcount? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_playcount') + '</span><span class="value">' + movie.playcount + '</span></div>' : '') +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_audioStreams') + '</span><span class="value">' + (streamdetails.aStreams? streamdetails.aStreams + ' - ' + streamdetails.aLang : mkf.lang.get('label_not_available')) + '</span></div>' +
 						(movie.imdbnumber? '<div class="movieinfo"><span class="label">IMDB:</span><span class="value">' + '<a href="http://www.imdb.com/title/' + movie.imdbnumber + '">IMDB</a>' + '</span></div></div>' : '') +
 						'<div class="movieinfo filelink"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + '<a href="' + fileDownload + '">' + movie.file + '</a>' + '</span></div></div>' +
@@ -396,6 +416,8 @@ var uiviews = {};
 					$(dialogContent).find('.infoplay').on('click', {idMovie: movie.movieid, strMovie: movie.label}, uiviews.MoviePlay);
 					$(dialogContent).find('.infoqueue').on('click', {idMovie: movie.movieid, strMovie: movie.label}, uiviews.AddMovieToPlaylist);
 					$(dialogContent).find('.cinexplay').on('click', {idMovie: movie.movieid, strMovie: movie.label}, uiviews.CinExPlay);
+					$(dialogContent).find('.trailerplay').on('click', {file: movie.trailer}, uiviews.FilePlay);
+					
 					mkf.dialog.setContent(dialogHandle, dialogContent);
 					return false;
 				},
@@ -465,13 +487,16 @@ var uiviews = {};
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_rating') + '</span><span class="value"><div class="smallRating' + Math.round(movie.rating) + '"></div></span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_votes') + '</span><span class="value">' + (movie.votes? movie.votes : mkf.lang.get('label_not_available')) + '</span></div>' +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_year') + '</span><span class="value">' + (movie.year? movie.year : mkf.lang.get('label_not_available')) + '</span></div>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_director') + '</span><span class="value">' + (movie.director? movie.director : mkf.lang.get('label_not_available')) + '</span></div>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_writer') + '</span><span class="value">' + (movie.writer? movie.writer : mkf.lang.get('label_not_available')) + '</span></div>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_studio') + '</span><span class="value">' + (movie.studio? movie.studio : mkf.lang.get('label_not_available')) + '</span></div>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_tagline') + '</span><span class="value">' + (movie.tagline? movie.tagline : mkf.lang.get('label_not_available')) + '</span></div>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_set') + '</span><span class="value">' + (movie.set[0]? movie.set : mkf.lang.get('label_not_available')) + '</span></div>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_lastplayed') + '</span><span class="value">' + (movie.lastplayed? movie.lastplayed : mkf.lang.get('label_not_available')) + '</span></div>' +
-						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_playcount') + '</span><span class="value">' + (movie.playcount? movie.playcount : mkf.lang.get('label_not_available')) + '</span></div>' +
+						(movie.director? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_director') + '</span><span class="value">' + movie.director + '</span></div>' : '') +
+						(movie.writer? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_writer') + '</span><span class="value">' + movie.writer + '</span></div>' : '') +
+						(movie.studio? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_studio') + '</span><span class="value">' + movie.studio + '</span></div>' : '') +
+						(movie.tagline? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_tagline') + '</span><span class="value">' + movie.tagline + '</span></div>' : '') +
+						(movie.trailer? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_trailer') + '</span><span class="value"><a href="' + movie.trailer + '">' + mkf.lang.get('label_link') + '</a>' +
+						'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="trailerplay">' + mkf.lang.get('label_xbmc_play') + '</a></span></div></div>' : '') +
+						
+						(movie.set[0]? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_set') + '</span><span class="value">' + movie.set + '</span></div>' : '') +
+						(movie.lastplayed? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_lastplayed') + '</span><span class="value">' + movie.lastplayed + '</span></div>' : '') +
+						(movie.playcount? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_playcount') + '</span><span class="value">' + movie.playcount + '</span></div>' : '') +
 						'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_audioStreams') + '</span><span class="value">' + (streamdetails.aStreams? streamdetails.aStreams + ' - ' + streamdetails.aLang : mkf.lang.get('label_not_available')) + '</span></div>' +
 						(movie.imdbnumber? '<div class="movieinfo"><span class="label">IMDB:</span><span class="value">' + '<a href="http://www.imdb.com/title/' + movie.imdbnumber + '">IMDB</a>' + '</span></div></div>' : '') +
 						'<div class="movieinfo filelink"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + '<a href="' + fileDownload + '">' + movie.file + '</a>' + '</span></div></div>' +
@@ -492,6 +517,7 @@ var uiviews = {};
 						$(dialogContent).find('.cinexplay').on('click', {idMovie: movie.movieid, strMovie: movie.label}, uiviews.CinExPlay);
 						$(dialogContent).find('.infoplay').on('click', {idMovie: movie.movieid, strMovie: movie.label}, uiviews.MoviePlay);
 						$(dialogContent).find('.infoqueue').on('click', {idMovie: movie.movieid, strMovie: movie.label}, uiviews.AddMovieToPlaylist);
+						$(dialogContent).find('.trailerplay').on('click', {file: movie.trailer}, uiviews.FilePlay);
 						
 					},
 					onError: function() {

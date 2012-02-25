@@ -609,7 +609,7 @@ div.singleView div.next {
 	padding: 5px;
 	min-height: 300px; 
 }
-div.multiOpenAccordion-content p.plot {
+div.multiOpenAccordion-content p.plot, div.ui-accordion-content p.plot {
 	clear: both;
 }
 #accordion {
