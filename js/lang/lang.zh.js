@@ -176,6 +176,9 @@ mkf.lang.add({language: 'Chinese', short: 'zh', author: 'Taxigps', values: {
 	'group_tv': 						'剧集',
 	'group_tv_recent': 					'最新剧集',
 	'group_episodes': 					'集',
+	'group_tab_general':				'General',
+	'group_tab_views':					'Views',
+	'group_tab_sort':					'Sorting',
 
 	'label_default_ui': 				'默认界面',
 	'label_order_by_title': 			'按标题排序',

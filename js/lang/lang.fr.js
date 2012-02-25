@@ -176,6 +176,9 @@ mkf.lang.add({language: 'Français', short: 'fr', author: 'DanoneKiD', values: {
 	'group_tv':							'TV Shows',
 	'group_tv_recent':					'Recent TV',
 	'group_episodes':					'Episodes',
+	'group_tab_general':				'General',
+	'group_tab_views':					'Views',
+	'group_tab_sort':					'Sorting',
 
 	'label_default_ui': 				'Défaut',
 	'label_order_by_title':				'Trier par Titre',

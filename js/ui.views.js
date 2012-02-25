@@ -958,7 +958,7 @@ var uiviews = {};
 							'<img src="images/loading_thumb.gif" alt="' + artist.label + '" class="thumb albums" original="' + thumb + '" />':
 							'<img src="' + thumb + '" alt="' + artist.label + '" class="thumb albums" />'
 						) +
-						'<div class="albumArtist">' + artist.artist + '</div></div>' +
+						'<div class="albumInfo">' + artist.artist + '</div></div>' +
 						'<div class="findKeywords">' + artist.label.toLowerCase() + ' ' + artist.artist.toLowerCase() + '</div>' +
 					'</div>');
 

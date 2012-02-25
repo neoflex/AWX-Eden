@@ -176,6 +176,9 @@ mkf.lang.add({language: 'Polski', short: 'pl', author: 'cienislaw', values: {
 	'group_tv': 						'Seriale TV',
 	'group_tv_recent': 					'Nowe seriale',
 	'group_episodes': 					'Odcinki',
+	'group_tab_general':				'General',
+	'group_tab_views':					'Views',
+	'group_tab_sort':					'Sorting',
 
 	'label_default_ui': 				'Domyślny UI',
 	'label_order_by_title': 			'Sortuj po tytule',

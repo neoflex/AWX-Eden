@@ -312,9 +312,9 @@
 				content :
 				'<h1 id="systemControlTitle" class="title">' + mkf.lang.get('title_settings') + '</h1>' +
 				'<div class="tabs"><div id="tabs">' +
-				'<ul><li><a href="#tabs-1">General</a></li>' +
-					'<li><a href="#tabs-2">Views</a></li>' +
-					'<li><a href="#tabs-3">Sorting</a></li></ul>' +
+				'<ul><li><a href="#tabs-1">' + mkf.lang.get('group_tab_general') +'</a></li>' +
+					'<li><a href="#tabs-2">' + mkf.lang.get('group_tab_views') +'</a></li>' +
+					'<li><a href="#tabs-3">' + mkf.lang.get('group_tab_sort') +'</a></li></ul>' +
 				'<div id="tabs-1">' +
 				'<form name="settingsForm">' +
 				'<fieldset class="ui_settings">' +
@@ -2383,12 +2383,12 @@
 				// TODO support Windows/OSX-Folders
 				// /media - Folder may exist (access to usb-sticks etc.)
 				xbmc.getDirectory({
-					//directory: '/media',
-					directory: '/mnt/media/music/',
+					directory: '/media',
+					//directory: '/mnt/media/music/',
 
 					onSuccess: function(result) {
 						var $file = $('<li' + (globalI%2==0? ' class="even"': '') + '><a href="" class="fileMedia"> /media</a></li>').appendTo($filelist);
-						$file.bind('click', {folder: {name:'media', path:'/mnt/'}}, onFolderClick);
+						$file.bind('click', {folder: {name:'media', path:'/media/'}}, onFolderClick);
 					},
 
 					async: false
