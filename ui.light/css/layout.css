@@ -217,7 +217,7 @@ img.thumbFanart {
     height: 113px;
     width: 200px;
 }
-img.thumbFanart:hover{
+img.episode:hover{
 	border: 1px solid #A0E312;
 }
 img.thumbLogo {
@@ -243,7 +243,10 @@ div.thumbWrapper, div.logoWrapper {
 	background-color: rgba(234, 236, 230, 0.8); /*#eaece6;*/
 	text-align: center;
 }
-
+div.thumbEpWrapper {
+	text-align: center;
+    width: 200px;
+}
 div.thumbPosterWrapper {
 	height: 238px;
 	width: 129px;
@@ -275,6 +278,13 @@ div.linkTVWrapper {
     position: absolute;
     width: 90%;
 }
+div.linkEpWrapper {
+    display: none;
+    left: 5%;
+	top: 3px;
+    position: absolute;
+    width: 90%;
+}
 div.linkTVLogoWrapper {
     display: none;
     left: 5%;
@@ -282,7 +292,7 @@ div.linkTVLogoWrapper {
     position: absolute;
     width: 90%;
 }
-div.logoWrapper:hover div.linkTVLogoWrapper {
+div.logoWrapper:hover div.linkTVLogoWrapper, div.thumbEpWrapper:hover div.linkEpWrapper {
     display: block;
 }
 div.thumbWrapper:hover div.linkTVWrapper {
@@ -304,8 +314,19 @@ div.thumbWrapper a {
 	font-size: 14px;
 	margin-bottom: 1px;
 }
-
-div.thumbWrapper a:hover {
+div.thumbEpWrapper a {
+    background-color: #343434;
+    border: 1px solid #A4A4A4;
+    /*border-radius: 5px 5px 5px 5px;*/
+    color: #FFFFFF;
+    display: block;
+    font-size: 16px;
+    margin-bottom: 3px;
+    opacity: 0.9;
+    padding: 6px 7px;
+    text-decoration: none;
+}
+div.thumbWrapper a:hover, div.thumbEpWrapper a:hover  {
 	color: #7ac800;
 }
 div.logoWrapper a {
@@ -1189,7 +1210,36 @@ a.recentTVplay  {
 	left: 10px; 
 	z-index: 5
 }
-
+div.episodeThumb {
+	margin: 5px 5px 0 5px;
+	float: left;
+	position: relative; 
+	z-index:3;
+}
+div.episodeTitle {
+	font-size: 20px;
+	display: block;
+	margin-top: 3px;
+	color: #A0E312;
+}
+div.episodeTVSE {
+	font-size: 15px;
+	display: block;
+}
+div.episodeRating {
+	font-size: 15px;
+}
+div.episodePlot {
+	display: table;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+div.showEpisode {
+	display: table;
+	width: 100%;
+	position: relative; 
+	vertical-align:text-top;
+}
 a.bigLeft, a.bigRight, a.bigUp, a.bigDown, a.bigSelect, a.bigBack, a.bigHome, a.bigSubOnOff,  a.bigSubNext, a.bigSubPrev, a.bigAudioNext, a.bigAudioPrev {
     background: url("../images/controls_big.png") no-repeat scroll 0 0 transparent;
     float: left;

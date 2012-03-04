@@ -198,7 +198,7 @@ img.thumbFanart {
     height: 113px;
     width: 200px;
 }
-img.thumbFanart:hover{
+img.episode:hover{
 	border: 1px solid #A0E312;
 }
 img.epWatched {
@@ -237,15 +237,22 @@ div.thumbLogoWrapper {
     height: 133px;
     width: 300px;
 }
-/*div.thumbWrapper:hover {
-    background-color: #EAFFC9;
-    border: 1px solid #7AC800;
-}*/
+div.thumbEpWrapper {
+	text-align: center;
+    width: 200px;
+}
 div.thumbWrapper div.linkWrapper {
     display: none;
     left: 7px;
     position: absolute;
     top: 10px;
+    width: 90%;
+}
+div.linkEpWrapper {
+    display: none;
+    left: 5%;
+	top: 3px;
+    position: absolute;
     width: 90%;
 }
 div.linkTVLogoWrapper {
@@ -268,7 +275,7 @@ div.logoWrapper:hover div.linkTVLogoWrapper {
 div.thumbWrapper:hover div.linkTVWrapper {
     display: block;
 }
-div.thumbWrapper:hover div.linkWrapper {
+div.thumbWrapper:hover div.linkWrapper, div.thumbEpWrapper:hover div.linkEpWrapper {
     display: block;
 }
 div.thumbWrapper a {
@@ -295,10 +302,22 @@ div.logoWrapper a {
     padding: 8px 7px;
     text-decoration: none;
 }
-div.thumbWrapper a:hover, div.logoWrapper a:hover {
+div.thumbEpWrapper a {
+    background-color: #343434;
+    border: 1px solid #A4A4A4;
+    /*border-radius: 5px 5px 5px 5px;*/
+    color: #FFFFFF;
+    display: block;
+    font-size: 16px;
+    margin-bottom: 3px;
+    opacity: 0.9;
+    padding: 6px 7px;
+    text-decoration: none;
+}
+div.thumbWrapper a:hover, div.logoWrapper a:hover, div.thumbEpWrapper a:hover {
     color: #7AC800;
 }
-div.thumbWrapper div.albumName, div.thumbWrapper div.movieName, div.thumbWrapper div.tvshowName, div.logoWrapper div.albumArtist, div.logoWrapper div.tvshowName {
+div.thumbWrapper div.albumName, div.thumbWrapper div.movieName, div.thumbWrapper div.tvshowName, div.logoWrapper div.albumArtist, div.logoWrapper div.tvshowName  {
     background-color: rgba(0,0,0,0.8);
 	color: #fff; /*#4B4B4B;*/
     font-size: 11px;
@@ -1234,6 +1253,36 @@ a.recentTVplay  {
 	top: 98px; 
 	left: 10px; 
 	z-index: 5
+}
+div.episodeThumb {
+	margin: 5px 5px 0 5px;
+	float: left;
+	position: relative; 
+	z-index:3;
+}
+div.episodeTitle {
+	font-size: 20px;
+	display: block;
+	margin-top: 3px;
+	color: #A0E312;
+}
+div.episodeTVSE {
+	font-size: 15px;
+	display: block;
+}
+div.episodeRating {
+	font-size: 15px;
+}
+div.episodePlot {
+	display: table;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+div.showEpisode {
+	display: table;
+	width: 100%;
+	position: relative; 
+	vertical-align:text-top;
 }
 a.bigLeft, a.bigRight, a.bigUp, a.bigDown, a.bigSelect, a.bigBack, a.bigHome, a.bigSubOnOff,  a.bigSubNext, a.bigSubPrev, a.bigAudioNext, a.bigAudioPrev {
     background: url("../images/controls_big.png") no-repeat scroll 0 0 transparent;

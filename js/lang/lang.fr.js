@@ -202,6 +202,7 @@ mkf.lang.add({language: 'Français', short: 'fr', author: 'DanoneKiD', values: {
 	'label_view_film_accordion':		'Accordion (Details Inline)*',
 	'label_single_poster':				'Single Poster',
 	'label_view_tv_banner':				'Banner',
+	'label_view_thumbnail':				'Thumbnail (Details Overlay)',
 	'label_view_tv_list_overlay':		'List (Details Overlay)',
 	'label_view_tv_infolist':			'Info List',
 	'label_view_album_cover':			'Cover',

@@ -4,6 +4,10 @@
  - Added Play movies via Cinema Experience addon.
  - Added Chinese translation by Taxigps.
  - Added Albums inline list view.
+ - Added Episodes thumbnail view.
+ - Added Movies single poster view.
+ - Added Trailer link and play via XBMC.
+ - Changed Only warn about reloading when changing UIs.
  
 0.5.0
  - Added Sorting.

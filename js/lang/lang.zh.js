@@ -202,6 +202,7 @@ mkf.lang.add({language: 'Chinese', short: 'zh', author: 'Taxigps', values: {
 	'label_view_film_accordion': 		'折叠面板（详情内嵌）*',
 	'label_single_poster':				'Single Poster',
 	'label_view_tv_banner': 			'宽图标',
+	'label_view_thumbnail':				'Thumbnail (Details Overlay)',
 	'label_view_tv_list_overlay': 		'列表（详情单列）',
 	'label_view_tv_infolist': 			'信息列表',
 	'label_view_album_cover': 			'封面',

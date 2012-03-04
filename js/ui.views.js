@@ -1677,26 +1677,12 @@ var uiviews = {};
 					if (tvshow.playcount > 0 && !filterShowWatched) { watched = true; }
 					if (filterWatched && watched) { return; }
 					var thumb = (tvshow.thumbnail? xbmc.getThumbUrl(tvshow.thumbnail) : 'images/thumb' + xbmc.getTvShowThumbType() + '.png');
-					/*xbmc.getLogo(tvshow.file, function(logo) {
-						//$('.dialog').css('background-image', 'url("' + logo + '")');
-						//$('.filelink').find('a').attr('href',fileDownload);
-						if (logo) {
-							$('.dialog').find('img').attr('src', logo);
-							$('.dialog').find('img.thumbBanner').removeAttr('height');
-						}
-					});*/
-					
-					//console.log(thumb);
 					var $tvshow = $('<div class="tvshow'+tvshow.tvshowid+' logoWrapper thumbLogoWrapper">' +
 							'<div class="linkTVLogoWrapper">' + 
 								'<a href="" class="season">' + mkf.lang.get('btn_seasons') + '</a>' +
 								'<a href="" class="info">' + mkf.lang.get('btn_information') + '</a>' +
 								'<a href="" class="unwatched">' + mkf.lang.get('btn_unwatched') + '</a>' +
-							'</div>' +
-							//(useLazyLoad?
-								//'<img src="images/loading_thumb' + xbmc.getTvShowThumbType() + '.gif" alt="' + tvshow.label + '" class="thumbLogo" original="' + thumb + '" />':
-								'<img src="' + thumb + '" alt="' + tvshow.label + '" class="thumbLogo" />' +
-							//) +
+							'</div><img src="' + thumb + '" alt="' + tvshow.label + '" class="thumbLogo" />' +
 							'<div class="tvshowName">' + tvshow.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</div>' +
 							'<div class="findKeywords">' + tvshow.label.toLowerCase() + '</div>' +
 						'</div>')
@@ -1705,7 +1691,6 @@ var uiviews = {};
 					$tvshow.find('.info').bind('click', {'tvshow': tvshow}, uiviews.TVShowInfoOverlay);
 					$tvshow.find('.unwatched').bind('click', {idTvShow: tvshow.tvshowid, strTvShow: tvshow.label, objParentPage: parentPage}, uiviews.Unwatched);
 					xbmc.getLogo(tvshow.file, function(logo) { $tvshow.find('img.thumbLogo').attr('src', logo); } );
-					//console.log($tvshow.find('img.thumbLogo'));
 				});
 
 			}
@@ -1733,18 +1718,20 @@ var uiviews = {};
 		},
 		
 		/*----TV episodes list----*/
-		TVEpisodesViewList: function(eps) {
+		TVEpisodesViewList: function(eps, options) {
 			//var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
 			var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
 			var filterShowWatched = mkf.cookieSettings.get('hidewatchedmark', 'no')=='yes'? true : false;
+			var genlist = eps.episodes;
 			//var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
+			
+			//For unwatched listing
+			if (options) genlist = eps;
 			
 			var $episodeList = $('<ul class="fileList"></ul>');
 
-			$.each(eps.episodes, function(i, episode)  {
+			$.each(genlist, function(i, episode)  {
 				var watched = false;
-				var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
-				var filterShowWatched = mkf.cookieSettings.get('hidewatchedmark', 'no')=='yes'? true : false;
 				
 				if (episode.playcount > 0 && !filterShowWatched) { watched = true; }
 				if (filterWatched && watched) { return; }
@@ -1762,9 +1749,53 @@ var uiviews = {};
 
 			return $episodeList;
 		},
+
+		/*----TV episodes thumbnail----*/
+		TVEpThumbnailList: function(eps, options) {
+
+			var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
+			var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
+			var filterShowWatched = mkf.cookieSettings.get('hidewatchedmark', 'no')=='yes'? true : false;
+			var genlist = eps.episodes;
+			//var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
+			
+			//if (options) { unwatched = options };
+			if (options) genlist = eps;
+			
+			var $episodeList = $('<ul class="RecentfileList"></ul>');
+
+				$.each(genlist, function(i, episode)  {
+					var watched = false;	
+					if (episode.playcount > 0 && !filterShowWatched) { watched = true; }
+					if (filterWatched && watched) { return; }
+					
+					var thumb = (episode.thumbnail? xbmc.getThumbUrl(episode.thumbnail) : 'images/thumb.png');
+					var $episode = $('<li><div class="showEpisode">' + 
+					'<div class="episodeThumb thumbEpWrapper">' +
+					'<div class="linkEpWrapper">' + 
+							'<a href="" class="play">' + mkf.lang.get('btn_play') + '</a><a href="" class="playlist">' + mkf.lang.get('btn_enqueue') + '</a><a href="" class="info">' + mkf.lang.get('btn_information') + '</a>' +
+						'</div>' +
+					(useLazyLoad?
+					'<img src="images/loading_thumb.gif" alt="' + episode.label + '" class="thumb thumbFanart" original="' + thumb + '" />' :
+					'<img src="' + thumb + '" alt="' + episode.label + '" class="thumbFanart" />'
+					) +
+					'</div>' +
+					'<div class="episodeTitle">' + episode.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</div>' +
+					'<div class="episodeTVSE">Season: ' + episode.season + ' - Episode: ' +episode.episode + '</div>' +					
+					'<div class="episodeRating"><span class="label">' + mkf.lang.get('label_rating') + '</span><span><div class="smallRating' + Math.round(episode.rating) + '"></div></span></div>' +
+					'<div class="episodePlot">' + episode.plot + '</div>' +
+					'</div></li>').appendTo($episodeList);
+					
+					$episode.find('.play').bind('click', {idEpisode: episode.episodeid}, uiviews.EpisodePlay);
+					$episode.find('.playlist').bind('click', {idEpisode: episode.episodeid}, uiviews.AddEpisodeToPlaylist);
+					$episode.find('.info').bind('click', {idEpisode: episode.episodeid}, uiviews.EpisodeInfo);
+					//$episode.find('.unwatchedEps').bind('click', {idTvShow: episode.tvshowid, strTvShow: episode.showtitle, objParentPage: parentPage}, uiviews.Unwatched);
+				});
+
+			return $episodeList;
+		},
 		
 		/*----TV Recently Added----*/
-		//Isn't this just an episodes view?
 		TVRecentViewInfoList: function(eps, parentPage, options) {
 
 			var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
@@ -1790,7 +1821,7 @@ var uiviews = {};
 					'<div class="recentTVthumb"><img src="' + thumb + '" alt="' + episode.label + '" class="thumbFanart episode play" /></div>'
 					) +
 					'<div class="recentTVshowName unwatchedEps" title="' + mkf.lang.get('btn_unwatched') + '">' + episode.showtitle + (watched? '<img src="images/OverlayWatched_Small.png" class="epWatched" />' : '') + 
-					'</div><div class="recentTVshowSE">Season: ' + episode.season + ' - Episode: ' +episode.episode + 
+					'</div><div class="recentTVSE">Season: ' + episode.season + ' - Episode: ' +episode.episode + 
 					'</div><div class="recentTVtitle">' + episode.label + '</div><div class="recentTVplot">' + episode.plot + '</div></div></li>').appendTo($episodeList);
 					
 					$episode.find('.play').bind('click', {idEpisode: episode.episodeid}, uiviews.EpisodePlay);
@@ -1801,23 +1832,6 @@ var uiviews = {};
 			return $episodeList;
 		},
 		
-		/*----TV unwatched episodes----*/
-		TVUnwatchedEpsViewList: function(eps) {
-			var $episodeList = $('<ul class="fileList"></ul>').appendTo($(this));
-				$.each(eps, function(i, episode)  {
-					var $episode = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper episode' + episode.episodeid + '"> <a href="" class="button playlist" title="' + mkf.lang.get('btn_enqueue') + 
-					'"><span class="miniIcon enqueue" /></a><a href="" class="button info" title="' + mkf.lang.get('btn_information') + '"><span class="miniIcon information" /></a><a href="" class="episode play">' +
-					//var $episode = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper episode' + episode.episodeid + '">' +
-					//'<span class="miniIcon information"><a href="" class="button info" title="' + mkf.lang.get('btn_information') + '"></a></span><a href="" class="episode play">' + 
-					'S' + episode.season + 'E' + episode.episode + '. ' + episode.label + '</a></div></li>').appendTo($episodeList);
-
-					$episode.find('.play').bind('click', {idEpisode: episode.episodeid}, uiviews.EpisodePlay);
-					$episode.find('.playlist').bind('click', {idEpisode: episode.episodeid}, uiviews.AddEpisodeToPlaylist);
-					$episode.find('.information').bind('click', {idEpisode: episode.episodeid}, uiviews.EpisodeInfo);
-				});
-				
-			return 	$episodeList;
-		},
 		
 /*----------------*/
 /* Playlist views */

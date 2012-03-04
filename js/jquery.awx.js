@@ -430,8 +430,8 @@
 				'<fieldset>' +
 				'<legend>' + mkf.lang.get('group_episodes') + '</legend>' +
 				'<select name="EpView"><option value="listover" ' + (EpView=='listover'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_overlay') + '</option>' +
-				//'<option value="listover" ' + (EpView=='listover'? 'selected' : '') + '>' + mkf.lang.get('label_view_tv_list_overlay') +
-				//'</option><option value="listin" ' + (EpView=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') +'</option><option value="accordion"' + (EpView=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
+				'<option value="thumbnail" ' + (EpView=='thumbnail'? 'selected' : '') + '>' + mkf.lang.get('label_view_thumbnail') + '</option>' +
+				//'<option value="listin" ' + (EpView=='listin'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_list_inline') +'</option><option value="accordion"' + (EpView=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
 				//'<option value="none" ' + (EpView=='none'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_none') +'</option><option value="videorating" ' + (EpView=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
 				//'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option>
 				'</select>' +
@@ -1464,9 +1464,17 @@
 		if (!episodesResult.limits.total > 0) { return };
 		
 		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'yes')=='yes'? true : false;
+		var view = mkf.cookieSettings.get('EpView', 'listover');
 		var epsContainer = $(this);
 		
-		uiviews.TVEpisodesViewList(episodesResult).appendTo(epsContainer);
+		switch (view) {
+			case 'thumbnail':
+				uiviews.TVThumbnailList(episodesResult).appendTo(epsContainer);
+				break;
+			case 'listover':
+				uiviews.TVEpisodesViewList(episodesResult).appendTo(epsContainer);
+				break;
+		};
 		
 		if (useLazyLoad) {
 			function loadThumbs(i) {
@@ -1492,7 +1500,33 @@
 	
 		if (!episodesResult > 0) { return };
 		
-		uiviews.TVUnwatchedEpsViewList(episodesResult).appendTo($(this));
+		//uiviews.TVUnwatchedEpsViewList(episodesResult).appendTo($(this));
+		var useLazyLoad = mkf.cookieSettings.get('lazyload', 'yes')=='yes'? true : false;
+		var view = mkf.cookieSettings.get('EpView', 'listover');
+		var unwatched = true;
+		var epsContainer = $(this);
+		
+		switch (view) {
+			case 'thumbnail':
+				uiviews.TVEpThumbnailList(episodesResult, unwatched).appendTo(epsContainer);
+				break;
+			case 'listover':
+				uiviews.TVEpisodesViewList(episodesResult, unwatched).appendTo(epsContainer);
+				break;
+		};
+		
+		if (useLazyLoad) {
+			function loadThumbs(i) {
+				epsContainer.find('img.thumb').lazyload(
+					{
+						queuedLoad: true,
+						container: ($('#main').length? $('#main'): $('#content')),	// TODO remove fixed #main
+						errorImage: 'images/thumb' + xbmc.getTvShowThumbType() + '.png'
+					}
+				);
+			};
+			setTimeout(loadThumbs, 100);
+		}
 
 	}; // END defaultunwatchedEpsViewer
 	

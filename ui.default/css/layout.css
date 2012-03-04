@@ -403,6 +403,10 @@ div.thumbWrapper, div.logoWrapper {
     text-align: center;
     width: 129px;
 }
+div.thumbEpWrapper {
+	text-align: center;
+    width: 200px;
+}
 div.logoWrapper a {
     background-color: #343434;
     border: 1px solid #A4A4A4;
@@ -444,6 +448,13 @@ div.linkTVWrapper {
     position: absolute;
     width: 90%;
 }
+div.linkEpWrapper {
+    display: none;
+    left: 5%;
+	top: 3px;
+    position: absolute;
+    width: 90%;
+}
 div.linkTVLogoWrapper {
     display: none;
     left: 5%;
@@ -451,7 +462,7 @@ div.linkTVLogoWrapper {
     position: absolute;
     width: 90%;
 }
-div.logoWrapper:hover div.linkTVLogoWrapper {
+div.logoWrapper:hover div.linkTVLogoWrapper, div.thumbEpWrapper:hover div.linkEpWrapper {
     display: block;
 }
 div.thumbWrapper:hover div.linkTVWrapper {
@@ -474,8 +485,19 @@ div.thumbWrapper a, div.folderLinkWrapper a.button, a.formButton {
 	font-size: 14px;
 	margin-bottom: 1px;
 }
-
-div.thumbWrapper a:hover, a.formButton:hover { color: #FFBB00; }
+div.thumbEpWrapper a {
+    background-color: #343434;
+    border: 1px solid #A4A4A4;
+    /*border-radius: 5px 5px 5px 5px;*/
+    color: #FFFFFF;
+    display: block;
+    font-size: 16px;
+    margin-bottom: 3px;
+    opacity: 0.9;
+    padding: 6px 7px;
+    text-decoration: none;
+}
+div.thumbWrapper a:hover, a.formButton:hover, div.thumbEpWrapper a:hover  { color: #FFBB00; }
 div.folderLinkWrapper:hover a.button:hover { background-image: none; background-color: #343434; color: #FFBB00; }	
 div.folderLinkWrapper a.button:hover span.information {
     background-position: -48px -16px;
@@ -506,7 +528,7 @@ img.thumbFanart {
     height: 113px;
     width: 200px;
 }
-img.thumbFanart:hover{
+img.episode:hover{
 	border: 1px solid #A0E312;
 }
 img.thumbPosterLarge {
@@ -1212,6 +1234,36 @@ a.recentTVplay  {
 	top: 98px; 
 	left: 21px; 
 	z-index: 5
+}
+div.episodeThumb {
+	margin: 5px 5px 0 5px;
+	float: left;
+	position: relative; 
+	z-index:3;
+}
+div.episodeTitle {
+	font-size: 20px;
+	display: block;
+	margin-top: 3px;
+	color: #A0E312;
+}
+div.episodeTVSE {
+	font-size: 15px;
+	display: block;
+}
+div.episodeRating {
+	font-size: 15px;
+}
+div.episodePlot {
+	display: table;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+div.showEpisode {
+	display: table;
+	width: 100%;
+	position: relative; 
+	vertical-align:text-top;
 }
 ul.RecentfileList {
 	background-color: rgba(0,0,0,0.7);
