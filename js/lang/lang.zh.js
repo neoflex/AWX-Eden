@@ -196,6 +196,7 @@ mkf.lang.add({language: 'Chinese', short: 'zh', author: 'Taxigps', values: {
 	'label_album_sort_year': 			'年份',
 	'label_album_sort_none': 			'已加入',
 	'label_view_logo':					'Logo*',
+	'label_view_singlelogo':			'Single Logo',
 	'label_view_film_poster': 			'海报',
 	'label_view_film_list_overlay': 	'列表（详情单列）',
 	'label_view_film_list_inline': 		'列表（详情内嵌）',

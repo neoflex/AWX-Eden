@@ -196,6 +196,7 @@ mkf.lang.add({language: 'Polski', short: 'pl', author: 'cienislaw', values: {
 	'label_album_sort_year': 			'Rok',
 	'label_album_sort_none': 			'Dodane',
 	'label_view_logo':					'Logo*',
+	'label_view_singlelogo':			'Single Logo',
 	'label_view_film_poster': 			'Plakat',
 	'label_view_film_list_overlay': 	'Lista (Szczegóły w okienku)',
 	'label_view_film_list_inline': 		'Lista (Szczegóły w rozwinięciu)',

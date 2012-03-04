@@ -185,6 +185,10 @@ img.thumbLogo {
 	height: 116px;
 	width: 300px;	
 }
+img.thumbFullLogo {
+	height: 155px;
+	width: 400px;	
+}
 img.thumbPoster {
     height: 185px;
     width: 125px;
@@ -236,6 +240,10 @@ div.thumbBannerWrapper {
 div.thumbLogoWrapper {
     height: 133px;
     width: 300px;
+}
+div.thumbFullLogoWrapper {
+    height: 175px;
+    width: 400px;
 }
 div.thumbEpWrapper {
 	text-align: center;
@@ -938,6 +946,9 @@ ul.fileList {
 }
 div.singleView {
 	vertical-align: middle;
+	display: table;
+	margin-left:auto;
+	margin-right:auto;
 }
 div.singleView div.prev {
 	width: 48px;

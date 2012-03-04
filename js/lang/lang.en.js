@@ -196,6 +196,7 @@ mkf.lang.add({language: 'English', short: 'en', author: 'MKay', values: {
 	'label_album_sort_year': 			'Year',
 	'label_album_sort_none': 			'Added',
 	'label_view_logo':					'Logo*',
+	'label_view_singlelogo':			'Single Logo',
 	'label_view_film_poster': 			'Poster',
 	'label_view_film_list_overlay': 	'List (Details Overlay)',
 	'label_view_film_list_inline': 		'List (Details Inline)',

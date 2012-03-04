@@ -998,35 +998,91 @@ var uiviews = {};
 
 		/*----Artists logo view----*/
 		ArtistViewLogos: function(artists, parentPage) {
-			//var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
 			var artistsPath = mkf.cookieSettings.get('artistsPath', '');
 			var $artistList = $('<div></div>');
 
 				$.each(artists.artists, function(i, artist)  {
 					var thumb = (artist.thumbnail? xbmc.getThumbUrl(artist.thumbnail) : 'images/thumb.png');
-					$artist = $('<div class="album'+artist.artistid+' logoWrapper thumbLogoWrapper">' +
-						//(useLazyLoad?
-							//'<img src="images/loading_thumb.gif" alt="' + artist.label + '" class="thumb albums" original="' + thumb + '" />':
-							'<img src="' + thumb + '" alt="' + artist.label + '" class="thumbLogo albums" />' +
-						//) +
+					$artist = $('<div class="artist'+artist.artistid+' logoWrapper thumbLogoWrapper">' +
+						'<img src="' + thumb + '" alt="' + artist.label + '" class="thumbLogo artist" />' +
 						'<div class="albumArtist">' + artist.artist + '</div></div>' +
 						'<div class="findKeywords">' + artist.label.toLowerCase() + '</div>' +
 					'</div>').appendTo($artistList);;
 
 				artist.file = artistsPath + artist.label + '/';
+
+				$artist.find('.artist').bind('click', { idArtist: artist.artistid, strArtist: artist.label, objParentPage: parentPage }, uiviews.ArtistAlbums);
 				
-				//console.log($artist.find('img.thumbLogo'));
-				//$artistList.append($artist);
-				$artist.find('.albums').bind('click', { idArtist: artist.artistid, strArtist: artist.label, objParentPage: parentPage }, uiviews.ArtistAlbums);
-				//$artist.find('img.thumbLogo').attr('src', 'images/thumb.png'); 
 				xbmc.getLogo(artist.file, function(logo) {
-						//xbmc.getLogo(tvshow.file, function(logo) { $tvshow.find('img.thumbLogo').attr('src', logo); } );
-						//console.log(logo);
-						//console.log($('.album'+artist.artistid).children('img')); 
-						$('.album'+artist.artistid).children('img').attr('src', logo); 
+						$('.artist'+artist.artistid).children('img').attr('src', logo); 
 					});
 				});
 
+			return $artistList;
+		},
+
+		/*----Artists single logo view----*/
+		ArtistViewSingleLogos: function(artists, parentPage) {
+			var artistsPath = mkf.cookieSettings.get('artistsPath', '');
+			var artist = artists.artists[0];
+			var currentArtist = 0;
+			var contentWidth = $('#content').width();
+			var contentHeight = ($('#main').length? $('#main').height() -65: $('#content').height())-190;
+
+			var $artistList = $('<div class="singleView" style="margin-top: ' + contentHeight/2 + 'px"></div>');
+
+				//$.each(artists.artists, function(i, artist)  {
+					var thumb = ('images/missing_logo.png');
+					$artist = $('<div class="prev" style="float: left; margin-bottom: 50px; margin-left: 10px; display: table-cell"><a href="#" /></div>' +
+						'<div class="artist'+artist.artistid+' logoWrapper thumbFullLogoWrapper" style="float: none; display: table-cell">' +
+						'<img src="' + thumb + '" alt="' + artist.label + '" class="thumbFullLogo artist" />' +
+						'<div class="albumArtist">' + artist.artist + '</div></div>' +
+						//'<div class="findKeywords">' + artist.label.toLowerCase() + '</div>' +
+						'<div class="next" style="float: left; margin-bottom: 50px; margin-left: 10px; display: table-cell"><a href="#" /></div>' +
+					'</div>').appendTo($artistList);;
+
+				artist.file = artistsPath + artist.label + '/';
+
+				$artist.find('.artist').on('click', { idArtist: artist.artistid, strArtist: artist.label, objParentPage: parentPage }, uiviews.ArtistAlbums);
+				xbmc.getLogo(artist.file, function(logo) {
+						$('.artist'+artist.artistid).children('img').attr('src', (logo? logo : 'images/missing_logo.png')); 
+					});
+				
+				$artistList.find('div.next').on('click', function () {
+					$('div.artist' + artists.artists[currentArtist].artistid).removeClass('artist' + artists.artists[currentArtist].artistid);
+					if (currentArtist < artists.limits.end -1) {currentArtist++ } else { currentArtist = artists.limits.start };
+					$('div.logoWrapper').addClass('artist' + artists.artists[currentArtist].artistid);
+					artist.file = artistsPath + artists.artists[currentArtist].label + '/';
+					xbmc.getLogo(artist.file, function(logo) {
+						$('img.artist').attr('src', (logo? logo : 'images/missing_logo.png'));
+					});
+					$('div.albumArtist').text(artists.artists[currentArtist].label);
+					$artistList.find('.artist').off();
+					$artistList.find('.artist').on('click', { idArtist: artists.artists[currentArtist].artistid, strArtist: artists.artists[currentArtist].label, objParentPage: parentPage }, uiviews.ArtistAlbums);
+				});
+
+				$artistList.find('div.prev').on('click', function () {
+					$('div.artist' + artists.artists[currentArtist].artistid).removeClass('artist' + artists.artists[currentArtist].artistid);
+					if (currentArtist > artists.limits.start) {currentArtist-- } else { currentArtist = artists.limits.end -1 };
+					$('div.logoWrapper').addClass('artist' + artists.artists[currentArtist].artistid);
+					artist.file = artistsPath + artists.artists[currentArtist].label + '/';
+					xbmc.getLogo(artist.file, function(logo) {
+						$('img.artist').attr('src', (logo? logo : 'images/missing_logo.png'));
+					});
+					$('div.albumArtist').text(artists.artists[currentArtist].label);
+					$artistList.find('.artist').off();
+					$artistList.find('.artist').on('click', { idArtist: artists.artists[currentArtist].artistid, strArtist: artists.artists[currentArtist].label, objParentPage: parentPage }, uiviews.ArtistAlbums);
+				});
+
+				$( window ).resize( xbmc.debouncer( function ( e ) {
+					contentHeight = ($('#main').length? $('#main').height() -65: $('#content').height())-190; //$('#content').height() -5;
+					
+					//$('div.next, div.prev').css('margin-bottom', contentHeight/2.5);
+					$('div.singleView').css('margin-top', contentHeight/2);
+					//$('div.movieName').css('width', $('img.singleThumb').width());
+				
+				} ) );
+			
 			return $artistList;
 		},
 		
@@ -1424,7 +1480,7 @@ var uiviews = {};
 		contentWidth += -100;
 		contentHeight += -5;
 		
-		var $moviesList = $('<div class="singleView" style="display: table; margin-left:auto; margin-right:auto"></div>');
+		var $moviesList = $('<div class="singleView"></div>');
 		
 		var thumb = (movies.movies[currentItem].thumbnail? xbmc.getThumbUrl(movies.movies[currentItem].thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
 			var $movie = $('<div class="prev" style="float: left; margin-bottom: ' + contentHeight/2.5 + 'px; margin-left: 10px; display: table-cell"><a href="#" /></div>' +

@@ -346,11 +346,11 @@
 				'<select id="artists" name="artistsView"><option value="cover" ' + (artistsView=='cover'? 'selected' : '') + '>' + mkf.lang.get('label_view_album_cover') +
 				'</option><option value="list" ' + (artistsView=='list'? 'selected' : '') + '>' + mkf.lang.get('label_view_album_list') +
 				'</option><option value="logo" ' + (artistsView=='logo'? 'selected' : '') + '>' + mkf.lang.get('label_view_logo') + '</option>' +
-				//<option value="accordion"' + (albumsView=='accordion'? 'selected' : '') + '>' + mkf.lang.get('label_view_film_accordion') + '</option>' +
+				'<option value="logosingle"' + (artistsView=='logosingle'? 'selected' : '') + '>' + mkf.lang.get('label_view_singlelogo') + '</option>' +
 				//'<option value="none" ' + (filmView=='none'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_none') +'</option><option value="videorating" ' + (filmView=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
 				//'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option>
 				'</select>' +
-				'<input type="text" name="artists_path" id="artists_path" style="display: ' + (artistsView == 'logo'? 'block' : 'none') + ';" />' +
+				'<input type="text" name="artists_path" id="artists_path" style="display: ' + (artistsView == 'logo' || 'logosingle'? 'block' : 'none') + ';" />' +
 				'</fieldset>' +
 				
 				'<fieldset class="ui_views">' +
@@ -508,7 +508,7 @@
 			);
 
 			$('#artists').change(function() {
-				$('#artists_path').css('display', ($(this).val() == 'logo') ? 'block' : 'none');
+				$('#artists_path').css('display', ($(this).val() == 'logo' || 'logosingle') ? 'block' : 'none');
 			});
 			
 			
@@ -746,6 +746,9 @@
 				break;
 			case 'logo':
 				uiviews.ArtistViewLogos(artistResult, parentPage).appendTo($artistsViewerElement);
+				break;
+			case 'logosingle':
+				uiviews.ArtistViewSingleLogos(artistResult, parentPage).appendTo($artistsViewerElement);
 				break;
 		};
 		

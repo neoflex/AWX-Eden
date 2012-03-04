@@ -316,7 +316,7 @@ var xbmc = {};
 						//console.log(logo);
 					},
 					onError: function(errorText) {
-						//callback('error');
+						callback('');
 						//console.log('No logo found');
 					},
 				});

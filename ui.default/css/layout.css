@@ -592,6 +592,9 @@ div.movietags {
 }
 div.singleView {
 	vertical-align: middle;
+	display: table;
+	margin-left:auto;
+	margin-right:auto;
 }
 div.singleView div.prev {
 	width: 48px;
