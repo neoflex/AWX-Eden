@@ -1732,7 +1732,7 @@ var uiviews = {};
 					var watched = false;
 					if (tvshow.playcount > 0 && !filterShowWatched) { watched = true; }
 					if (filterWatched && watched) { return; }
-					var thumb = (tvshow.thumbnail? xbmc.getThumbUrl(tvshow.thumbnail) : 'images/thumb' + xbmc.getTvShowThumbType() + '.png');
+					var thumb = (tvshow.thumbnail? xbmc.getThumbUrl(tvshow.thumbnail) : 'images/missing_logo.png');
 					var $tvshow = $('<div class="tvshow'+tvshow.tvshowid+' logoWrapper thumbLogoWrapper">' +
 							'<div class="linkTVLogoWrapper">' + 
 								'<a href="" class="season">' + mkf.lang.get('btn_seasons') + '</a>' +
@@ -1746,7 +1746,7 @@ var uiviews = {};
 					$tvshow.find('.season').bind('click', {idTvShow: tvshow.tvshowid, strTvShow: tvshow.label, objParentPage: parentPage}, uiviews.SeasonsList);
 					$tvshow.find('.info').bind('click', {'tvshow': tvshow}, uiviews.TVShowInfoOverlay);
 					$tvshow.find('.unwatched').bind('click', {idTvShow: tvshow.tvshowid, strTvShow: tvshow.label, objParentPage: parentPage}, uiviews.Unwatched);
-					xbmc.getLogo(tvshow.file, function(logo) { $tvshow.find('img.thumbLogo').attr('src', logo); } );
+					xbmc.getLogo(tvshow.file, function(logo) { $tvshow.find('img.thumbLogo').attr('src', (logo? logo : 'images/missing_logo.png')); } );
 				});
 
 			}

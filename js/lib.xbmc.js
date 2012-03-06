@@ -346,6 +346,10 @@ var xbmc = {};
 									.attr('src', xbmc.getThumbUrl(tvshow.thumbnail));
 
 								return false;
+							} else { 
+								//Incase of empty thumbnails
+								callback();
+								return false; 
 							}
 						});
 					} else {
