@@ -233,6 +233,8 @@ var xbmc = {};
 				case 'tvshows':
 				if (mkf.cookieSettings.get('TVView', 'banner') == 'banner') {
 					return '.thumbWrapper';
+				} else if (mkf.cookieSettings.get('TVView', 'logo') == 'logo') {
+					return '.thumbLogoWrapper';
 				} else {
 					return '.folderLinkWrapper';
 				}
@@ -312,7 +314,8 @@ var xbmc = {};
 					path: path,
 					async: true,
 					onSuccess: function(result) {
-						callback(xbmc.getUrl(result.details.path));
+						//callback(xbmc.getUrl(result.details.path));
+						callback(location.protocol + '//' + location.host + '/' + result.details.path);
 						//console.log(logo);
 					},
 					onError: function(errorText) {

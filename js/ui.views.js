@@ -1014,7 +1014,7 @@ var uiviews = {};
 				$artist.find('.artist').bind('click', { idArtist: artist.artistid, strArtist: artist.label, objParentPage: parentPage }, uiviews.ArtistAlbums);
 				
 				xbmc.getLogo(artist.file, function(logo) {
-						$('.artist'+artist.artistid).children('img').attr('src', logo); 
+						$('.artist'+artist.artistid).children('img').attr('src', (logo? logo : 'images/missing_logo.png')); 
 					});
 				});
 
@@ -1870,12 +1870,17 @@ var uiviews = {};
 					
 					var thumb = (episode.thumbnail? xbmc.getThumbUrl(episode.thumbnail) : 'images/thumb.png');
 					var $episode = $('<li><div class="recentTVshow">' + 
-					'<div class="recentTVenq episode' + episode.episodeid + '"> <a href="" class="button playlist recentTVplay" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a></div>' + 
+					//'<div class="recentTVenq episode' + episode.episodeid + '"> <a href="" class="button playlist recentTVplay" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a></div>' + 
+					'<div class="episodeThumb thumbEpWrapper">' +
+					'<div class="linkEpWrapper">' + 
+							'<a href="" class="play">' + mkf.lang.get('btn_play') + '</a><a href="" class="playlist">' + mkf.lang.get('btn_enqueue') + '</a><a href="" class="unwatchedEps">' + mkf.lang.get('btn_unwatched') + '</a>' +
+						'</div>' +
 					(useLazyLoad?
-					'<div class="recentTVthumb"><img src="images/loading_thumb.gif" alt="' + episode.label + '" class="thumb thumbFanart episode play" original="' + thumb + '" /></div>':
+					'<img src="images/loading_thumb.gif" alt="' + episode.label + '" class="thumb thumbFanart episode play" original="' + thumb + '" />':
 					//'<div class="recentTVthumb"><img src="' + thumb + '" alt="' + episode.label + '" class="thumbFanart episode play" /></div>':
-					'<div class="recentTVthumb"><img src="' + thumb + '" alt="' + episode.label + '" class="thumbFanart episode play" /></div>'
+					'<img src="' + thumb + '" alt="' + episode.label + '" class="thumbFanart episode play" />'
 					) +
+					'</div>' +
 					'<div class="recentTVshowName unwatchedEps" title="' + mkf.lang.get('btn_unwatched') + '">' + episode.showtitle + (watched? '<img src="images/OverlayWatched_Small.png" class="epWatched" />' : '') + 
 					'</div><div class="recentTVSE">Season: ' + episode.season + ' - Episode: ' +episode.episode + 
 					'</div><div class="recentTVtitle">' + episode.label + '</div><div class="recentTVplot">' + episode.plot + '</div></div></li>').appendTo($episodeList);

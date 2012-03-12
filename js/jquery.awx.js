@@ -350,7 +350,7 @@
 				//'<option value="none" ' + (filmView=='none'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_none') +'</option><option value="videorating" ' + (filmView=='videorating'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_videorating') +
 				//'</option><option value="studio">' + mkf.lang.get('label_film_sort_studio') +'</option>
 				'</select>' +
-				'<input type="text" name="artists_path" id="artists_path" style="display: ' + (artistsView == 'logo' || 'logosingle'? 'block' : 'none') + ';" />' +
+				'<input type="text" name="artists_path" id="artists_path" style="display: ' + (artistsView == 'logo' || artistsView == 'logosingle'? 'block' : 'none') + ';" />' +
 				'</fieldset>' +
 				
 				'<fieldset class="ui_views">' +
@@ -460,11 +460,6 @@
 				'</select>' +
 				'<input type="checkbox" id="adesc" name="adesc" ' + (adesc=='descending'? 'checked="checked"' : '') + '><label for="adesc">' + mkf.lang.get('label_filter_mdesc') + '</label>' +
 				'</fieldset>' +
-				/*'<fieldset class="ui_albums">' +
-				'<legend>' + mkf.lang.get('group_albums') + '</legend>' +
-				'<input type="radio" id="orderByAlbum" name="albumOrder" value="album" ' + (order=='album'? 'checked="checked"' : '') + '><label for="orderByAlbum">' + mkf.lang.get('label_order_by_title') +'</label>' +
-				'<input type="radio" id="orderByArtist" name="albumOrder" value="artist" ' + (order=='artist'? 'checked="checked"' : '') + '><label for="orderByArtist">' + mkf.lang.get('label_order_by_artist') +'</label>' +
-				'</fieldset>' +*/
 				'<fieldset>' +
 				'<legend>' + mkf.lang.get('group_film_sort') + '</legend>' +
 				'' + mkf.lang.get('settings_select_film_sort') +'<select name="filmSort"><option value="label" ' + (filmSort=='label'? 'selected' : '') + '>' + mkf.lang.get('label_film_sort_label') +
@@ -508,7 +503,7 @@
 			);
 
 			$('#artists').change(function() {
-				$('#artists_path').css('display', ($(this).val() == 'logo' || 'logosingle') ? 'block' : 'none');
+				$('#artists_path').css('display', ($(this).val() == 'logo' || $(this).val() == 'logosingle') ? 'block' : 'none');
 			});
 			
 			
@@ -1386,7 +1381,7 @@
 		};
 		
 		var onExportVideo = function() {
-			xbmc.exportAudioLibrary({
+			xbmc.exportVideoLibrary({
 				onError: function() {
 					mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
 				},
