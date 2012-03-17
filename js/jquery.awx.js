@@ -520,7 +520,7 @@
 				//Check artistsPath ends with a /
 				if (document.settingsViews.artists_path.value.lastIndexOf("/") + 1 != document.settingsViews.artists_path.value.length) { document.settingsViews.artists_path.value += '/'; };
 				// Checks require artist logo location as skins.
-				if (document.settingsViews.artistsView.value == 'logo' && !document.settingsViews.artists_path.value) {
+				if (document.settingsViews.artistsView.value == 'logo' && !document.settingsViews.artists_path.value || document.settingsViews.artistsView.value == 'logosingle' && !document.settingsViews.artists_path.value) {
 					alert(mkf.lang.get('settings_select_artists_path'));
 					return false;
 				}

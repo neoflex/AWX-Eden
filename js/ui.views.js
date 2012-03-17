@@ -1166,7 +1166,6 @@ var uiviews = {};
 					'</div>');
 
 				$albumsList.append($album);
-				//$albumViewerElement.append($album);
 				$album.find('.play').bind('click', {idAlbum: album.albumid, strAlbum: album.label}, uiviews.AlbumPlay);
 				$album.find('.songs').bind('click', {idAlbum: album.albumid, strAlbum: album.label, objParentPage: parentPage }, uiviews.Songlist);
 				$album.find('.playlist').bind('click', {idAlbum: album.albumid}, uiviews.AddAlbumToPlaylist);
@@ -1876,15 +1875,16 @@ var uiviews = {};
 							'<a href="" class="play">' + mkf.lang.get('btn_play') + '</a><a href="" class="playlist">' + mkf.lang.get('btn_enqueue') + '</a><a href="" class="unwatchedEps">' + mkf.lang.get('btn_unwatched') + '</a>' +
 						'</div>' +
 					(useLazyLoad?
-					'<img src="images/loading_thumb.gif" alt="' + episode.label + '" class="thumb thumbFanart episode play" original="' + thumb + '" />':
+					'<img src="images/loading_thumb.gif" alt="' + episode.label + '" class="thumb thumbFanart episode" original="' + thumb + '" />':
 					//'<div class="recentTVthumb"><img src="' + thumb + '" alt="' + episode.label + '" class="thumbFanart episode play" /></div>':
-					'<img src="' + thumb + '" alt="' + episode.label + '" class="thumbFanart episode play" />'
+					'<img src="' + thumb + '" alt="' + episode.label + '" class="thumbFanart episode" />'
 					) +
 					'</div>' +
 					'<div class="recentTVshowName unwatchedEps" title="' + mkf.lang.get('btn_unwatched') + '">' + episode.showtitle + (watched? '<img src="images/OverlayWatched_Small.png" class="epWatched" />' : '') + 
 					'</div><div class="recentTVSE">Season: ' + episode.season + ' - Episode: ' +episode.episode + 
 					'</div><div class="recentTVtitle">' + episode.label + '</div><div class="recentTVplot">' + episode.plot + '</div></div></li>').appendTo($episodeList);
 					
+					$episode.find('.recentTVshow').on('click', function() { $('.linkEpWrapper').css('display', 'block') });
 					$episode.find('.play').bind('click', {idEpisode: episode.episodeid}, uiviews.EpisodePlay);
 					$episode.find('.playlist').bind('click', {idEpisode: episode.episodeid}, uiviews.AddEpisodeToPlaylist);
 					$episode.find('.unwatchedEps').bind('click', {idTvShow: episode.tvshowid, strTvShow: episode.showtitle, objParentPage: parentPage}, uiviews.Unwatched);

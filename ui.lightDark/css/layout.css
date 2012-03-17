@@ -895,6 +895,7 @@ span.infoinfo {
 div.tools {
 	width: 415px;
 	margin: auto;
+	padding-top: 5px;
 }
 span.tools {
     background: url("../images/tools.png") no-repeat scroll 0 0 #9B9B9B;
@@ -909,13 +910,13 @@ span.tools {
     width: 128px;
 }
 span.toolsscan {
-	background-position: 0px -128px;
+	background-position: -384px 0px;
 }
 span.toolsclean {
-	background-position: -128px -128px;
+	background-position: -512px 0px;
 }
 span.toolsexport {
-    background-position: -256px -128px;
+    background-position: -640px 0px;
 }
 span.toolsscan:hover {
 	background-position: 0px 0px;

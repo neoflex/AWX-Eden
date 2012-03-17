@@ -894,13 +894,13 @@ span.tools {
     width: 128px;
 }
 span.toolsscan {
-	background-position: 0px -128px;
+	background-position: -384px 0px;
 }
 span.toolsclean {
-	background-position: -128px -128px;
+	background-position: -512px 0px;
 }
 span.toolsexport {
-    background-position: -256px -128px;
+    background-position: -640px 0px;
 }
 span.toolsscan:hover {
 	background-position: 0px 0px;
