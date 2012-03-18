@@ -1485,7 +1485,7 @@ var uiviews = {};
 			var $movie = $('<div class="prev" style="float: left; margin-bottom: ' + contentHeight/2.5 + 'px; margin-left: 10px; display: table-cell"><a href="#" /></div>' +
 				'<div class="single" style="display: table-cell;"><div style="width: auto; float: none; padding: 0; text-align: center; margin-top: 5px" class="movie'+movies.movies[currentItem].movieid+' movie">' +
 				//'<div>' +
-				'<img src="' + thumb + '" alt="' + movies.movies[currentItem].label + '" class="singleThumb" style="height: ' + imgHeight + 'px; min-height: 230px; min-width: 160px" />' +
+				'<img src="' + thumb + '" alt="' + movies.movies[currentItem].label + '" class="singleThumb" style="height: ' + imgHeight + 'px; min-height: 170px; min-width: 114px" />' +
 				'<div class="movieName albumInfo" style="margin-top: 0; height: 20px; width: 100%"><span style="vertical-align: middle; margin: 0 3px;">' + movies.movies[currentItem].label + '</span>' + (movies.movies[currentItem].playcount > 0? '<img style="vertical-align: middle" src="images/OverlayWatched_Small.png" />' : '') + '</div>' +
 				//'</div>' +
 				'<div class="rating smallRating' + Math.round(movies.movies[currentItem].rating) + '" style="margin-bottom: 3px;"></div><br />' +
@@ -1825,8 +1825,8 @@ var uiviews = {};
 					if (filterWatched && watched) { return; }
 					
 					var thumb = (episode.thumbnail? xbmc.getThumbUrl(episode.thumbnail) : 'images/thumb.png');
-					var $episode = $('<li><div class="showEpisode">' + 
-					'<div class="episodeThumb thumbEpWrapper">' +
+					var $episode = $('<li><div class="showEpisode thumbEpWrapper">' + 
+					'<div class="episodeThumb">' +
 					'<div class="linkEpWrapper">' + 
 							'<a href="" class="play">' + mkf.lang.get('btn_play') + '</a><a href="" class="playlist">' + mkf.lang.get('btn_enqueue') + '</a><a href="" class="info">' + mkf.lang.get('btn_information') + '</a>' +
 						'</div>' +
@@ -1868,9 +1868,9 @@ var uiviews = {};
 					if (filterWatched && watched) { return; }
 					
 					var thumb = (episode.thumbnail? xbmc.getThumbUrl(episode.thumbnail) : 'images/thumb.png');
-					var $episode = $('<li><div class="recentTVshow">' + 
+					var $episode = $('<li><div class="recentTVshow thumbEpWrapper">' + 
 					//'<div class="recentTVenq episode' + episode.episodeid + '"> <a href="" class="button playlist recentTVplay" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a></div>' + 
-					'<div class="episodeThumb thumbEpWrapper">' +
+					'<div class="episodeThumb">' +
 					'<div class="linkEpWrapper">' + 
 							'<a href="" class="play">' + mkf.lang.get('btn_play') + '</a><a href="" class="playlist">' + mkf.lang.get('btn_enqueue') + '</a><a href="" class="unwatchedEps">' + mkf.lang.get('btn_unwatched') + '</a>' +
 						'</div>' +
@@ -1884,7 +1884,6 @@ var uiviews = {};
 					'</div><div class="recentTVSE">Season: ' + episode.season + ' - Episode: ' +episode.episode + 
 					'</div><div class="recentTVtitle">' + episode.label + '</div><div class="recentTVplot">' + episode.plot + '</div></div></li>').appendTo($episodeList);
 					
-					$episode.find('.recentTVshow').on('click', function() { $('.linkEpWrapper').css('display', 'block') });
 					$episode.find('.play').bind('click', {idEpisode: episode.episodeid}, uiviews.EpisodePlay);
 					$episode.find('.playlist').bind('click', {idEpisode: episode.episodeid}, uiviews.AddEpisodeToPlaylist);
 					$episode.find('.unwatchedEps').bind('click', {idTvShow: episode.tvshowid, strTvShow: episode.showtitle, objParentPage: parentPage}, uiviews.Unwatched);
@@ -1931,7 +1930,7 @@ var uiviews = {};
 						}
 						
 						$item = $('<li class="' + playlistItemClass + '" id="apli' + i + '"><div class="folderLinkWrapper playlistItem' + i + '">' + 
-							'<a class="button remove" href="" title="' + mkf.lang.get('btn_remove') +  '"><span class="miniIcon remove" /></a><span class="miniIcon playlistmove" title="' + mkf.lang.get('btn_swap') +  '" />' +
+							'<a class="button remove" href="" title="' + mkf.lang.get('btn_remove') +  '"><span class="miniIcon remove" /></a><a class="button playlistmove" href="" title="' + mkf.lang.get('btn_swap') +  '"><span class="miniIcon playlistmove" /></a>' +
 							'<a class="' + playlistItemCur + ' apli' + i + ' play" href="">' + (i+1) + '. ' +
 							(artist? artist + ' - ' : '') + (album? album + ' - ' : '') + (title? title : label) + '&nbsp;&nbsp;&nbsp;&nbsp;' + (duration? xbmc.formatTime(duration) : '') +
 							'<div class="findKeywords">' + artist.toLowerCase() + ' ' + album.toLowerCase() + ' ' + label.toLowerCase() + '</div>' +
@@ -1996,7 +1995,7 @@ var uiviews = {};
 							playlistItemCur = 'playlistItem';
 						};			
 						$item = $('<li class="' + playlistItemClass + '" id="vpli' + i + '"><div class="folderLinkWrapper playlistItem' + i + '">' + 
-							'<a class="button remove" href="" title="' + mkf.lang.get('btn_remove') +  '"><span class="miniIcon remove" /></a><span class="miniIcon playlistmove" title="' + mkf.lang.get('btn_swap') +  '"/>' +
+							'<a class="button remove" href="" title="' + mkf.lang.get('btn_remove') +  '"><span class="miniIcon remove" /></a><a class="button playlistmove" href="" title="' + mkf.lang.get('btn_swap') +  '"><span class="miniIcon playlistmove" /></a>' +
 							'<a class="' + playlistItemCur  + ' vpli' + i + ' play" href="">' + (i+1) + '. ' +
 							(item.type=='episode'? showtitle + ' - Season ' + season + ' - ' + title : title) + '&nbsp;&nbsp;&nbsp;&nbsp;' + xbmc.formatTime(duration) +
 							'</a></div></li>').appendTo($itemList);

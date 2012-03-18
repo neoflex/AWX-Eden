@@ -302,7 +302,7 @@ var xbmc = {};
 		},
 		
 		getUrl: function(url) {
-			return location.protocol + '//' + location.host + '/' + encodeURI(url);
+			return location.protocol + '//' + location.host + '/' + url;
 		},
 
 		getLogo: function(filepath, callback) {

@@ -366,7 +366,6 @@ span.information {
 }
 span.playlistmove {
 	float: left;
-	margin: 10px 5px;
     background-position: -64px top;
 }
 span.unwatched {
@@ -404,7 +403,6 @@ div.thumbWrapper, div.logoWrapper {
     width: 129px;
 }
 div.thumbEpWrapper {
-	text-align: center;
     width: 200px;
 }
 div.logoWrapper a {
@@ -450,6 +448,7 @@ div.linkTVWrapper {
 }
 div.linkEpWrapper {
     display: none;
+	text-align: center;
     left: 5%;
 	top: 3px;
     position: absolute;

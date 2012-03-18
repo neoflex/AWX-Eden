@@ -244,7 +244,6 @@ div.thumbWrapper, div.logoWrapper {
 	text-align: center;
 }
 div.thumbEpWrapper {
-	text-align: center;
     width: 200px;
 }
 div.thumbPosterWrapper {
@@ -266,20 +265,21 @@ div.thumbWrapper:hover {
 
 div.thumbWrapper div.linkWrapper {
 	position: absolute;
-	top: 10px;
+	/*top: 10px;*/
 	left: 7px;
 	width: 90%;
 	display: none;
 }
 div.linkTVWrapper {
     display: none;
-    left: 5%;
+    left: 12%;
 	top: 7px;
     position: absolute;
-    width: 90%;
+    width: 75%;
 }
 div.linkEpWrapper {
     display: none;
+	text-align: center;
     left: 5%;
 	top: 3px;
     position: absolute;
@@ -305,14 +305,14 @@ div.thumbWrapper:hover div.linkWrapper {
 div.thumbWrapper a {
 	display: block;
 	background-color: #343434;
-	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
-	filter:alpha(opacity=90); -moz-opacity:0.9; -khtml-opacity: 0.9; opacity: 0.9;
+	/*-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
+	filter:alpha(opacity=90); -moz-opacity:0.9; -khtml-opacity: 0.9; opacity: 0.9;*/
 	border: 1px solid #a4a4a4;
 	color: #fff;
 	text-decoration: none;
 	padding: 2px 7px;
-	font-size: 14px;
-	margin-bottom: 1px;
+	font-size: 16px;
+	margin-bottom: 7px;
 }
 div.thumbEpWrapper a {
     background-color: #343434;
@@ -950,13 +950,13 @@ div.singleView div.next {
 	color: #222;
 	margin-top: 0px;
 	margin-bottom: 0px;
-	height: 32px;
+	height: 48px;
 	padding-left: 5px;
 	background-color: rgba(234, 255, 201, 0.8);
 }
 .multiOpenAccordion-header a {
 	position: relative;
-	top: 20%;
+	top: 30%;
     color: #4B4B4B;
 }
 .multiOpenAccordion-header:hover {
@@ -1028,13 +1028,13 @@ div.multiOpenAccordion-content p.plot, div.ui-accordion-content p.plot {
 	color: #222;
 	margin-top: 0px;
 	margin-bottom: 0px;
-	height: 32px;
+	height: 48px;
 	padding-left: 5px;
 	background-color: rgba(234, 255, 201, 0.8);
 }
 .ui-accordion-header a {
 	position: relative;
-	top: 20%;
+	top: 30%;
     color: #4B4B4B;
 }
 .ui-accordion-header:hover {
@@ -1055,7 +1055,8 @@ ul.fileList {
 	border-top: 1px solid #ABABAB;
 }
 ul.fileList li {
-	height: 35px;
+	/*height: 48px;*/
+	font-size: 15px;
 	display: block;
 	background-color: rgba(255, 255, 255, 0.8);
 	border-bottom: 1px solid #ABABAB;
@@ -1069,7 +1070,7 @@ ul.fileList li.current {
 ul.fileList a {
 	display: block;
 	text-decoration: none;
-	padding: 10px 5px;
+	padding: 17px 5px;
 	color: #4b4b4b;
 }
 ul.fileList li a:hover {
@@ -1078,6 +1079,7 @@ ul.fileList li a:hover {
 
 div.folderLinkWrapper a.button {
 	float: left;
+	padding: 2px;
 }
 div.folderLinkWrapper a.button:hover {
 	background-color: transparent;
@@ -1085,57 +1087,78 @@ div.folderLinkWrapper a.button:hover {
 
 div.folderLinkWrapper a.song,
 div.folderLinkWrapper a.playlistItem,
-div.folderLinkWrapper a.episode { padding-left: 35px; }
+div.folderLinkWrapper a.episode { padding-left: 60px; }
 div.folderLinkWrapper a.folder,
-div.folderLinkWrapper a.file { padding-left: 35px; }
+div.folderLinkWrapper a.file { padding-left: 60px; }
 
 div.folderLinkWrapper a.playlistItemCur {
 	font-weight:bold;
-	padding: 10px 35px;
+	/*padding: 10px 35px;*/
 }
 div.folderLinkWrapper a.button:hover span.information {
     background-position: -48px -16px;
 }
 
 span.miniIcon {
-	display: block; height: 16px; width: 16px;
-	background: url('../images/mini_buttons.png') no-repeat;
+    background: url("../images/mini_buttons.png") no-repeat scroll 0 0 transparent;
+	float: left;
+    display: block;
+    height: 48px;
+    width: 48px;
 }
 span.playnext {
-    background-position: -112px top;
-}
-span.enqueue { background-position: left top; }
-span.play { background-position: -32px 0px; }
-span.remove { background-position: -16px 0; }
-span.information {
-    background-position: -48px 0;
+    background-position: -336px top;
 }
 span.playlistmove {
 	float: left;
-	margin: 10px 5px;
-    background-position: -64px top;
+	/*margin: 10px 5px;*/
+    background-position: -192px top;
+}
+span.enqueue {
+    background-position: left top;
+}
+span.play {
+    background-position: -96px 0px;
+}
+span.remove {
+    background-position: -48px 0;
+}
+span.information {
+    background-position: -144px 0;
 }
 span.unwatched {
-    background-position: -80px 0;
+    background-position: -240px 0;
 }
 span.all {
-    background-position: -96px 0;
+    background-position: -288px 0;
 }
-div.folderLinkWrapper a.button:hover span.enqueue { background-position:left bottom; }
-div.folderLinkWrapper a.button:hover span.play { background-position: -32px -16px; }
-div.folderLinkWrapper a.button:hover span.remove { background-position: -16px -16px; }
-div.folderLinkWrapper span.playlistmove:hover {
-	float: left;
-    background-position: -64px -16px;
+div.recentTVenq a.button:hover span.enqueue {
+    background-position: left bottom;
 }
-div.folderLinkWrapper span.playnext:hover {
-    background-position: -112px -16px;
+div.folderLinkWrapper a.button:hover span.enqueue {
+    background-position: left bottom;
+}
+div.folderLinkWrapper a.button:hover span.play {
+    background-position: -96px -48px;
+}
+div.folderLinkWrapper a.button:hover span.remove {
+    background-position: -48px -48px;
+}
+div.folderLinkWrapper a.button:hover span.information {
+    background-position: -144px -48px;
 }
 div.folderLinkWrapper a.button:hover span.unwatched {
-    background-position: -80px -16px;
+    background-position: -240px -48px;
+}
+div.folderLinkWrapper span.playlistmove:hover {
+	float: left;
+    background-position: -192px -48px;
+}
+div.folderLinkWrapper span.playnext:hover {
+    background-position: -336px -48px;
 }
 div.folderLinkWrapper a.button:hover span.all {
-    background-position: -96px -16px;
+    background-position: -288px -48px;
 }
 div.mkfOverlay div.dialogSystemControl {
     width: 400px;
