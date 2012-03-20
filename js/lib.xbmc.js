@@ -2209,7 +2209,7 @@ var xbmc = {};
 			},
 
 			start: function() {
-				setTimeout($.proxy(this, "periodicStep"), 10);
+				setTimeout($.proxy(this, "periodicStep"), 20);
 			},
 
 			periodicStep: function() {

@@ -275,7 +275,7 @@
 		$settingsButton.click(function() {
 			var order = mkf.cookieSettings.get('albumOrder', 'artist');
 			var lazyload = mkf.cookieSettings.get('lazyload', 'yes');
-			var timeout = mkf.cookieSettings.get('timeout', 10);
+			var timeout = mkf.cookieSettings.get('timeout', 20);
 			var ui = mkf.cookieSettings.get('ui');
 			var oldui = mkf.cookieSettings.get('ui');
 			var lang = mkf.cookieSettings.get('lang', 'en');
