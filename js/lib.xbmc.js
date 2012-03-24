@@ -1147,7 +1147,28 @@ var xbmc = {};
 			);			
 		},
 
+		addGenreToPlaylist: function(options) {
+			var settings = {
+				genreid: 0,
+				onSuccess: null,
+				onError: null,
+				async: false
+			};
+			$.extend(settings, options);
 
+			xbmc.sendCommand(
+				'{"jsonrpc": "2.0", "method": "Playlist.Add", "params": {"item": {"genreid": ' + settings.genreid + '}, "playlistid": 0}, "id": 1}',
+				
+				function(response) {
+					settings.onSuccess()
+				},
+				
+				function(response) {
+					settings.onError(mkf.lang.get('message_failed_albums_songs'));
+				}
+			);			
+		},
+		
 		clearAudioPlaylist: function(options) {
 			var settings = {
 				onSuccess: null,
@@ -1283,7 +1304,39 @@ var xbmc = {};
 			});
 		},
 
+		playMusicGenre: function(options) {
+			var settings = {
+				albumid: 0,
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
 
+			this.clearAudioPlaylist({
+				onSuccess: function() {
+					xbmc.addGenreToPlaylist({
+						genreid: settings.genreid,
+
+						onSuccess: function() {
+							xbmc.playAudio({
+								onSuccess: settings.onSuccess,
+								onError: function(errorText) {
+									settings.onError(errorText);
+								}
+							});
+						},
+
+						onError: function(errorText) {
+							settings.onError(errorText);
+						}
+					});
+				},
+
+				onError: function() {
+					settings.onError(mkf.lang.get('message_failed_clear_playlist'));
+				}
+			});
+		},
 
 		playSong: function(options) {
 			var settings = {

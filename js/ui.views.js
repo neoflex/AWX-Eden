@@ -146,6 +146,21 @@ var uiviews = {};
 			});
 			return false;
 		},
+
+		/*-----------*/
+		MusicGenrePlay: function(e) {
+			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_genre'));
+			xbmc.playMusicGenre({
+				genreid: e.data.idGenre,
+				onSuccess: function() {
+					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+				},
+				onError: function(errorText) {
+					mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+				}
+			});
+			return false;
+		},
 		
 		/*---------------*/
 		AddAlbumToPlaylist: function(e) {
@@ -162,6 +177,21 @@ var uiviews = {};
 			return false;
 		},
 
+		/*---------------*/
+		AddGenreToPlaylist: function(e) {
+			var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_genre_to_playlist'));
+			xbmc.addGenreToPlaylist({
+				genreid: e.data.idGenre,
+				onSuccess: function() {
+					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+				},
+				onError: function(errorText) {
+					mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+				}
+			});
+			return false;
+		},
+		
 		/*----------*/
 		Songlist: function(e) {
 			// open new page to show album's songs
@@ -1093,12 +1123,15 @@ var uiviews = {};
 				if (artistGenres.genreid == 0) { return };
 				$artistGenresList.append('<li' + (i%2==0? ' class="even"': '') + 
 									'><div class="folderLinkWrapper"><a href="" class="button allgenre' + artistGenres.genreid + '" title="' + mkf.lang.get('btn_all') +
-									'"><span class="miniIcon all" /></a><a href="" class="genre' + 
+									'"><span class="miniIcon all" /></a><a href="" class="button playlist' + artistGenres.genreid + '" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a>' +
+									'<a href="" class="button play' + artistGenres.genreid + '" title="' + mkf.lang.get('btn_play') + '"><span class="miniIcon play" /></a><a href="" class="genre' + 
 									artistGenres.genreid + '">' +
 									artistGenres.label + '<div class="findKeywords">' + artistGenres.label.toLowerCase() + '</div>' +
 									'</a></div></li>');
 				$artistGenresList.find('.allgenre' + artistGenres.genreid).on('click', {idGenre: artistGenres.genreid, strGenre: artistGenres.label, objParentPage: parentPage}, uiviews.AllGenreAlbums);
 				$artistGenresList.find('.genre' + artistGenres.genreid).bind('click',{idGenre: artistGenres.genreid,strGenre: artistGenres.label, objParentPage: parentPage}, uiviews.GenreArtists);
+				$artistGenresList.find('.playlist' + artistGenres.genreid).on('click', {idGenre: artistGenres.genreid}, uiviews.AddGenreToPlaylist);
+				$artistGenresList.find('.play' + artistGenres.genreid).bind('click', {idGenre: artistGenres.genreid, strAlbum: artistGenres.label}, uiviews.MusicGenrePlay);
 			});
 			return $artistGenresList;
 		},
