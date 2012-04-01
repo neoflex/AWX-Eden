@@ -941,7 +941,7 @@
 			
 			//Might be a stream playlist or other type Files.GetDirectory can't handle.
 			if (!isSmart && e.data.playlistinfo.type == 'unknown' && e.data.playlistinfo.filetype == 'file') {
-				var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_album_to_playlist'));
+				var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_file_to_playlist'));
 				xbmc.addAudioFileToPlaylist({
 					file: e.data.playlistinfo.file,
 					
@@ -2506,7 +2506,7 @@
 
 			xbmc.periodicUpdater.addCurrentlyPlayingChangedListener(function(currentFile) {
 				// ALL: AUDIO, VIDEO, PICTURE
-				if (currentFile.title) { titleElement.text(currentFile.title); } else { titleElement.text( mkf.lang.get('label_not_available') ); }
+				if (currentFile.title) { titleElement.text(currentFile.title); } else { titleElement.text( (currentFile.label? currentFile.label : mkf.lang.get('label_not_available')) ); }
 
 				if (currentFile.xbmcMediaType == 'audio') {
 					// AUDIO
