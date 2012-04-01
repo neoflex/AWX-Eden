@@ -839,6 +839,24 @@ var xbmc = {};
 			);
 		},
 
+		getArtistDetails: function(options) {
+			var settings = {
+				artistid: -1,
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
+
+			xbmc.sendCommand(
+				'{"jsonrpc": "2.0", "method": "AudioLibrary.GetArtistDetails", "params": { "artistid": ' + settings.artistid + ', "properties": [ "thumbnail", "fanart", "born", "formed", "died", "disbanded", "yearsactive", "mood", "style", "genre", "description", "instrument" ] }, "id": 1}',
+
+				function(response) {
+					settings.onSuccess(response.result.artistdetails);
+				},
+
+				settings.onError
+			);
+		},
 		
 		getArtistsGenres: function(options) {
 			var settings = {
@@ -1168,6 +1186,28 @@ var xbmc = {};
 				}
 			);			
 		},
+
+		addArtistToPlaylist: function(options) {
+			var settings = {
+				artistid: 0,
+				onSuccess: null,
+				onError: null,
+				async: false
+			};
+			$.extend(settings, options);
+
+			xbmc.sendCommand(
+				'{"jsonrpc": "2.0", "method": "Playlist.Add", "params": {"item": {"artistid": ' + settings.artistid + '}, "playlistid": 0}, "id": 1}',
+				
+				function(response) {
+					settings.onSuccess()
+				},
+				
+				function(response) {
+					settings.onError(mkf.lang.get('message_failed_artists_albums'));
+				}
+			);			
+		},
 		
 		clearAudioPlaylist: function(options) {
 			var settings = {
@@ -1306,7 +1346,7 @@ var xbmc = {};
 
 		playMusicGenre: function(options) {
 			var settings = {
-				albumid: 0,
+				genreid: 0,
 				onSuccess: null,
 				onError: null
 			};
@@ -1338,6 +1378,40 @@ var xbmc = {};
 			});
 		},
 
+		playArtist: function(options) {
+			var settings = {
+				artistid: 0,
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
+
+			this.clearAudioPlaylist({
+				onSuccess: function() {
+					xbmc.addArtistToPlaylist({
+						artistid: settings.artistid,
+
+						onSuccess: function() {
+							xbmc.playAudio({
+								onSuccess: settings.onSuccess,
+								onError: function(errorText) {
+									settings.onError(errorText);
+								}
+							});
+						},
+
+						onError: function(errorText) {
+							settings.onError(errorText);
+						}
+					});
+				},
+
+				onError: function() {
+					settings.onError(mkf.lang.get('message_failed_clear_playlist'));
+				}
+			});
+		},
+		
 		playSong: function(options) {
 			var settings = {
 				songid: 0,
@@ -2197,9 +2271,9 @@ var xbmc = {};
 			var command;
 			
 			if (settings.isPlaylist) {
-				command = '{"jsonrpc": "2.0", "method": "Files.GetDirectory", "params" : { "directory" : "' + settings.directory.replace(/\\/g, "\\\\") + '", "media" : "' + settings.media +'", "properties": ["artist", "album", "showtitle", "episode", "season"] }, "id": 1}'
+				command = '{"jsonrpc": "2.0", "method": "Files.GetDirectory", "params" : { "directory" : "' + settings.directory.replace(/\\/g, "\\\\") + '", "media" : "' + settings.media +'", "properties": ["artist", "album", "showtitle", "episode", "season", "title"] }, "id": 1}'
 				} else {
-				command = '{"jsonrpc": "2.0", "method": "Files.GetDirectory", "params" : { "directory" : "' + settings.directory.replace(/\\/g, "\\\\") + '", "media" : "' + settings.media +'", "sort": { "order": "ascending", "method": "file" } }, "id": 1}'
+				command = '{"jsonrpc": "2.0", "method": "Files.GetDirectory", "params" : { "directory" : "' + settings.directory.replace(/\\/g, "\\\\") + '", "media" : "' + settings.media +'", "properties": [ "file" ], "sort": { "order": "ascending", "method": "file" } }, "id": 1}'
 				};
 			xbmc.sendCommand(
 				command,

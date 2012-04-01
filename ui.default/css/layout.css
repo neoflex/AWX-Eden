@@ -507,6 +507,12 @@ img.thumb {
 	height: 125px;
 	width: 125px;
 }
+img.thumb {
+	-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;
+	border: 2px solid #575757;
+	height: 200px;
+	width: 200px;
+}
 img.epWatched {
 	position:relative; 
 	top:0px; 
@@ -832,7 +838,16 @@ div.mkfOverlay div.dialog span.label {
 	font-weight: bold;
 	margin-right: 10px;
 }
-
+div.mkfOverlay div.dialog span.labelinfo {
+    float: left;
+    font-weight: bold;
+    margin-right: 10px;
+    width: 245px;
+}
+div.mkfOverlay div.dialog p.artistdesc {
+    clear: both;
+    /*padding-top: 15px;*/
+}
 div.mkfOverlay div.dialog span.value,
 div.mkfOverlay div.dialog span.valuePoster,
 div.mkfOverlay div.dialog span.valueBanner {

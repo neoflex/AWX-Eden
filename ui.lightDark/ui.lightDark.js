@@ -704,12 +704,6 @@ var awxUI = {};
 			/*if ($(this).hasClass('.videos')) {
 				
 			}*/
-			//onClick hide menus for tablets
-			/*$('#navigation ul.mkfMenu > li > a').click(function(){
-				if ($(this).parent().hasClass('videos')) { $('.mfkPage, .videos').show() }
-				else if ($(this).parent().hasClass('music')) { $('.mfkPage, .music').show() };
-				$('#navigation ul.mkfMenu ul, ul.systemMenu ul').hide(); 
-			});*/
 		},
 		
 		

@@ -11,6 +11,48 @@ var uiviews = {};
 /* Audio UI function */
 /*-------------------*/
 
+		/*--------------*/
+		ArtistInfoOverlay: function(e) {
+			
+			var dialogHandle = mkf.dialog.show();
+			//var dialogContent = $('<div></div>');
+			var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
+
+			xbmc.getArtistDetails({
+				artistid: e.data.idArtist,
+				onSuccess: function(artistdetails) {
+				
+					if ( useFanart ) {
+						$('.mkfOverlay').css('background-image', 'url("' + xbmc.getThumbUrl(artistdetails.fanart) + '")');
+					};
+					
+					var thumb = (artistdetails.thumbnail? xbmc.getThumbUrl(artistdetails.thumbnail) : 'images/thumb.png');
+					var dialogContent = $('<img src="' + thumb + '" class="thumbAlbums dialogThumb" />' +
+						'<h1 class="underline">' + artistdetails.label + '</h1>' +
+						//'<div class="test"><img src="' + tvshow.file + 'logo.png' + '" /></div>' +
+						(artistdetails.genre? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_genre') + '</span><span class="labelinfo">' + artistdetails.genre + '</span></div>' : '') +
+						(artistdetails.mood? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_mood') + '</span><span class="labelinfo">' + artistdetails.mood + '</span></div>' : '') +
+						(artistdetails.style? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_style') + '</span><span class="labelinfo">' +  artistdetails.style + '</span></div>' : '') +
+						(artistdetails.born? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_born') + '</span><span class="labelinfo">' + artistdetails.born + '</span></div>' : '') +
+						(artistdetails.formed? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_formed') + '</span><span class="labelinfo">' + artistdetails.formed + '</span></div>' : '') +
+						(artistdetails.died? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_died') + '</span><span class="labelinfo">' + artistdetails.died + '</span></div>' : '') +
+						(artistdetails.disbanded? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_disbanded') + '</span><span class="labelinfo">' + artistdetails.disbanded + '</span></div>' : '') +
+						(artistdetails.yearsactive? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_yearsactive') + '</span><span class="labelinfo">' + artistdetails.yearsactive + '</span></div>' : '') +
+						(artistdetails.instrument? '<div class="movieinfo"><span class="label">' + mkf.lang.get('label_instrument') + '</span><span class="labelinfo">' + artistdetails.instrument + '</span></div>' : '') +
+						'<p class="artistdesc">' + artistdetails.description + '</p>');
+					
+					mkf.dialog.setContent(dialogHandle, dialogContent);
+					
+				},
+				onError: function() {
+					mkf.messageLog.show(mkf.lang.get('message_failed_artist_list'), mkf.messageLog.status.error, 5000);
+					mkf.dialog.close(dialogHandle);				
+				}
+			});
+
+			return false;
+		}, // END onArtistInformationClick
+
 		/*---------*/
 		ArtistAlbums: function(e) {
 			// open new page to show artist's albums
@@ -162,6 +204,22 @@ var uiviews = {};
 			return false;
 		},
 		
+		/*-----------*/
+		ArtistPlay: function(e) {
+			var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_playing_artist'));
+			xbmc.playArtist({
+				artistid: e.data.idArtist,
+				onSuccess: function() {
+					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+				},
+				onError: function(errorText) {
+					mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+				}
+			});
+			return false;
+		},
+		
+		
 		/*---------------*/
 		AddAlbumToPlaylist: function(e) {
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_album_to_playlist'));
@@ -191,6 +249,22 @@ var uiviews = {};
 			});
 			return false;
 		},
+		
+		/*---------------*/
+		AddArtistToPlaylist: function(e) {
+			var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_artist_to_playlist'));
+			xbmc.addArtistToPlaylist({
+				artistid: e.data.idArtist,
+				onSuccess: function() {
+					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+				},
+				onError: function(errorText) {
+					mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+				}
+			});
+			return false;
+		},
+		
 		
 		/*----------*/
 		Songlist: function(e) {
@@ -991,12 +1065,19 @@ var uiviews = {};
 			var $artistList = $('<ul class="fileList"></ul>');
 
 				$.each(artists.artists, function(i, artist)  {
-					$artistList.append('<li' + (i%2==0? ' class="even"': '') + '><a href="" class="artist' +
+					$artistList.append('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper"><a href="" class="button info' + artist.artistid + '" title="' + mkf.lang.get('btn_information') + '"><span class="miniIcon information" /></a>' +
+										'<a href="" class="button playlist' + artist.artistid + '" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a>' +
+										'<a href="" class="button play' + artist.artistid + '" title="' + mkf.lang.get('btn_play') + '"><span class="miniIcon play" /></a>' + 
+										'<a href="" class="artist' +
 										artist.artistid + '">' +
 										artist.label + '<div class="findKeywords">' + artist.label.toLowerCase() + '</div>' +
 										'</a></li>');
 					$artistList.find('.artist' + artist.artistid)
 						.bind('click',{ idArtist: artist.artistid, strArtist: artist.label, objParentPage: parentPage }, uiviews.ArtistAlbums);
+					$artistList.find('.playlist' + artist.artistid).on('click', {idArtist: artist.artistid}, uiviews.AddArtistToPlaylist);
+					$artistList.find('.play' + artist.artistid).on('click', {idArtist: artist.artistid}, uiviews.ArtistPlay);
+					$artistList.find('.info' + artist.artistid).on('click', {idArtist: artist.artistid}, uiviews.ArtistInfoOverlay);
+					
 				});
 
 			return $artistList;
@@ -1010,6 +1091,11 @@ var uiviews = {};
 				$.each(artists.artists, function(i, artist)  {
 					var thumb = (artist.thumbnail? xbmc.getThumbUrl(artist.thumbnail) : 'images/thumb.png');
 					$artist = $('<div class="album'+artist.artistid+' thumbWrapper">' +
+						'<div class="linkTVWrapper">' + 
+								'<a href="" class="albums' + artist.artistid + '">' + mkf.lang.get('btn_all') + '</a>' +
+								'<a href="" class="info' + artist.artistid + '">' + mkf.lang.get('btn_information') + '</a>' +
+								'<a href="" class="enqueue' + artist.artistid + '">' + mkf.lang.get('btn_enqueue') + '</a>' +
+						'</div>' +
 						(useLazyLoad?
 							'<img src="images/loading_thumb.gif" alt="' + artist.label + '" class="thumb albums" original="' + thumb + '" />':
 							'<img src="' + thumb + '" alt="' + artist.label + '" class="thumb albums" />'
@@ -1019,7 +1105,10 @@ var uiviews = {};
 					'</div>');
 
 				$artistList.append($artist);
-				$artist.find('.albums').bind('click', { idArtist: artist.artistid, strArtist: artist.label, objParentPage: parentPage }, uiviews.ArtistAlbums)
+				$artistList.find('.albums' + artist.artistid).bind('click', { idArtist: artist.artistid, strArtist: artist.label, objParentPage: parentPage }, uiviews.ArtistAlbums)
+				$artistList.find('.enqueue' + artist.artistid).on('click', {idArtist: artist.artistid}, uiviews.AddArtistToPlaylist);
+				//$artistList.find('.play' + artist.artistid).on('click', {idArtist: artist.artistid}, uiviews.ArtistPlay);
+				$artistList.find('.info' + artist.artistid).on('click', {idArtist: artist.artistid}, uiviews.ArtistInfoOverlay);
 
 				});
 
@@ -1034,6 +1123,11 @@ var uiviews = {};
 				$.each(artists.artists, function(i, artist)  {
 					var thumb = (artist.thumbnail? xbmc.getThumbUrl(artist.thumbnail) : 'images/thumb.png');
 					$artist = $('<div class="artist'+artist.artistid+' logoWrapper thumbLogoWrapper">' +
+						'<div class="linkTVLogoWrapper">' + 
+								'<a href="" class="albums' + artist.artistid + '">' + mkf.lang.get('btn_all') + '</a>' +
+								'<a href="" class="info' + artist.artistid + '">' + mkf.lang.get('btn_information') + '</a>' +
+								'<a href="" class="enqueue' + artist.artistid + '">' + mkf.lang.get('btn_enqueue') + '</a>' +
+						'</div>' +
 						'<img src="' + thumb + '" alt="' + artist.label + '" class="thumbLogo artist" />' +
 						'<div class="albumArtist">' + artist.artist + '</div></div>' +
 						'<div class="findKeywords">' + artist.label.toLowerCase() + '</div>' +
@@ -1041,7 +1135,11 @@ var uiviews = {};
 
 				artist.file = artistsPath + artist.label + '/';
 
-				$artist.find('.artist').bind('click', { idArtist: artist.artistid, strArtist: artist.label, objParentPage: parentPage }, uiviews.ArtistAlbums);
+				//$artist.find('.artist').bind('click', { idArtist: artist.artistid, strArtist: artist.label, objParentPage: parentPage }, uiviews.ArtistAlbums);
+				$artistList.find('.albums' + artist.artistid).bind('click', { idArtist: artist.artistid, strArtist: artist.label, objParentPage: parentPage }, uiviews.ArtistAlbums)
+				$artistList.find('.enqueue' + artist.artistid).on('click', {idArtist: artist.artistid}, uiviews.AddArtistToPlaylist);
+				//$artistList.find('.play' + artist.artistid).on('click', {idArtist: artist.artistid}, uiviews.ArtistPlay);
+				$artistList.find('.info' + artist.artistid).on('click', {idArtist: artist.artistid}, uiviews.ArtistInfoOverlay);
 				
 				xbmc.getLogo(artist.file, function(logo) {
 						$('.artist'+artist.artistid).children('img').attr('src', (logo? logo : 'images/missing_logo.png')); 
@@ -1066,7 +1164,9 @@ var uiviews = {};
 					$artist = $('<div class="prev" style="float: left; margin-bottom: 50px; margin-left: 10px; display: table-cell"><a href="#" /></div>' +
 						'<div class="artist'+artist.artistid+' logoWrapper thumbFullLogoWrapper" style="float: none; display: table-cell">' +
 						'<img src="' + thumb + '" alt="' + artist.label + '" class="thumbFullLogo artist" />' +
-						'<div class="albumArtist">' + artist.artist + '</div></div>' +
+						'<div class="albumArtist">' + artist.artist + '</div>' +
+						'<div class="movietags" style="display: inline-block; width: auto; margin-top: 5px"><span class="infoqueue" title="' + mkf.lang.get('btn_enqueue') + '" /><span class="infoplay" title="' + mkf.lang.get('btn_play') + '" /><span class="infoinfo" title="' + mkf.lang.get('btn_information') + '" /></div>' +
+						'</div>' +
 						//'<div class="findKeywords">' + artist.label.toLowerCase() + '</div>' +
 						'<div class="next" style="float: left; margin-bottom: 50px; margin-left: 10px; display: table-cell"><a href="#" /></div>' +
 					'</div>').appendTo($artistList);;
@@ -1074,6 +1174,11 @@ var uiviews = {};
 				artist.file = artistsPath + artist.label + '/';
 
 				$artist.find('.artist').on('click', { idArtist: artist.artistid, strArtist: artist.label, objParentPage: parentPage }, uiviews.ArtistAlbums);
+
+				$artistList.find('.infoplay').on('click', {idArtist: artist.artistid}, uiviews.ArtistPlay);
+				$artistList.find('.infoenqueue').on('click', {idArtist: artist.artistid}, uiviews.AddArtistToPlaylist);
+				$artistList.find('.infoinfo').on('click', {idArtist: artist.artistid}, uiviews.ArtistInfoOverlay);
+				
 				xbmc.getLogo(artist.file, function(logo) {
 						$('.artist'+artist.artistid).children('img').attr('src', (logo? logo : 'images/missing_logo.png')); 
 					});
@@ -1088,7 +1193,14 @@ var uiviews = {};
 					});
 					$('div.albumArtist').text(artists.artists[currentArtist].label);
 					$artistList.find('.artist').off();
+					$artistList.find('.infoplay').off();
+					$artistList.find('.infoenqueue').off();
+					$artistList.find('.infoinfo').off();
+					
 					$artistList.find('.artist').on('click', { idArtist: artists.artists[currentArtist].artistid, strArtist: artists.artists[currentArtist].label, objParentPage: parentPage }, uiviews.ArtistAlbums);
+					$artistList.find('.infoplay').on('click', { idArtist: artists.artists[currentArtist].artistid }, uiviews.ArtistPlay);
+					$artistList.find('.infoenqueue').on('click', { idArtist: artists.artists[currentArtist].artistid }, uiviews.AddArtistToPlaylist);
+					$artistList.find('.infoinfo').on('click', { idArtist: artists.artists[currentArtist].artistid }, uiviews.ArtistInfoOverlay);
 				});
 
 				$artistList.find('div.prev').on('click', function () {
@@ -1101,7 +1213,14 @@ var uiviews = {};
 					});
 					$('div.albumArtist').text(artists.artists[currentArtist].label);
 					$artistList.find('.artist').off();
+					$artistList.find('.infoplay').off();
+					$artistList.find('.infoenqueue').off();
+					$artistList.find('.infoinfo').off();
+					
 					$artistList.find('.artist').on('click', { idArtist: artists.artists[currentArtist].artistid, strArtist: artists.artists[currentArtist].label, objParentPage: parentPage }, uiviews.ArtistAlbums);
+					$artistList.find('.infoplay').on('click', { idArtist: artists.artists[currentArtist].artistid }, uiviews.ArtistPlay);
+					$artistList.find('.infoenqueue').on('click', { idArtist: artists.artists[currentArtist].artistid }, uiviews.AddArtistToPlaylist);
+					$artistList.find('.infoinfo').on('click', { idArtist: artists.artists[currentArtist].artistid }, uiviews.ArtistInfoOverlay);
 				});
 
 				$( window ).resize( xbmc.debouncer( function ( e ) {

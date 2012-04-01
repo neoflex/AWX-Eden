@@ -925,10 +925,25 @@
 			};
 			
 			//should be normal playlist. m3u only? Can use playlist.add directory addAudioFolderToPlaylist
-			if (!isSmart && e.data.playlistinfo.type == 'unknown') {
+			if (!isSmart && e.data.playlistinfo.type == 'unknown' && e.data.playlistinfo.filetype == 'directory') {
 				var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_album_to_playlist'));
 				xbmc.addAudioFolderToPlaylist({
 					folder: e.data.playlistinfo.file,
+					
+					onSuccess: function() {
+						mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
+					},
+					onError: function(errorText) {
+						mkf.messageLog.appendTextAndHide(messageHandle, errorText, 8000, mkf.messageLog.status.error);
+					}
+				});
+			};
+			
+			//Might be a stream playlist or other type Files.GetDirectory can't handle.
+			if (!isSmart && e.data.playlistinfo.type == 'unknown' && e.data.playlistinfo.filetype == 'file') {
+				var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_album_to_playlist'));
+				xbmc.addAudioFileToPlaylist({
+					file: e.data.playlistinfo.file,
 					
 					onSuccess: function() {
 						mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);

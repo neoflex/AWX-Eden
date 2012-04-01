@@ -172,6 +172,11 @@ img.thumb {
     height: 125px;
     width: 125px;
 }
+img.thumbAlbums {
+    border: 1px solid #575757;
+    height: 200px;
+    width: 200px;
+}
 img.thumbPosterLargeRec {
 	width: auto;
 	height: 75%;
@@ -421,6 +426,17 @@ div.mkfOverlay div.dialog span.label {
     margin-right: 10px;
     text-align: right;
     width: 100px;
+}
+div.mkfOverlay div.dialog span.labelinfo {
+    float: left;
+    font-weight: bold;
+    margin-right: 10px;
+    width: 245px;
+}
+div.mkfOverlay div.dialog p.artistdesc {
+    clear: both;
+    height: 200px;
+	overflow-y: auto;
 }
 div.mkfOverlay div.dialog span.value, div.mkfOverlay div.dialog span.valuePoster, div.mkfOverlay div.dialog span.valueBanner {
     float: right;

@@ -1,3 +1,6 @@
+0.5.2
+ - Added Play and enqueue music genre.
+
 0.5.1
  - Added Artists views
  - Added Logo wall for artists and TV show. Does not support lazyload!
