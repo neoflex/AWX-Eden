@@ -170,6 +170,7 @@ mkf.lang.add({language: 'Français', short: 'fr', author: 'DanoneKiD', values: {
 	'btn_export':						'Export Library',
 
 	'group_ui': 						'Interface',
+	'group_start_page':					'Start page',
 	'group_language':					'Langue',
 	'group_albums': 					'Albums',
 	'group_albums_recent':				'Recent Albums',

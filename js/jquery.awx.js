@@ -302,6 +302,7 @@
 			var tvdesc = mkf.cookieSettings.get('tvdesc', 'no');
 			var epdesc = mkf.cookieSettings.get('epdesc', 'no');
 			var adesc = mkf.cookieSettings.get('adesc', 'no');
+			var startPage = mkf.cookieSettings.get('startPage', 'recentTV');
 
 			var languages = '';
 			$.each(mkf.lang.getLanguages(), function(key, val) {
@@ -328,6 +329,21 @@
 				'<legend>' + mkf.lang.get('group_language') + '</legend>' +
 				'<select name="lang" size="1">' + languages + '</select>' +
 				'</fieldset>' +
+				'<fieldset>' +
+				'<legend>' + mkf.lang.get('group_start_page') + '</legend>' +
+				'<select id="startPage" name="startPage">' +
+				'<option value="recentAlbums" ' + (startPage=='recentAlbums'? 'selected' : '') + '>' + mkf.lang.get('page_title_album_recent') + '</option>' +
+				'<option value="recentTV" ' + (startPage=='recentTV'? 'selected' : '') + '>' + mkf.lang.get('page_title_tv_recentlyadded') + '</option>' +
+				'<option value="recentMovies" ' + (startPage=='recentMovies'? 'selected' : '') + '>' + mkf.lang.get('page_title_movies_recentlyadded') + '</option>' +
+				'<option value="movies"' + (startPage=='movies'? 'selected' : '') + '>' + mkf.lang.get('page_title_movies') + '</option>' +
+				'<option value="tv"' + (startPage=='tv'? 'selected' : '') + '>' + mkf.lang.get('page_title_tvshows') + '</option>' +
+				'<option value="albums"' + (startPage=='albums'? 'selected' : '') + '>' + mkf.lang.get('page_title_albums') + '</option>' +
+				'<option value="artists"' + (startPage=='artists'? 'selected' : '') + '>' + mkf.lang.get('page_title_artist') + '</option>' +
+				'<option value="musicPlaylist"' + (startPage=='musicPlaylist'? 'selected' : '') + '>' + mkf.lang.get('page_title_music') + ' ' + mkf.lang.get('page_title_music_playlist') + '</option>' +
+				//'<option value="videoPlaylist"' + (startPage=='videoPlaylist'? 'selected' : '') + '>' + mkf.lang.get('label_view_singlelogo') + '</option>' +
+				'</select>' +
+				'</fieldset>' +
+				
 
 				'<fieldset>' +
 				'<legend>' + mkf.lang.get('group_expert') + '</legend>' +
@@ -547,6 +563,11 @@
 						ui = 'lightDark';
 					}
 				mkf.cookieSettings.add('ui', ui);
+				
+				mkf.cookieSettings.add(
+					'startPage',
+					document.settingsForm.startPage.value
+				);
 				
 				mkf.cookieSettings.add(
 					'albumSort',

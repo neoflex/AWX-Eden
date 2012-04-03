@@ -170,6 +170,7 @@ mkf.lang.add({language: 'Polski', short: 'pl', author: 'cienislaw', values: {
 	'btn_export':						'Eksportuj bibliotekę',
 
 	'group_ui': 						'UI',
+	'group_start_page':					'Start page',
 	'group_language': 					'Język',
 	'group_albums':						'Albumy',
 	'group_albums_recent': 				'Nowe albumy',

@@ -38,6 +38,7 @@ mkf.lang.add({language: 'Deutsch', short: 'de', author: 'MKay', values: {
 	'page_title_video_scan':			'Scanning Video Library Activated',
 	'page_title_music_scan':			'Scanning Music Library Activated',
 	
+
 	'page_buttontext_music':			'Musik',
 	'page_buttontext_artist':			'Interpreten',
 	'page_buttontext_genre':			'Genres',
@@ -58,6 +59,7 @@ mkf.lang.add({language: 'Deutsch', short: 'de', author: 'MKay', values: {
 	'page_buttontext_video_scan':		'Scan Video Library',
 	'page_buttontext_music_scan':		'Scan Music Library',
 	
+
 	'ctxt_btn_back_to_music':			'Zur%FCck zu Musik (Strg+1)',
 	'ctxt_btn_find':					'Suchen (Strg+2)',
 	'ctxt_btn_clear playlist':			'Playlist leeren (Strg+2)',
@@ -170,6 +172,7 @@ mkf.lang.add({language: 'Deutsch', short: 'de', author: 'MKay', values: {
 	'btn_export':						'Export Library',
 
 	'group_ui': 						'UI',
+	'group_start_page':					'Start page',
 	'group_language':					'Sprache',
 	'group_albums': 					'Alben',
 	'group_albums_recent':				'Recent Albums',
@@ -216,6 +219,7 @@ mkf.lang.add({language: 'Deutsch', short: 'de', author: 'MKay', values: {
 	'label_use_fanart':					'Use Fan Art as background',
 	'label_timeout':					'TimeOut f%FCr Ajax-Anfragen: ',
 	'label_settings_hint':				'(Die Einstellungen werden in Cookies gespeichert. Sie m%FCssen Cookies f%FCr diese Seite zulassen.)',
+
 	'label_settings_warning':			'* Not recommended for a large amount of items.',
 	'label_not_available':				'N/A',
 	'label_premiered': 					'Premiered:',
@@ -240,6 +244,7 @@ mkf.lang.add({language: 'Deutsch', short: 'de', author: 'MKay', values: {
 	'label_studio':						'Studio:',
 	'label_votes':						'Votes:',
 	'label_subs':						'Subtitles:',
+
 	'label_tagline': 					'Tagline:',
 	'label_trailer':					'Trailer:',
 	'label_link':						'Link',
@@ -269,6 +274,7 @@ mkf.lang.add({language: 'Deutsch', short: 'de', author: 'MKay', values: {
 	'label_cinex_play':					'Play via Cinema Experience',
 
 	'settings_help':					'LazyLoad:\nSofern Sie LazyLoad aktivieren, werden Thumbnails erst geladen, wenn sie sichtbar werden. Dies sch%FCtzt den Server vor zu vielen Bild-Anfragen.\nWenn Sie jedoch sehr viele Eintr%E4ge (Filme, Alben, ...) haben, kann das Webinterface beim Scrollen langsam reagieren, sofern viele Thumbnails noch nicht geladen wurden.\nWenn Sie LazyLoad deaktivieren, werden alle Thumbnails geladen, sobald die entsprechende Seite (Film-Seite, Alben-Seite, ...) angezeigt wird. Es kann dann jedoch einen Moment dauern, bis alle Thumbnails geladen wurden.\n\nTimeOut:\nWenn Sie viele Filme (oder Alben etc.) haben, kann es einige Zeit in Anspruch nehmen, bis die komplette Film-Liste geladen wird. Sie k%F6nnen den TimeOut-Wert erh%F6hen, um Fehler beim Laden der Film-Liste zu vermeiden.',
+
 	'settings_select_artists_path': 	'Please select the location of your artists logos',
 	'settings_select_film_sort':		'Order By: ',
 	'settings_enter_timeout_number': 	'Bitte geben Sie einen TimeOut-Wert zwischen 5 und 120 ein!',

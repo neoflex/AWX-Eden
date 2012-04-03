@@ -1,5 +1,7 @@
 0.5.2
  - Added Play and enqueue music genre.
+ - Added Artist info and enqueue all.
+ - Fixed Playlists containing streams and not local files.
 
 0.5.1
  - Added Artists views

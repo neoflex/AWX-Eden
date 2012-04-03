@@ -339,7 +339,7 @@ var awxUI = {};
 				content: this.$musicPlaylistContent,
 				contextMenu: musicPlaylistContextMenu,
 				onShow: $.proxy(this, "onMusicPlaylistShow"),
-				className: 'playlist'
+				className: 'musicPlaylist'
 			});
 
 			//Music Scan
@@ -464,7 +464,7 @@ var awxUI = {};
 				content: this.$VideoPlaylistsContent,
 				contextMenu: VideoPlaylistsContextMenu,
 				onShow: $.proxy(this, "onVideoPlaylistsShow"),
-				className: 'VideoPlaylists'
+				className: 'videoPlaylists'
 			});
 
 			
@@ -604,7 +604,7 @@ var awxUI = {};
 				menuButtonText: '&raquo; ' + mkf.lang.get('page_buttontext_video_playlist'),
 				contextMenu: videoPlaylistContextMenu,
 				onShow: $.proxy(this, "onVideoPlaylistShow"),
-				className: 'playlist'
+				className: 'videoPlaylist'
 			});
 			
 			//Video Scan
@@ -700,6 +700,7 @@ var awxUI = {};
 					});
 			});
 			
+			$('.' + mkf.cookieSettings.get('startPage', 'recentTV') + ' a').click();
 			//show mfkPages root video or music to allow height 100%
 			/*if ($(this).hasClass('.videos')) {
 				

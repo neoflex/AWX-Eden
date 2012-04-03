@@ -157,6 +157,7 @@ var xbmc = {};
 				$.ajax({
 					async: asyncRequest,
 					type: 'POST',
+					contentType: 'application/json',
 					url: '/jsonrpc?awx',
 					data: command,
 					dataType: 'json',

@@ -170,6 +170,7 @@ mkf.lang.add({language: 'English', short: 'en', author: 'MKay', values: {
 	'btn_export':						'Export Library',
 
 	'group_ui': 						'UI',
+	'group_start_page':					'Start page',
 	'group_language': 					'Language',
 	'group_albums':						'Albums',
 	'group_albums_recent': 				'Recent Albums',

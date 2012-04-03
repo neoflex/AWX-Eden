@@ -170,6 +170,7 @@ mkf.lang.add({language: 'Chinese', short: 'zh', author: 'Taxigps', values: {
 	'btn_export':						'导出资料库',
 
 	'group_ui': 						'界面',
+	'group_start_page':					'Start page',
 	'group_language': 					'语言',
 	'group_albums':						'专辑',
 	'group_albums_recent': 				'最新专辑',

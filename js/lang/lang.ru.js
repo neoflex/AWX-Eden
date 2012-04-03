@@ -170,6 +170,7 @@ mkf.lang.add({language: 'Russian', short: 'ru', author: 'Scaramush', values: {
 	'btn_export':					'Экспортировать библиотеку',
 
 	'group_ui': 					'Интерфейс',
+	'group_start_page':					'Start page',
 	'group_language':				'Язык',
 	'group_albums': 				'Альбомы',
 	'group_albums_recent':				'Недавние альбомы',
