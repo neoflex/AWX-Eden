@@ -1,7 +1,9 @@
 0.5.2
  - Added Play and enqueue music genre.
  - Added Artist info and enqueue all.
+ - Added Start Page. Defaults to Recent TV.
  - Fixed Playlists containing streams and not local files.
+ - Changed Logo walls now support lazyload.
 
 0.5.1
  - Added Artists views

@@ -1118,22 +1118,28 @@ var uiviews = {};
 		/*----Artists logo view----*/
 		ArtistViewLogos: function(artists, parentPage) {
 			var artistsPath = mkf.cookieSettings.get('artistsPath', '');
+			var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
 			var $artistList = $('<div></div>');
 
 				$.each(artists.artists, function(i, artist)  {
-					var thumb = (artist.thumbnail? xbmc.getThumbUrl(artist.thumbnail) : 'images/thumb.png');
+					//var thumb = (artist.thumbnail? xbmc.getThumbUrl(artist.thumbnail) : 'images/missing_logo.png');
+					artist.file = artistsPath + artist.label + '/';
+					xbmc.getLogo(artist.file, function(logo) {
 					$artist = $('<div class="artist'+artist.artistid+' logoWrapper thumbLogoWrapper">' +
 						'<div class="linkTVLogoWrapper">' + 
 								'<a href="" class="albums' + artist.artistid + '">' + mkf.lang.get('btn_all') + '</a>' +
 								'<a href="" class="info' + artist.artistid + '">' + mkf.lang.get('btn_information') + '</a>' +
 								'<a href="" class="enqueue' + artist.artistid + '">' + mkf.lang.get('btn_enqueue') + '</a>' +
 						'</div>' +
-						'<img src="' + thumb + '" alt="' + artist.label + '" class="thumbLogo artist" />' +
+						(useLazyLoad?
+						'<img src="images/loading_thumb.gif" alt="' + artist.label + '" class="thumb thumbLogo" original="' + (logo? logo : 'images/missing_logo.png') + '" />':
+						'<img src="' + (logo? logo : 'images/missing_logo.png') + '" alt="' + artist.label + '" class="thumbLogo artist" />'
+						) +
 						'<div class="albumArtist">' + artist.artist + '</div></div>' +
 						'<div class="findKeywords">' + artist.label.toLowerCase() + '</div>' +
-					'</div>').appendTo($artistList);;
+					'</div>').appendTo($artistList);
 
-				artist.file = artistsPath + artist.label + '/';
+				
 
 				//$artist.find('.artist').bind('click', { idArtist: artist.artistid, strArtist: artist.label, objParentPage: parentPage }, uiviews.ArtistAlbums);
 				$artistList.find('.albums' + artist.artistid).bind('click', { idArtist: artist.artistid, strArtist: artist.label, objParentPage: parentPage }, uiviews.ArtistAlbums)
@@ -1141,8 +1147,8 @@ var uiviews = {};
 				//$artistList.find('.play' + artist.artistid).on('click', {idArtist: artist.artistid}, uiviews.ArtistPlay);
 				$artistList.find('.info' + artist.artistid).on('click', {idArtist: artist.artistid}, uiviews.ArtistInfoOverlay);
 				
-				xbmc.getLogo(artist.file, function(logo) {
-						$('.artist'+artist.artistid).children('img').attr('src', (logo? logo : 'images/missing_logo.png')); 
+				/*xbmc.getLogo(artist.file, function(logo) {
+						$('.artist'+artist.artistid).children('img').attr('src', (logo? logo : 'images/missing_logo.png')); */
 					});
 				});
 
@@ -1884,20 +1890,28 @@ var uiviews = {};
 					if (tvshow.playcount > 0 && !filterShowWatched) { watched = true; }
 					if (filterWatched && watched) { return; }
 					var thumb = (tvshow.thumbnail? xbmc.getThumbUrl(tvshow.thumbnail) : 'images/missing_logo.png');
+					xbmc.getLogo(tvshow.file, function(logo) {
 					var $tvshow = $('<div class="tvshow'+tvshow.tvshowid+' logoWrapper thumbLogoWrapper">' +
 							'<div class="linkTVLogoWrapper">' + 
 								'<a href="" class="season">' + mkf.lang.get('btn_seasons') + '</a>' +
 								'<a href="" class="info">' + mkf.lang.get('btn_information') + '</a>' +
 								'<a href="" class="unwatched">' + mkf.lang.get('btn_unwatched') + '</a>' +
-							'</div><img src="' + thumb + '" alt="' + tvshow.label + '" class="thumbLogo" />' +
+							'</div>' + 
+							//'<img src="' + thumb + '" alt="' + tvshow.label + '" class="thumbLogo" />' +
+							(useLazyLoad?
+							'<img src="images/loading_thumb.gif" alt="' + tvshow.label + '" class="thumb thumbLogo" original="' + (logo? logo : thumb) + '" />':
+							'<img src="' + (logo? logo : thumb) + '" alt="' + tvshow.label + '" class="thumbLogo" />'
+							) +
 							'<div class="tvshowName">' + tvshow.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</div>' +
 							'<div class="findKeywords">' + tvshow.label.toLowerCase() + '</div>' +
 						'</div>')
 						.appendTo($tvShowList);
+					
 					$tvshow.find('.season').bind('click', {idTvShow: tvshow.tvshowid, strTvShow: tvshow.label, objParentPage: parentPage}, uiviews.SeasonsList);
 					$tvshow.find('.info').bind('click', {'tvshow': tvshow}, uiviews.TVShowInfoOverlay);
 					$tvshow.find('.unwatched').bind('click', {idTvShow: tvshow.tvshowid, strTvShow: tvshow.label, objParentPage: parentPage}, uiviews.Unwatched);
-					xbmc.getLogo(tvshow.file, function(logo) { $tvshow.find('img.thumbLogo').attr('src', (logo? logo : 'images/missing_logo.png')); } );
+					//xbmc.getLogo(tvshow.file, function(logo) { $tvshow.find('img.thumbLogo').attr('src', (logo? logo : 'images/missing_logo.png')); } );
+					});
 				});
 
 			}

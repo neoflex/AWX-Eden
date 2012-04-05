@@ -1503,7 +1503,7 @@
 		
 		switch (view) {
 			case 'thumbnail':
-				uiviews.TVThumbnailList(episodesResult).appendTo(epsContainer);
+				uiviews.TVEpThumbnailList(episodesResult).appendTo(epsContainer);
 				break;
 			case 'listover':
 				uiviews.TVEpisodesViewList(episodesResult).appendTo(epsContainer);

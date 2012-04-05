@@ -168,7 +168,7 @@ ul.mkfPageContextMenu li {
     background: url("../images/loading.gif") no-repeat scroll left top transparent;
 }
 img.thumb {
-    border: 1px solid #575757;
+    /*border: 1px solid #575757;*/
     height: 125px;
     width: 125px;
 }
