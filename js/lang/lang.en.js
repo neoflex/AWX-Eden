@@ -186,6 +186,10 @@ mkf.lang.add({language: 'English', short: 'en', author: 'MKay', values: {
 	'group_tab_sort':					'Sorting',
 
 	'label_default_ui': 				'Default UI',
+	'label_now':						'Now:',
+	'label_next':						'Next:',
+	'label_remaining':					'Remaining:',
+	'label_pltotal':					'Playlist Total:',
 	'label_order_by_title': 			'Order By Title',
 	'label_order_by_artist': 			'Order By Artist',
 	'label_film_sort_label': 			'Title',

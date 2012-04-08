@@ -8,18 +8,23 @@ html, body {
     padding: 0;
 }
 #header {
-    background: url("../images/logo.png") no-repeat scroll 20px 10px #333333;
-    height: 110px;
-    padding-left: 145px;
+    /*background: url("../images/logo.png") no-repeat scroll 20px 10px #333333;*/
+	background-color: rgba(0,0,0,0.6);
+	min-width:400px; 
+	!important; width: 400px;
+	position: absolute;
+	width: 100%;
+    height: 48px;
+    /*padding-left: 145px;*/
 }
 #navigation {
-    background: url("../images/menu_bg.png") repeat-x scroll 0 5px #343434;
-    height: 32px;
+    /*background: url("../images/menu_bg.png") repeat-x scroll 0 5px #343434;*/
+    /*height: 32px;
     left: 0;
     position: absolute;
     top: 110px;
-    width: 100%;
-    z-index: 100;
+    width: 100%;*/
+    z-index: 5;
 }
 #navigation ul.mkfMenu, ul.systemMenu, ul.mkfLocationBar, ul.mkfPageContextMenu {
     list-style-type: none;
@@ -28,57 +33,56 @@ html, body {
 }
 #navigation ul.mkfMenu > li, ul.systemMenu > li {
     float: left;
-    height: 25px;
+    height: 48px;
     line-height: 25px;
-    margin: 6px 0 0 10px;
     position: relative;
+	z-index: 150;
 }
 ul.systemMenu > li {
     float: right;
-    margin: 6px 10px 0 0;
 }
 #navigation ul.mkfMenu > li > a, ul.systemMenu > li > a {
-    color: #4B4B4B;
+    color: #fff;
     display: block;
     height: 100%;
-    padding: 0 10px;
+    /*padding: 0 10px;*/
     text-decoration: none;
 }
-#navigation ul.mkfMenu > li.mouseover, #navigation ul.mkfMenu > li.mouseover > a, ul.systemMenu > li.mouseover, ul.systemMenu > li.mouseover > a {
+/*#navigation ul.mkfMenu > li.mouseover, #navigation ul.mkfMenu > li.mouseover > a, ul.systemMenu > li.mouseover, ul.systemMenu > li.mouseover > a {
     background: url("../images/menu_btn_corners.png") no-repeat scroll 0 0 transparent;
     height: 32px;
-}
+}*/
 #navigation ul.mkfMenu > li.mouseover, ul.systemMenu > li.mouseover {
     background-color: #4B4B4B;
-    background-position: 0 -32px;
+    /*background-position: 0 -32px;*/
     line-height: 38px;
     margin-top: 0;
 }
-#navigation ul.mkfMenu > li.mouseover > a, ul.systemMenu > li.mouseover > a {
+/*#navigation ul.mkfMenu > li.mouseover > a, ul.systemMenu > li.mouseover > a {
     background-position: right 0;
     color: #FFFFFF;
-}
+}*/
 #navigation ul.mkfMenu ul {
-    background: url("../images/menu_sub_bottom.png") no-repeat scroll left bottom transparent;
-    left: 0;
+    /*background: url("../images/menu_sub_bottom.png") no-repeat scroll left bottom transparent;*/
+    left: -40px;
     list-style-type: none;
-    margin: 0;
-    padding: 0 0 5px;
     position: absolute;
-    top: 32px;
-    width: 150px;
+    top: 48px;
+    /*width: 150px;*/
 }
 #navigation ul.mkfMenu ul > li {
     margin: 0;
     padding: 0;
+	white-space: nowrap;
 }
 #navigation ul.mkfMenu ul > li > a {
-    background-color: #4B4B4B;
+    background-color: rgba(75, 75, 75, 0.9);
     color: #FFFFFF;
+	font-size: 16px;
     display: block;
-    height: 25px;
-    line-height: 25px;
-    padding-left: 10px;
+    /*height: 25px;
+    line-height: 25px;*/
+    padding-right: 10px;
     text-decoration: none;
 }
 #navigation ul.mkfMenu ul > li > a:hover {
@@ -88,55 +92,161 @@ ul.systemMenu > li {
 #navigation ul.mkfMenu > li > a span.icon, ul.systemMenu > li > a span.icon {
     background: url("../images/menu_icons.png") no-repeat scroll 0 0 transparent;
     float: left;
-    height: 16px;
-    margin: 4px 5px 0 0;
-    width: 16px;
+    height: 48px;
+    /*margin: 4px 5px 0 0;*/
+    width: 48px;
 }
 #navigation ul.mkfMenu > li.mouseover > a span.icon, ul.systemMenu > li.mouseover > a span.icon {
-    margin: 10px 5px 0 0;
+    /*margin: 10px 5px 0 0;*/
 }
 #navigation ul.mkfMenu > li > a span.music {
     background-position: 0 0;
 }
 #navigation ul.mkfMenu > li.mouseover > a .music, #navigation ul.mkfMenu > li.activeMenuItem > a .music {
-    background-position: 0 -16px;
+    background-position: 0px 0px;
 }
 #navigation ul.mkfMenu > li > a span.videos {
-    background-position: -16px 0;
-}
-#navigation ul.mkfMenu > li.mouseover > a .videos, #navigation ul.mkfMenu > li.activeMenuItem > a .videos {
-    background-position: -16px -16px;
-}
-ul.systemMenu > li > a span.settings {
-    background-position: -32px 0;
-}
-ul.systemMenu > li.mouseover > a .settings, ul.systemMenu > li.activeMenuItem > a .settings {
-    background-position: -32px -16px;
-}
-ul.systemMenu > li > a span.exit {
+	border-right: 1px solid #555;
     background-position: -48px 0;
 }
+#navigation ul.mkfMenu > li.mouseover > a .videos, #navigation ul.mkfMenu > li.activeMenuItem > a .videos {
+    background-position: -48px 0px;
+}
+ul.systemMenu > li > a span.settings {
+    background-position: -96px 0;
+}
+ul.systemMenu > li.mouseover > a .settings, ul.systemMenu > li.activeMenuItem > a .settings {
+    background-position: -96px 0px;
+}
+ul.systemMenu > li > a span.exit {
+	border-left: 1px solid #555;
+    background-position: -144px 0;
+}
 ul.systemMenu > li.mouseover > a .exit, ul.systemMenu > li.activeMenuItem > a .exit {
-    background-position: -48px -16px;
+    background-position: -144px 0px;
+}
+#footer {
+	background-color: rgba(0,0,0,0.6);
+	min-width:400px; 
+	!important; width: 400px;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 48px;
+}
+#footer #now_next {
+	display: inline;
+	height: 48px;
+	/*left: 96px
+	bottom: 0px;
+	position: absolute;*/
+	float: left;
+	font-size: 16px;
+	font-weight: bold;
+	white-space: nowrap;
+}
+#footer #now_next #now, #footer #now_next #next  {
+	height: 50%;
+}
+#footer #now_next span.nowTitle, #footer #now_next span.nextTitle  {
+	font-weight: normal;
+	margin-left: 2px;
+}
+#footer #statPlayerContainer {
+	font-size: 16px;
+	font-weight: bold;
+	/*min-width: 242px;*/
+	height: 48px;
+	float: right;
+}
+#footer #remainPlayer {
+	font-size: 16px;
+	font-weight: bold;
+	height: 48px;
+	float: left;
+}
+#footer #remainPlayer #remaining, #footer #remainPlayer #plTotal {
+	height: 50%;
+}
+#footer #remainPlayer span {
+	margin-left: 3px;
+	font-weight: normal;
+}
+#footer #statusPlayer {
+	display: inline-table;
+	float: left;
+	margin-right: 5px;
+	height: 48px;
+	width: 48px;
+}
+#footer #statusPlayerRow {
+	display: table-row;
+	height: 24px;
+	width: 48px;
+}
+#footer #statusPlayer #paused {
+	background: url("../images/status_mini.png") no-repeat scroll transparent;
+	display: table-cell;
+	background-position: 0 0;
+	height: 24px;
+	width: 24px;
+}
+#footer #statusPlayer #shuffled {
+	background: url("../images/status_mini.png") no-repeat scroll transparent;
+	display: table-cell;
+	background-position: -48px 0;
+	height: 24px;
+	width: 24px;
+}
+#footer #statusPlayer #repeating {
+	background: url("../images/status_mini.png") no-repeat scroll transparent;
+	display: table-cell;
+	background-position: -96px 0;
+	height: 24px;
+	width: 24px;
+}
+#footer #statusPlayer #repeating1 {
+	background: url("../images/status_mini.png") no-repeat scroll transparent;
+	display: table-cell;
+	background-position: -144px 0;
+	height: 24px;
+	width: 24px;
+}
+#footer #statusPlayer #muted {
+	background: url("../images/status_mini.png") no-repeat scroll transparent;
+	display: table-cell;
+	background-position: -192px 0;
+	height: 24px;
+	width: 24px;
+}
+#footer #controller {
+	background-image: url("../images/buttons.png");
+	background-position: -528px 0;
+	float: left;
+	height: 48px;
+	width: 48px;
+	/*position: absolute;*/
+	/*right: 0px;*/
 }
 #statusLine {
-    background-color: #444;
+    /*background-color: #444;
     border-bottom: 1px solid #444444;
     height: 25px;
     left: 0;
     position: absolute;
     top: 142px;
     width: 100%;
-    background: url("../images/button_bg2.png") repeat-x scroll 0 0px #444;
+    background: url("../images/button_bg2.png") repeat-x scroll 0 0px #444;*/
 }
 ul.mkfLocationBar li, ul.mkfPageContextMenu li {
     float: left;
-    height: 25px;
-    line-height: 25px;
+    height: 48px;
+    line-height: 48px;
     margin-left: 10px;
 }
 #location a {
-    color: #000;
+    color: #aaa;
+	font-size: 16px;
     text-decoration: none;
 }
 #location a:hover {
@@ -146,20 +256,27 @@ ul.mkfPageContextMenu li {
     float: right;
     margin: 0 10px 0 0;
 }
+#background {
+	height: 100%;
+	background-image: url("");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+}
 #content {
-    bottom: 0;
+    bottom: 48px;
     left: 0;
     overflow: auto;
     /*padding-top: 5px;*/
     position: absolute;
     right: 0;
-    top: 168px;
+    top: 48px;
     z-index: 50;
 	background-image: url("");
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-size: cover;
-	background-position: 0px 168px;
+	/*background-position: 0px 168px;*/
 }
 #content .mkfPage .pageContent div.pageContentWrapper {
     min-height: 32px;
@@ -278,7 +395,7 @@ div.linkTVLogoWrapper {
 div.linkTVWrapper {
     display: none;
     left: 12%;
-	top: 6px;
+	top: 0px;
     position: absolute;
     width: 75%;
 }
@@ -373,42 +490,41 @@ div.playtime {
 #contextMenu ul a {
     background: url("../images/context_buttons.png") no-repeat scroll 0 0 transparent;
     display: block;
-    height: 22px;
-    margin-top: 2px;
-    width: 22px;
+    height: 48px;
+    width: 48px;
 }
 #contextMenu ul a.close {
     background-position: left top;
 }
 #contextMenu ul a.back {
-    background-position: -22px 0;
+    background-position: -48px 0;
 }
 #contextMenu ul a.clear {
-    background-position: -44px 0;
+    background-position: -96px 0;
 }
 #contextMenu ul a.refresh {
-    background-position: -88px 0;
+    background-position: -192px 0;
 }
 #contextMenu ul a.find {
-    background-position: -66px 0;
+    background-position: -144px 0;
 }
 #contextMenu ul a.close:hover {
     background-position: left bottom;
 }
 #contextMenu ul a.back:hover {
-    background-position: -22px -22px;
+    background-position: -48px -48px;
 }
 #contextMenu ul a.clear:hover {
-    background-position: -44px -22px;
+    background-position: -96px -48px;
 }
 #contextMenu ul a.find:hover {
-    background-position: -66px -22px;
+    background-position: -144px -48px;
 }
 #contextMenu ul a.refresh:hover {
-    background-position: -88px -22px;
+    background-position: -192px -48px;
 }
 div.mkfOverlay div.dialog a.close {
-    background: url("../images/context_buttons.png") no-repeat scroll left top transparent;
+    background: url("../images/context_buttons_small.png") no-repeat scroll left top transparent;
     float: right;
     height: 22px;
     width: 22px;
@@ -1445,40 +1561,82 @@ br.clear {
 #content .mkfMenu li.scanVideo a { background-position: -896px 0; }
 #content .mkfMenu li.scanMusic a { background-position: -1024px 0; }
 
+#simple_controls {
+	height: 48px;
+	width: 96px;
+	float: left;
+}
+#simple_controls a.button {
+	background: url("../images/simple_controls.png") no-repeat scroll 0 0 transparent;
+	float: left;
+	height: 48px;
+	width: 48px;
+}
+#simple_controls a.play {
+	background-position: 0 0;
+}
+#simple_controls a.stop {
+	background-position: -48px 0;
+}
+#displayoverlay {
+	position: fixed;
+	height: 280px;
+	min-width: 510px;
+	bottom: 50px;
+	float: right;
+	right: 20px;
+	z-index: 250;
+}
+#artwork {
+	/*height: 280px;
+	width: 195px;*/
+	float: left;
+	margin-right: 5px;
+	/*position: fixed;
+	bottom: 48px;
+	right: 20px;*/
+	z-index: 251;
+}
+#artwork img {
+	width: 195px;
+	height: 280px;
+}
 #controls {
     /*background: url("../images/volume.png") no-repeat scroll 20px 10px #EAECE6;*/
-	background-color: #EAECE6;
-    border: 1px solid #7C7C7C;
+	background-color: rgba(55,55,55,0.7);
+    /*border: 1px solid #7C7C7C;*/
     border-radius: 5px 5px 5px 5px;
+	/*position: fixed;*/
     float: left;
-    height: 70px;
-    margin-right: 10px;
-    margin-top: 20px;
-    padding: 0 10px;
-    width: 210px;
+    height: 48px;
+	/*bottom: 48px;
+	right: 252px;*/
+    margin-right: 5px;
+    margin-top: 232px;
+    /*padding: 0 10px;
+    width: 384px;*/
+	z-index: 250;
 }
-#controls .unmuted {
-    background: url("../images/volume.png") no-repeat scroll transparent;
+#controls a.button {
+    background: url("../images/buttons.png") no-repeat scroll 0 0 transparent;
     float: left;
-    height: 15px;
-    margin-top: 10px;
-	margin-left: 10px;
-    width: 16px;
+    height: 48px;
+    margin-right: 6px;
+    width: 48px;
 }
-#controls .muted {
+#controls a.unmuted {
+    /*background: url("../images/buttons.png") no-repeat scroll transparent;*/
+	background-position: -384px 0;
+    height: 48px;
+    width: 48px;
+}
+#controls a.muted {
     background: url("../images/muted.png") no-repeat scroll transparent;
     float: left;
     height: 15px;
     margin-top: 10px;
 	margin-left: 10px;
     width: 16px;
-}
-#controls a.button {
-    background: url("../images/buttons.png") no-repeat scroll 0 0 transparent;
-    float: left;
-    height: 30px;
-    margin-right: 6px;
-    width: 30px;
 }
 #controls a.play {
     background-position: -90px 0;
@@ -1487,30 +1645,43 @@ br.clear {
     background-position: 0 0;
 }
 #controls a.prev {
-    background-position: -60px 0;
+    background-position: -192px 0;
+	margin-left: 6px;
 }
 #controls a.next {
-    background-position: -30px 0;
+    background-position: -336px 0;
 }
 #controls a.shuffle {
-    background-position: -120px 0;
+    background-position: 0 0;
 }
 #controls a.unshuffle {
-    background-position: -150px 0;
+    background-position: 0 0;
 }
 #controls a.repeat {
-    background-position: -240px 0;
+    background-position: -48px 0;
 	margin-right: 0px;
 }
 #controls a.repeat1 {
-    background-position: -210px 0;
+    background-position: -96px 0;
 	margin-right: 0px;
 }
 #controls a.repeatOff {
-    background-position: -180px 0;
+    background-position: -144px 0;
 	margin-right: 0px;
 }
-#controls a.play:hover {
+#controls a.volup {
+    background-position: -480px 0;
+	margin-right: 0px;
+}
+#controls a.voldown {
+    background-position: -432px 0;
+	margin-right: 0px;
+}
+#controls a.mute {
+    background-position: -384px 0;
+	margin-right: 0px;
+}
+/*#controls a.play:hover {
     background-position: -90px -30px;
 }
 #controls a.stop:hover {
@@ -1539,22 +1710,25 @@ br.clear {
 #controls a.repeatOff:hover {
     background-position: -180px -30px;
 	margin-right: 0px;
-}
+}*/
 div.ui-slider {
-    background-color: #4B4B4B;
-    border: 1px solid #4B4B4B;
-    border-radius: 5px 5px 5px 5px;
+    background-color: rgba(75,75,75,0.9);
+    /*border: 1px solid #4B4B4B;
+    border-radius: 5px 5px 5px 5px;*/
     position: relative;
 }
 div.ui-slider-horizontal {
     height: 10px;
 }
 div.ui-slider-vertical {
-    height: 140px;
-    width: 10px;
+    height: 280px;
+    width: 32px;
 }
 div.ui-slider-range {
     background-color: #A0E312;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#A0E312', endColorstr='#005500'); /* for IE */
+	background: -webkit-gradient(linear, left top, left bottom, from(#A0E312), to(#005500)); /* for webkit browsers */
+	background: -moz-linear-gradient(top,  #A0E312,  #005500); /* for firefox 3.6+ */ 
     border-radius: 3px 3px 3px 3px;
     position: absolute;
 }
@@ -1563,7 +1737,7 @@ div.ui-slider-horizontal div.ui-slider-range {
 }
 div.ui-slider-vertical div.ui-slider-range {
     bottom: 0;
-    width: 10px;
+    width: 32px;
 }
 a.ui-slider-handle {
     display: block;
@@ -1579,10 +1753,15 @@ div.ui-slider-vertical a.ui-slider-handle {
     bottom: 0;
     height: 6px;
     margin-bottom: -3px;
-    width: 10px;
+    width: 32px;
 }
 #volumeSlider {
-    margin: 10px 0 10px 40px;
+    /*margin: 10px 0 10px 40px;
+	position: fixed;
+	right: 215px;
+	bottom: 48px;*/
+	float: left;
+	z-index: 251;
 }
 #currentlyPlaying {
     background-color: #000000;

@@ -99,7 +99,7 @@ var awxUI = {};
 			this.$musicContent = $('<div class="pageContentWrapper"></div>');
 			var musicPage = mkf.pages.addPage({
 				title: mkf.lang.get('page_title_music'),
-				menuButtonText: '<span class="icon music"></span>' + mkf.lang.get('page_buttontext_music'),
+				menuButtonText: '<span class="icon music"></span>',
 				content: this.$musicContent,
 				className: 'music'
 			});
@@ -359,7 +359,7 @@ var awxUI = {};
 			this.$videosContent = $('<div class="pageContentWrapper"></div>');
 			var videosPage = mkf.pages.addPage({
 				title: mkf.lang.get('page_title_videos'),
-				menuButtonText: '<span class="icon videos"></span>' + mkf.lang.get('page_buttontext_videos'),
+				menuButtonText: '<span class="icon videos"></span>',
 				content: this.$videosContent,
 				className: 'videos'
 			});
@@ -640,24 +640,33 @@ var awxUI = {};
 								'<img src="images/thumbBanner.png" alt="Preload 4/8" />' +
 								'<img src="images/thumbPoster.png" alt="Preload 5/8" />' +
 								'<img src="images/thumb.png" alt="Preload 6/8" />' +
-								'<img src="ui.lightDark/images/messagelog.png" alt="Preload 7/8" />' +
-								'<img src="ui.lightDark/images/loading.gif" alt="Preload 8/8" />' +
+								'<img src="ui.uni/images/messagelog.png" alt="Preload 7/8" />' +
+								'<img src="ui.uni/images/loading.gif" alt="Preload 8/8" />' +
 							'</div>' +
+							'<div id="background">' +
 							'<div id="header">' +
-								'<div id="controls">' +
+								/*'<div id="controls">' +
 									'<div class="mute unmuted"></div><div id="volumeSlider"></div>' +
 								'</div>' +
-								'<div id="currentlyPlaying"></div>' +
-							'</div>' + 
+								'<div id="currentlyPlaying"></div>' +*/
+							
 							'<div id="navigation"></div>'+
 							'<div id="statusLine"><div id="location"></div><div id="contextMenu"></div></div>' +
-							'<div id="content"></div>' +
-							'<div id="messageLog"></div>'
+							'</div>' + 
+							'<div id="content">' +
+							'<div id="displayoverlay"><div id="controls"></div><div id="artwork"><img src="images/thumbPoster.png"></div><div id="volumeSlider"></div></div>' +
+							'</div>' +
+							'<div id="footer">' +
+							'<div id="simple_controls"></div><div id="infoContainer"></div>' +
+							//'<div id="statPlayerContainer"><div id="statusPlayer"><div id="statusPlayerRow"><div id="paused"></div><div id="shuffled"></div></div><div id="statusPlayerRow"><div id="repeating"></div><div id="muted"></div></div></div><div id="remainPlayer"><div id="remaining">Remaing:</div><div id="plTotal">Playlist Total:</div></div>' +
+							//'<div id="controller"></div>' +
+							'</div>' +
+							'<div id="messageLog"></div></div>'
 							);
 
 
 			var $stylesheet = $('<link rel="stylesheet" type="text/css" />').appendTo('head');
-			$stylesheet.attr('href', 'ui.lightDark/css/layout.css');
+			$stylesheet.attr('href', 'ui.uni/css/layout.css');
 			// does not work in IE 8
 			// $('<link rel="stylesheet" type="text/css" href="ui.lightDark/css/layout.css" />').appendTo('head');
 
@@ -667,16 +676,22 @@ var awxUI = {};
 			$('#content').mkfPages();
 			$('#contextMenu').mkfPageContextMenu();
 
-			$('#controls').defaultControls();
-			$('#currentlyPlaying').defaultCurrentlyPlaying({effect:'fade'});
-			$('#volumeSlider').defaultVolumeControl({horizontal: true});
+			$('#footer #simple_controls').simcontrols();
+			$('#controls').extraControls();
+			$('#infoContainer').uniFooterStatus();
+			$('#controller').on('click', function() { $('#displayoverlay').toggle() } );
+			//$('#currentlyPlaying').defaultCurrentlyPlaying({effect:'fade'});
+			$('#volumeSlider').defaultVolumeControl({vertical: true});
 
 			var $sysMenu = $('<ul class="systemMenu">').appendTo($('#navigation'));
 			$sysMenu.defaultSystemButtons();
 			$sysMenu.find('a').wrap('<li>');
-			$sysMenu.find('a.settings').prepend('<span class="icon settings"></span>' + mkf.lang.get('btn_settings'));
-			$sysMenu.find('a.exit').prepend('<span class="icon exit"></span>' + mkf.lang.get('btn_exitmenu'));
+			$sysMenu.find('a.settings').prepend('<span class="icon settings"></span>');
+			$sysMenu.find('a.exit').prepend('<span class="icon exit"></span>');
 
+			$('#displayoverlay').hide();
+			$('#statusPlayer #statusPlayerRow').children().hide()
+			$('#statusPlayer').hide();
 
 			// Hide all submenus
 			$('#navigation ul.mkfMenu ul, ul.systemMenu ul').hide();

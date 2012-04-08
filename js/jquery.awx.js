@@ -68,6 +68,104 @@
 	/* ########################### *\
 	 |  XBMC-Controls
 	\* ########################### */
+	$.fn.simcontrols = function() {
+		$simpleControls = $('<a class="button play" href=""></a><a class="button stop" href=""></a>');
+		$simpleControls.filter('.play').click(function() {
+			xbmc.control({type: 'play'}); return false;
+		});
+		$simpleControls.filter('.stop').click(function() {
+			xbmc.control({type: 'stop'}); return false;
+		});
+		
+		this.each (function() {
+			$(this).append($simpleControls.clone(true));
+		});
+	};
+	
+	$.fn.extraControls = function() {
+		$controls = $('<a class="button prev" href=""></a><a class="button next" href=""></a><a class="button shuffle" href="" title="' + mkf.lang.get('label_shuffle') + '"></a><a class="button repeat" href="" title="' + mkf.lang.get('label_repeat') + '"></a><a class="button mute" href="" title="' + mkf.lang.get('label_mute') + '"></a>');
+		//'<a class="button volup" href="" title="' + mkf.lang.get('label_volup') + '"></a><a class="button voldown" href="" title="' + mkf.lang.get('label_voldown') + '"></a><a class="button mute" href="" title="' + mkf.lang.get('label_mute') + '"></a>');
+		$controls.filter('.play').click(function() {
+			xbmc.control({type: 'play'}); return false;
+		});
+		$controls.filter('.stop').click(function() {
+			xbmc.control({type: 'stop'}); return false;
+		});
+		$controls.filter('.next').click(function() {
+			xbmc.control({type: 'next'}); return false;
+		});
+		$controls.filter('.prev').click(function() {
+			xbmc.control({type: 'prev'}); return false;
+		});
+		$controls.filter('.mute').click(function() {
+			xbmc.setMute(); return false;
+		});
+		var shuffle = function(event) {
+			xbmc.control({type: (event.data.shuffle? 'shuffle': 'unshuffle')}); return false;
+		};
+
+		$controls.filter('.shuffle').bind('click', {"shuffle": true}, shuffle);
+
+		var repeat = function(event) {
+			if (event.data.repeat == 'all' && xbmc.periodicUpdater.repeatStatus == 'off') {
+				type = 'all';
+			} else if (event.data.repeat == 'one' && xbmc.periodicUpdater.repeatStatus == 'all') {
+				type = 'one';
+			} else if (event.data.repeat == 'off' && xbmc.periodicUpdater.repeatStatus == 'one') {
+				type = 'off'; 
+			};
+			xbmc.controlRepeat(type);
+			return false;
+		};
+		
+		$controls.filter('.repeat').bind('click', {"repeat": 'all' }, repeat);
+		
+		xbmc.periodicUpdater.addPlayerStatusChangedListener(function(status) {
+			var $shuffleBtn = $('.button.shuffle');
+			if (status == 'shuffleOn') {
+				$shuffleBtn.unbind('click');
+				$shuffleBtn.bind('click', {"shuffle": false}, shuffle);
+				$shuffleBtn.addClass('unshuffle');
+				$shuffleBtn.attr('title', mkf.lang.get('label_unshuffle'));
+
+			} else if (status == 'shuffleOff') {
+				$shuffleBtn.unbind('click');
+				$shuffleBtn.bind('click', {"shuffle": true}, shuffle);
+				$shuffleBtn.removeClass('unshuffle');
+				$shuffleBtn.attr('title', mkf.lang.get('label_shuffle'));
+			}
+			//No idea if we're in Audio or Video playlist; refresh both..
+			awxUI.onMusicPlaylistShow();
+			awxUI.onVideoPlaylistShow();
+		});
+
+		xbmc.periodicUpdater.addPlayerStatusChangedListener(function(status) {
+			var $repeatBtn = $('.button.repeat');
+			if (status == 'off') {
+				$repeatBtn.unbind('click');
+				$repeatBtn.bind('click', {"repeat": 'all'}, repeat);
+				$repeatBtn.removeClass('repeatOff');
+				$repeatBtn.addClass('repeat');
+				$repeatBtn.attr('title', mkf.lang.get('label_repeat'));
+			} else if (status == 'all') {
+				$repeatBtn.unbind('click');
+				$repeatBtn.bind('click', {"repeat": 'one'}, repeat);
+				$repeatBtn.addClass('repeat1');
+				$repeatBtn.attr('title', mkf.lang.get('label_repeat1'));
+			} else if (status == 'one') {
+				$repeatBtn.unbind('click');
+				$repeatBtn.removeClass('repeat1');
+				$repeatBtn.bind('click', {"repeat": 'off'}, repeat);			
+				$repeatBtn.addClass('repeatOff');
+				$repeatBtn.attr('title', mkf.lang.get('label_repeatoff'));
+			}
+		});
+		
+		this.each (function() {
+			$(this).append($controls.clone(true));
+		});
+	}; // END extraControls
+	
 	$.fn.defaultControls = function() {
 		$controls = $('<a class="button play" href=""></a><a class="button stop" href=""></a><a class="button next" href=""></a><a class="button prev" href=""></a><a class="button shuffle" href="" title="' + mkf.lang.get('label_shuffle') + '"></a><a class="button repeat" href="" title="' + mkf.lang.get('label_repeat') + '"></a>');
 		$controls.filter('.play').click(function() {
@@ -274,7 +372,7 @@
 		var $settingsButton = $('<a href="" class="settings"></a>');
 		$settingsButton.click(function() {
 			var order = mkf.cookieSettings.get('albumOrder', 'artist');
-			var lazyload = mkf.cookieSettings.get('lazyload', 'yes');
+			var lazyload = mkf.cookieSettings.get('lazyload', 'no');
 			var timeout = mkf.cookieSettings.get('timeout', 20);
 			var ui = mkf.cookieSettings.get('ui');
 			var oldui = mkf.cookieSettings.get('ui');
@@ -560,6 +658,8 @@
 						ui = 'default';
 					} else if ( document.settingsForm.userinterface[2].checked == true) {
 						ui = 'lightDark';
+					} else if ( document.settingsForm.userinterface[3].checked == true) {
+						ui = 'uni';
 					} else {
 						ui = 'lightDark';
 					}
@@ -738,6 +838,34 @@
 		});
 	}; // END defaultVolumeControl
 	
+	/* ########################### *\
+	 |  Incrimental Volume Control
+	\* ########################### */
+	$.fn.incVolumeControl = function(options) {
+		/*this.each (function() {
+			var $sliderElement = $(this);
+
+			// Slider
+			$sliderElement.slider({
+				range: 'min',
+				value: 0,
+				orientation: (options && options.horizontal? 'horizontal': 'vertical'),
+				stop: function(event, ui) {
+					xbmc.setVolume({
+						volume: ui.value,
+						onError: function (response) {
+							mkf.messageLog.show(mkf.lang.get('message_failed_set_volume'),
+											mkf.messageLog.status.error, 5000);
+						}
+					});
+				}
+			});
+
+			xbmc.periodicUpdater.addVolumeChangedListener(function(vol) {
+				$sliderElement.slider("option", "value", vol);
+			});
+		});*/
+	}; // END incVolumeControl
 	
 
 	/* ########################### *\
@@ -2419,7 +2547,154 @@
 		});
 	}; // END defaultFilesystemViewer
 
+	/* ########################### *\
+	 |  "Currently Playing"-Box
+	\* ########################### */
+	$.fn.uniFooterStatus = function(options) {
+		var settings = {
+			effect: 'fade'
+		};
+		$.extend(settings, options);
 
+		this.each (function() {
+			var $footerStatusBox = $(this);
+			//$currentlyPlayingBox.hide();
+
+			var content = '<div id="now_next"><div id="now">' + mkf.lang.get('label_now') + '<span class="nowTitle" /></div><div id="next">' + mkf.lang.get('label_next') + '<span class="nextTitle" /></div></div>';
+			content += '<div id="statPlayerContainer"><div id="statusPlayer"><div id="statusPlayerRow"><div id="paused"></div><div id="shuffled"></div></div><div id="statusPlayerRow"><div id="repeating"></div><div id="muted"></div></div></div><div id="remainPlayer"><div id="remaining">' + mkf.lang.get('label_remaining') + '<span class="timeRemain">00:00</span></div><div id="plTotal">' + mkf.lang.get('label_pltotal') + '<span class="timeRemainTotal">00:00</span></div></div>';
+			content += '<div id="controller"></div>';
+			
+			$footerStatusBox.html(content);
+			
+
+			var titleElement = '';
+
+			var artistElement = '';
+			var albumElement = '';
+
+			var tvshowElement = '';
+			var seasonElement = '';
+			var episodeElement = '';
+			
+			var thumbElement = $('#content #displayoverlay #artwork img');
+			
+			var nowElement = $footerStatusBox.find('span.nowTitle');
+			var nextElement = $footerStatusBox.find('span.Title');
+			var timeCurRemain = $footerStatusBox.find('span.timeRemain');
+			var timeCurRemainTotal = $footerStatusBox.find('span.timeRemainTotal');
+
+			xbmc.periodicUpdater.addCurrentlyPlayingChangedListener(function(currentFile) {
+				// ALL: AUDIO, VIDEO, PICTURE
+				if (currentFile.title) { titleElement=currentFile.title; } else { titleElement = (currentFile.label? currentFile.label : mkf.lang.get('label_not_available')) ; }
+
+				if (currentFile.xbmcMediaType == 'audio') {
+					// AUDIO
+					/*musicDataElement.show();
+					tvshowDataElement.hide();*/
+					if (currentFile.artist) { artistElement = currentFile.artist; } else { artistElement = mkf.lang.get('label_not_available'); }
+					if (currentFile.album) { albumElement = currentFile.album; } else { albumElement = mkf.lang.get('label_not_available'); }
+					
+					nowElement.text(titleElement + ' - ' + artistElement + ' - ' + albumElement);
+				} else {
+					// VIDEO
+					//musicDataElement.hide();
+
+					if (currentFile.season &&
+						currentFile.episode &&
+						currentFile.showtitle) {
+
+						tvshowElement = currentFile.showtitle;
+						seasonElement = currentFile.season;
+						episodeElement = currentFile.episode;
+						
+						nowElement.text(titleElement + ' - ' + tvshowElement + ' - S' + seasonElement + 'E' + episodeElement);
+						//tvshowDataElement.show();
+
+					} else {
+						nowElement.text(titleElement);
+						//tvshowDataElement.hide();
+					}
+				}
+				
+				thumbElement.attr('src', 'images/thumbPoster.png');
+				if (currentFile.thumbnail) {
+					thumbElement.attr('src', xbmc.getThumbUrl(currentFile.thumbnail));
+					if (currentFile.showtitle) {
+						thumbElement.css('margin-top', '147px');
+						thumbElement.css('width', '200px');
+						thumbElement.css('height', '133px');					
+					} else if (currentFile.xbmcMediaType == 'audio') {
+						thumbElement.css('margin-top', '85px');
+						thumbElement.css('height', '195px');
+						thumbElement.css('width', '195px');
+					} else { //movie
+						thumbElement.css('margin-top', '0px');
+						thumbElement.css('height', '280px');
+						thumbElement.css('width', '195px');						
+					}
+
+				}
+			});
+			
+			xbmc.periodicUpdater.addPlayerStatusChangedListener(function(status) {
+				if (status == 'stopped') {
+					nowElement.text('');
+					timeCurRemain.text('00:00');
+					thumbElement.css('height', '280px');
+					thumbElement.css('width', '195px');
+					thumbElement.attr('src', 'images/thumbPoster.png');
+					thumbElement.css('margin-top', '0px');
+					$footerStatusBox.find('#statusPlayer').hide();
+				
+				} else if (status == 'playing') {
+					//showBox($currentlyPlayingBox);
+					$footerStatusBox.find('#statusPlayer #statusPlayerRow #paused').hide();
+
+				} else if (status == 'paused') {
+					//showBox($currentlyPlayingBox);
+					$footerStatusBox.find('#statusPlayer').css('display', 'inline-table');
+					$footerStatusBox.find('#statusPlayer #statusPlayerRow #paused').css('display', 'table-cell');
+
+				} else if (status == 'shuffleOn') {
+					$footerStatusBox.find('#statusPlayer').css('display', 'inline-table');
+					$footerStatusBox.find('#statusPlayer #statusPlayerRow #shuffled').css('display', 'table-cell');
+
+				} else if (status == 'shuffleOff') {
+					$footerStatusBox.find('#statusPlayer #statusPlayerRow #shuffled').hide();
+					
+				} else if (status == 'off') {
+					$footerStatusBox.find('#statusPlayer').css('display', 'inline-table');
+					$footerStatusBox.find('#statusPlayer #statusPlayerRow #repeating').hide();
+					
+				} else if (status == 'all') {
+					$footerStatusBox.find('#statusPlayer').css('display', 'inline-table');
+					$footerStatusBox.find('#statusPlayer #statusPlayerRow #repeating').css('background-position', '-96px 0px');
+					$footerStatusBox.find('#statusPlayer #statusPlayerRow #repeating').css('display', 'table-cell');
+					
+				} else if (status == 'one') {
+					$footerStatusBox.find('#statusPlayer').css('display', 'inline-table');
+					$footerStatusBox.find('#statusPlayer #statusPlayerRow #repeating').css('background-position', '-144px 0px');
+					$footerStatusBox.find('#statusPlayer #statusPlayerRow #repeating').css('display', 'table-cell');
+				
+				} else if (status == 'muteOn') {
+					$footerStatusBox.find('#statusPlayer').css('display', 'inline-table');
+					$footerStatusBox.find('#statusPlayer #statusPlayerRow #muted').css('display', 'table-cell');
+
+				} else if (status == 'muteOff') {
+					$footerStatusBox.find('#statusPlayer #statusPlayerRow #muted').hide();
+					
+				}
+			});
+			
+			xbmc.periodicUpdater.addProgressChangedListener(function(progress) {
+				timeCurRemain.text(xbmc.formatTime(xbmc.getSeconds(progress.total) - xbmc.getSeconds(progress.time)));
+				//durationElement.text(progress.total);
+				//sliderElement.slider("option", "value", 100 * xbmc.getSeconds(progress.time) / xbmc.getSeconds(progress.total));
+			});
+
+		});
+	}; // END uniFooterStatus
+	
 
 	/* ########################### *\
 	 |  "Currently Playing"-Box
