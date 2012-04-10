@@ -1146,10 +1146,10 @@
 				$.each(MusicPlaylistsResult.files, function(i, playlist)  {
 					//is it a playlist or a directory? .pls .m3u m3u8 .cue .xsp .strm
 					var playlistExt = playlist.file.split('.').pop().toLowerCase();
-					if (playlistExt == 'pls' || playlistExt == 'm3u' || playlistExt == 'm3u8' || playlistExt == 'cue' || playlistExt == 'xsp' || playlistExt == 'strm') {
+					var isPlaylist = false;
+					if (playlist.filetype == 'directory' && (playlistExt == 'pls' || playlistExt == 'm3u' || playlistExt == 'm3u8' || playlistExt == 'cue' || playlistExt == 'xsp' || playlistExt == 'strm')) {
 						isPlaylist = true;
-					} else {
-						isPlaylist = false;
+					} else if (playlist.filetype == 'directory' && playlist.type == 'unknown') {
 						playlist.type = 'Directory';
 					};
 					MusicPlaylistsList.append('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper">' +
@@ -1162,7 +1162,6 @@
 										(playlist.type == 'unknown' && isPlaylist == true ? 'Playlist' : playlist.type) + '<div class="findKeywords">' + playlist.label.toLowerCase() + '</div>' +
 										'</a></div></li>');
 					
-					console.log(playlist.type);
 					if (playlist.type != 'Directory') {					
 						MusicPlaylistsList.find('.playlistinfo' + i).bind('click', {playlistinfo: playlist}, onAddPlaylistToPlaylistClick);
 						MusicPlaylistsList.find('.play' + i).bind('click', {playlistinfo: playlist}, onPlaylistsPlayClick);
