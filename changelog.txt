@@ -4,6 +4,7 @@
  - Added Start Page. Defaults to Recent TV.
  - Fixed Playlists containing streams and not local files.
  - Changed Logo walls now support lazyload.
+ - Update Lazyload to 1.7.2.
 
 0.5.1
  - Added Artists views

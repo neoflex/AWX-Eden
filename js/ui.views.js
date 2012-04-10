@@ -1097,7 +1097,7 @@ var uiviews = {};
 								'<a href="" class="enqueue' + artist.artistid + '">' + mkf.lang.get('btn_enqueue') + '</a>' +
 						'</div>' +
 						(useLazyLoad?
-							'<img src="images/loading_thumb.gif" alt="' + artist.label + '" class="thumb albums" original="' + thumb + '" />':
+							'<img src="images/loading_thumb.gif" alt="' + artist.label + '" class="thumb albums" data-original="' + thumb + '" />':
 							'<img src="' + thumb + '" alt="' + artist.label + '" class="thumb albums" />'
 						) +
 						'<div class="albumInfo">' + artist.artist + '</div></div>' +
@@ -1132,7 +1132,7 @@ var uiviews = {};
 								'<a href="" class="enqueue' + artist.artistid + '">' + mkf.lang.get('btn_enqueue') + '</a>' +
 						'</div>' +
 						(useLazyLoad?
-						'<img src="images/loading_thumb.gif" alt="' + artist.label + '" class="thumb thumbLogo" original="' + (logo? logo : 'images/missing_logo.png') + '" />':
+						'<img src="images/loading_thumb.gif" alt="' + artist.label + '" class="thumb thumbLogo" data-original="' + (logo? logo : 'images/missing_logo.png') + '" />':
 						'<img src="' + (logo? logo : 'images/missing_logo.png') + '" alt="' + artist.label + '" class="thumbLogo artist" />'
 						) +
 						'<div class="albumArtist">' + artist.artist + '</div></div>' +
@@ -1315,7 +1315,7 @@ var uiviews = {};
 							'<a href="" class="play">' + mkf.lang.get('btn_play') + '</a><a href="" class="songs">' + mkf.lang.get('btn_songs') + '</a><a href="" class="playlist">' + mkf.lang.get('btn_enqueue') + '</a>' +
 						'</div>' +
 						(useLazyLoad?
-							'<img src="images/loading_thumb.gif" alt="' + album.label + '" class="thumb" original="' + thumb + '" />':
+							'<img src="images/loading_thumb.gif" alt="' + album.label + '" class="thumb" data-original="' + thumb + '" />':
 							'<img src="' + thumb + '" alt="' + album.label + '" class="thumb" />'
 						) +
 						'<div class="albumName">' + album.label + '' +
@@ -1603,7 +1603,7 @@ var uiviews = {};
 							'<div class="movieRating' + Math.round(movie.rating) + '"></div>' +
 						'</div>' +
 						(useLazyLoad?
-							'<img src="images/loading_thumb' + xbmc.getMovieThumbType() + '.gif" alt="' + movie.label + '" class="thumb thumb' + xbmc.getMovieThumbType() + '" original="' + thumb + '" />':
+							'<img src="images/loading_thumb' + xbmc.getMovieThumbType() + '.gif" alt="' + movie.label + '" class="thumb thumb' + xbmc.getMovieThumbType() + '" data-original="' + thumb + '" />':
 							'<img src="' + thumb + '" alt="' + movie.label + '" class="thumb thumb' + xbmc.getMovieThumbType() + '" />'
 						) +
 						'<div class="movieName">' + movie.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</div>' +
@@ -1783,7 +1783,7 @@ var uiviews = {};
 							//<a href="" class="playlist">' + mkf.lang.get('btn_enqueue') + '</a><a href="" class="info">' + mkf.lang.get('btn_information') + '</a>' +
 						//'</div>' +
 						(useLazyLoad?
-							'<img src="images/loading_thumb' + xbmc.getMovieThumbType() + '.gif" alt="' + movie.label + '" class="list thumb thumb' + xbmc.getMovieThumbType() + '" original="' + thumb + '" />':
+							'<img src="images/loading_thumb' + xbmc.getMovieThumbType() + '.gif" alt="' + movie.label + '" class="list thumb thumb' + xbmc.getMovieThumbType() + '" data-original="' + thumb + '" />':
 							'<img src="' + thumb + '" alt="' + movie.label + '" class="list thumb thumb' + xbmc.getMovieThumbType() + '" />'
 						) +
 						'<div class="movieName">' + movie.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</div>' +
@@ -1858,7 +1858,7 @@ var uiviews = {};
 								'<a href="" class="unwatched">' + mkf.lang.get('btn_unwatched') + '</a>' +
 							'</div>' +
 							(useLazyLoad?
-								'<img src="images/loading_thumb' + xbmc.getTvShowThumbType() + '.gif" alt="' + tvshow.label + '" class="thumb thumb' + xbmc.getTvShowThumbType() + '" original="' + thumb + '" />':
+								'<img src="images/loading_thumb' + xbmc.getTvShowThumbType() + '.gif" alt="' + tvshow.label + '" class="thumb thumb' + xbmc.getTvShowThumbType() + '" data-original="' + thumb + '" />':
 								'<img src="' + thumb + '" alt="' + tvshow.label + '" class="thumb thumb' + xbmc.getTvShowThumbType() + '" />'
 							) +
 							'<div class="tvshowName">' + tvshow.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</div>' +
@@ -1899,7 +1899,7 @@ var uiviews = {};
 							'</div>' + 
 							//'<img src="' + thumb + '" alt="' + tvshow.label + '" class="thumbLogo" />' +
 							(useLazyLoad?
-							'<img src="images/loading_thumb.gif" alt="' + tvshow.label + '" class="thumb thumbLogo" original="' + (logo? logo : thumb) + '" />':
+							'<img src="images/loading_thumb.gif" alt="' + tvshow.label + '" class="thumb thumbLogo" data-original="' + (logo? logo : thumb) + '" />':
 							'<img src="' + (logo? logo : thumb) + '" alt="' + tvshow.label + '" class="thumbLogo" />'
 							) +
 							'<div class="tvshowName">' + tvshow.label + (watched? '<img src="images/OverlayWatched_Small.png" />' : '') + '</div>' +
@@ -1997,7 +1997,7 @@ var uiviews = {};
 							'<a href="" class="play">' + mkf.lang.get('btn_play') + '</a><a href="" class="playlist">' + mkf.lang.get('btn_enqueue') + '</a><a href="" class="info">' + mkf.lang.get('btn_information') + '</a>' +
 						'</div>' +
 					(useLazyLoad?
-					'<img src="images/loading_thumb.gif" alt="' + episode.label + '" class="thumb thumbFanart" original="' + thumb + '" />' :
+					'<img src="images/loading_thumb.gif" alt="' + episode.label + '" class="thumb thumbFanart" data-original="' + thumb + '" />' :
 					'<img src="' + thumb + '" alt="' + episode.label + '" class="thumbFanart" />'
 					) +
 					'</div>' +
@@ -2041,7 +2041,7 @@ var uiviews = {};
 							'<a href="" class="play">' + mkf.lang.get('btn_play') + '</a><a href="" class="playlist">' + mkf.lang.get('btn_enqueue') + '</a><a href="" class="unwatchedEps">' + mkf.lang.get('btn_unwatched') + '</a>' +
 						'</div>' +
 					(useLazyLoad?
-					'<img src="images/loading_thumb.gif" alt="' + episode.label + '" class="thumb thumbFanart episode" original="' + thumb + '" />':
+					'<img src="images/loading_thumb.gif" alt="' + episode.label + '" class="thumb thumbFanart episode" data-original="' + thumb + '" />':
 					//'<div class="recentTVthumb"><img src="' + thumb + '" alt="' + episode.label + '" class="thumbFanart episode play" /></div>':
 					'<img src="' + thumb + '" alt="' + episode.label + '" class="thumbFanart episode" />'
 					) +

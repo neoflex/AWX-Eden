@@ -2477,6 +2477,8 @@ var xbmc = {};
 							$backgroundFanart = '';
 							if ( ui == 'default') {
 								$('#main').css('background-image', 'url("")');
+							} else if ( ui == 'uni' ) {
+								$('#background').css('background-image', 'url("")');
 							} else {
 								$('#content').css('background-image', 'url("")');
 							}
@@ -2596,6 +2598,8 @@ var xbmc = {};
 									$backgroundFanart = xbmc.getThumbUrl(currentItem.fanart);
 									if ( ui == 'default') {
 										$('#main').css('background-image', 'url("' + $backgroundFanart + '")');
+									} else if ( ui == 'uni' ) {
+										$('#background').css('background-image', 'url("' + $backgroundFanart + '")');
 									} else {
 										$('#content').css('background-image', 'url("' + $backgroundFanart + '")');
 									}
