@@ -957,13 +957,12 @@
 					]
 				);
 				mkf.pages.showTempPage(MusicPlaylistsPage);
-
 				
 				// list playlist or album
 				$MusicPlaylistsContent.addClass('loading');
 				xbmc.getDirectory({
 					directory: e.data.strFile,
-					isPlaylist: true,
+					isPlaylist: e.data.isPlaylist,
 
 					onError: function() {
 						mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
@@ -1145,26 +1144,30 @@
 
 			if (MusicPlaylistsResult.limits.total > 0) {
 				$.each(MusicPlaylistsResult.files, function(i, playlist)  {
+					//is it a playlist or a directory? .pls .m3u m3u8 .cue .xsp .strm
+					var playlistExt = playlist.file.split('.').pop().toLowerCase();
+					if (playlistExt == 'pls' || playlistExt == 'm3u' || playlistExt == 'm3u8' || playlistExt == 'cue' || playlistExt == 'xsp' || playlistExt == 'strm') {
+						isPlaylist = true;
+					} else {
+						isPlaylist = false;
+						playlist.type = 'Directory';
+					};
 					MusicPlaylistsList.append('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper">' +
-										'<a href="" class="button playlistinfo' + i +'" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a>' +
-										'<a href="" class="button play' + i + '" title="' + mkf.lang.get('btn_play') + '"><span class="miniIcon play" /></a>' +
+										(playlist.type != 'Directory'? '<a href="" class="button playlistinfo' + i +'" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a>' : '' ) +
+										(playlist.type != 'Directory'? '<a href="" class="button play' + i + '" title="' + mkf.lang.get('btn_play') + '"><span class="miniIcon play" /></a>' : '' ) +
 										'<a href="" class="playlist' + i + '">' + playlist.label +
 										(playlist.artist? ' - Artist: ' + playlist.artist : '') +
 										(playlist.album && playlist.label != playlist.album? ' - Album: ' + playlist.album : '') +
 										' - Type: ' + 
-										(playlist.type == 'unknown' ? 'Playlist' : playlist.type) + '<div class="findKeywords">' + playlist.label.toLowerCase() + '</div>' +
+										(playlist.type == 'unknown' && isPlaylist == true ? 'Playlist' : playlist.type) + '<div class="findKeywords">' + playlist.label.toLowerCase() + '</div>' +
 										'</a></div></li>');
-					MusicPlaylistsList.find('.playlist' + i)
-						.bind('click',
-							{
-								id: playlist.id,
-								strFile: playlist.file,
-								strLabel: playlist.label,
-								strType: playlist.type
-							},
-							onMusicPlaylistsClick);
-					MusicPlaylistsList.find('.playlistinfo' + i).bind('click', {playlistinfo: playlist}, onAddPlaylistToPlaylistClick);
-					MusicPlaylistsList.find('.play' + i).bind('click', {playlistinfo: playlist}, onPlaylistsPlayClick);
+					
+					console.log(playlist.type);
+					if (playlist.type != 'Directory') {					
+						MusicPlaylistsList.find('.playlistinfo' + i).bind('click', {playlistinfo: playlist}, onAddPlaylistToPlaylistClick);
+						MusicPlaylistsList.find('.play' + i).bind('click', {playlistinfo: playlist}, onPlaylistsPlayClick);
+					};
+					MusicPlaylistsList.find('.playlist' + i).on('click',{id: playlist.id,strFile: playlist.file,strLabel: playlist.label,strType: playlist.type,isPlaylist: isPlaylist}, onMusicPlaylistsClick);
 				});
 			}
 		});
@@ -2560,7 +2563,7 @@
 			var $footerStatusBox = $(this);
 			//$currentlyPlayingBox.hide();
 
-			var content = '<div id="now_next"><div id="now">' + mkf.lang.get('label_now') + '<span class="nowTitle" /></div><div id="next">' + mkf.lang.get('label_next') + '<span class="nextTitle" /></div></div>';
+			var content = '<div id="now_next"><div id="now">' + mkf.lang.get('label_now') + '<span class="label" /><span class="nowTitle" /></div><div id="next">' + mkf.lang.get('label_next') + '<span class="nextTitle" /></div></div>';
 			content += '<div id="statPlayerContainer"><div id="statusPlayer"><div id="statusPlayerRow"><div id="paused"></div><div id="shuffled"></div></div><div id="statusPlayerRow"><div id="repeating"></div><div id="muted"></div></div></div><div id="remainPlayer"><div id="remaining">' + mkf.lang.get('label_remaining') + '<span class="timeRemain">00:00</span></div><div id="plTotal">' + mkf.lang.get('label_pltotal') + '<span class="timeRemainTotal">00:00</span></div></div>';
 			content += '<div id="controller"></div>';
 			
@@ -2578,6 +2581,7 @@
 			
 			var thumbElement = $('#content #displayoverlay #artwork img');
 			
+			var nowLabelElement = $footerStatusBox.find('span.label');
 			var nowElement = $footerStatusBox.find('span.nowTitle');
 			var nextElement = $footerStatusBox.find('span.Title');
 			var timeCurRemain = $footerStatusBox.find('span.timeRemain');
@@ -2594,7 +2598,8 @@
 					if (currentFile.artist) { artistElement = currentFile.artist; } else { artistElement = mkf.lang.get('label_not_available'); }
 					if (currentFile.album) { albumElement = currentFile.album; } else { albumElement = mkf.lang.get('label_not_available'); }
 					
-					nowElement.text(titleElement + ' - ' + artistElement + ' - ' + albumElement);
+					nowLabelElement.text(titleElement);
+					nowElement.text(' - ' + artistElement + ' - ' + albumElement);
 				} else {
 					// VIDEO
 					//musicDataElement.hide();
@@ -2607,11 +2612,12 @@
 						seasonElement = currentFile.season;
 						episodeElement = currentFile.episode;
 						
-						nowElement.text(titleElement + ' - ' + tvshowElement + ' - S' + seasonElement + 'E' + episodeElement);
+						nowLabelElement.text(titleElement);
+						nowElement.text(' - ' + tvshowElement + ' - S' + seasonElement + 'E' + episodeElement);
 						//tvshowDataElement.show();
 
 					} else {
-						nowElement.text(titleElement);
+						nowLabelElement.text(titleElement);
 						//tvshowDataElement.hide();
 					}
 				}
@@ -2638,6 +2644,7 @@
 			
 			xbmc.periodicUpdater.addPlayerStatusChangedListener(function(status) {
 				if (status == 'stopped') {
+					nowLabelElement.text('');
 					nowElement.text('');
 					timeCurRemain.text('00:00');
 					thumbElement.css('height', '280px');
