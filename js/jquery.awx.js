@@ -1147,7 +1147,7 @@
 					//is it a playlist or a directory? .pls .m3u m3u8 .cue .xsp .strm
 					var playlistExt = playlist.file.split('.').pop().toLowerCase();
 					var isPlaylist = false;
-					if (playlist.filetype == 'directory' && (playlistExt == 'pls' || playlistExt == 'm3u' || playlistExt == 'm3u8' || playlistExt == 'cue' || playlistExt == 'xsp' || playlistExt == 'strm')) {
+					if (playlistExt == 'pls' || playlistExt == 'm3u' || playlistExt == 'm3u8' || playlistExt == 'cue' || playlistExt == 'xsp' || playlistExt == 'strm') {
 						isPlaylist = true;
 					} else if (playlist.filetype == 'directory' && playlist.type == 'unknown') {
 						playlist.type = 'Directory';
