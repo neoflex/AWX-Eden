@@ -1149,6 +1149,9 @@
 					var isPlaylist = false;
 					if (playlistExt == 'pls' || playlistExt == 'm3u' || playlistExt == 'm3u8' || playlistExt == 'cue' || playlistExt == 'xsp' || playlistExt == 'strm') {
 						isPlaylist = true;
+						if (playlistExt == 'xsp') { playlist.type = 'Smart Playlist' };
+						if (playlistExt == 'cue') { playlist.type = 'Cue Sheet' };
+						if (playlistExt == 'strm') { playlist.type = 'Internet stream' };
 					} else if (playlist.filetype == 'directory' && playlist.type == 'unknown') {
 						playlist.type = 'Directory';
 					};
@@ -2625,9 +2628,9 @@
 				if (currentFile.thumbnail) {
 					thumbElement.attr('src', xbmc.getThumbUrl(currentFile.thumbnail));
 					if (currentFile.showtitle) {
-						thumbElement.css('margin-top', '147px');
+						thumbElement.css('margin-top', '165px');
 						thumbElement.css('width', '200px');
-						thumbElement.css('height', '133px');					
+						thumbElement.css('height', '115px');					
 					} else if (currentFile.xbmcMediaType == 'audio') {
 						thumbElement.css('margin-top', '85px');
 						thumbElement.css('height', '195px');
