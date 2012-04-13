@@ -186,6 +186,11 @@ mkf.lang.add({language: 'Polski', short: 'pl', author: 'cienislaw', values: {
 	'group_tab_sort':					'Sortowanie',
 
 	'label_default_ui': 				'Domyślny UI',
+	'label_now':						'Now:',
+	'label_next':						'Next:',
+	'label_remaining':					'Remaining:',
+	'label_pltotal':					'Playlist Total:',
+	'label_total':						'Total:',
 	'label_order_by_title': 			'Sortuj po tytule',
 	'label_order_by_artist': 			'Sortuj po wykonawcy',
 	'label_film_sort_label': 			'Tytuł',

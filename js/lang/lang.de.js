@@ -38,7 +38,6 @@ mkf.lang.add({language: 'Deutsch', short: 'de', author: 'MKay', values: {
 	'page_title_video_scan':			'Scanning Video Library Activated',
 	'page_title_music_scan':			'Scanning Music Library Activated',
 	
-
 	'page_buttontext_music':			'Musik',
 	'page_buttontext_artist':			'Interpreten',
 	'page_buttontext_genre':			'Genres',
@@ -59,7 +58,6 @@ mkf.lang.add({language: 'Deutsch', short: 'de', author: 'MKay', values: {
 	'page_buttontext_video_scan':		'Scan Video Library',
 	'page_buttontext_music_scan':		'Scan Music Library',
 	
-
 	'ctxt_btn_back_to_music':			'Zur%FCck zu Musik (Strg+1)',
 	'ctxt_btn_find':					'Suchen (Strg+2)',
 	'ctxt_btn_clear playlist':			'Playlist leeren (Strg+2)',
@@ -172,6 +170,11 @@ mkf.lang.add({language: 'Deutsch', short: 'de', author: 'MKay', values: {
 	'btn_export':						'Export Library',
 
 	'group_ui': 						'UI',
+	'label_now':						'Now:',
+	'label_next':						'Next:',
+	'label_remaining':					'Remaining:',
+	'label_pltotal':					'Playlist Total:',
+	'label_total':						'Total:',
 	'group_start_page':					'Start page',
 	'group_language':					'Sprache',
 	'group_albums': 					'Alben',

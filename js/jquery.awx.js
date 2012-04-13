@@ -1147,11 +1147,13 @@
 					//is it a playlist or a directory? .pls .m3u m3u8 .cue .xsp .strm
 					var playlistExt = playlist.file.split('.').pop().toLowerCase();
 					var isPlaylist = false;
+					console.log(playlist.label)
 					if (playlistExt == 'pls' || playlistExt == 'm3u' || playlistExt == 'm3u8' || playlistExt == 'cue' || playlistExt == 'xsp' || playlistExt == 'strm') {
 						isPlaylist = true;
-						if (playlistExt == 'xsp') { playlist.type = 'Smart Playlist' };
-						if (playlistExt == 'cue') { playlist.type = 'Cue Sheet' };
-						if (playlistExt == 'strm') { playlist.type = 'Internet stream' };
+						if (playlistExt == 'xsp') { playlist.type = 'Smart Playlist'; };
+						if (playlistExt == 'cue') { playlist.type = 'Cue Sheet'; playlist.label = playlist.label.substring(0, playlist.label.lastIndexOf(".")); };
+						if (playlistExt == 'strm') { playlist.type = 'Internet stream'; playlist.label = playlist.label.substring(0, playlist.label.lastIndexOf(".")); };
+						if (playlistExt == 'pls' || playlistExt == 'm3u' || playlistExt == 'm3u8') { playlist.label = playlist.label.substring(0, playlist.label.lastIndexOf(".")); };
 					} else if (playlist.filetype == 'directory' && playlist.type == 'unknown') {
 						playlist.type = 'Directory';
 					};
@@ -2553,7 +2555,7 @@
 	}; // END defaultFilesystemViewer
 
 	/* ########################### *\
-	 |  "Currently Playing"-Box
+	 |  "Currently Playing footer
 	\* ########################### */
 	$.fn.uniFooterStatus = function(options) {
 		var settings = {
@@ -2566,7 +2568,7 @@
 			//$currentlyPlayingBox.hide();
 
 			var content = '<div id="now_next"><div id="now">' + mkf.lang.get('label_now') + '<span class="label" /><span class="nowTitle" /></div><div id="next">' + mkf.lang.get('label_next') + '<span class="nextTitle" /></div></div>';
-			content += '<div id="statPlayerContainer"><div id="statusPlayer"><div id="statusPlayerRow"><div id="paused"></div><div id="shuffled"></div></div><div id="statusPlayerRow"><div id="repeating"></div><div id="muted"></div></div></div><div id="remainPlayer"><div id="remaining">' + mkf.lang.get('label_remaining') + '<span class="timeRemain">00:00</span></div><div id="plTotal">' + mkf.lang.get('label_pltotal') + '<span class="timeRemainTotal">00:00</span></div></div>';
+			content += '<div id="statPlayerContainer"><div id="statusPlayer"><div id="statusPlayerRow"><div id="paused"></div><div id="shuffled"></div></div><div id="statusPlayerRow"><div id="repeating"></div><div id="muted"></div></div></div><div id="remainPlayer"><div id="remaining">' + mkf.lang.get('label_remaining') + '<span class="timeRemain">00:00</span></div><div id="plTotal">' + mkf.lang.get('label_total') + '<span class="timeRemainTotal">00:00</span></div></div>';
 			content += '<div id="controller"></div>';
 			
 			$footerStatusBox.html(content);
@@ -2649,6 +2651,7 @@
 					nowLabelElement.text('');
 					nowElement.text('');
 					timeCurRemain.text('00:00');
+					timeCurRemainTotal.text('00:00');
 					thumbElement.css('height', '280px');
 					thumbElement.css('width', '195px');
 					thumbElement.attr('src', 'images/thumbPoster.png');
@@ -2697,6 +2700,7 @@
 			
 			xbmc.periodicUpdater.addProgressChangedListener(function(progress) {
 				timeCurRemain.text(xbmc.formatTime(xbmc.getSeconds(progress.total) - xbmc.getSeconds(progress.time)));
+				timeCurRemainTotal.text(xbmc.formatTime(xbmc.getSeconds(progress.total)));
 				//durationElement.text(progress.total);
 				//sliderElement.slider("option", "value", 100 * xbmc.getSeconds(progress.time) / xbmc.getSeconds(progress.total));
 			});

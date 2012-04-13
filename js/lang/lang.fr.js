@@ -186,6 +186,11 @@ mkf.lang.add({language: 'Français', short: 'fr', author: 'DanoneKiD', values: {
 	'group_tab_sort':					'Sorting',
 
 	'label_default_ui': 				'Défaut',
+	'label_now':						'Now:',
+	'label_next':						'Next:',
+	'label_remaining':					'Remaining:',
+	'label_pltotal':					'Playlist Total:',
+	'label_total':						'Total:',
 	'label_order_by_title':				'Trier par Titre',
 	'label_order_by_artist':			'Trier par Artistes',
 	'label_film_sort_label':			'Title',

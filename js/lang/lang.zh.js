@@ -186,6 +186,11 @@ mkf.lang.add({language: 'Chinese', short: 'zh', author: 'Taxigps', values: {
 	'group_tab_sort':					'Sorting',
 
 	'label_default_ui': 				'默认界面',
+	'label_now':						'Now:',
+	'label_next':						'Next:',
+	'label_remaining':					'Remaining:',
+	'label_pltotal':					'Playlist Total:',
+	'label_total':						'Total:',
 	'label_order_by_title': 			'按标题排序',
 	'label_order_by_artist': 			'按艺术家排序',
 	'label_film_sort_label': 			'标题',
