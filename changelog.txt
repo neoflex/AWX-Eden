@@ -2,6 +2,7 @@
  - Added Play and enqueue music genre.
  - Added Artist info and enqueue all.
  - Added Start Page. Defaults to Recent TV.
+ - Added Better playlist identification and labelling.
  - Fixed Playlists containing streams and not local files.
  - Changed Logo walls now support lazyload.
  - Update Lazyload to 1.7.2.

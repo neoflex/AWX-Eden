@@ -1147,7 +1147,6 @@
 					//is it a playlist or a directory? .pls .m3u m3u8 .cue .xsp .strm
 					var playlistExt = playlist.file.split('.').pop().toLowerCase();
 					var isPlaylist = false;
-					console.log(playlist.label)
 					if (playlistExt == 'pls' || playlistExt == 'm3u' || playlistExt == 'm3u8' || playlistExt == 'cue' || playlistExt == 'xsp' || playlistExt == 'strm') {
 						isPlaylist = true;
 						if (playlistExt == 'xsp') { playlist.type = 'Smart Playlist'; };
@@ -2587,7 +2586,7 @@
 			
 			var nowLabelElement = $footerStatusBox.find('span.label');
 			var nowElement = $footerStatusBox.find('span.nowTitle');
-			var nextElement = $footerStatusBox.find('span.Title');
+			var nextElement = $footerStatusBox.find('span.nextTitle');
 			var timeCurRemain = $footerStatusBox.find('span.timeRemain');
 			var timeCurRemainTotal = $footerStatusBox.find('span.timeRemainTotal');
 
@@ -2597,8 +2596,6 @@
 
 				if (currentFile.xbmcMediaType == 'audio') {
 					// AUDIO
-					/*musicDataElement.show();
-					tvshowDataElement.hide();*/
 					if (currentFile.artist) { artistElement = currentFile.artist; } else { artistElement = mkf.lang.get('label_not_available'); }
 					if (currentFile.album) { albumElement = currentFile.album; } else { albumElement = mkf.lang.get('label_not_available'); }
 					
@@ -2606,7 +2603,6 @@
 					nowElement.text(' - ' + artistElement + ' - ' + albumElement);
 				} else {
 					// VIDEO
-					//musicDataElement.hide();
 
 					if (currentFile.season &&
 						currentFile.episode &&
@@ -2618,11 +2614,9 @@
 						
 						nowLabelElement.text(titleElement);
 						nowElement.text(' - ' + tvshowElement + ' - S' + seasonElement + 'E' + episodeElement);
-						//tvshowDataElement.show();
 
 					} else {
 						nowLabelElement.text(titleElement);
-						//tvshowDataElement.hide();
 					}
 				}
 				
@@ -2646,6 +2640,37 @@
 				}
 			});
 			
+			xbmc.periodicUpdater.addNextPlayingChangedListener(function(nextFile) {
+				// ALL: AUDIO, VIDEO, PICTURE
+				if (nextFile.title) { titleElement=nextFile.title; } else { titleElement = (nextFile.label? nextFile.label : '') ; }
+
+				if (nextFile.xbmcMediaType == 'audio') {
+					// AUDIO
+					if (nextFile.artist) { artistElement = nextFile.artist; } else { artistElement = mkf.lang.get('label_not_available'); }
+					if (nextFile.album) { albumElement = nextFile.album; } else { albumElement = mkf.lang.get('label_not_available'); }
+					
+					nextElement.text(titleElement + ' - ' + artistElement + ' - ' + albumElement);
+					//nowElement.text(' - ' + artistElement + ' - ' + albumElement);
+				} else {
+					// VIDEO
+
+					if (nextFile.season &&
+						nextFile.episode &&
+						nextFile.showtitle) {
+
+						tvshowElement = nextFile.showtitle;
+						seasonElement = nextFile.season;
+						episodeElement = nextFile.episode;
+						
+						nextElement.text(titleElement + ' - ' + tvshowElement + ' - S' + seasonElement + 'E' + episodeElement);
+						//nowElement.text(' - ' + tvshowElement + ' - S' + seasonElement + 'E' + episodeElement);
+
+					} else {
+						nextElement.text(titleElement);
+					}
+				}
+			});
+				
 			xbmc.periodicUpdater.addPlayerStatusChangedListener(function(status) {
 				if (status == 'stopped') {
 					nowLabelElement.text('');
@@ -2659,11 +2684,9 @@
 					$footerStatusBox.find('#statusPlayer').hide();
 				
 				} else if (status == 'playing') {
-					//showBox($currentlyPlayingBox);
 					$footerStatusBox.find('#statusPlayer #statusPlayerRow #paused').hide();
 
 				} else if (status == 'paused') {
-					//showBox($currentlyPlayingBox);
 					$footerStatusBox.find('#statusPlayer').css('display', 'inline-table');
 					$footerStatusBox.find('#statusPlayer #statusPlayerRow #paused').css('display', 'table-cell');
 

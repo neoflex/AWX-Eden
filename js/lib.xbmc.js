@@ -2131,7 +2131,28 @@ var xbmc = {};
 			);
 		},
 
+		getNextPlaylistItem: function(options) {
+			var settings = {
+				playlistid: 0,
+				plCurPos: 0,
+				onSuccess: null,
+				onError: null
+			};
+			$.extend(settings, options);
 
+			xbmc.sendCommand(
+				'{"jsonrpc": "2.0", "method": "Playlist.GetItems", "params": { "properties": [ "runtime", "showtitle", "season", "title", "album", "artist", "duration" ], "playlistid": ' + settings.playlistid + '}, "id": 1}',
+
+				function(response) {
+					//console.log(response.result);
+					var nextItem = response.result.items[settings.plCurPos +1];
+					//console.log(response.result.items[settings.plCurPos]);
+					settings.onSuccess(nextItem);
+				},
+
+				settings.onError
+			);
+		},
 
 		getSources: function(options) {
 			var settings = {
@@ -2299,6 +2320,7 @@ var xbmc = {};
 		periodicUpdater: {
 			volumeChangedListener: [],
 			currentlyPlayingChangedListener: [],
+			nextPlayingChangedListener: [],
 			playerStatusChangedListener: [],
 			progressChangedListener: [],
 			
@@ -2310,6 +2332,10 @@ var xbmc = {};
 				this.currentlyPlayingChangedListener.push(fn);
 			},
 
+			addNextPlayingChangedListener: function(fn) {
+				this.nextPlayingChangedListener.push(fn);
+			},
+			
 			addPlayerStatusChangedListener: function(fn) {
 				this.playerStatusChangedListener.push(fn);
 			},
@@ -2330,6 +2356,12 @@ var xbmc = {};
 				});
 			},
 
+			fireNextPlayingChanged: function(file) {
+				$.each(xbmc.periodicUpdater.nextPlayingChangedListener, function(i, listener)  {
+					listener(file);
+				});
+			},
+			
 			fireProgressChanged: function(progress) {
 				$.each(xbmc.periodicUpdater.progressChangedListener, function(i, listener)  {
 					listener(progress);
@@ -2356,6 +2388,11 @@ var xbmc = {};
 				if (typeof xbmc.periodicUpdater.currentlyPlayingFile === 'undefined') {
 					$.extend(xbmc.periodicUpdater, {
 						currentlyPlayingFile: null
+					});
+				}
+				if (typeof xbmc.periodicUpdater.nextPlayingFile === 'undefined') {
+					$.extend(xbmc.periodicUpdater, {
+						nextPlayingFile: null
 					});
 				}				
 				if (typeof xbmc.periodicUpdater.progress === 'undefined') {
@@ -2525,8 +2562,8 @@ var xbmc = {};
 								
 								curtime = (currentPlayer.time.hours * 3600) + (currentPlayer.time.minutes * 60) + currentPlayer.time.seconds;
 								curruntime = (currentPlayer.totaltime.hours * 3600) + (currentPlayer.totaltime.minutes * 60) + currentPlayer.totaltime.seconds;
-								curtimeFormat = xbmc.formatTime(curtime);
-								curruntimeFormat = xbmc.formatTime(curruntime);
+								var curtimeFormat = xbmc.formatTime(curtime);
+								var curruntimeFormat = xbmc.formatTime(curruntime);
 								time = curtimeFormat;
 								
 								if (xbmc.periodicUpdater.progress != time) {
@@ -2610,7 +2647,29 @@ var xbmc = {};
 										xbmcMediaType: activePlayer
 									});
 									xbmc.periodicUpdater.fireCurrentlyPlayingChanged(currentItem);
-								}
+								//};
+								//if (xbmc.periodicUpdater.nextPlayingFile == currentItem.file) {
+									xbmc.getNextPlaylistItem({
+										'playlistid': activePlayerid,
+										'plCurPos': xbmc.periodicUpdater.curPlaylistNum,
+										onSuccess: function(nextItem) {
+											if (typeof nextItem === 'undefined') {
+												xbmc.periodicUpdater.nextPlayingFile = '';
+												xbmc.periodicUpdater.fireNextPlayingChanged('');												
+											} else {
+												
+												$.extend(nextItem, {
+													xbmcMediaType: activePlayer
+												});
+												xbmc.periodicUpdater.nextPlayingFile = nextItem.file;
+												xbmc.periodicUpdater.fireNextPlayingChanged(nextItem);
+											}
+										},
+										onError: function() {
+											xbmc.periodicUpdater.nextPlayingFile = mkf.lang.get(message_failed);
+										}
+									});
+								};
 							},
 
 							null, null, true // IS async // not async
