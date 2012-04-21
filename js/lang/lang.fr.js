@@ -272,6 +272,7 @@ mkf.lang.add({language: 'Français', short: 'fr', author: 'DanoneKiD', values: {
 	'label_episode':					'Episode :',
 	'label_firstaired':					'1ère diffusion :',
 	'label_cinex':						'Cinema Experience installed',
+	'label_hoverOrClick':				'Action menus use click',
 	'label_cinex_play':					'Play via Cinema Experience',
 	
 	'settings_help':					'LazyLoad :\nSi vous activez LazyLoad, les vignettes ne seront pas chargées tant qu\'elles ne sont pas visibles. Cela permettra de réduire la charge serveur.\nMais si vous avez beaucoup d\'objets (films, albums, ...) l\'interface sera ralentie lors du défillement des vignettes non-chargées.\nSi vous désactivez LazyLoad, toutes les vignettes seront chargées au chargement de la page (films, albums, ...). Cela peut prendre un certain temps avant que toutes les vignettes soient chargées.\n\nTimeOut :\nSi vous avez beaucoup de films (ou d\'albums...) cela peut prendre du temps pour charger la liste complète. Vous pouvez augmenter la valeur du TimeOut pour éviter des erreur lors du chargement des listes.',

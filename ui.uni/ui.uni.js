@@ -93,7 +93,6 @@ var awxUI = {};
 		 *     - Playlist         *
 		 **************************/
 		setupPages: function() {
-			//var listview = mkf.cookieSettings.get('listview', 'no')=='yes'? true : false;
 			
 			// --- MUSIC ---
 			this.$musicContent = $('<div class="pageContentWrapper"></div>');
@@ -696,6 +695,7 @@ var awxUI = {};
 			// Hide all submenus
 			$('#navigation ul.mkfMenu ul, ul.systemMenu ul').hide();
 
+			
 			// Hover for menus
 			$('#navigation ul.mkfMenu > li, ul.systemMenu > li').hover(function() {
 				// Mouse in
@@ -714,6 +714,37 @@ var awxUI = {};
 						$(this).parent().removeClass('mouseover');
 					});
 			});
+			
+			// Click, Hover for menus
+			/*$('#navigation ul.mkfMenu > li, ul.systemMenu > li').dblclick(function() {
+				// Mouse in
+				console.log($(this));
+				if (!$(this).hasClass('mouseover')) {
+					var submenu = $(this).find('ul');
+					submenu.stop(true, true);
+					$(this).addClass('mouseover');
+					submenu.slideDown('fast');
+				} else {
+					var submenu = $(this).find('ul');
+					if (submenu.length == 0) // no submenu
+						$(this).removeClass('mouseover');
+					else
+						submenu.slideUp('fast', function() {
+							$(this).parent().removeClass('mouseover');
+						});
+				}
+			});
+			
+			$('#navigation ul.mkfMenu > li, ul.systemMenu > li').mouseout(function() {
+				// Mouse out
+				var submenu = $(this).find('ul');
+				if (submenu.length == 0) // no submenu
+					$(this).removeClass('mouseover');
+				else
+					submenu.slideUp('fast', function() {
+						$(this).parent().removeClass('mouseover');
+					});
+			});*/
 			
 			$('.' + mkf.cookieSettings.get('startPage', 'recentTV') + ' a').click();
 			//show mfkPages root video or music to allow height 100%

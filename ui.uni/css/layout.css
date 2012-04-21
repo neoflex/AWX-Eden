@@ -404,15 +404,22 @@ div.linkTVWrapper {
     position: absolute;
     width: 75%;
 }
-div.logoWrapper:hover div.linkTVLogoWrapper {
+div.linkArtistWrapper {
+    display: none;
+    left: 7px;
+	top: 5px;
+    position: absolute;
+    width: 90%;
+}
+/*div.logoWrapper:hover div.linkTVLogoWrapper {
     display: block;
 }
 div.thumbWrapper:hover div.linkTVWrapper {
     display: block;
 }
-div.thumbWrapper:hover div.linkWrapper, div.thumbEpWrapper:hover div.linkEpWrapper {
+div.thumbWrapper:hover div.linkWrapper { , div.thumbEpWrapper:hover div.linkEpWrapper {
     display: block;
-}
+}*/
 div.thumbWrapper a {
     background-color: #343434;
     border: 1px solid #A4A4A4;

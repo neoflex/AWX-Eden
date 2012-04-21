@@ -428,9 +428,12 @@ var uiviews = {};
 			var dialogHandle = mkf.dialog.show();
 			var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
 			var cinex = mkf.cookieSettings.get('cinex', 'no')=='yes'? true : false;
-
+			//May be event data or just movieid from playlists
+			var movieID = '';
+			if (typeof(e) == 'number' ) { movieID = e } else { movieID = e.data.idMovie };
+			
 			xbmc.getMovieInfo({
-				movieid: e.data.idMovie,
+				movieid: movieID,
 				onSuccess: function(movie) {
 					//var dialogContent = '';
 					var fileDownload = '';
@@ -479,6 +482,10 @@ var uiviews = {};
 					//Set audio icon
 					streamdetails.aCodec = xbmc.getAcodec(movie.streamdetails.audio[0].codec);
 					};
+					
+					//Create a youtube link from plugin trailer link provided
+					if (movie.trailer.substring(0, movie.trailer.indexOf("?")) == 'plugin://plugin.video.youtube/') { movie.trailer = 'http://www.youtube.com/watch?v=' + movie.trailer.substr(movie.trailer.lastIndexOf("=") + 1) };
+
 					
 					var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
 					//dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getMovieThumbType() + ' dialogThumb" />' + //Won't this always be poster?!
@@ -582,6 +589,9 @@ var uiviews = {};
 					//Set audio icon
 					streamdetails.aCodec = xbmc.getAcodec(movie.streamdetails.audio[0].codec);
 					};
+					
+					//Create a youtube link from plugin trailer link provided
+					if (movie.trailer.substring(0, movie.trailer.indexOf("?")) == 'plugin://plugin.video.youtube/') { movie.trailer = 'http://www.youtube.com/watch?v=' + movie.trailer.substr(movie.trailer.lastIndexOf("=") + 1) };
 					
 					var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
 					dialogContent = $('<div style="float: left; margin-right: 5px;"><img src="' + thumb + '" class="thumb thumbPosterLarge dialogThumb" /></div>' +
@@ -909,9 +919,18 @@ var uiviews = {};
 							mkf.pages.closeTempPage(unwatchedEpsPage);
 							return false;
 						}
-					}
+					}/*,
+					{
+						'icon':'refresh', 'title':mkf.lang.get('ctxt_btn_refresh_list'), 'onClick':
+							function(){
+								$unwatchedEpsContent.empty();
+								mkf.pages.showTempPage(unwatchedEpsPage);
+								return false;
+							}
+					}*/
 				]
 			);
+
 			mkf.pages.showTempPage(unwatchedEpsPage);
 
 			$unwatchedEpsContent.addClass('loading');
@@ -1086,12 +1105,14 @@ var uiviews = {};
 		/*----Artists thumb view----*/
 		ArtistViewThumbnails: function(artists, parentPage) {
 			var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
+			var hoverOrClick = mkf.cookieSettings.get('hoverOrClick', 'no')=='yes'? 'click' : 'mouseenter';
+			
 			var $artistList = $('<div></div>');
 
 				$.each(artists.artists, function(i, artist)  {
 					var thumb = (artist.thumbnail? xbmc.getThumbUrl(artist.thumbnail) : 'images/thumb.png');
 					$artist = $('<div class="album'+artist.artistid+' thumbWrapper">' +
-						'<div class="linkTVWrapper">' + 
+						'<div class="linkArtistWrapper">' + 
 								'<a href="" class="albums' + artist.artistid + '">' + mkf.lang.get('btn_all') + '</a>' +
 								'<a href="" class="info' + artist.artistid + '">' + mkf.lang.get('btn_information') + '</a>' +
 								'<a href="" class="enqueue' + artist.artistid + '">' + mkf.lang.get('btn_enqueue') + '</a>' +
@@ -1109,9 +1130,11 @@ var uiviews = {};
 				$artistList.find('.enqueue' + artist.artistid).on('click', {idArtist: artist.artistid}, uiviews.AddArtistToPlaylist);
 				//$artistList.find('.play' + artist.artistid).on('click', {idArtist: artist.artistid}, uiviews.ArtistPlay);
 				$artistList.find('.info' + artist.artistid).on('click', {idArtist: artist.artistid}, uiviews.ArtistInfoOverlay);
-
 				});
-
+				
+			$artistList.find('.thumbWrapper').on(hoverOrClick, function() { $(this).children('.linkArtistWrapper').show() });
+			$artistList.find('.thumbWrapper').on('mouseleave', function() { $(this).children('.linkArtistWrapper').hide() });
+			
 			return $artistList;
 		},
 
@@ -1119,6 +1142,8 @@ var uiviews = {};
 		ArtistViewLogos: function(artists, parentPage) {
 			var artistsPath = mkf.cookieSettings.get('artistsPath', '');
 			var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
+			var hoverOrClick = mkf.cookieSettings.get('hoverOrClick', 'no')=='yes'? 'click' : 'mouseenter';
+			
 			var $artistList = $('<div></div>');
 
 				$.each(artists.artists, function(i, artist)  {
@@ -1139,16 +1164,14 @@ var uiviews = {};
 						'<div class="findKeywords">' + artist.label.toLowerCase() + '</div>' +
 					'</div>').appendTo($artistList);
 
-				
+					$artistList.find('.albums' + artist.artistid).bind('click', { idArtist: artist.artistid, strArtist: artist.label, objParentPage: parentPage }, uiviews.ArtistAlbums)
+					$artistList.find('.enqueue' + artist.artistid).on('click', {idArtist: artist.artistid}, uiviews.AddArtistToPlaylist);
+					//$artistList.find('.play' + artist.artistid).on('click', {idArtist: artist.artistid}, uiviews.ArtistPlay);
+					$artistList.find('.info' + artist.artistid).on('click', {idArtist: artist.artistid}, uiviews.ArtistInfoOverlay);
 
-				//$artist.find('.artist').bind('click', { idArtist: artist.artistid, strArtist: artist.label, objParentPage: parentPage }, uiviews.ArtistAlbums);
-				$artistList.find('.albums' + artist.artistid).bind('click', { idArtist: artist.artistid, strArtist: artist.label, objParentPage: parentPage }, uiviews.ArtistAlbums)
-				$artistList.find('.enqueue' + artist.artistid).on('click', {idArtist: artist.artistid}, uiviews.AddArtistToPlaylist);
-				//$artistList.find('.play' + artist.artistid).on('click', {idArtist: artist.artistid}, uiviews.ArtistPlay);
-				$artistList.find('.info' + artist.artistid).on('click', {idArtist: artist.artistid}, uiviews.ArtistInfoOverlay);
-				
-				/*xbmc.getLogo(artist.file, function(logo) {
-						$('.artist'+artist.artistid).children('img').attr('src', (logo? logo : 'images/missing_logo.png')); */
+					//Has to go here because of logo callback...
+					$artistList.find('.thumbLogoWrapper').on(hoverOrClick, function() { $(this).children('.linkTVLogoWrapper').show() });
+					$artistList.find('.thumbLogoWrapper').on('mouseleave', function() { $(this).children('.linkTVLogoWrapper').hide() });
 					});
 				});
 
@@ -1306,6 +1329,7 @@ var uiviews = {};
 		/*----Albums thumbnail view----*/
 		AlbumsViewThumbnails: function(albums, parentPage) {
 			var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
+			var hoverOrClick = mkf.cookieSettings.get('hoverOrClick', 'no')=='yes'? 'click' : 'mouseenter';
 			var $albumsList = $('<div></div>');
 			
 			$.each(albums.albums, function(i, album) {
@@ -1327,7 +1351,12 @@ var uiviews = {};
 				$album.find('.play').bind('click', {idAlbum: album.albumid, strAlbum: album.label}, uiviews.AlbumPlay);
 				$album.find('.songs').bind('click', {idAlbum: album.albumid, strAlbum: album.label, objParentPage: parentPage }, uiviews.Songlist);
 				$album.find('.playlist').bind('click', {idAlbum: album.albumid}, uiviews.AddAlbumToPlaylist);
+				
 			});
+			
+			$albumsList.find('.thumbWrapper').on(hoverOrClick, function() { $(this).children('.linkWrapper').show() });					
+			$albumsList.find('.thumbWrapper').on('mouseleave', function() { $(this).children('.linkWrapper').hide() });
+			
 			return $albumsList;
 		},
 		
@@ -1584,6 +1613,7 @@ var uiviews = {};
 		var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
 		var filterShowWatched = mkf.cookieSettings.get('hidewatchedmark', 'no')=='yes'? true : false;
 		var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
+		var hoverOrClick = mkf.cookieSettings.get('hoverOrClick', 'no')=='yes'? 'click' : 'mouseenter';
 		
 		if (options) { filterWatched = options.filterWatched };
 
@@ -1612,7 +1642,12 @@ var uiviews = {};
 				$movie.find('.play').bind('click', {idMovie: movie.movieid, strMovie: movie.label}, uiviews.MoviePlay);
 				$movie.find('.playlist').bind('click', {idMovie: movie.movieid}, uiviews.AddMovieToPlaylist);
 				$movie.find('.info').bind('click', {idMovie: movie.movieid}, uiviews.MovieInfoOverlay);
+				
 			});
+			
+			$moviesList.find('.thumbWrapper').on(hoverOrClick, function() { $(this).children('.linkWrapper').show() });					
+			$moviesList.find('.thumbWrapper').on('mouseleave', function() { $(this).children('.linkWrapper').hide() });
+			
 			return $moviesList;
 		},
 		
@@ -1840,7 +1875,7 @@ var uiviews = {};
 		
 			var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
 			var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
-			//var listview = mkf.cookieSettings.get('listview', 'no')=='yes'? true : false;
+			var hoverOrClick = mkf.cookieSettings.get('hoverOrClick', 'no')=='yes'? 'click' : 'mouseenter';
 			var filterShowWatched = mkf.cookieSettings.get('hidewatchedmark', 'no')=='yes'? true : false;
 			
 			var $tvShowList = $('<div></div>');
@@ -1868,9 +1903,14 @@ var uiviews = {};
 					$tvshow.find('.season').bind('click', {idTvShow: tvshow.tvshowid, strTvShow: tvshow.label, objParentPage: parentPage}, uiviews.SeasonsList);
 					$tvshow.find('.info').bind('click', {'tvshow': tvshow}, uiviews.TVShowInfoOverlay);
 					$tvshow.find('.unwatched').bind('click', {idTvShow: tvshow.tvshowid, strTvShow: tvshow.label, objParentPage: parentPage}, uiviews.Unwatched);
+					
+					
 				});
-
 			}
+			
+			$tvShowList.find('.thumbWrapper').on(hoverOrClick, function() { $(this).children('.linkTVWrapper').show() });					
+			$tvShowList.find('.thumbWrapper').on('mouseleave', function() { $(this).children('.linkTVWrapper').hide() });
+				
 			return $tvShowList;
 		},
 		
@@ -1879,7 +1919,7 @@ var uiviews = {};
 		
 			var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
 			var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
-			//var listview = mkf.cookieSettings.get('listview', 'no')=='yes'? true : false;
+			var hoverOrClick = mkf.cookieSettings.get('hoverOrClick', 'no')=='yes'? 'click' : 'mouseenter';
 			var filterShowWatched = mkf.cookieSettings.get('hidewatchedmark', 'no')=='yes'? true : false;
 			
 			var $tvShowList = $('<div></div>');
@@ -1910,11 +1950,16 @@ var uiviews = {};
 					$tvshow.find('.season').bind('click', {idTvShow: tvshow.tvshowid, strTvShow: tvshow.label, objParentPage: parentPage}, uiviews.SeasonsList);
 					$tvshow.find('.info').bind('click', {'tvshow': tvshow}, uiviews.TVShowInfoOverlay);
 					$tvshow.find('.unwatched').bind('click', {idTvShow: tvshow.tvshowid, strTvShow: tvshow.label, objParentPage: parentPage}, uiviews.Unwatched);
-					//xbmc.getLogo(tvshow.file, function(logo) { $tvshow.find('img.thumbLogo').attr('src', (logo? logo : 'images/missing_logo.png')); } );
+					
+					//Has to go here because of logo callback...
+					$tvShowList.find('.thumbLogoWrapper').on(hoverOrClick, function() { $(this).children('.linkTVLogoWrapper').show() });					
+					$tvShowList.find('.thumbLogoWrapper').on('mouseleave', function() { $(this).children('.linkTVLogoWrapper').hide() });
+
 					});
 				});
 
 			}
+	
 			return $tvShowList;
 		},
 		
@@ -1977,6 +2022,7 @@ var uiviews = {};
 			var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
 			var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
 			var filterShowWatched = mkf.cookieSettings.get('hidewatchedmark', 'no')=='yes'? true : false;
+			var hoverOrClick = mkf.cookieSettings.get('hoverOrClick', 'no')=='yes'? 'click' : 'mouseenter';
 			var genlist = eps.episodes;
 			//var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
 			
@@ -2010,9 +2056,12 @@ var uiviews = {};
 					$episode.find('.play').bind('click', {idEpisode: episode.episodeid}, uiviews.EpisodePlay);
 					$episode.find('.playlist').bind('click', {idEpisode: episode.episodeid}, uiviews.AddEpisodeToPlaylist);
 					$episode.find('.info').bind('click', {idEpisode: episode.episodeid}, uiviews.EpisodeInfo);
-					//$episode.find('.unwatchedEps').bind('click', {idTvShow: episode.tvshowid, strTvShow: episode.showtitle, objParentPage: parentPage}, uiviews.Unwatched);
+					
 				});
 
+			$episodeList.find('.episodeThumb').on(hoverOrClick, function() { $(this).children('.linkEpWrapper').show() });					
+			$episodeList.find('.episodeThumb').on('mouseleave', function() { $(this).children('.linkEpWrapper').hide() });
+					
 			return $episodeList;
 		},
 		
@@ -2022,7 +2071,7 @@ var uiviews = {};
 			var useLazyLoad = mkf.cookieSettings.get('lazyload', 'no')=='yes'? true : false;
 			var filterWatched = mkf.cookieSettings.get('watched', 'no')=='yes'? true : false;
 			var filterShowWatched = mkf.cookieSettings.get('hidewatchedmark', 'no')=='yes'? true : false;
-			//var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
+			var hoverOrClick = mkf.cookieSettings.get('hoverOrClick', 'no')=='yes'? 'click' : 'mouseenter';
 			
 			if (options) { filterWatched = options.filterWatched };
 			
@@ -2053,8 +2102,12 @@ var uiviews = {};
 					$episode.find('.play').bind('click', {idEpisode: episode.episodeid}, uiviews.EpisodePlay);
 					$episode.find('.playlist').bind('click', {idEpisode: episode.episodeid}, uiviews.AddEpisodeToPlaylist);
 					$episode.find('.unwatchedEps').bind('click', {idTvShow: episode.tvshowid, strTvShow: episode.showtitle, objParentPage: parentPage}, uiviews.Unwatched);
-				});
 
+				});
+				
+			$episodeList.find('.episodeThumb').on(hoverOrClick, function() { $(this).children('.linkEpWrapper').show() });					
+			$episodeList.find('.episodeThumb').on('mouseleave', function() { $(this).children('.linkEpWrapper').hide() });
+					
 			return $episodeList;
 		},
 		
@@ -2090,7 +2143,7 @@ var uiviews = {};
 						
 						if (i == xbmc.periodicUpdater.curPlaylistNum && xbmc.periodicUpdater.playerStatus != 'stopped') {
 							playlistItemCur = 'playlistItemCur';
-							//$('#content').scrollTop($('.fileList li:nth-child(' + i + ')').position().top);
+							//$('#content').scrollTop($('.playlistItemCur').position().top);
 						} else {
 							playlistItemCur = 'playlistItem';
 						}

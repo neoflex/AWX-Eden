@@ -272,6 +272,7 @@ mkf.lang.add({language: 'Polski', short: 'pl', author: 'cienislaw', values: {
 	'label_episode': 					'Odcinek:',
 	'label_firstaired': 				'Pierwsza emisja:',
 	'label_cinex':						'Wtyczka Cinema Experience jest zainstalowana',
+	'label_hoverOrClick':				'Action menus use click',
 	'label_cinex_play':					'Odtwórz używając Cinema Experience',
 
 	'settings_help': 					'LazyLoad:\nJeśli włączysz LazyLoad, to miniatury nie zostaną wczytane, dopóki nie będzie trzeba ich pokazać. Zmniejszy to ilość odwołań do obrazków umieszczonych na serwerze.\nAle, jeśli masz dużą bibliotekę (wiele filmów, albumów, ...), to przez doczytywanie miniaturek przewijanie strony może stracić na płynności.\nJeśli wyłączysz LazyLoad, to przy wyświetleniu strony (z filmami, albumami, ...) zostaną wczytane wszystkie obrazki. Wczytanie wszystkich miniaturek może zająć trochę czasu.\n\nCzas oczekiwania:\nJeśli masz wiele filmów (lub albumów...) wczytanie ich kompletnej listy może zająć trochę czasu.  Możesz zwiększyć czas oczekiwania, by zapobiec błędom podczas wyświetlania listy filmów.',

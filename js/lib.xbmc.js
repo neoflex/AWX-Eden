@@ -187,7 +187,6 @@ var xbmc = {};
 						}
 					},
 					complete: function(XMLHttpRequest, textStatus) {
-						//console.log(onComplete);
 						//if (onComplete) { onComplete(); }
 					}
 				});
@@ -309,19 +308,16 @@ var xbmc = {};
 		getLogo: function(filepath, callback) {
 			var path = filepath.substring(0, filepath.lastIndexOf("/"));
 			path += '/logo.png';
-			//console.log(path);
 			
 			var logo = xbmc.getPrepDownload({
 					path: path,
 					async: true,
 					onSuccess: function(result) {
-						//callback(xbmc.getUrl(result.details.path));
 						callback(location.protocol + '//' + location.host + '/' + result.details.path);
-						//console.log(logo);
 					},
 					onError: function(errorText) {
 						callback('');
-						//console.log('No logo found');
+
 					},
 				});
 			//return true;
@@ -1045,7 +1041,6 @@ var xbmc = {};
 			$.extend(settings, options);
 
 			//Will not recurse
-			//console.log(settings.folder);
 			var containsfiles = false;
 			var recurseDir = [];
 			
@@ -1054,15 +1049,12 @@ var xbmc = {};
 				directory: settings.folder,
 				
 				onSuccess: function(result) {
-					//console.log(result);
 					var n = 0;
 					$.each(result.files, function(i, file) {
 						if (file.filetype == 'file') {
-							//console.log( i + '.audio file!');
 							containsfiles = true;
 						};
 						if (file.filetype == 'directory') {
-							//console.log( n + '.dir');
 							recurseDir[n] = file.file;
 							n ++;
 						};
@@ -1073,10 +1065,7 @@ var xbmc = {};
 					settings.onError(mkf.lang.get('message_failed_folders_content'));
 				}
 			});
-			//console.log(recurseDir);
-			//console.log(containsfiles);
 			if (containsfiles) {
-				//console.log('send dir to playlist');
 				xbmc.sendCommand(
 					'{"jsonrpc": "2.0", "method": "Playlist.Add", "params": {"item": {"directory": "' + settings.folder + '"}, "playlistid": 0}, "id": 1}',
 					
@@ -1090,9 +1079,7 @@ var xbmc = {};
 				);	
 			};
 			if (recurseDir.length > 0) {
-				//console.log('send dir to playlist');
 				$.each(recurseDir, function(i, dir) {
-					//console.log('adding dir: ' + dir);
 					xbmc.sendCommand(
 						'{"jsonrpc": "2.0", "method": "Playlist.Add", "params": {"item": {"directory": "' + recurseDir[i] + '"}, "playlistid": 0}, "id": 1}',
 						
@@ -1462,7 +1449,6 @@ var xbmc = {};
 
 					function(response) {
 						//settings.onSuccess();
-						console.log(settings.songid);
 						var insertAhead = 1;
 						var curtime = (response.result.time.hours * 3600) + (response.result.time.minutes * 60) + response.result.time.seconds;
 						var curruntime = (response.result.totaltime.hours * 3600) + (response.result.totaltime.minutes * 60) + response.result.totaltime.seconds;
@@ -1471,8 +1457,6 @@ var xbmc = {};
 						if (timeRemaining < 15) { insertAhead = 2; };
 						settings.position = response.result.position + insertAhead;
 						
-						console.log(insertAhead);
-						console.log(timeRemaining);
 						xbmc.insertPlaylist({
 							itemid: settings.songid,
 							playlistid: 0,
@@ -1922,7 +1906,7 @@ var xbmc = {};
 			//settings.order = mkf.cookieSettings.get('mdesc', 'ascending');
 
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovieSets", "params": {"properties": [ "fanart", "playcount", "thumbnail"] },"id": 1 }',
+				'{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovieSets", "params": {"properties": [ "fanart", "playcount", "thumbnail"], "sort": { "order": "ascending", "method": "label" } },"id": 1 }',
 				function(response) {
 						settings.onSuccess(response.result);
 				},
@@ -2133,8 +2117,8 @@ var xbmc = {};
 
 		getNextPlaylistItem: function(options) {
 			var settings = {
-				playlistid: 0,
-				plCurPos: 0,
+				playlistid: -1,
+				plCurPos: -1,
 				onSuccess: null,
 				onError: null
 			};
@@ -2144,12 +2128,10 @@ var xbmc = {};
 				'{"jsonrpc": "2.0", "method": "Playlist.GetItems", "params": { "properties": [ "runtime", "showtitle", "season", "title", "album", "artist", "duration" ], "playlistid": ' + settings.playlistid + '}, "id": 1}',
 
 				function(response) {
-					//console.log(response.result);
-					var nextItem = response.result.items[settings.plCurPos +1];
-					//console.log(response.result.items[settings.plCurPos]);
+					var nextItem = ''
+					if (response.result.limits.total > 1) { nextItem = response.result.items[settings.plCurPos +1] };
 					settings.onSuccess(nextItem);
 				},
-
 				settings.onError
 			);
 		},
@@ -2206,7 +2188,7 @@ var xbmc = {};
 			var eps = [];
 			
 			xbmc.sendCommand(
-				'{"jsonrpc":"2.0","id":2,"method":"VideoLibrary.GetEpisodes","params":{ "tvshowid": ' + settings.tvshowid + ', "properties":["season","playcount","episode","thumbnail","rating","plot"]}}',
+				'{"jsonrpc":"2.0","id":2,"method":"VideoLibrary.GetEpisodes","params":{ "tvshowid": ' + settings.tvshowid + ', "properties":["season","playcount","episode","thumbnail","rating","plot"], "sort": { "order": "ascending", "method": "episode" }}}',
 
 				function(response) {
 					var n = 0;
@@ -2629,7 +2611,6 @@ var xbmc = {};
 
 							function (response) {
 								var currentItem = response.result.item;
-								//console.log(ui);
 								// $('#content').css('background-image', 'url("' +  + '")')
 								if ( $backgroundFanart != xbmc.getThumbUrl(currentItem.fanart) && useFanart ) {
 									$backgroundFanart = xbmc.getThumbUrl(currentItem.fanart);

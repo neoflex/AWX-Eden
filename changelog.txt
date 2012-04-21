@@ -5,6 +5,8 @@
  - Added Better playlist identification and labelling.
  - Fixed Playlists containing streams and not local files.
  - Changed Logo walls now support lazyload.
+ - Changed Movie Set sorts by label.
+ - Changed Action menus (play, enqueue etc.) can be activated on hover or click.
  - Update Lazyload to 1.7.2.
 
 0.5.1

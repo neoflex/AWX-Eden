@@ -272,6 +272,7 @@ mkf.lang.add({language: 'Chinese', short: 'zh', author: 'Taxigps', values: {
 	'label_episode': 					'集：',
 	'label_firstaired': 				'首播：',
 	'label_cinex':						'Cinema Experience installed',
+	'label_hoverOrClick':				'Action menus use click',
 	'label_cinex_play':					'Play via Cinema Experience',
 
 	'settings_help': 					'延迟加载：\n如果启用延迟加载，缩略图不可见时将不会被加载。这将减少服务器图片请求。\n但如果有很多项目（电影、专辑等）而很多缩略图又未加载的话，web界面滚动就会不顺畅。\n如果禁用延迟加载，页面（电影页面、专辑页面等）显示时所有缩略图都将被加载。需要等待一小会，使所有缩略图被加载。\n\n超时：\n如果有较多电影（或专辑等），则需要较长时间获取电影列表。你可以增加超时值，避免显示电影列表出错。',

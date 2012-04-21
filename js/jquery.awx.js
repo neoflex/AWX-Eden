@@ -374,12 +374,13 @@
 			var order = mkf.cookieSettings.get('albumOrder', 'artist');
 			var lazyload = mkf.cookieSettings.get('lazyload', 'no');
 			var timeout = mkf.cookieSettings.get('timeout', 20);
-			var ui = mkf.cookieSettings.get('ui');
+			var ui = mkf.cookieSettings.get('ui', 'uni');
 			var oldui = mkf.cookieSettings.get('ui');
 			var lang = mkf.cookieSettings.get('lang', 'en');
 			var watched = mkf.cookieSettings.get('watched', 'no');
 			var hidewatchedmark = mkf.cookieSettings.get('hidewatchedmark', 'no');
 			var cinex = mkf.cookieSettings.get('cinex', 'no');
+			var hoverOrClick = mkf.cookieSettings.get('hoverOrClick', 'no');
 			//var listview = mkf.cookieSettings.get('listview', 'no');
 			var artistsView = mkf.cookieSettings.get('artistsView', 'list');
 			var artistsPath = mkf.cookieSettings.get('artistsPath');
@@ -558,7 +559,8 @@
 				'<input type="checkbox" id="usefanart" name="usefanart" ' + (usefanart=='yes'? 'checked="checked"' : '') + '><label for="usefanart">' + mkf.lang.get('label_use_fanart') + '</label>' +
 				'<input type="checkbox" id="watched" name="watched" ' + (watched=='yes'? 'checked="checked"' : '') + '><label for="watched">' + mkf.lang.get('label_filter_watched') + '</label>' +
 				'<input type="checkbox" id="hidewatchedmark" name="hidewatchedmark" ' + (hidewatchedmark=='yes'? 'checked="checked"' : '') + '><label for="hidewatchedmark">' + mkf.lang.get('label_filter_showwatched') + '</label>' +
-				'<br /><input type="checkbox" id="cinex" name="cinex" ' + (cinex=='yes'? 'checked="checked"' : '') + '><label for="cinex">' + mkf.lang.get('label_cinex') + '</label>' +
+				'<br /><input type="checkbox" id="hoverOrClick" name="hoverOrClick" ' + (hoverOrClick=='yes'? 'checked="checked"' : '') + '><label for="hoverOrClick">' + mkf.lang.get('label_hoverOrClick') + '</label>' +
+				'<input type="checkbox" id="cinex" name="cinex" ' + (cinex=='yes'? 'checked="checked"' : '') + '><label for="cinex">' + mkf.lang.get('label_cinex') + '</label>' +
 				'</fieldset>' +
 				'<div class="formHint">' + mkf.lang.get('label_settings_warning') + '</div>' +
 				'</form>' +
@@ -661,7 +663,7 @@
 					} else if ( document.settingsForm.userinterface[3].checked == true) {
 						ui = 'uni';
 					} else {
-						ui = 'lightDark';
+						ui = 'uni';
 					}
 				mkf.cookieSettings.add('ui', ui);
 				
@@ -783,6 +785,11 @@
 				mkf.cookieSettings.add(
 					'cinex',
 					document.settingsViews.cinex.checked? 'yes' : 'no'
+				);
+				
+				mkf.cookieSettings.add(
+					'hoverOrClick',
+					document.settingsViews.hoverOrClick.checked? 'yes' : 'no'
 				);
 				
 				mkf.cookieSettings.add(
@@ -1302,6 +1309,7 @@
 		if (playlist == 'Video') {
 			uiviews.PlaylistVideoViewList(playlistResult).appendTo($(this));
 		}
+		
 	}; // END defaultPlaylistViewer
 
 
@@ -1841,102 +1849,9 @@
 				});
 				return false;
 			} else if (e.data.strType == 'movie') {
-				var dialogHandle = mkf.dialog.show();
-				var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
-				
-				xbmc.getMovieInfo({
-					movieid: e.data.id,
-					onSuccess: function(movie) {
-						//var dialogContent = '';
-						var fileDownload = '';
-						
-						xbmc.getPrepDownload({
-							path: movie.file,
-							onSuccess: function(result) {
-								fileDownload = xbmc.getUrl(result.details.path);
-								// no better way?
-								$('.movieinfo').find('a').attr('href',fileDownload);
-							},
-							onError: function(errorText) {
-								$('.movieinfo').find('a').replaceWith(movie.file);
-							},
-						});
-						
-						var streamdetails = {
-							vFormat: 'SD',
-							vCodec: 'Unknown',
-							aCodec: 'Unknown',
-							channels: 0,
-							aStreams: 0,
-							hasSubs: false,
-							aLang: '',
-							aspect: 0,
-							vwidth: 0
-						};
-						
-						if ( useFanart ) {
-							$('.mkfOverlay').css('background-image', 'url("' + xbmc.getThumbUrl(movie.fanart) + '")');
-						};
-						
-						if (movie.streamdetails) {
-							if (movie.streamdetails.subtitle) { streamdetails.hasSubs = true };
-							if (movie.streamdetails.audio) {
-								streamdetails.channels = movie.streamdetails.audio[0].channels;
-								streamdetails.aStreams = movie.streamdetails.audio.length;
-								$.each(movie.streamdetails.audio, function(i, audio) { streamdetails.aLang += audio.language + ' ' } );
-								if ( streamdetails.aLang == ' ' ) { streamdetails.aLang = mkf.lang.get('label_not_available') };
-							};
-						streamdetails.aspect = xbmc.getAspect(movie.streamdetails.video[0].aspect);
-						//Get video standard
-						streamdetails.vFormat = xbmc.getvFormat(movie.streamdetails.video[0].width);
-						//Get video codec
-						streamdetails.vCodec = xbmc.getVcodec(movie.streamdetails.video[0].codec);
-						//Set audio icon
-						streamdetails.aCodec = xbmc.getAcodec(movie.streamdetails.audio[0].codec);
-						};
-						
-						var thumb = (movie.thumbnail? xbmc.getThumbUrl(movie.thumbnail) : 'images/thumb' + xbmc.getMovieThumbType() + '.png');
-						//dialogContent += '<img src="' + thumb + '" class="thumb thumb' + xbmc.getMovieThumbType() + ' dialogThumb" />' + //Won't this always be poster?!
-						var dialogContent = $('<div><img src="' + thumb + '" class="thumb thumbPosterLarge dialogThumb" /></div>' +
-							'<div><h1 class="underline">' + movie.title + '</h1></div>' +
-							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_original_title') + '</span><span class="value">' + (movie.originaltitle? movie.originaltitle : mkf.lang.get('label_not_available')) + '</span></div>' +
-							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_runtime') + '</span><span class="value">' + (movie.runtime? movie.runtime : mkf.lang.get('label_not_available')) + '</span></div>' +
-							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_genre') + '</span><span class="value">' + (movie.genre? movie.genre : mkf.lang.get('label_not_available')) + '</span></div>' +
-							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_rating') + '</span><span class="value"><div class="smallRating' + Math.round(movie.rating) + '"></div></span></div>' +
-							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_votes') + '</span><span class="value">' + (movie.votes? movie.votes : mkf.lang.get('label_not_available')) + '</span></div>' +
-							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_year') + '</span><span class="value">' + (movie.year? movie.year : mkf.lang.get('label_not_available')) + '</span></div>' +
-							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_director') + '</span><span class="value">' + (movie.director? movie.director : mkf.lang.get('label_not_available')) + '</span></div>' +
-							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_writer') + '</span><span class="value">' + (movie.writer? movie.writer : mkf.lang.get('label_not_available')) + '</span></div>' +
-							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_studio') + '</span><span class="value">' + (movie.studio? movie.studio : mkf.lang.get('label_not_available')) + '</span></div>' +
-							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_tagline') + '</span><span class="value">' + (movie.tagline? movie.tagline : mkf.lang.get('label_not_available')) + '</span></div>' +
-							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_set') + '</span><span class="value">' + (movie.set[0]? movie.set : mkf.lang.get('label_not_available')) + '</span></div>' +
-							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_lastplayed') + '</span><span class="value">' + (movie.lastplayed? movie.lastplayed : mkf.lang.get('label_not_available')) + '</span></div>' +
-							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_playcount') + '</span><span class="value">' + (movie.playcount? movie.playcount : mkf.lang.get('label_not_available')) + '</span></div>' +
-							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_audioStreams') + '</span><span class="value">' + (streamdetails.aStreams? streamdetails.aStreams + ' - ' + streamdetails.aLang : mkf.lang.get('label_not_available')) + '</span></div>' +
-							'<div class="movieinfo"><span class="label">' + mkf.lang.get('label_file') + '</span><span class="value">' + '<a href="' + fileDownload + '">' + movie.file + '</a>' + '</span></div></div>' +
-							'<p class="plot">' + movie.plot + '</p>' +
-							'<div class="movietags"></div>');
+			
+				uiviews.MovieInfoOverlay(e.data.id);
 
-						if (movie.streamdetails) {
-							dialogContent.filter('.movietags').prepend('<div class="vFormat' + streamdetails.vFormat + '" />' +
-							'<div class="aspect' + streamdetails.aspect + '" />' +
-							'<div class="vCodec' + streamdetails.vCodec + '" />' +
-							'<div class="aCodec' + streamdetails.aCodec + '" />' +
-							'<div class="channels' + streamdetails.channels + '" />' +
-							(streamdetails.hasSubs? '<div class="vSubtitles" />' : ''));
-						};
-
-						//$(dialogContent).find('.infoplay').on('click', {idMovie: movie.movieid, strMovie: movie.label}, onMoviePlayClick);
-						//$(dialogContent).find('.infoqueue').on('click', {idMovie: movie.movieid, strMovie: movie.label}, onAddMovieToPlaylistClick);
-						mkf.dialog.setContent(dialogHandle, dialogContent);
-						return false;
-					},
-					onError: function() {
-						mkf.messageLog.show('Failed to load movie information!', mkf.messageLog.status.error, 5000);
-						mkf.dialog.close(dialogHandle);
-					}
-				});
-				return false;
 			} else {
 				// open new page to show playlist item
 				var $VideoPlaylistsContent = $('<div class="pageContentWrapper"></div>');
@@ -1980,14 +1895,12 @@
 		}; // END onVideoPlaylistsClick
 		
 		var onPlaylistsPlayClick = function(e) {
-			//console.log(e.data);
 			xbmc.clearVideoPlaylist({
 				onError: function() {
 					mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
 					//$VideoPlaylistsContent.removeClass('loading');
 				},
 				onSuccess: function() {
-					//console.log(e.data.playlistinfo);
 					onAddPlaylistToPlaylistClick(e);
 					xbmc.playVideo({
 						onError: function() {
@@ -2004,11 +1917,8 @@
 		};
 		
 		var onAddPlaylistToPlaylistClick = function(e) {
-			//console.log(e.data.playlistinfo);
 			var isSmart = false;
 			if (e.data.playlistinfo.file.search(/\.xsp/i) !=-1) { isSmart = true; };
-			//console.log(e.data.playlistinfo.file.search(/\.xsp/i));
-			//console.log(isSmart);
 			if (e.data.playlistinfo.type == 'unknown' && isSmart == true) {
 				//unknown and .xsp so should be a smart playlist
 				xbmc.getDirectory({
@@ -2023,13 +1933,11 @@
 
 					onSuccess: function(result) {
 						//parse playlist
-						//console.log('in smart');
 						Sn = 1;
 						An = 1;
 						Mn = 1;
 						Tn = 1;
 						$.each(result.files, function(i, file) {
-							//console.log(file);
 							if (file.type == 'album') {
 								//add to playlist by albumid, returned as id
 								if (An == 1) { var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_album_to_playlist')); };
@@ -2048,7 +1956,6 @@
 							} else if (file.type == 'song') {
 								//add to playlist by songid, returned as id
 								
-								//console.log(n);
 								if (Sn == 1) { var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_song_to_playlist')); };
 								Sn ++;
 								xbmc.addSongToPlaylist({
@@ -2133,7 +2040,6 @@
 								mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
 							} else {
 								//it's not any of those, error
-								//console.log('else error: ' + file.filetype);
 								mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
 							};
 						});
@@ -2290,7 +2196,7 @@
 			return false;
 		};
 		
-		// no artists?
+		// Empty?
 		if (!VideoPlaylistsResult || !VideoPlaylistsResult.files) {
 			return;
 		};
