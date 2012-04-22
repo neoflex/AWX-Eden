@@ -1156,9 +1156,9 @@
 					var isPlaylist = false;
 					if (playlistExt == 'pls' || playlistExt == 'm3u' || playlistExt == 'm3u8' || playlistExt == 'cue' || playlistExt == 'xsp' || playlistExt == 'strm') {
 						isPlaylist = true;
-						if (playlistExt == 'xsp') { playlist.type = 'Smart Playlist'; };
-						if (playlistExt == 'cue') { playlist.type = 'Cue Sheet'; playlist.label = playlist.label.substring(0, playlist.label.lastIndexOf(".")); };
-						if (playlistExt == 'strm') { playlist.type = 'Internet stream'; playlist.label = playlist.label.substring(0, playlist.label.lastIndexOf(".")); };
+						if (playlistExt == 'xsp') { playlist.realtype = 'Smart Playlist'; };
+						if (playlistExt == 'cue') { playlist.realtype = 'Cue Sheet'; playlist.label = playlist.label.substring(0, playlist.label.lastIndexOf(".")); };
+						if (playlistExt == 'strm') { playlist.realtype = 'Internet stream'; playlist.label = playlist.label.substring(0, playlist.label.lastIndexOf(".")); };
 						if (playlistExt == 'pls' || playlistExt == 'm3u' || playlistExt == 'm3u8') { playlist.label = playlist.label.substring(0, playlist.label.lastIndexOf(".")); };
 					} else if (playlist.filetype == 'directory' && playlist.type == 'unknown') {
 						playlist.type = 'Directory';
@@ -1170,9 +1170,9 @@
 										(playlist.artist? ' - Artist: ' + playlist.artist : '') +
 										(playlist.album && playlist.label != playlist.album? ' - Album: ' + playlist.album : '') +
 										' - Type: ' + 
-										(playlist.type == 'unknown' && isPlaylist == true ? 'Playlist' : playlist.type) + '<div class="findKeywords">' + playlist.label.toLowerCase() + '</div>' +
+										(!isPlaylist? playlist.type : (!playlist.realtype && isPlaylist? 'Playlist' : playlist.realtype)) + '<div class="findKeywords">' + playlist.label.toLowerCase() + '</div>' +
 										'</a></div></li>');
-					
+
 					if (playlist.type != 'Directory') {					
 						MusicPlaylistsList.find('.playlistinfo' + i).bind('click', {playlistinfo: playlist}, onAddPlaylistToPlaylistClick);
 						MusicPlaylistsList.find('.play' + i).bind('click', {playlistinfo: playlist}, onPlaylistsPlayClick);
