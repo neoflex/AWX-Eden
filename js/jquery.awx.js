@@ -2470,7 +2470,6 @@
 
 		this.each (function() {
 			var $footerStatusBox = $(this);
-			//$currentlyPlayingBox.hide();
 
 			var content = '<div id="now_next"><div id="now">' + mkf.lang.get('label_now') + '<span class="label" /><span class="nowTitle" /></div><div id="next">' + mkf.lang.get('label_next') + '<span class="nextTitle" /></div></div>';
 			content += '<div id="statPlayerContainer"><div id="statusPlayer"><div id="statusPlayerRow"><div id="paused"></div><div id="shuffled"></div></div><div id="statusPlayerRow"><div id="repeating"></div><div id="muted"></div></div></div><div id="remainPlayer"><div id="remaining">' + mkf.lang.get('label_remaining') + '<span class="timeRemain">00:00</span></div><div id="plTotal">' + mkf.lang.get('label_total') + '<span class="timeRemainTotal">00:00</span></div></div>';
@@ -2495,6 +2494,15 @@
 			var nextElement = $footerStatusBox.find('span.nextTitle');
 			var timeCurRemain = $footerStatusBox.find('span.timeRemain');
 			var timeCurRemainTotal = $footerStatusBox.find('span.timeRemainTotal');
+			var sliderElement = $('#content #displayoverlay .playingSlider');
+			
+			sliderElement.slider({
+				range: 'min',
+				value: 0,
+				stop: function(event, ui) {
+					xbmc.seekPercentage({percentage: ui.value});
+				}
+			});
 
 			xbmc.periodicUpdater.addCurrentlyPlayingChangedListener(function(currentFile) {
 				// ALL: AUDIO, VIDEO, PICTURE
@@ -2587,38 +2595,38 @@
 					thumbElement.css('width', '195px');
 					thumbElement.attr('src', 'images/thumbPoster.png');
 					thumbElement.css('margin-top', '0px');
-					$footerStatusBox.find('#statusPlayer').hide();
+					//$footerStatusBox.find('#statusPlayer').hide();
 				
 				} else if (status == 'playing') {
 					$footerStatusBox.find('#statusPlayer #statusPlayerRow #paused').hide();
 
 				} else if (status == 'paused') {
-					$footerStatusBox.find('#statusPlayer').css('display', 'inline-table');
+					//$footerStatusBox.find('#statusPlayer').css('display', 'inline-table');
 					$footerStatusBox.find('#statusPlayer #statusPlayerRow #paused').css('display', 'table-cell');
 
 				} else if (status == 'shuffleOn') {
-					$footerStatusBox.find('#statusPlayer').css('display', 'inline-table');
+					//$footerStatusBox.find('#statusPlayer').css('display', 'inline-table');
 					$footerStatusBox.find('#statusPlayer #statusPlayerRow #shuffled').css('display', 'table-cell');
 
 				} else if (status == 'shuffleOff') {
 					$footerStatusBox.find('#statusPlayer #statusPlayerRow #shuffled').hide();
 					
 				} else if (status == 'off') {
-					$footerStatusBox.find('#statusPlayer').css('display', 'inline-table');
+					//$footerStatusBox.find('#statusPlayer').css('display', 'inline-table');
 					$footerStatusBox.find('#statusPlayer #statusPlayerRow #repeating').hide();
 					
 				} else if (status == 'all') {
-					$footerStatusBox.find('#statusPlayer').css('display', 'inline-table');
+					//$footerStatusBox.find('#statusPlayer').css('display', 'inline-table');
 					$footerStatusBox.find('#statusPlayer #statusPlayerRow #repeating').css('background-position', '-96px 0px');
 					$footerStatusBox.find('#statusPlayer #statusPlayerRow #repeating').css('display', 'table-cell');
 					
 				} else if (status == 'one') {
-					$footerStatusBox.find('#statusPlayer').css('display', 'inline-table');
+					//$footerStatusBox.find('#statusPlayer').css('display', 'inline-table');
 					$footerStatusBox.find('#statusPlayer #statusPlayerRow #repeating').css('background-position', '-144px 0px');
 					$footerStatusBox.find('#statusPlayer #statusPlayerRow #repeating').css('display', 'table-cell');
 				
 				} else if (status == 'muteOn') {
-					$footerStatusBox.find('#statusPlayer').css('display', 'inline-table');
+					//$footerStatusBox.find('#statusPlayer').css('display', 'inline-table');
 					$footerStatusBox.find('#statusPlayer #statusPlayerRow #muted').css('display', 'table-cell');
 
 				} else if (status == 'muteOff') {
@@ -2631,7 +2639,7 @@
 				timeCurRemain.text(xbmc.formatTime(xbmc.getSeconds(progress.total) - xbmc.getSeconds(progress.time)));
 				timeCurRemainTotal.text(xbmc.formatTime(xbmc.getSeconds(progress.total)));
 				//durationElement.text(progress.total);
-				//sliderElement.slider("option", "value", 100 * xbmc.getSeconds(progress.time) / xbmc.getSeconds(progress.total));
+				sliderElement.slider("option", "value", 100 * xbmc.getSeconds(progress.time) / xbmc.getSeconds(progress.total));
 			});
 
 		});

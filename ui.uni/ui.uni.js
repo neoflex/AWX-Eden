@@ -653,7 +653,7 @@ var awxUI = {};
 							'<div id="statusLine"><div id="location"></div><div id="contextMenu"></div></div>' +
 							'</div>' + 
 							'<div id="content">' +
-							'<div id="displayoverlay"><div id="controls"></div><div id="artwork"><img src="images/thumbPoster.png"></div><div id="volumeSlider"></div></div>' +
+							'<div id="displayoverlay"><div id="controls"></div><div id="artwork"><img src="images/thumbPoster.png"></div><div id="volumeSlider"></div><div class="playingSliderWrapper"><div class="playingSlider"></div></div></div>' +
 							'</div>' +
 							'<div id="footer">' +
 							'<div id="simple_controls"></div><div id="infoContainer"></div>' +
@@ -690,7 +690,7 @@ var awxUI = {};
 
 			$('#displayoverlay').hide();
 			$('#statusPlayer #statusPlayerRow').children().hide()
-			$('#statusPlayer').hide();
+			//$('#statusPlayer').hide();
 
 			// Hide all submenus
 			$('#navigation ul.mkfMenu ul, ul.systemMenu ul').hide();

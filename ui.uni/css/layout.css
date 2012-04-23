@@ -178,7 +178,7 @@ ul.systemMenu > li.mouseover > a .exit, ul.systemMenu > li.activeMenuItem > a .e
 	font-weight: normal;
 }
 #footer #statusPlayer {
-	display: inline-table;
+	display: table-cell;
 	float: left;
 	margin-right: 5px;
 	height: 48px;
@@ -1597,7 +1597,7 @@ br.clear {
 	border-left: 1px solid #555555;
 	position: fixed;
 	padding: 10px 0px 0px 10px;
-	height: 280px;
+	height: 310px;
 	min-width: 510px;
 	bottom: 48px;
 	float: right;
@@ -1735,7 +1735,7 @@ div.ui-slider {
     position: relative;
 }
 div.ui-slider-horizontal {
-    height: 10px;
+    height: 20px;
 }
 div.ui-slider-vertical {
     height: 280px;
@@ -1750,7 +1750,7 @@ div.ui-slider-range {
     position: absolute;
 }
 div.ui-slider-horizontal div.ui-slider-range {
-    height: 10px;
+    height: 20px;
 }
 div.ui-slider-vertical div.ui-slider-range {
     bottom: 0;
@@ -1761,7 +1761,7 @@ a.ui-slider-handle {
     position: absolute;
 }
 div.ui-slider-horizontal a.ui-slider-handle {
-    height: 10px;
+    height: 20px;
     margin-left: -3px;
     top: 0;
     width: 6px;
@@ -1840,6 +1840,11 @@ span.currentlyPlaying {
 }
 .playingSliderWrapper {
     margin: 5px 0 0;
+	float: left;
+	position: absolute;
+	bottom: 3px;
+	width: 502px;
+	height: 20px;
 }
 #preload {
     display: none;

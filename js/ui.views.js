@@ -872,6 +872,22 @@ var uiviews = {};
 				title: e.data.strTvShow,
 				content: $seasonsContent
 			});
+			var fillPage = function() {
+				$seasonsContent.addClass('loading');
+				xbmc.getSeasons({
+					tvshowid: e.data.idTvShow,
+
+					onError: function() {
+						mkf.messageLog.show(mkf.lang.get('message_failed_tvshows_seasons'), mkf.messageLog.status.error, 5000);
+						$seasonsContent.removeClass('loading');
+					},
+
+					onSuccess: function(result) {
+						$seasonsContent.defaultSeasonsViewer(result, e.data.idTvShow, seasonsPage);
+						$seasonsContent.removeClass('loading');
+					}
+				});
+			}
 			seasonsPage.setContextMenu(
 				[
 					{
@@ -880,26 +896,21 @@ var uiviews = {};
 							mkf.pages.closeTempPage(seasonsPage);
 							return false;
 						}
+					},
+					{
+						'icon':'refresh', 'title':mkf.lang.get('ctxt_btn_refresh_list'), 'onClick':
+							function(){
+								$seasonsContent.empty();
+								fillPage();
+								return false;
+							}
 					}
 				]
 			);
 			mkf.pages.showTempPage(seasonsPage);
 
 			// show tv show's seasons
-			$seasonsContent.addClass('loading');
-			xbmc.getSeasons({
-				tvshowid: e.data.idTvShow,
-
-				onError: function() {
-					mkf.messageLog.show(mkf.lang.get('message_failed_tvshows_seasons'), mkf.messageLog.status.error, 5000);
-					$seasonsContent.removeClass('loading');
-				},
-
-				onSuccess: function(result) {
-					$seasonsContent.defaultSeasonsViewer(result, e.data.idTvShow, seasonsPage);
-					$seasonsContent.removeClass('loading');
-				}
-			});
+			fillPage();
 
 			return false;
 		},
@@ -911,6 +922,29 @@ var uiviews = {};
 				title: e.data.strTvShow,
 				content: $unwatchedEpsContent
 			});
+			var fillPage = function() {
+				$unwatchedEpsContent.addClass('loading');
+				xbmc.getunwatchedEps({
+					tvshowid: e.data.idTvShow,
+
+					onError: function() {
+						mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
+						$unwatchedEpsContent.removeClass('loading');
+					},
+
+					onSuccess: function(result) {
+						if (result.length == 0) {
+						mkf.messageLog.show(mkf.lang.get('message_nounwatched'), mkf.messageLog.status.error, 5000);
+						mkf.pages.closeTempPage(unwatchedEpsPage);
+						return false;
+						};
+						$unwatchedEpsContent.defaultunwatchedEpsViewer(result, e.data.idTvShow, unwatchedEpsPage);
+						$unwatchedEpsContent.removeClass('loading');
+
+					}
+				});
+			};
+			
 			unwatchedEpsPage.setContextMenu(
 				[
 					{
@@ -919,40 +953,20 @@ var uiviews = {};
 							mkf.pages.closeTempPage(unwatchedEpsPage);
 							return false;
 						}
-					}/*,
+					},
 					{
 						'icon':'refresh', 'title':mkf.lang.get('ctxt_btn_refresh_list'), 'onClick':
 							function(){
 								$unwatchedEpsContent.empty();
-								mkf.pages.showTempPage(unwatchedEpsPage);
+								fillPage();
 								return false;
 							}
-					}*/
+					}
 				]
 			);
 
 			mkf.pages.showTempPage(unwatchedEpsPage);
-
-			$unwatchedEpsContent.addClass('loading');
-			xbmc.getunwatchedEps({
-				tvshowid: e.data.idTvShow,
-
-				onError: function() {
-					mkf.messageLog.show(mkf.lang.get('message_failed'), mkf.messageLog.status.error, 5000);
-					$unwatchedEpsContent.removeClass('loading');
-				},
-
-				onSuccess: function(result) {
-					if (result.length == 0) {
-					mkf.messageLog.show(mkf.lang.get('message_nounwatched'), mkf.messageLog.status.error, 5000);
-					mkf.pages.closeTempPage(unwatchedEpsPage);
-					return false;
-					};
-					$unwatchedEpsContent.defaultunwatchedEpsViewer(result, e.data.idTvShow, unwatchedEpsPage);
-					$unwatchedEpsContent.removeClass('loading');
-
-				}
-			});
+			fillPage();
 
 			return false;
 		},
@@ -964,6 +978,24 @@ var uiviews = {};
 				title: e.data.strSeason,
 				content: $episodesContent
 			});
+			var fillPage = function() {
+				$episodesContent.addClass('loading');
+				xbmc.getEpisodes({
+					tvshowid: e.data.idTvShow,
+					season: e.data.seasonNum,
+
+					onError: function() {
+						mkf.messageLog.show(mkf.lang.get('message_failed_seasons_episodes'), mkf.messageLog.status.error, 5000);
+						$episodesContent.removeClass('loading');
+					},
+
+					onSuccess: function(result) {
+						$episodesContent.defaultEpisodesViewer(result);
+						$episodesContent.removeClass('loading');
+					}
+				});
+			}
+			
 			episodesPage.setContextMenu(
 				[
 					{
@@ -972,27 +1004,21 @@ var uiviews = {};
 							mkf.pages.closeTempPage(episodesPage);
 							return false;
 						}
+					},
+					{
+						'icon':'refresh', 'title':mkf.lang.get('ctxt_btn_refresh_list'), 'onClick':
+							function(){
+								$episodesContent.empty();
+								fillPage();
+								return false;
+							}
 					}
 				]
 			);
 			mkf.pages.showTempPage(episodesPage);
 
 			// show season's episodes
-			$episodesContent.addClass('loading');
-			xbmc.getEpisodes({
-				tvshowid: e.data.idTvShow,
-				season: e.data.seasonNum,
-
-				onError: function() {
-					mkf.messageLog.show(mkf.lang.get('message_failed_seasons_episodes'), mkf.messageLog.status.error, 5000);
-					$episodesContent.removeClass('loading');
-				},
-
-				onSuccess: function(result) {
-					$episodesContent.defaultEpisodesViewer(result);
-					$episodesContent.removeClass('loading');
-				}
-			});
+			fillPage();
 
 			return false;
 		},
