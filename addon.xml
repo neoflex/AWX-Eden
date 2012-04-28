@@ -16,7 +16,7 @@
     <summary lang="zh">AWXi - 基于Ajax的XBMC Web界面</summary>
     <description lang="en">You can use this webinterface to control the Audio/Video Section of XBMC: play/pause/stop/skip, show artists/albums/movies/tv shows and play them or add them to the playlist. It's designed for use on PCs or laptops with a browser like FireFox which supports JavaScript.
 
-Minimum requirements: XBMC (pre) Eden 
+Minimum requirements: XBMC Eden 
 Tested Browsers:
    - FireFox
    - Chromium
@@ -26,7 +26,7 @@ Not supported: Internet Explorer 6
 Hint: You may need to clear your browser-cache before you open the new installed/updated webinterface in your browser.</description>
     <description lang="de">Mit diesem Webinterface laesst sich die Audio- und Video-Sektion von XBMC steuern: play/pause/stop/skip, sowie Anzeigen/Abspielen von Interpreten/Alben/Filmen/Serien. Es wurde fuer den Einsatz an einem PC oder Laptop mit einem JavaScript-faehigen Browser wie FireFox entwickelt.
 
-Mindestvoraussetzung: XBMC (pre) Eden
+Mindestvoraussetzung: XBMC Eden
 Getestete Browser:
    - FireFox
    - Chromium
@@ -36,7 +36,7 @@ Nicht unterstuetzt: Internet Explorer 6
 Hinweis: Sie muessen Ihren Browser-Cache leeren bevor Sie das neu installierte/aktualisierte Webinterface in Ihrem Browser laden.</description>
     <description lang="pl">Ten Interfejs WWW pozwala kontrolować wybór, dodawanie do kolejki i proces odtwarzania zasobów audio / wideo, a wszystko to przy pomocy wygodnego interfejsu prezentującego zasoby multimedialne przy użyciu miniatur filmów, seriali tv, wykonawców i albumów muzycznych. AWXi został zaprojektowany do użytkowania na komputerach osobistych lub notebookach w przeglądarce obsługującej JavaScript, takiej jak FireFox.
 
-Minimalne wymagania: XBMC (pre) Eden 
+Minimalne wymagania: XBMC Eden 
 Przetestowane przeglądarki internetowe:
    - FireFox
    - Chrome

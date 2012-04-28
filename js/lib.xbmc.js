@@ -909,8 +909,11 @@ var xbmc = {};
 			};
 			$.extend(settings, options);
 
+			settings.sortby = mkf.cookieSettings.get('albumSort', 'label');
+			settings.order = mkf.cookieSettings.get('adesc', 'ascending');
+			
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "AudioLibrary.GetAlbums", "params": { "artistid" : ' + settings.artistid + ', "properties": ["artist", "genre", "rating", "thumbnail", "year", "mood", "style"] }, "id": 1}',
+				'{"jsonrpc": "2.0", "method": "AudioLibrary.GetAlbums", "params": { "artistid" : ' + settings.artistid + ', "properties": ["artist", "genre", "rating", "thumbnail", "year", "mood", "style"], "sort": { "order": "' + settings.order + '", "method": "' + settings.sortby + '" } }, "id": 1}',
 
 				function(response) {
 					settings.onSuccess(response.result);
@@ -2509,7 +2512,7 @@ var xbmc = {};
 						var request = '';
 
 						if (activePlayer == 'audio' || activePlayer == 'video' ) {
-							request = '{"jsonrpc":"2.0","id":2,"method":"Player.GetProperties","params":{ "playerid":' + activePlayerid + ',"properties":["speed", "shuffled", "repeat", "subtitleenabled", "time", "totaltime", "position"] } }'
+							request = '{"jsonrpc":"2.0","id":2,"method":"Player.GetProperties","params":{ "playerid":' + activePlayerid + ',"properties":["speed", "shuffled", "repeat", "subtitleenabled", "time", "totaltime", "position", "currentaudiostream"] } }'
 
 						}/* else if (activePlayer == 'video') {
 							request = '{"jsonrpc":"2.0","id":4,"method":"Player.GetProperties","params":{ "playerid":1,"properties":["speed", "shuffled", "repeat"] } }'

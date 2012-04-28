@@ -1,9 +1,11 @@
 0.5.2
+ - Added Uni UI. Consider the others depreciated.
  - Added Play and enqueue music genre.
  - Added Artist info and enqueue all.
  - Added Start Page. Defaults to Recent TV.
  - Added Better playlist identification and labelling.
  - Fixed Playlists containing streams and not local files.
+ - Fixed Youtube trailer link.
  - Changed Logo walls now support lazyload.
  - Changed Movie Set sorts by label.
  - Changed Action menus (play, enqueue etc.) can be activated on hover or click.

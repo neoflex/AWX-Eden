@@ -653,12 +653,13 @@ var awxUI = {};
 							'<div id="statusLine"><div id="location"></div><div id="contextMenu"></div></div>' +
 							'</div>' + 
 							'<div id="content">' +
-							'<div id="displayoverlay"><div id="controls"></div><div id="artwork"><img src="images/thumbPoster.png"></div><div id="volumeSlider"></div><div class="playingSliderWrapper"><div class="playingSlider"></div></div></div>' +
+							'<div id="displayoverlay"><div id="controls"></div><div id="artwork"><img src="images/thumbPoster.png"></div><div><div id="volumeSlider"></div><img src="ui.uni/images/volume.png"></div><div class="playingSliderWrapper"><div class="playingSlider"></div></div></div>' +
 							'</div>' +
 							'<div id="footer">' +
 							'<div id="simple_controls"></div><div id="infoContainer"></div>' +
+							'<div id="statPlayerContainer"><div id="statusPlayer"><div id="statusPlayerRow"><div id="paused"></div><div id="shuffled"></div></div><div id="statusPlayerRow"><div id="repeating"></div><div id="muted"></div></div></div><div id="remainPlayer"><div id="remaining">' + mkf.lang.get('label_remaining') + '<span class="timeRemain">00:00</span></div><div id="plTotal">' + mkf.lang.get('label_total') + '<span class="timeRemainTotal">00:00</span></div></div>' +
 							//'<div id="statPlayerContainer"><div id="statusPlayer"><div id="statusPlayerRow"><div id="paused"></div><div id="shuffled"></div></div><div id="statusPlayerRow"><div id="repeating"></div><div id="muted"></div></div></div><div id="remainPlayer"><div id="remaining">Remaing:</div><div id="plTotal">Playlist Total:</div></div>' +
-							//'<div id="controller"></div>' +
+							'<div id="controller"></div></div>' +
 							'</div>' +
 							'<div id="messageLog"></div></div>'
 							);

@@ -26,9 +26,17 @@ html, body {
     width: 100%;*/
     z-index: 5;
 }
-#navigation ul.mkfMenu, ul.systemMenu, ul.mkfLocationBar, ul.mkfPageContextMenu {
+#navigation ul.mkfMenu, ul.systemMenu, ul.mkfPageContextMenu {
     list-style-type: none;
     margin: 0;
+    padding: 0;
+}
+#statusLine ul.mkfLocationBar {
+    list-style-type: none;
+	position: absolute;
+	overflow: hidden;
+	white-space: nowrap;
+    margin: 0 0 0 96px;
     padding: 0;
 }
 #navigation ul.mkfMenu > li, ul.systemMenu > li {
@@ -133,6 +141,13 @@ ul.systemMenu > li.mouseover > a .exit, ul.systemMenu > li.activeMenuItem > a .e
 	bottom: 0;
 	width: 100%;
 	height: 48px;
+}
+
+#infoContainer {
+	float: left;
+	min-width: 100px;
+	position: absolute;
+	margin-left: 96px;
 }
 #footer #now_next {
 	display: inline;
@@ -243,8 +258,18 @@ ul.systemMenu > li.mouseover > a .exit, ul.systemMenu > li.activeMenuItem > a .e
     width: 100%;
     background: url("../images/button_bg2.png") repeat-x scroll 0 0px #444;*/
 }
-ul.mkfLocationBar li, ul.mkfPageContextMenu li {
+#statusLine #contextMenu {
+	position: absolute;
+	right: 96px;
+}
+ul.mkfPageContextMenu li {
     float: left;
+    height: 48px;
+    line-height: 48px;
+    margin-left: 10px;
+}
+ul.mkfLocationBar li {
+    display: inline;
     height: 48px;
     line-height: 48px;
     margin-left: 10px;
@@ -1619,6 +1644,62 @@ br.clear {
 	height: 280px;
 }
 #controls {
+	height: 280px;
+	width: 270px;
+	float: left;
+}
+#controls #quick {
+	background-color: rgba(55,55,55,0.7);
+	border-radius: 5px 5px 5px 5px;
+	height: 225px;
+	width: 264px;
+	float: left;
+	z-index: 250;
+}
+#controls #quick #quick_row1 {
+	height: 48px;
+	margin: 20px 5px;
+}
+#controls #quick #quick_row2 {
+	height: 48px;
+	margin: 20px 5px;
+}
+#controls #quick #quick_row3 {
+	height: 48px;
+	margin: 20px 5px;
+}
+#controls #quick a.button {
+    background: url("../images/quick_controls.png") no-repeat scroll 0 0 transparent;
+    float: left;
+    height: 48px;
+    width: 48px;
+	margin-right: 50px;
+}
+#controls #quick a.home {
+    background-position: 0 0;
+}
+#controls #quick a.left {
+    background-position: -48px 0;
+}
+#controls #quick a.up {
+    background-position: -96px 0;
+}
+#controls #quick a.right {
+    background-position: -144px 0;
+	margin-right: 0;
+}
+#controls #quick a.down {
+    background-position: -192px 0;
+	margin-left: 100px;
+}
+#controls #quick a.back {
+    background-position: -240px 0;
+	margin-right: 0;
+}
+#controls #quick a.select {
+    background-position: -288px 0;
+}
+#controls  #quick_con {
     /*background: url("../images/volume.png") no-repeat scroll 20px 10px #EAECE6;*/
 	background-color: rgba(55,55,55,0.7);
     /*border: 1px solid #7C7C7C;*/
@@ -1629,25 +1710,25 @@ br.clear {
 	/*bottom: 48px;
 	right: 252px;*/
     margin-right: 5px;
-    margin-top: 232px;
+    margin-top: 7px;
     /*padding: 0 10px;
     width: 384px;*/
 	z-index: 250;
 }
-#controls a.button {
+#controls #quick_con a.button {
     background: url("../images/buttons.png") no-repeat scroll 0 0 transparent;
     float: left;
     height: 48px;
     margin-right: 6px;
     width: 48px;
 }
-#controls a.unmuted {
+#controls #quick_con a.unmuted {
     /*background: url("../images/buttons.png") no-repeat scroll transparent;*/
 	background-position: -384px 0;
     height: 48px;
     width: 48px;
 }
-#controls a.muted {
+#controls #quick_con a.muted {
     background: url("../images/muted.png") no-repeat scroll transparent;
     float: left;
     height: 15px;
@@ -1655,46 +1736,46 @@ br.clear {
 	margin-left: 10px;
     width: 16px;
 }
-#controls a.play {
+#controls #quick_con a.play {
     background-position: -90px 0;
 }
-#controls a.stop {
+#controls #quick_con a.stop {
     background-position: 0 0;
 }
-#controls a.prev {
+#controls #quick_con a.prev {
     background-position: -192px 0;
 	margin-left: 6px;
 }
-#controls a.next {
+#controls #quick_con a.next {
     background-position: -336px 0;
 }
-#controls a.shuffle {
+#controls #quick_con a.shuffle {
     background-position: 0 0;
 }
-#controls a.unshuffle {
+#controls #quick_con a.unshuffle {
     background-position: 0 0;
 }
-#controls a.repeat {
+#controls #quick_con a.repeat {
     background-position: -48px 0;
 	margin-right: 0px;
 }
-#controls a.repeat1 {
+#controls #quick_con a.repeat1 {
     background-position: -96px 0;
 	margin-right: 0px;
 }
-#controls a.repeatOff {
+#controls #quick_con a.repeatOff {
     background-position: -144px 0;
 	margin-right: 0px;
 }
-#controls a.volup {
+#controls #quick_con a.volup {
     background-position: -480px 0;
 	margin-right: 0px;
 }
-#controls a.voldown {
+#controls #quick_con a.voldown {
     background-position: -432px 0;
 	margin-right: 0px;
 }
-#controls a.mute {
+#controls #quick_con a.mute {
     background-position: -384px 0;
 	margin-right: 0px;
 }
@@ -1843,7 +1924,7 @@ span.currentlyPlaying {
 	float: left;
 	position: absolute;
 	bottom: 3px;
-	width: 502px;
+	width: 464px;
 	height: 20px;
 }
 #preload {

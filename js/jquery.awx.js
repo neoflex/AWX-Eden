@@ -83,8 +83,33 @@
 	};
 	
 	$.fn.extraControls = function() {
-		$controls = $('<a class="button prev" href=""></a><a class="button next" href=""></a><a class="button shuffle" href="" title="' + mkf.lang.get('label_shuffle') + '"></a><a class="button repeat" href="" title="' + mkf.lang.get('label_repeat') + '"></a><a class="button mute" href="" title="' + mkf.lang.get('label_mute') + '"></a>');
+		$controls = $('<div id="quick"><div id="quick_row1"><a class="button home" href="" title="' + mkf.lang.get('btn_home') + '"></a><a class="button up" href="" title="' + mkf.lang.get('btn_up') + '"></a><a class="button back" href="" title="' + mkf.lang.get('btn_back') + '"></a></div>' +
+		'<div id="quick_row2"><a class="button left" href="" title="' + mkf.lang.get('btn_left') + '"></a><a class="button select" href="" title="' + mkf.lang.get('btn_select') + '"></a><a class="button right" href="" title="' + mkf.lang.get('btn_right') + '"></a></div>' +
+		'<div id="quick_row3"><a class="button down" href="" title="' + mkf.lang.get('btn_down') + '"></a></div></div>' +
+		'<div id="quick_con"><a class="button prev" href=""></a><a class="button next" href=""></a><a class="button shuffle" href="" title="' + mkf.lang.get('label_shuffle') + '"></a><a class="button repeat" href="" title="' + mkf.lang.get('label_repeat') + '"></a><a class="button mute" href="" title="' + mkf.lang.get('label_mute') + '"></a></div>');
 		//'<a class="button volup" href="" title="' + mkf.lang.get('label_volup') + '"></a><a class="button voldown" href="" title="' + mkf.lang.get('label_voldown') + '"></a><a class="button mute" href="" title="' + mkf.lang.get('label_mute') + '"></a>');
+		$controls.find('.left').click(function() {
+			xbmc.input({type: 'Left', onError: 'failed'}); return false;
+		});
+		$controls.find('.right').click(function() {
+			xbmc.input({type: 'Right', onError: 'failed'}); return false;
+		});
+		$controls.find('.up').click(function() {
+			xbmc.input({type: 'Up', onError: 'failed'}); return false;
+		});
+		$controls.find('.down').click(function() {
+			xbmc.input({type: 'Down', onError: 'failed'}); return false;
+		});
+		$controls.find('.back').click(function() {
+			xbmc.input({type: 'Back', onError: 'failed'}); return false;
+		});
+		$controls.find('.home').click(function() {
+			xbmc.input({type: 'Home', onError: 'failed'}); return false;
+		});
+		$controls.find('.select').click(function() {
+			xbmc.input({type: 'Select', onError: 'failed'}); return false;
+		});
+		
 		$controls.filter('.play').click(function() {
 			xbmc.control({type: 'play'}); return false;
 		});
@@ -2469,13 +2494,14 @@
 		$.extend(settings, options);
 
 		this.each (function() {
-			var $footerStatusBox = $(this);
+			var $footerNowBox = $(this);
+			var $footerStatusBox = $('#footer #statPlayerContainer');
 
 			var content = '<div id="now_next"><div id="now">' + mkf.lang.get('label_now') + '<span class="label" /><span class="nowTitle" /></div><div id="next">' + mkf.lang.get('label_next') + '<span class="nextTitle" /></div></div>';
-			content += '<div id="statPlayerContainer"><div id="statusPlayer"><div id="statusPlayerRow"><div id="paused"></div><div id="shuffled"></div></div><div id="statusPlayerRow"><div id="repeating"></div><div id="muted"></div></div></div><div id="remainPlayer"><div id="remaining">' + mkf.lang.get('label_remaining') + '<span class="timeRemain">00:00</span></div><div id="plTotal">' + mkf.lang.get('label_total') + '<span class="timeRemainTotal">00:00</span></div></div>';
-			content += '<div id="controller"></div>';
+			//content += '<div id="statPlayerContainer"><div id="statusPlayer"><div id="statusPlayerRow"><div id="paused"></div><div id="shuffled"></div></div><div id="statusPlayerRow"><div id="repeating"></div><div id="muted"></div></div></div><div id="remainPlayer"><div id="remaining">' + mkf.lang.get('label_remaining') + '<span class="timeRemain">00:00</span></div><div id="plTotal">' + mkf.lang.get('label_total') + '<span class="timeRemainTotal">00:00</span></div></div>';
+			//content += '<div id="controller"></div>';
 			
-			$footerStatusBox.html(content);
+			$footerNowBox.html(content);
 			
 
 			var titleElement = '';
@@ -2489,9 +2515,9 @@
 			
 			var thumbElement = $('#content #displayoverlay #artwork img');
 			
-			var nowLabelElement = $footerStatusBox.find('span.label');
-			var nowElement = $footerStatusBox.find('span.nowTitle');
-			var nextElement = $footerStatusBox.find('span.nextTitle');
+			var nowLabelElement = $footerNowBox.find('span.label');
+			var nowElement = $footerNowBox.find('span.nowTitle');
+			var nextElement = $footerNowBox.find('span.nextTitle');
 			var timeCurRemain = $footerStatusBox.find('span.timeRemain');
 			var timeCurRemainTotal = $footerStatusBox.find('span.timeRemainTotal');
 			var sliderElement = $('#content #displayoverlay .playingSlider');
