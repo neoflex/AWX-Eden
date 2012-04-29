@@ -158,6 +158,7 @@ ul.systemMenu > li.mouseover > a .exit, ul.systemMenu > li.activeMenuItem > a .e
 	float: left;
 	font-size: 16px;
 	font-weight: bold;
+	text-shadow: 2px 2px 2px #000;
 	white-space: nowrap;
 }
 #footer #now_next #now, #footer #now_next #next  {
@@ -165,11 +166,13 @@ ul.systemMenu > li.mouseover > a .exit, ul.systemMenu > li.activeMenuItem > a .e
 }
 #footer #now_next span.nowTitle, #footer #now_next span.nextTitle  {
 	font-weight: normal;
+	text-shadow: 2px 2px 2px #000;
 	margin-left: 2px;
 }
 #footer #now_next span.label  {
 	color: #A0E312;
 	font-weight: normal;
+	text-shadow: 2px 2px 2px #000;
 	margin-left: 2px;
 }
 #footer #statPlayerContainer {
@@ -182,6 +185,7 @@ ul.systemMenu > li.mouseover > a .exit, ul.systemMenu > li.activeMenuItem > a .e
 #footer #remainPlayer {
 	font-size: 16px;
 	font-weight: bold;
+	text-shadow: 2px 2px 2px #000;
 	height: 48px;
 	float: left;
 }
@@ -248,6 +252,232 @@ ul.systemMenu > li.mouseover > a .exit, ul.systemMenu > li.activeMenuItem > a .e
 	/*position: absolute;*/
 	/*right: 0px;*/
 }
+#streamdets {
+	z-index: 1;
+	float: left;
+	/*min-width: 20px;*/
+}
+#streamdets div.channels0, #streamdets div.channels1, #streamdets div.channels2, #streamdets div.channels3, #streamdets div.channels4, #streamdets div.channels5, #streamdets div.channels6, #streamdets div.channels7, #streamdets div.channels8, #streamdets div.channels9, #streamdets div.channels10 {
+	float: left;
+	margin-right: 3px;
+    background: url("../images/flagging/footer/channels.png") no-repeat scroll 0 0 transparent;
+    height: 48px;
+    width: 64px;
+}
+#streamdets div.channels0 {
+    background-position: 0 0;
+}
+#streamdets div.channels1 {
+    background-position: -64px 0;
+}
+#streamdets div.channels2 {
+    background-position: -128px 0;
+}
+#streamdets div.channels3 {
+    background-position: -192px 0;
+}
+#streamdets div.channels4 {
+    background-position: -256px 0;
+}
+#streamdets div.channels5 {
+    background-position: -320px 0;
+}
+#streamdets div.channels6 {
+    background-position: -384px 0;
+}
+#streamdets div.channels7 {
+    background-position: -448px 0;
+}
+#streamdets div.channels8 {
+    background-position: -512px 0;
+}
+#streamdets div.channels9 {
+    background-position: -576px 0;
+}
+#streamdets div.channels10 {
+    background-position: -640px 0;
+}
+#streamdets div.aspect133, #streamdets div.aspect166, #streamdets div.aspect178, #streamdets div.aspect185, #streamdets div.aspect220, #streamdets div.aspect235  {
+	float: left;
+	margin-right: 3px;
+    background: url("../images/flagging/footer/aspects.png") no-repeat scroll 0 0 transparent;
+    height: 48px;
+    width: 64px;
+}
+#streamdets div.aspect133 {
+    background-position: 0 0;
+}
+#streamdets div.aspect166 {
+    background-position: -64px 0;
+}
+#streamdets div.aspect178 {
+    background-position: -128px 0;
+}
+#streamdets div.aspect185 {
+    background-position: -192px 0;
+}
+#streamdets div.aspect220 {
+    background-position: -256px 0;
+}
+#streamdets div.aspect235 {
+    background-position: -320px 0;
+}
+#streamdets div.vFormatSD, #streamdets div.vFormatHD720, #streamdets div.vFormatHD1080 {
+	float: left;
+	margin-right: 3px;
+    background: url("../images/flagging/footer/vFormat.png") no-repeat scroll 0 0 transparent;
+    height: 48px;
+    width: 64px;
+}
+#streamdets div.vFormatSD {
+    background-position: 0 0;
+}
+#streamdets div.vFormatHD720 {
+    background-position: -64px 0;
+}
+#streamdets div.vFormatHD1080 {
+    background-position: -128px 0;
+}
+#streamdets div.vCodecH264, #streamdets div.vCodecXVID, #streamdets div.vCodecDivX3, #streamdets div.vCodecDivX5, #streamdets div.vCodecAVC1, #streamdets div.vCodecVP8, #streamdets div.vCodecMPEG1, #streamdets div.vCodecMPEG2, #streamdets div.vCodecDVD, #streamdets div.vCodecBluRay, #streamdets div.vCodecVC1, #streamdets div.vCodecFLV, #streamdets div.vCodecUnknown {
+	float: left;
+	margin-right: 3px;
+    background: url("../images/flagging/footer/vCodecs.png") no-repeat scroll 0 0 transparent;
+    height: 48px;
+    width: 100px;
+}
+#streamdets div.vCodecH264 {
+    background-position: 0 0;
+}
+#streamdets div.vCodecXVID {
+    background-position: -100px 0;
+}
+#streamdets div.vCodecDivX3 {
+    background-position: -200px 0;
+}
+#streamdets div.vCodecDivX5 {
+    background-position: -300px 0;
+}
+#streamdets div.vCodecAVC1 {
+    background-position: -400px 0;
+}
+#streamdets div.vCodecVP8 {
+    background-position: -500px 0;
+}
+#streamdets div.vCodecMPEG1 {
+    background-position: -600px 0;
+}
+#streamdets div.vCodecMPEG2 {
+    background-position: -700px 0;
+}
+#streamdets div.vCodecDVD {
+    background-position: -800px 0;
+}
+#streamdets div.vCodecBluRay {
+    background-position: -900px 0;
+}
+#streamdets div.vCodecVC1 {
+    background-position: -1000px 0;
+}
+#streamdets div.vCodecFLV {
+    background-position: -1100px 0;
+}
+#streamdets div.vCodecUnknown {
+    background-position: -1200px 0;
+}
+
+#streamdets div.aCodecAAC, #streamdets div.aCodecAC3, #streamdets div.aCodecAIF, #streamdets div.aCodecAIFC, #streamdets div.aCodecAPE, #streamdets div.aCodecAVC, #streamdets div.aCodecCDDA, #streamdets div.aCodecDCA, #streamdets div.aCodecDTS, #streamdets div.aCodecDTSHD, #streamdets div.aCodecDTSMA, #streamdets div.aCodecEAC3, #streamdets div.aCodecFLAC, 
+#streamdets div.aCodecMP1, #streamdets div.aCodecMP2, #streamdets div.aCodecMP3, #streamdets div.aCodecOGG, #streamdets div.aCodecDDTrueHD, #streamdets div.aCodecwav, #streamdets div.aCodecwavpack, #streamdets div.aCodecWMA, #streamdets div.aCodecWMAPro, #streamdets div.aCodecWMA2, #streamdets div.aCodecPCM, #streamdets div.aCodecALAC, #streamdets div.aCodecUnknown {
+	float: left;
+	margin-right: 3px;
+    background: url("../images/flagging/footer/aCodecs.png") no-repeat scroll 0 0 transparent;
+    height: 48px;
+    width: 100px;
+}
+#streamdets div.aCodecAAC {
+    background-position: 0 0;
+}
+#streamdets div.aCodecAC3 {
+    background-position: -100px 0;
+}
+#streamdets div.aCodecAIF {
+    background-position: -200px 0;
+}
+#streamdets div.aCodecAIFC {
+    background-position: -300px 0;
+}
+#streamdets div.aCodecAPE {
+    background-position: -400px 0;
+}
+#streamdets div.aCodecAVC {
+    background-position: -500px 0;
+}
+#streamdets div.aCodecCDDA {
+    background-position: -600px 0;
+}
+#streamdets div.aCodecDCA {
+    background-position: -700px 0;
+}
+#streamdets div.aCodecDTS {
+    background-position: -800px 0;
+}
+#streamdets div.aCodecDTSHD {
+    background-position: -900px 0;
+}
+#streamdets div.aCodecDTSMA {
+    background-position: -1000px 0;
+}
+#streamdets div.aCodecEAC3 {
+    background-position: -1100px 0;
+}
+#streamdets div.aCodecFLAC {
+    background-position: -1200px 0;
+}
+#streamdets div.aCodecMP1 {
+    background-position: -1300px 0;
+}
+#streamdets div.aCodecMP2 {
+    background-position: -1400px 0;
+}
+#streamdets div.aCodecMP3 {
+    background-position: -1500px 0;
+}
+#streamdets div.aCodecOGG {
+    background-position: -1600px 0;
+}
+#streamdets div.aCodecDDTrueHD {
+    background-position: -1700px 0;
+}
+#streamdets div.aCodecwav {
+    background-position: -1800px 0;
+}
+#streamdets div.aCodecwavpack {
+    background-position: -1900px 0;
+}
+#streamdets div.aCodecWMA {
+    background-position: -2000px 0;
+}
+#streamdets div.aCodecWMAPro {
+    background-position: -2100px 0;
+}
+#streamdets div.aCodecWMA2 {
+    background-position: -2200px 0;
+}
+#streamdets div.aCodecPCM {
+    background-position: -2300px 0;
+}
+#streamdets div.aCodecALAC {
+    background-position: -2400px 0;
+}
+#streamdets div.aCodecUnknown {
+    background-position: -2500px 0;
+}
+#streamdets div.vSubtitles {
+	float: left;
+	margin-right: 3px;
+    background: url("../images/flagging/footer/cc.png") no-repeat scroll 0 0 transparent;
+    height: 48px;
+    width: 64px;
+}
 #statusLine {
     /*background-color: #444;
     border-bottom: 1px solid #444444;
@@ -275,9 +505,10 @@ ul.mkfLocationBar li {
     margin-left: 10px;
 }
 #location a {
-    color: #aaa;
+    color: #ddd;
 	font-size: 16px;
     text-decoration: none;
+	text-shadow: 2px 2px 2px #000;
 }
 #location a:hover {
     color: #fff;

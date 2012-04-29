@@ -2414,6 +2414,7 @@ var xbmc = {};
 				}
 				
 				var useFanart = mkf.cookieSettings.get('usefanart', 'no')=='yes'? true : false;
+				var showInfoTags = mkf.cookieSettings.get('showTags', 'no')=='yes'? true : false;
 				var ui = mkf.cookieSettings.get('ui');
 				
 				// ---------------------------------
@@ -2505,6 +2506,12 @@ var xbmc = {};
 								$('#content').css('background-image', 'url("")');
 							}
 						};
+						$('#streamdets .aspect').removeClass().addClass('aspect');
+						$('#streamdets .channels').removeClass().addClass('channels');
+						$('#streamdets .vCodec').removeClass().addClass('vCodec');
+						$('#streamdets .aCodec').removeClass().addClass('aCodec');
+						$('#streamdets .vSubtitles').css('display', 'none');
+						
 						xbmc.periodicUpdater.firePlayerStatusChanged('stopped');
 					}
 
@@ -2589,7 +2596,12 @@ var xbmc = {};
 								subs = currentPlayer.subtitleenabled;
 								if (xbmc.periodicUpdater.subsenabled != subs) {
 									xbmc.periodicUpdater.subsenabled = subs;
-								}								
+								}
+
+								//Stream info in footer bar. Uni UI only
+								if ( ui == 'uni' ) {
+									//console.log('using Uni UI!');
+								}
 							},
 
 							null, null, true // IS async // not async
@@ -2604,7 +2616,7 @@ var xbmc = {};
 							//requeststate = '{"jsonrpc":"2.0","id":2,"method":"Player.GetProperties","params":{ "playerid":0,"properties":["playlistid","position","percentage","totaltime","time","type","speed"] } }'
 
 						} else if (activePlayer == 'video') {
-							request = '{"jsonrpc": "2.0", "method": "Player.GetItem", "params": { "properties": ["title", "season", "episode", "duration", "showtitle", "thumbnail", "file", "fanart"], "playerid": 1 }, "id": 1}';
+							request = '{"jsonrpc": "2.0", "method": "Player.GetItem", "params": { "properties": ["title", "season", "episode", "duration", "showtitle", "thumbnail", "file", "fanart", "streamdetails"], "playerid": 1 }, "id": 1}';
 							//requeststate = '{"jsonrpc":"2.0","id":4,"method":"Player.GetProperties","params":{ "playerid":1,"properties":["playlistid","position","percentage","totaltime","time","type","speed"] } }'
 						}
 					
@@ -2653,6 +2665,44 @@ var xbmc = {};
 											xbmc.periodicUpdater.nextPlayingFile = mkf.lang.get(message_failed);
 										}
 									});
+									
+									//Footer stream details for video
+									if (ui == 'uni' && showInfoTags) {
+										var streamdetails = {
+											vFormat: 'SD',
+											vCodec: 'Unknown',
+											aCodec: 'Unknown',
+											channels: 0,
+											aStreams: 0,
+											hasSubs: false,
+											aLang: '',
+											aspect: 0,
+											vwidth: 0
+										};
+										
+										if (currentItem.streamdetails) {
+											if (currentItem.streamdetails.subtitle) { streamdetails.hasSubs = true };
+											if (currentItem.streamdetails.audio) {
+												streamdetails.channels = currentItem.streamdetails.audio[0].channels;
+												streamdetails.aStreams = currentItem.streamdetails.audio.length;
+												//$.each(currentItem.streamdetails.audio, function(i, audio) { streamdetails.aLang += audio.language + ' ' } );
+												//if ( streamdetails.aLang == ' ' ) { streamdetails.aLang = mkf.lang.get('label_not_available') };
+											};
+										streamdetails.aspect = xbmc.getAspect(currentItem.streamdetails.video[0].aspect);
+										//Get video standard
+										streamdetails.vFormat = xbmc.getvFormat(currentItem.streamdetails.video[0].width);
+										//Get video codec
+										streamdetails.vCodec = xbmc.getVcodec(currentItem.streamdetails.video[0].codec);
+										//Set audio icon
+										streamdetails.aCodec = xbmc.getAcodec(currentItem.streamdetails.audio[0].codec);
+										};
+										
+										$('#streamdets .aspect').addClass('aspect' + streamdetails.aspect);
+										$('#streamdets .channels').addClass('channels' + streamdetails.channels);
+										$('#streamdets .vCodec').addClass('vCodec' + streamdetails.vCodec);
+										$('#streamdets .aCodec').addClass('aCodec' + streamdetails.aCodec);
+										(streamdetails.hasSubs? $('#streamdets .vSubtitles').css('display', 'block') : $('#streamdets .vSubtitles').css('display', 'none'));
+									}
 								};
 							},
 

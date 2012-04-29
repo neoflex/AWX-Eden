@@ -219,10 +219,10 @@ mkf.lang.add({language: 'Deutsch', short: 'de', author: 'MKay', values: {
 	'label_view_album_cover':			'Cover',
 	'label_view_album_list':			'List',
 	'label_use_lazyload':				'verwende LazyLoad f%FCr Thumbnails',
+	'label_showTags':					'Show info tags (Uni UI only)',
 	'label_use_fanart':					'Use Fan Art as background',
 	'label_timeout':					'TimeOut f%FCr Ajax-Anfragen: ',
 	'label_settings_hint':				'(Die Einstellungen werden in Cookies gespeichert. Sie m%FCssen Cookies f%FCr diese Seite zulassen.)',
-
 	'label_settings_warning':			'* Not recommended for a large amount of items.',
 	'label_not_available':				'N/A',
 	'label_premiered': 					'Premiered:',
@@ -247,7 +247,6 @@ mkf.lang.add({language: 'Deutsch', short: 'de', author: 'MKay', values: {
 	'label_studio':						'Studio:',
 	'label_votes':						'Votes:',
 	'label_subs':						'Subtitles:',
-
 	'label_tagline': 					'Tagline:',
 	'label_trailer':					'Trailer:',
 	'label_link':						'Link',

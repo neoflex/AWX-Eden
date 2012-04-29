@@ -110,26 +110,26 @@
 			xbmc.input({type: 'Select', onError: 'failed'}); return false;
 		});
 		
-		$controls.filter('.play').click(function() {
+		$controls.find('.play').click(function() {
 			xbmc.control({type: 'play'}); return false;
 		});
-		$controls.filter('.stop').click(function() {
+		$controls.find('.stop').click(function() {
 			xbmc.control({type: 'stop'}); return false;
 		});
-		$controls.filter('.next').click(function() {
+		$controls.find('.next').click(function() {
 			xbmc.control({type: 'next'}); return false;
 		});
-		$controls.filter('.prev').click(function() {
+		$controls.find('.prev').click(function() {
 			xbmc.control({type: 'prev'}); return false;
 		});
-		$controls.filter('.mute').click(function() {
+		$controls.find('.mute').click(function() {
 			xbmc.setMute(); return false;
 		});
 		var shuffle = function(event) {
 			xbmc.control({type: (event.data.shuffle? 'shuffle': 'unshuffle')}); return false;
 		};
 
-		$controls.filter('.shuffle').bind('click', {"shuffle": true}, shuffle);
+		$controls.find('.shuffle').bind('click', {"shuffle": true}, shuffle);
 
 		var repeat = function(event) {
 			if (event.data.repeat == 'all' && xbmc.periodicUpdater.repeatStatus == 'off') {
@@ -143,7 +143,7 @@
 			return false;
 		};
 		
-		$controls.filter('.repeat').bind('click', {"repeat": 'all' }, repeat);
+		$controls.find('.repeat').bind('click', {"repeat": 'all' }, repeat);
 		
 		xbmc.periodicUpdater.addPlayerStatusChangedListener(function(status) {
 			var $shuffleBtn = $('.button.shuffle');
@@ -427,6 +427,7 @@
 			var epdesc = mkf.cookieSettings.get('epdesc', 'no');
 			var adesc = mkf.cookieSettings.get('adesc', 'no');
 			var startPage = mkf.cookieSettings.get('startPage', 'recentTV');
+			var showTags = mkf.cookieSettings.get('showTags', 'yes');
 
 			var languages = '';
 			$.each(mkf.lang.getLanguages(), function(key, val) {
@@ -473,7 +474,8 @@
 				'<fieldset>' +
 				'<legend>' + mkf.lang.get('group_expert') + '</legend>' +
 				'<a href="" class="formButton expertHelp" title="' + mkf.lang.get('btn_title_help') + '">' + mkf.lang.get('btn_text_help') + '</a>' + 
-				'<input type="checkbox" id="lazyload" name="lazyload" ' + (lazyload=='yes'? 'checked="checked"' : '') + '><label for="lazyload">' + mkf.lang.get('label_use_lazyload') + '</label><br />' +
+				'<input type="checkbox" id="lazyload" name="lazyload" ' + (lazyload=='yes'? 'checked="checked"' : '') + '><label for="lazyload">' + mkf.lang.get('label_use_lazyload') + '</label>' +
+				'<input type="checkbox" id="showTags" name="showTags" ' + (showTags=='yes'? 'checked="checked"' : '') + '><label for="showTags">' + mkf.lang.get('label_showTags') + '</label><br />' +
 				'<label for="timeout">' + mkf.lang.get('label_timeout') + '</label><input type="text" id="timeout" name="timeout" value="' + timeout + '" maxlength="3" style="width: 30px; margin-top: 10px;"> ' + mkf.lang.get('label_seconds') +
 				'</fieldset>' +
 				'</form>' +
@@ -790,6 +792,11 @@
 				mkf.cookieSettings.add(
 					'lazyload',
 					document.settingsForm.lazyload.checked? 'yes' : 'no'
+				);
+				
+				mkf.cookieSettings.add(
+					'showTags',
+					document.settingsForm.showTags.checked? 'yes' : 'no'
 				);
 								
 				mkf.cookieSettings.add(
