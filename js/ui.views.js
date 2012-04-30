@@ -179,6 +179,7 @@ var uiviews = {};
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_album'));
 			xbmc.playAlbum({
 				albumid: e.data.idAlbum,
+				spotify_albumid: e.data.idSpotAlbum,
 				onSuccess: function() {
 					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
 				},
@@ -225,6 +226,7 @@ var uiviews = {};
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_album_to_playlist'));
 			xbmc.addAlbumToPlaylist({
 				albumid: e.data.idAlbum,
+				spotify_albumid: e.data.idSpotAlbum,
 				onSuccess: function() {
 					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
 				},
@@ -291,7 +293,7 @@ var uiviews = {};
 			$songlistContent.addClass('loading');
 			xbmc.getAlbumsSongs({
 				albumid: e.data.idAlbum,
-
+				spotify_albumid: e.data.idSpotAlbum,
 				onError: function() {
 					mkf.messageLog.show(mkf.lang.get('message_failed_albums_songs'), mkf.messageLog.status.error, 5000);
 					$songlistContent.removeClass('loading');
@@ -311,6 +313,7 @@ var uiviews = {};
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_song'));
 			xbmc.playSong({
 				songid: e.data.idSong,
+				spotify_songid: e.data.idSpotifySong,
 				onSuccess: function() {
 					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
 				},
@@ -326,6 +329,7 @@ var uiviews = {};
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_song_to_playlist'));
 			xbmc.addSongToPlaylist({
 				songid: e.data.idSong,
+				spotify_songid: e.data.idSpotifySong,
 				onSuccess: function() {
 					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
 				},
@@ -341,6 +345,8 @@ var uiviews = {};
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_song_next'));
 			xbmc.playSongNext({
 				songid: e.data.idSong,
+				spotify_songid: e.data.idSpotifySong,
+
 				onSuccess: function() {
 					mkf.messageLog.appendTextAndHide(messageHandle, mkf.lang.get('message_ok'), 2000, mkf.messageLog.status.success);
 				},
@@ -1339,15 +1345,26 @@ var uiviews = {};
 			//var albums = albumResult.albums;
 			var $albumsList = $('<ul class="fileList"></ul>');
 				$.each(albums.albums, function(i, album)  {
+					 var p_album_id, s_album_id, g_album_id;
+					if(album.albumid != undefined) {
+			  	         p_album_id = album.albumid;
+			  	         s_album_id = "";
+			  	         g_album_id = album.albumid;
+				      }
+				     else if(album.spotify_albumid != undefined) {
+				        p_album_id = 1;
+				        s_album_id = album.spotify_albumid;
+				        g_album_id = s_album_id.substr(26,22);
+				      } 
 					$album = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper">' + 
 						'<a href="" class="button playlist" title="' + mkf.lang.get('btn_enqueue') + '"><span class="miniIcon enqueue" /></a>' +
 						'<a href="" class="button play" title="' + mkf.lang.get('btn_play') + '"><span class="miniIcon play" /></a>' +
-						'<a href="" class="album' + album.albumid + '">' + album.label + ' - ' + album.artist + '<div class="findKeywords">' + album.label.toLowerCase() + ' ' + album.artist.toLowerCase() + '</div>' +
+						'<a href="" class="album' + g_album_id + '">' + album.label + ' - ' + album.artist + '<div class="findKeywords">' + album.label.toLowerCase() + ' ' + album.artist.toLowerCase() + '</div>' +
 						'</a></div></li>').appendTo($albumsList);
 
-					$album.find('.album'+ album.albumid).bind('click', {idAlbum: album.albumid, strAlbum: album.label, objParentPage: parentPage }, uiviews.Songlist);
-					$album.find('.playlist').bind('click', {idAlbum: album.albumid}, uiviews.AddAlbumToPlaylist);
-					$album.find('.play').bind('click', {idAlbum: album.albumid, strAlbum: album.label}, uiviews.AlbumPlay);
+					$album.find('.album'+ g_album_id).bind('click', {idAlbum: p_album_id, idSpotAlbum: s_album_id, strAlbum: album.label, objParentPage: parentPage }, uiviews.Songlist);
+					$album.find('.playlist').bind('click', {idAlbum: p_album_id, idSpotAlbum: s_album_id}, uiviews.AddAlbumToPlaylist);
+					$album.find('.play').bind('click', {idAlbum: p_album_id, idSpotAlbum: s_album_id, strAlbum: album.label}, uiviews.AlbumPlay);
 				});
 			return $albumsList
 		},
@@ -1360,7 +1377,18 @@ var uiviews = {};
 			
 			$.each(albums.albums, function(i, album) {
 				var thumb = (album.thumbnail? xbmc.getThumbUrl(album.thumbnail) : 'images/thumb.png');
-				$album = $('<div class="album'+album.albumid+' thumbWrapper">' +
+				var p_album_id, s_album_id, g_album_id;
+				if(album.albumid != undefined) {
+		  	         p_album_id = album.albumid;
+		  	         s_album_id = "";
+		  	         g_album_id = album.albumid;
+			      }
+			     else if(album.spotify_albumid != undefined) {
+			        p_album_id = 1;
+			        s_album_id = album.spotify_albumid;
+			        g_album_id = s_album_id.substr(26,22);
+			      }
+				 $album = $('<div class="album'+g_album_id+' thumbWrapper">' +
 						'<div class="linkWrapper">' + 
 							'<a href="" class="play">' + mkf.lang.get('btn_play') + '</a><a href="" class="songs">' + mkf.lang.get('btn_songs') + '</a><a href="" class="playlist">' + mkf.lang.get('btn_enqueue') + '</a>' +
 						'</div>' +
@@ -1374,9 +1402,10 @@ var uiviews = {};
 					'</div>');
 
 				$albumsList.append($album);
-				$album.find('.play').bind('click', {idAlbum: album.albumid, strAlbum: album.label}, uiviews.AlbumPlay);
-				$album.find('.songs').bind('click', {idAlbum: album.albumid, strAlbum: album.label, objParentPage: parentPage }, uiviews.Songlist);
-				$album.find('.playlist').bind('click', {idAlbum: album.albumid}, uiviews.AddAlbumToPlaylist);
+				
+				$album.find('.play').bind('click', {idAlbum: p_album_id, idSpotAlbum: s_album_id, strAlbum: album.label}, uiviews.AlbumPlay);
+				$album.find('.songs').bind('click', {idAlbum: p_album_id, idSpotAlbum: s_album_id, strAlbum: album.label, objParentPage: parentPage }, uiviews.Songlist);
+				$album.find('.playlist').bind('click', {idAlbum: p_album_id, idSpotAlbum: s_album_id}, uiviews.AddAlbumToPlaylist);
 				
 			});
 			
@@ -1395,8 +1424,19 @@ var uiviews = {};
 			var $albumsList = $('<div id="multiOpenAccordion"></div>').appendTo(page);
 			
 				$.each(albums.albums, function(i, album) {
-							//var thumb = (album.thumbnail? xbmc.getThumbUrl(album.thumbnail) : 'images/thumb.png');
-							$album = $('<h3 class="multiOpenAccordion-header" id="albumName' + album.albumid + '"><a href="#" id="album' + i + '">' + album.label + ' - ' + album.artist +
+					var p_album_id, s_album_id, g_album_id;
+					if(album.albumid != undefined) {
+			  	         p_album_id = album.albumid;
+			  	         s_album_id = "";
+			  	         g_album_id = album.albumid;
+				      }
+				     else if(album.spotify_albumid != undefined) {
+				        p_album_id = 1;
+				        s_album_id = album.spotify_albumid;
+				        g_album_id = s_album_id.substr(26,22);
+				      } 
+//var thumb = (album.thumbnail? xbmc.getThumbUrl(album.thumbnail) : 'images/thumb.png');
+							$album = $('<h3 class="multiOpenAccordion-header" title="' + s_album_id + '" id="albumName' + g_album_id + '"><a href="#" id="album' + i + '">' + album.label + ' - ' + album.artist +
 							'<div class="findKeywords">' + album.label.toLowerCase() + '</div></a></h3>' +
 							'<div class="multiOpenAccordion-content" style="display: table; padding: 0px; width: 100%;">' +
 								'</div>').appendTo($albumsList);
@@ -1407,6 +1447,7 @@ var uiviews = {};
 					page.find('div#multiOpenAccordion:eq(0)> h3').click(function() {
 						$(this).next().slideToggle('fast');
 						if (!$(this).next().hasClass('filled')) {
+							var spotify_albumID = $(this).attr('title');
 							var albumID = $(this).attr('id').replace(/[^\d]+/g, '');
 							var albumI = $(this).children('a').attr('id').replace(/[^\d]+/g, '');
 							var infodiv = $(this).next();
@@ -1415,7 +1456,7 @@ var uiviews = {};
 
 							xbmc.getAlbumsSongs({
 								albumid: albumID,
-
+								spotify_albumid: spotify_albumID, 
 								onError: function() {
 									mkf.messageLog.show(mkf.lang.get('message_failed_albums_songs'), mkf.messageLog.status.error, 5000);
 									infodiv.removeClass('loading');
@@ -1424,6 +1465,18 @@ var uiviews = {};
 								onSuccess: function(songs) {
 									//$songlistContent.defaultSonglistViewer(result);
 									var albuminfo = albums.albums[albumI];
+									var p_album_idI, s_album_idI, g_album_idI;
+									if(albuminfo.albumid != undefined) {
+							  	         p_album_idI = albuminfo.albumid;
+							  	         s_album_idI = "";
+							  	         g_album_idI = albuminfo.albumid;
+								      }
+								     else if(albuminfo.spotify_albumid != undefined) {
+								        p_album_idI = 1;
+								        s_album_idI = albuminfo.spotify_albumid;
+								        g_album_idI = s_album_idI.substr(26,22);
+								      } 
+
 									var thumb = (albuminfo.thumbnail? xbmc.getThumbUrl(albuminfo.thumbnail) : 'images/thumb.png');
 									//var thumb = (songs.songs[0].thumbnail? xbmc.getThumbUrl(songs.songs[0].thumbnail) : 'images/thumb.png');
 									infodiv.removeClass('loading');
@@ -1436,19 +1489,31 @@ var uiviews = {};
 									'<div><span class="label">' + mkf.lang.get('label_mood') + '</span><span class="value">' + (albuminfo.mood? albuminfo.mood : mkf.lang.get('label_not_available')) + '</span></div>' +
 									'<div><span class="label">' + mkf.lang.get('label_style') + '</span><span class="value">' + (albuminfo.style? albuminfo.style : mkf.lang.get('label_not_available')) + '</span></div>' + '</div></div>');
 									
-									albumContent.find('.infoplay').bind('click', {idAlbum: albuminfo.albumid, strAlbum: albuminfo.label}, uiviews.AlbumPlay);
-									albumContent.find('.infoqueue').bind('click', {idAlbum: albuminfo.albumid}, uiviews.AddAlbumToPlaylist);
+									albumContent.find('.infoplay').bind('click', {idAlbum: p_album_idI, idSpotAlbum: s_album_idI, strAlbum: albuminfo.label}, uiviews.AlbumPlay);
+									albumContent.find('.infoqueue').bind('click', {idAlbum: p_album_idI, idSpotAlbum: s_album_idI}, uiviews.AddAlbumToPlaylist);
 									
 									var $songList = $('<ul class="fileList" style="margin: 5px 0 5px 0"></ul>');
 
 										$.each(songs.songs, function(i, song)  {
-											var $song = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper song' + song.songid + '"> <a href="" class="button playlist" title="' + mkf.lang.get('btn_enqueue') +
+											var p_song_id, s_song_id, g_song_id;
+											if(song.songid != undefined) {
+									  	         p_song_id = song.songid;
+									  	         s_song_id = "";
+									  	         g_song_id = song.songid;
+										      }
+										     else if(song.spotify_songid != undefined) {
+										        p_song_id = 1;
+										        s_song_id = song.spotify_songid;
+										        g_song_id = s_song_id.substr(26,22);
+										      } 
+
+											var $song = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper song' + g_song_id + '"> <a href="" class="button playlist" title="' + mkf.lang.get('btn_enqueue') +
 											'"><span class="miniIcon enqueue" /></a> <a href="" class="button playnext" title="' + mkf.lang.get('btn_playnext') +
 											'"><span class="miniIcon playnext" /></a> <a href="" class="song play">' + song.track + '. ' + song.label + '</a></div></li>').appendTo($songList);
 											
-											$song.find('.playlist').bind('click', {idSong: song.songid}, uiviews.AddSongToPlaylist);
-											$song.find('.play').bind('click', {idSong: song.songid}, uiviews.SongPlay);
-											$song.find('.playnext').bind('click', {idSong: song.songid}, uiviews.SongPlayNext);
+											$song.find('.playlist').bind('click', {idSong:p_song_id,idSpotifySong: s_song_id}, uiviews.AddSongToPlaylist);
+											$song.find('.play').bind('click', {idSong:p_song_id,idSpotifySong: s_song_id}, uiviews.SongPlay);
+											$song.find('.playnext').bind('click', {idSong:p_song_id,idSpotifySong: s_song_id}, uiviews.SongPlayNext);
 										});
 										
 									//albumContent.append($songList);
@@ -1478,13 +1543,24 @@ var uiviews = {};
 			var $songList = $('<ul class="fileList"></ul>');
 
 				$.each(songs.songs, function(i, song)  {
-					var $song = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper song' + song.songid + '"> <a href="" class="button playlist" title="' + mkf.lang.get('btn_enqueue') +
+					var p_song_id, s_song_id, g_song_id;
+					if(song.songid != undefined) {
+			  	         p_song_id = song.songid;
+			  	         s_song_id = "";
+			  	         g_song_id = song.songid;
+				      }
+				     else if(song.spotify_songid != undefined) {
+				        p_song_id = 1;
+				        s_song_id = song.spotify_songid;
+				        g_song_id = s_song_id.substr(26,22);
+				      } 
+				      var $song = $('<li' + (i%2==0? ' class="even"': '') + '><div class="folderLinkWrapper song' + g_song_id + '"> <a href="" class="button playlist" title="' + mkf.lang.get('btn_enqueue') +
 					'"><span class="miniIcon enqueue" /></a> <a href="" class="button playnext" title="' + mkf.lang.get('btn_playnext') +
 					'"><span class="miniIcon playnext" /></a> <a href="" class="song play">' + song.track + '. ' + song.artist + ' - ' + song.label + '</a></div></li>').appendTo($songList);
 					
-					$song.find('.playlist').bind('click', {idSong: song.songid}, uiviews.AddSongToPlaylist);
-					$song.find('.play').bind('click', {idSong: song.songid}, uiviews.SongPlay);
-					$song.find('.playnext').bind('click', {idSong: song.songid}, uiviews.SongPlayNext);
+					$song.find('.playlist').bind('click', {idSong: p_song_id, idSpotifySong: s_song_id}, uiviews.AddSongToPlaylist);
+					$song.find('.play').bind('click', {idSong: p_song_id, idSpotifySong: s_song_id}, uiviews.SongPlay);
+					$song.find('.playnext').bind('click', {idSong: p_song_id, idSpotifySong: s_song_id}, uiviews.SongPlayNext);
 				});
 			return $songList;
 		},

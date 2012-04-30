@@ -10,6 +10,7 @@
   <extension
     point="xbmc.gui.webinterface"/>
   <extension point="xbmc.addon.metadata">
+	<language>en de fr ru pl cn</language>
     <summary lang="en">AWXi - Ajax based Webinterface for XBMC</summary>
     <summary lang="de">AWXi - Ajax basiertes Webinterface fuer XBMC</summary>
     <summary lang="pl">AWXi - oparty na Ajaxie Interfejs WWW dla XBMC</summary>

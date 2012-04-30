@@ -993,18 +993,25 @@ var xbmc = {};
 			);
 		},
 		
-		
+				
 		addSongToPlaylist: function(options) {
 			var settings = {
 				songid: 0,
+				spotify_songid: '',
 				onSuccess: null,
 				onError: null,
 				async: true
 			};
 			$.extend(settings, options);
-
+			var p_song_id='';
+		    if(settings.spotify_songid != '') {
+        		p_song_id = '"spotify_songid" : "' + settings.spotify_songid+'"';
+		    }
+		      else  {
+		        p_song_id = '"songid" : ' + settings.songid;		       
+		    }
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "Playlist.Add", "params": {"item": {"songid": ' + settings.songid + '}, "playlistid": 0}, "id": 1}',
+				'{"jsonrpc": "2.0", "method": "Playlist.Add", "params": {"item": {' + p_song_id + '}, "playlistid": 0}, "id": 1}',
 				settings.onSuccess,
 				settings.onError,
 				null,
@@ -1137,14 +1144,21 @@ var xbmc = {};
 		addAlbumToPlaylist: function(options) {
 			var settings = {
 				albumid: 0,
+				spotify_albumid: '',
 				onSuccess: null,
 				onError: null,
 				async: false
 			};
 			$.extend(settings, options);
-
+			var p_album_id='';
+		    if(settings.spotify_albumid != '') {
+        		p_album_id = '"spotify_albumid" : "' + settings.spotify_albumid+'"';
+		    }
+		      else  {
+		        p_album_id = '"albumid" : ' + settings.albumid;		       
+		    }		      
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "Playlist.Add", "params": {"item": {"albumid": ' + settings.albumid + '}, "playlistid": 0}, "id": 1}',
+				'{"jsonrpc": "2.0", "method": "Playlist.Add", "params": {"item": {' + p_album_id + '}, "playlistid": 0}, "id": 1}',
 				
 				function(response) {
 					settings.onSuccess()
@@ -1304,6 +1318,7 @@ var xbmc = {};
 		playAlbum: function(options) {
 			var settings = {
 				albumid: 0,
+				spotify_albumid: '',
 				onSuccess: null,
 				onError: null
 			};
@@ -1313,7 +1328,7 @@ var xbmc = {};
 				onSuccess: function() {
 					xbmc.addAlbumToPlaylist({
 						albumid: settings.albumid,
-
+						spotify_albumid: settings.spotify_albumid,
 						onSuccess: function() {
 							xbmc.playAudio({
 								onSuccess: settings.onSuccess,
@@ -1406,6 +1421,7 @@ var xbmc = {};
 		playSong: function(options) {
 			var settings = {
 				songid: 0,
+				spotify_songid: '',
 				onSuccess: null,
 				onError: null
 			};
@@ -1415,7 +1431,7 @@ var xbmc = {};
 				onSuccess: function() {
 					xbmc.addSongToPlaylist({
 						songid: settings.songid,
-
+						spotify_songid: settings.spotify_songid,
 						onSuccess: function() {
 							xbmc.playAudio({
 								onSuccess: settings.onSuccess,
@@ -1440,11 +1456,19 @@ var xbmc = {};
 		playSongNext: function(options) {
 			var settings = {
 				songid: 0,
+				spotify_songid: '',
 				position: 0,
 				onSuccess: null,
 				onError: null
 			};
 			$.extend(settings, options);
+
+			var p_song_id = settings.songid;
+		    var p_song_type = 'songid';		
+		    if(settings.spotify_songid != '') {
+        		p_song_id = '"'+settings.spotify_songid+'"';
+        		p_song_type = 'spotify_songid';
+		    }
 
 			if (activePlayerid == 0) {
 				xbmc.sendCommand(
@@ -1461,9 +1485,9 @@ var xbmc = {};
 						settings.position = response.result.position + insertAhead;
 						
 						xbmc.insertPlaylist({
-							itemid: settings.songid,
+							itemid: p_song_id,
 							playlistid: 0,
-							itemtype: 'songid',
+							itemtype: p_song_type,
 							position: settings.position,
 							
 							onSuccess: settings.onSuccess,
@@ -1556,14 +1580,22 @@ var xbmc = {};
 		getAlbumsSongs: function(options) {
 			var settings = {
 				albumid: 0,
+				spotify_albumid: '',
 				sortby: 'track',
 				onSuccess: null,
 				onError: null
 			};
 			$.extend(settings, options);
 
+		    var p_album_id='';
+		    if(settings.spotify_albumid != '') {
+        		p_album_id = '"albumid" : 1, "spotify_albumid" : "' + settings.spotify_albumid+'"';
+		      }
+		      else  {
+		         p_album_id = '"albumid" : ' + settings.albumid;		       
+		      }	      
 			xbmc.sendCommand(
-				'{"jsonrpc": "2.0", "method": "AudioLibrary.GetSongs", "params": { "albumid": ' + settings.albumid + ', "properties": ["artist", "track", "thumbnail", "genre", "year", "lyrics", "albumid", "playcount", "rating"], "sort": { "method": "' + settings.sortby + '"} }, "id": 1}',
+				'{"jsonrpc": "2.0", "method": "AudioLibrary.GetSongs", "params": { ' + p_album_id + ', "properties": ["artist", "track", "thumbnail", "genre", "year", "lyrics", "albumid", "playcount", "rating"], "sort": { "method": "' + settings.sortby + '"} }, "id": 1}',
 				//'{"jsonrpc": "2.0", "method": "AudioLibrary.GetSongs", "params": { "albumid": ' + settings.albumid + ', "properties": ["artist", "track", "thumbnail"], "sort": { "method": "' + settings.sortby + '"} }, "id": 1}',
 
 				function(response) {
@@ -1600,6 +1632,7 @@ var xbmc = {};
 				playlistid: 0,
 				itemtype: 'songid',
 				itemid: 0,
+				spotify_songid:'',
 				itemfile: '',
 				onSuccess: null,
 				onError: null
