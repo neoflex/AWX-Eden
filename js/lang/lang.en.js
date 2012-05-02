@@ -184,6 +184,8 @@ mkf.lang.add({language: 'English', short: 'en', author: 'MKay', values: {
 	'group_tab_general':				'General',
 	'group_tab_views':					'Views',
 	'group_tab_sort':					'Sorting',
+	'group_tab_avr':					'AVR Communication',
+
 
 	'label_default_ui': 				'Default UI',
 	'label_now':						'Now:',
@@ -224,6 +226,11 @@ mkf.lang.add({language: 'English', short: 'en', author: 'MKay', values: {
 	'label_timeout': 					'TimeOut for Ajax-Requests: ',
 	'label_settings_hint': 				'(Settings are stored in cookies. You need to enable cookies for this site.)',
 	'label_settings_warning': 			'* Not recommended for a large amount of items.',
+	'label_settings_avr_ip': 			'AV Receiver\'s IP address: ',
+	'label_settings_avr_quickmusic':	'Quick select call for music: ',
+	'label_settings_avr_quickmovies':	'Quick select call for movies: ',
+	'label_settings_avr_quicktvshow':	'Quick select call for tvshows: ',
+	'label_settings_denonyesno':		'Activate/Disactivate',
 	'label_not_available': 				'N/A',
 	'label_premiered': 					'Premiered:',
 	'label_episodes': 					'Episodes:',

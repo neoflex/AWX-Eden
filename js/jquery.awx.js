@@ -405,6 +405,11 @@
 			var watched = mkf.cookieSettings.get('watched', 'no');
 			var hidewatchedmark = mkf.cookieSettings.get('hidewatchedmark', 'no');
 			var cinex = mkf.cookieSettings.get('cinex', 'no');
+			var AVR_Denon = mkf.cookieSettings.get('AVR_Denon', 'no');
+			var AVR_Denon_IP = mkf.cookieSettings.get('AVR_Denon_IP', '192.168.1.93');
+			var AVR_Denon_QuickMusic = mkf.cookieSettings.get('AVR_Denon_QuickMusic', '0');
+			var AVR_Denon_QuickTVShows = mkf.cookieSettings.get('AVR_Denon_QuickTVShows', '0');
+			var AVR_Denon_QuickMovies = mkf.cookieSettings.get('AVR_Denon_QuickMovies', '0');
 			var hoverOrClick = mkf.cookieSettings.get('hoverOrClick', 'no');
 			//var listview = mkf.cookieSettings.get('listview', 'no');
 			var artistsView = mkf.cookieSettings.get('artistsView', 'list');
@@ -441,7 +446,8 @@
 				'<div class="tabs"><div id="tabs">' +
 				'<ul><li><a href="#tabs-1">' + mkf.lang.get('group_tab_general') +'</a></li>' +
 					'<li><a href="#tabs-2">' + mkf.lang.get('group_tab_views') +'</a></li>' +
-					'<li><a href="#tabs-3">' + mkf.lang.get('group_tab_sort') +'</a></li></ul>' +
+					'<li><a href="#tabs-3">' + mkf.lang.get('group_tab_sort') +'</a></li>' +
+					'<li><a href="#tabs-4">' + mkf.lang.get('group_tab_avr') +'</a></li></ul>' +
 				'<div id="tabs-1">' +
 				'<form name="settingsForm">' +
 				'<fieldset class="ui_settings">' +
@@ -639,6 +645,19 @@
 				
 				'</form>' +
 				'</div>' +
+				/*---- AVR ----*/
+				'<div id="tabs-4">' +
+				'<form name="settingsAVR">' +
+				'<fieldset>' +
+				'<legend>Denon</legend>' +
+				'<input type="checkbox" id="denonyesno" name="denonyesno" ' + (AVR_Denon=='yes'? 'checked="checked"' : '') + '><label for="denonyesno">' + mkf.lang.get('label_settings_denonyesno') + '</label><br/>' +
+				'<label for="denonip">' + mkf.lang.get('label_settings_avr_ip') + '</label><input type="text" id="denonip" name="denonip" value="' + AVR_Denon_IP +'" style="width: 100px;"><br/> '+
+				'<label for="denonquickmusic">' + mkf.lang.get('label_settings_avr_quickmusic') + '</label><select name="denonquickmusic" style="margin-top:5px;width: 60px;"><option value="0" ' + (AVR_Denon_QuickMusic=='0'? 'selected' : '') + '>none</option><option ' + (AVR_Denon_QuickMusic=='1'? 'selected' : '') + '>1</option><option ' + (AVR_Denon_QuickMusic=='2'? 'selected' : '') + '>2</option><option ' + (AVR_Denon_QuickMusic=='3'? 'selected' : '') + '>3</option><option ' + (AVR_Denon_QuickMusic=='4'? 'selected' : '') + '>4</option></select><br/>'+
+				'<label for="denonquicktvshow">' + mkf.lang.get('label_settings_avr_quicktvshow') + '</label><select name="denonquicktvshow" style="margin-top:5px;width: 60px;"><option value="0" ' + (AVR_Denon_QuickTVShows=='0'? 'selected' : '') + '>none</option><option ' + (AVR_Denon_QuickTVShows=='1'? 'selected' : '') + '>1</option><option ' + (AVR_Denon_QuickTVShows=='2'? 'selected' : '') + '>2</option><option ' + (AVR_Denon_QuickTVShows=='3'? 'selected' : '') + '>3</option><option ' + (AVR_Denon_QuickTVShows=='4'? 'selected' : '') + '>4</option></select><br/>'+
+				'<label for="denonquickmovies">' + mkf.lang.get('label_settings_avr_quickmovies') + '</label><select name="denonquickmovies" style="margin-top:5px;width: 60px;"><option value="0" ' + (AVR_Denon_QuickMovies=='0'? 'selected' : '') + '>none</option><option ' + (AVR_Denon_QuickMovies=='1'? 'selected' : '') + '>1</option><option ' + (AVR_Denon_QuickMovies=='2'? 'selected' : '') + '>2</option><option ' + (AVR_Denon_QuickMovies=='3'? 'selected' : '') + '>3</option><option ' + (AVR_Denon_QuickMovies=='4'? 'selected' : '') + '>4</option></select><br/>'+
+				'</form>' +
+				'</div>' +
+				//End tab AVR
 				'</div>' +
 				'<a href="" class="formButton save">' + mkf.lang.get('btn_save') + '</a>' + 
 				'<div class="formHint">' + mkf.lang.get('label_settings_hint') + '</div>' +
@@ -822,6 +841,27 @@
 				mkf.cookieSettings.add(
 					'hoverOrClick',
 					document.settingsViews.hoverOrClick.checked? 'yes' : 'no'
+				);
+				
+				mkf.cookieSettings.add(
+					'AVR_Denon',
+					document.settingsAVR.denonyesno.checked? 'yes' : 'no'
+				);
+				mkf.cookieSettings.add(
+					'AVR_Denon_IP',
+					document.settingsAVR.denonip.value
+				);
+				mkf.cookieSettings.add(
+					'AVR_Denon_QuickMusic',
+					document.settingsAVR.denonquickmusic.value
+				);
+				mkf.cookieSettings.add(
+					'AVR_Denon_QuickTVShows',
+					document.settingsAVR.denonquicktvshow.value
+				);
+				mkf.cookieSettings.add(
+					'AVR_Denon_QuickMovies',
+					document.settingsAVR.denonquickmovies.value
 				);
 				
 				mkf.cookieSettings.add(
