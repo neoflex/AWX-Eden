@@ -6,7 +6,7 @@ var uiviews = {};
 
 (function($) {
 	$.extend(uiviews, {
-	
+
 /*-------------------*/
 /* Audio UI function */
 /*-------------------*/
@@ -176,6 +176,7 @@ var uiviews = {};
 		
 		/*------*/
 		AlbumPlay: function(e) {
+			avrs.ExecuteCommands({mode: "playmusic"});
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_album'));
 			xbmc.playAlbum({
 				albumid: e.data.idAlbum,
@@ -191,6 +192,7 @@ var uiviews = {};
 
 		/*-----------*/
 		MusicGenrePlay: function(e) {
+			avrs.ExecuteCommands({mode: "playmusic"});
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_genre'));
 			xbmc.playMusicGenre({
 				genreid: e.data.idGenre,
@@ -206,6 +208,7 @@ var uiviews = {};
 		
 		/*-----------*/
 		ArtistPlay: function(e) {
+			avrs.ExecuteCommands({mode: "playmusic"});
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_playing_artist'));
 			xbmc.playArtist({
 				artistid: e.data.idArtist,
@@ -308,6 +311,7 @@ var uiviews = {};
 
 		/*-----*/
 		SongPlay: function(e) {
+			avrs.ExecuteCommands({mode: "playmusic"});
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_song'));
 			xbmc.playSong({
 				songid: e.data.idSong,
@@ -338,7 +342,8 @@ var uiviews = {};
 
 		/*---------*/
 		SongPlayNext: function(e) {
-			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_song_next'));
+			avrs.ExecuteCommands({mode: "playmusic"});
+			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_song_next'));		
 			xbmc.playSongNext({
 				songid: e.data.idSong,
 				onSuccess: function() {
@@ -357,8 +362,8 @@ var uiviews = {};
 
 		/*------*/
 		MoviePlay: function(event) {
+			avrs.ExecuteCommands({mode: "playmovie"});
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_movie'));
-
 			xbmc.playMovie({
 				movieid: event.data.idMovie,
 				onSuccess: function() {
@@ -374,8 +379,8 @@ var uiviews = {};
 
 		/*------*/
 		FilePlay: function(event) {
+			avrs.ExecuteCommands({mode: "playmovie"});
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_file'));
-
 			xbmc.playVideoFile({
 				file: event.data.file,
 				onSuccess: function() {
@@ -391,8 +396,8 @@ var uiviews = {};
 		
 		/*------*/
 		CinExPlay: function(event) {
+			avrs.ExecuteCommands({mode: "playmovie"});
 			//var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_movie'));
-
 			xbmc.cinemaEx({
 				film: event.data.strMovie,
 				onSuccess: function() {
@@ -409,7 +414,6 @@ var uiviews = {};
 		/*---------------*/
 		AddMovieToPlaylist: function(event) {
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_movie_to_playlist'));
-
 			xbmc.addMovieToPlaylist({
 				movieid: event.data.idMovie,
 				onSuccess: function() {
@@ -687,8 +691,8 @@ var uiviews = {};
 
 		/*--------*/
 		EpisodePlay: function(e) {
+			avrs.ExecuteCommands({mode: "playtv"});
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_episode'));
-
 			xbmc.playEpisode({
 				episodeid: e.data.idEpisode,
 				onSuccess: function() {
@@ -705,7 +709,6 @@ var uiviews = {};
 		/*-----------------*/
 		AddEpisodeToPlaylist: function(e) {
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_episode_to_playlist'));
-
 			xbmc.addEpisodeToPlaylist({
 				episodeid: e.data.idEpisode,
 				onSuccess: function() {
@@ -1030,7 +1033,6 @@ var uiviews = {};
 		/*--------------------*/
 		PlaylistAudioItemRemove: function(e) {
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_removing_item'));
-			
 			xbmc.removeAudioPlaylistItem({
 				item: e.data.itemNum,
 				onSuccess: function() {
@@ -1048,7 +1050,6 @@ var uiviews = {};
 		/*------------------*/
 		PlaylistAudioItemPlay: function(e) {
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_item'));
-
 			xbmc.playAudio({
 				item: e.data.itemNum,
 				onSuccess: function() {
@@ -1065,7 +1066,6 @@ var uiviews = {};
 		/*--------------------*/
 		PlaylistVideoItemRemove: function(e) {
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_removing_item'));
-			
 			xbmc.removeVideoPlaylistItem({
 				item: e.data.itemNum,
 				onSuccess: function() {
@@ -1083,7 +1083,6 @@ var uiviews = {};
 		/*------------------*/
 		PlaylistVideoItemPlay: function(e) {
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_item'));
-
 			xbmc.playVideo({
 				item: e.data.itemNum,
 				onSuccess: function() {
@@ -1415,7 +1414,6 @@ var uiviews = {};
 
 							xbmc.getAlbumsSongs({
 								albumid: albumID,
-
 								onError: function() {
 									mkf.messageLog.show(mkf.lang.get('message_failed_albums_songs'), mkf.messageLog.status.error, 5000);
 									infodiv.removeClass('loading');
