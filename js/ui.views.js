@@ -10,8 +10,7 @@ var uiviews = {};
 /*-------------------*/
 /* Audio UI function */
 /*-------------------*/
-		
-			
+				
 		/*--------------*/
 		ArtistInfoOverlay: function(e) {
 			
@@ -178,7 +177,6 @@ var uiviews = {};
 		/*------*/
 		AlbumPlay: function(e) {
 			avrs.ExecuteCommands({mode: "playmusic"});
-			
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_album'));
 			
 			xbmc.playAlbum({
@@ -197,7 +195,6 @@ var uiviews = {};
 		/*-----------*/
 		MusicGenrePlay: function(e) {
 			avrs.ExecuteCommands({mode: "playmusic"});
-			
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_genre'));
 			
 			xbmc.playMusicGenre({
@@ -215,7 +212,6 @@ var uiviews = {};
 		/*-----------*/
 		ArtistPlay: function(e) {
 			avrs.ExecuteCommands({mode: "playmusic"});
-			
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_playing_artist'));
 			
 			xbmc.playArtist({
@@ -322,7 +318,6 @@ var uiviews = {};
 		/*-----*/
 		SongPlay: function(e) {
 			avrs.ExecuteCommands({mode: "playmusic"});
-			
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_song'));
 			
 			xbmc.playSong({
@@ -357,9 +352,7 @@ var uiviews = {};
 		/*---------*/
 		SongPlayNext: function(e) {
 			avrs.ExecuteCommands({mode: "playmusic"});
-			
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_song_next'));		
-			
 			xbmc.playSongNext({
 				songid: e.data.idSong,
 				spotify_songid: e.data.idSpotifySong,
@@ -381,9 +374,7 @@ var uiviews = {};
 		/*------*/
 		MoviePlay: function(event) {
 		    avrs.ExecuteCommands({mode: "playmovie"});
-			
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_movie'));
-			
 			xbmc.playMovie({
 				movieid: event.data.idMovie,
 				onSuccess: function() {
@@ -400,9 +391,7 @@ var uiviews = {};
 		/*------*/
 		FilePlay: function(event) {
 			avrs.ExecuteCommands({mode: "playmovie"});
-			
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_file'));
-			
 			xbmc.playVideoFile({
 				file: event.data.file,
 				onSuccess: function() {
@@ -419,9 +408,7 @@ var uiviews = {};
 		/*------*/
 		CinExPlay: function(event) {
 			avrs.ExecuteCommands({mode: "playmovie"});
-			
 			//var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_movie'));
-			
 			xbmc.cinemaEx({
 				film: event.data.strMovie,
 				onSuccess: function() {
@@ -438,7 +425,6 @@ var uiviews = {};
 		/*---------------*/
 		AddMovieToPlaylist: function(event) {
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_movie_to_playlist'));
-
 			xbmc.addMovieToPlaylist({
 				movieid: event.data.idMovie,
 				onSuccess: function() {
