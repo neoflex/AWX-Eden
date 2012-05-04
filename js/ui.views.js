@@ -3,14 +3,15 @@
 /*--------------------------*/
 
 var uiviews = {};
-
+		
 (function($) {
 	$.extend(uiviews, {
 	
 /*-------------------*/
 /* Audio UI function */
 /*-------------------*/
-
+		
+			
 		/*--------------*/
 		ArtistInfoOverlay: function(e) {
 			
@@ -176,7 +177,10 @@ var uiviews = {};
 		
 		/*------*/
 		AlbumPlay: function(e) {
+			avrs.ExecuteCommands({mode: "playmusic"});
+			
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_album'));
+			
 			xbmc.playAlbum({
 				albumid: e.data.idAlbum,
 				spotify_albumid: e.data.idSpotAlbum,
@@ -192,7 +196,10 @@ var uiviews = {};
 
 		/*-----------*/
 		MusicGenrePlay: function(e) {
+			avrs.ExecuteCommands({mode: "playmusic"});
+			
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_genre'));
+			
 			xbmc.playMusicGenre({
 				genreid: e.data.idGenre,
 				onSuccess: function() {
@@ -207,7 +214,10 @@ var uiviews = {};
 		
 		/*-----------*/
 		ArtistPlay: function(e) {
+			avrs.ExecuteCommands({mode: "playmusic"});
+			
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_playing_artist'));
+			
 			xbmc.playArtist({
 				artistid: e.data.idArtist,
 				onSuccess: function() {
@@ -223,6 +233,7 @@ var uiviews = {};
 		
 		/*---------------*/
 		AddAlbumToPlaylist: function(e) {
+			
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_album_to_playlist'));
 			xbmc.addAlbumToPlaylist({
 				albumid: e.data.idAlbum,
@@ -310,7 +321,10 @@ var uiviews = {};
 
 		/*-----*/
 		SongPlay: function(e) {
+			avrs.ExecuteCommands({mode: "playmusic"});
+			
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_song'));
+			
 			xbmc.playSong({
 				songid: e.data.idSong,
 				spotify_songid: e.data.idSpotifySong,
@@ -342,7 +356,10 @@ var uiviews = {};
 
 		/*---------*/
 		SongPlayNext: function(e) {
-			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_song_next'));
+			avrs.ExecuteCommands({mode: "playmusic"});
+			
+			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_song_next'));		
+			
 			xbmc.playSongNext({
 				songid: e.data.idSong,
 				spotify_songid: e.data.idSpotifySong,
@@ -363,8 +380,10 @@ var uiviews = {};
 
 		/*------*/
 		MoviePlay: function(event) {
+		    avrs.ExecuteCommands({mode: "playmovie"});
+			
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_movie'));
-
+			
 			xbmc.playMovie({
 				movieid: event.data.idMovie,
 				onSuccess: function() {
@@ -380,8 +399,10 @@ var uiviews = {};
 
 		/*------*/
 		FilePlay: function(event) {
+			avrs.ExecuteCommands({mode: "playmovie"});
+			
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_file'));
-
+			
 			xbmc.playVideoFile({
 				file: event.data.file,
 				onSuccess: function() {
@@ -397,8 +418,10 @@ var uiviews = {};
 		
 		/*------*/
 		CinExPlay: function(event) {
+			avrs.ExecuteCommands({mode: "playmovie"});
+			
 			//var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_movie'));
-
+			
 			xbmc.cinemaEx({
 				film: event.data.strMovie,
 				onSuccess: function() {
@@ -693,8 +716,9 @@ var uiviews = {};
 
 		/*--------*/
 		EpisodePlay: function(e) {
+			avrs.ExecuteCommands({mode: "playtv"});
+			
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_episode'));
-
 			xbmc.playEpisode({
 				episodeid: e.data.idEpisode,
 				onSuccess: function() {
@@ -1053,6 +1077,7 @@ var uiviews = {};
 
 		/*------------------*/
 		PlaylistAudioItemPlay: function(e) {
+
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_item'));
 
 			xbmc.playAudio({
@@ -1088,7 +1113,7 @@ var uiviews = {};
 
 		/*------------------*/
 		PlaylistVideoItemPlay: function(e) {
-			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_item'));
+            var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_item'));
 
 			xbmc.playVideo({
 				item: e.data.itemNum,
