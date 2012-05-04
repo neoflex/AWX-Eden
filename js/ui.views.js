@@ -6,7 +6,7 @@ var uiviews = {};
 		
 (function($) {
 	$.extend(uiviews, {
-	
+
 /*-------------------*/
 /* Audio UI function */
 /*-------------------*/
@@ -373,7 +373,7 @@ var uiviews = {};
 
 		/*------*/
 		MoviePlay: function(event) {
-		    avrs.ExecuteCommands({mode: "playmovie"});
+			avrs.ExecuteCommands({mode: "playmovie"});
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_movie'));
 			xbmc.playMovie({
 				movieid: event.data.idMovie,
@@ -703,7 +703,6 @@ var uiviews = {};
 		/*--------*/
 		EpisodePlay: function(e) {
 			avrs.ExecuteCommands({mode: "playtv"});
-			
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_episode'));
 			xbmc.playEpisode({
 				episodeid: e.data.idEpisode,
@@ -721,7 +720,6 @@ var uiviews = {};
 		/*-----------------*/
 		AddEpisodeToPlaylist: function(e) {
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('messsage_add_episode_to_playlist'));
-
 			xbmc.addEpisodeToPlaylist({
 				episodeid: e.data.idEpisode,
 				onSuccess: function() {
@@ -1046,7 +1044,6 @@ var uiviews = {};
 		/*--------------------*/
 		PlaylistAudioItemRemove: function(e) {
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_removing_item'));
-			
 			xbmc.removeAudioPlaylistItem({
 				item: e.data.itemNum,
 				onSuccess: function() {
@@ -1065,7 +1062,6 @@ var uiviews = {};
 		PlaylistAudioItemPlay: function(e) {
 
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_item'));
-
 			xbmc.playAudio({
 				item: e.data.itemNum,
 				onSuccess: function() {
@@ -1082,7 +1078,6 @@ var uiviews = {};
 		/*--------------------*/
 		PlaylistVideoItemRemove: function(e) {
 			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_removing_item'));
-			
 			xbmc.removeVideoPlaylistItem({
 				item: e.data.itemNum,
 				onSuccess: function() {
@@ -1099,8 +1094,7 @@ var uiviews = {};
 
 		/*------------------*/
 		PlaylistVideoItemPlay: function(e) {
-            var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_item'));
-
+			var messageHandle = mkf.messageLog.show(mkf.lang.get('message_playing_item'));
 			xbmc.playVideo({
 				item: e.data.itemNum,
 				onSuccess: function() {
